@@ -15,13 +15,25 @@ namespace Net.Http.OData
     using System;
     using System.Net.Http.Headers;
 
+    /// <summary>
+    /// A class containing extension methods for <see cref="ODataMetadataLevel"/>.
+    /// </summary>
     public static class ODataMetadataLevelExtensions
     {
+        /// <summary>
+        /// Gets the name of the HTTP header.
+        /// </summary>
         public const string HeaderName = "odata.metadata";
+
         private static readonly NameValueHeaderValue MetadataLevelFull = new NameValueHeaderValue(HeaderName, "full");
         private static readonly NameValueHeaderValue MetadataLevelMinimal = new NameValueHeaderValue(HeaderName, "minimal");
         private static readonly NameValueHeaderValue MetadataLevelNone = new NameValueHeaderValue(HeaderName, "none");
 
+        /// <summary>
+        /// Gets the <see cref="NameValueHeaderValue"/> to represent the specified <see cref="ODataMetadataLevel"/>.
+        /// </summary>
+        /// <param name="metadataLevel">The <see cref="ODataMetadataLevel"/>.</param>
+        /// <returns>The representative <see cref="NameValueHeaderValue"/>.</returns>
         public static NameValueHeaderValue ToNameValueHeaderValue(this ODataMetadataLevel metadataLevel)
         {
             switch (metadataLevel)

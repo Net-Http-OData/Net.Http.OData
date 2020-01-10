@@ -26,6 +26,11 @@ namespace Net.Http.OData
     {
         private static readonly char[] NonNameCharacters = new[] { '(', '/', '$', '%' };
 
+        /// <summary>
+        /// Builds the OData context URI.
+        /// </summary>
+        /// <param name="requestUri">The OData request URI.</param>
+        /// <returns>The OData context URI.</returns>
         public static StringBuilder ODataContextUriBuilder(this Uri requestUri)
         {
             var contextUriBuilder = ODataServiceUriBuilder(requestUri);
@@ -34,6 +39,12 @@ namespace Net.Http.OData
             return contextUriBuilder;
         }
 
+        /// <summary>
+        /// Builds the OData context URI.
+        /// </summary>
+        /// <param name="requestUri">The OData request URI.</param>
+        /// <param name="entitySet">The entity set.</param>
+        /// <returns>The OData context URI.</returns>
         public static StringBuilder ODataContextUriBuilder(this Uri requestUri, EntitySet entitySet)
         {
             if (entitySet is null)
@@ -47,6 +58,13 @@ namespace Net.Http.OData
             return contextUriBuilder;
         }
 
+        /// <summary>
+        /// Builds the OData context URI.
+        /// </summary>
+        /// <param name="requestUri">The OData request URI.</param>
+        /// <param name="entitySet">The entity set.</param>
+        /// <param name="selectExpandQueryOption">The select query option.</param>
+        /// <returns>The OData context URI.</returns>
         public static StringBuilder ODataContextUriBuilder(this Uri requestUri, EntitySet entitySet, SelectExpandQueryOption selectExpandQueryOption)
         {
             if (entitySet is null)
@@ -74,6 +92,14 @@ namespace Net.Http.OData
             return contextUriBuilder;
         }
 
+        /// <summary>
+        /// Builds the OData context URI.
+        /// </summary>
+        /// <param name="requestUri">The OData request URI.</param>
+        /// <param name="entitySet">The entity set.</param>
+        /// <param name="entityKey">The entity key.</param>
+        /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
+        /// <returns>The OData context URI.</returns>
         public static StringBuilder ODataContextUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey)
         {
             var contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
@@ -82,6 +108,15 @@ namespace Net.Http.OData
             return contextUriBuilder;
         }
 
+        /// <summary>
+        /// Builds the OData context URI.
+        /// </summary>
+        /// <param name="requestUri">The OData request URI.</param>
+        /// <param name="entitySet">The entity set.</param>
+        /// <param name="entityKey">The entity key.</param>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
+        /// <returns>The OData context URI.</returns>
         public static StringBuilder ODataContextUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey, string propertyName)
         {
             var contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
@@ -100,6 +135,14 @@ namespace Net.Http.OData
             return contextUriBuilder;
         }
 
+        /// <summary>
+        /// Builds the OData entity URI.
+        /// </summary>
+        /// <param name="requestUri">The OData request URI.</param>
+        /// <param name="entitySet">The entity set.</param>
+        /// <param name="entityKey">The entity key.</param>
+        /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
+        /// <returns>The OData entity URI.</returns>
         public static StringBuilder ODataEntityUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey)
         {
             if (entitySet is null)
@@ -162,6 +205,11 @@ namespace Net.Http.OData
             return modelNameSegment;
         }
 
+        /// <summary>
+        /// Builds the OData service URI.
+        /// </summary>
+        /// <param name="requestUri">The OData request URI.</param>
+        /// <returns>The OData service URI.</returns>
         public static Uri ResolveODataServiceUri(this Uri requestUri)
             => new Uri(ODataServiceUriBuilder(requestUri).ToString());
 
