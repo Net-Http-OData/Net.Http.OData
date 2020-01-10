@@ -1,21 +1,19 @@
-﻿namespace Net.Http.OData.Tests.Query.Validators
-{
-    using System.Net;
-    using System.Net.Http;
-    using Net.Http.OData;
-    using Net.Http.OData.Model;
-    using Net.Http.OData.Query;
-    using Net.Http.OData.Query.Validators;
-    using Net.Http.OData.Tests;
-    using Xunit;
+﻿using System.Net;
+using System.Net.Http;
+using Net.Http.OData.Model;
+using Net.Http.OData.Query;
+using Net.Http.OData.Query.Validators;
+using Xunit;
 
+namespace Net.Http.OData.Tests.Query.Validators
+{
     public class CountQueryOptionValidatorTests
     {
         public class WhenTheCountQueryOptionIsSetAndItIsNotAValidValue
         {
-            private readonly ODataQueryOptions queryOptions;
+            private readonly ODataQueryOptions _queryOptions;
 
-            private readonly ODataValidationSettings validationSettings = new ODataValidationSettings
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
             {
                 AllowedQueryOptions = AllowedQueryOptions.Count
             };
@@ -24,7 +22,7 @@
             {
                 TestHelper.EnsureEDM();
 
-                this.queryOptions = new ODataQueryOptions(
+                _queryOptions = new ODataQueryOptions(
                     new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=x"),
                     EntityDataModel.Current.EntitySets["Products"]);
             }
@@ -32,8 +30,8 @@
             [Fact]
             public void AnHttpResponseExceptionExceptionIsThrownWithBadRequest()
             {
-                var exception = Assert.Throws<ODataException>(
-                    () => CountQueryOptionValidator.Validate(this.queryOptions, this.validationSettings));
+                ODataException exception = Assert.Throws<ODataException>(
+                    () => CountQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
                 Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
                 Assert.Equal("The supplied value for OData query $count is invalid, valid options are 'true' and 'false'", exception.Message);
@@ -42,9 +40,9 @@
 
         public class WhenTheCountQueryOptionIsSetAndItIsNotSpecifiedInAllowedQueryOptions
         {
-            private readonly ODataQueryOptions queryOptions;
+            private readonly ODataQueryOptions _queryOptions;
 
-            private readonly ODataValidationSettings validationSettings = new ODataValidationSettings
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
             {
                 AllowedQueryOptions = AllowedQueryOptions.None
             };
@@ -53,7 +51,7 @@
             {
                 TestHelper.EnsureEDM();
 
-                this.queryOptions = new ODataQueryOptions(
+                _queryOptions = new ODataQueryOptions(
                     new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=true"),
                     EntityDataModel.Current.EntitySets["Products"]);
             }
@@ -61,8 +59,8 @@
             [Fact]
             public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
             {
-                var exception = Assert.Throws<ODataException>(
-                    () => CountQueryOptionValidator.Validate(this.queryOptions, this.validationSettings));
+                ODataException exception = Assert.Throws<ODataException>(
+                    () => CountQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
                 Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
                 Assert.Equal("The query option $count is not implemented by this service", exception.Message);
@@ -71,9 +69,9 @@
 
         public class WhenTheCountQueryOptionIsSetAndItIsSpecifiedInAllowedQueryOptions
         {
-            private readonly ODataQueryOptions queryOptions;
+            private readonly ODataQueryOptions _queryOptions;
 
-            private readonly ODataValidationSettings validationSettings = new ODataValidationSettings
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
             {
                 AllowedQueryOptions = AllowedQueryOptions.Count
             };
@@ -82,7 +80,7 @@
             {
                 TestHelper.EnsureEDM();
 
-                this.queryOptions = new ODataQueryOptions(
+                _queryOptions = new ODataQueryOptions(
                     new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=true"),
                     EntityDataModel.Current.EntitySets["Products"]);
             }
@@ -90,15 +88,15 @@
             [Fact]
             public void AnExceptionShouldNotBeThrown()
             {
-                CountQueryOptionValidator.Validate(this.queryOptions, this.validationSettings);
+                CountQueryOptionValidator.Validate(_queryOptions, _validationSettings);
             }
         }
 
         public class WhenTheCountQueryOptionIsSetToFalseAndItIsSpecifiedInAllowedQueryOptions
         {
-            private readonly ODataQueryOptions queryOptions;
+            private readonly ODataQueryOptions _queryOptions;
 
-            private readonly ODataValidationSettings validationSettings = new ODataValidationSettings
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
             {
                 AllowedQueryOptions = AllowedQueryOptions.Count
             };
@@ -107,7 +105,7 @@
             {
                 TestHelper.EnsureEDM();
 
-                this.queryOptions = new ODataQueryOptions(
+                _queryOptions = new ODataQueryOptions(
                     new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=false"),
                     EntityDataModel.Current.EntitySets["Products"]);
             }
@@ -115,7 +113,7 @@
             [Fact]
             public void AnExceptionShouldNotBeThrown()
             {
-                CountQueryOptionValidator.Validate(this.queryOptions, this.validationSettings);
+                CountQueryOptionValidator.Validate(_queryOptions, _validationSettings);
             }
         }
     }

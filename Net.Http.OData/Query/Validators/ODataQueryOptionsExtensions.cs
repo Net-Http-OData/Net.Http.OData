@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Query.Validators
 {
-    using Net.Http.OData.Query;
-
     /// <summary>
     /// Extension methods for validating the <see cref="ODataQueryOptions"/>.
     /// </summary>
@@ -28,12 +28,12 @@ namespace Net.Http.OData.Query.Validators
         {
             if (queryOptions is null)
             {
-                throw new System.ArgumentNullException(nameof(queryOptions));
+                throw new ArgumentNullException(nameof(queryOptions));
             }
 
             if (validationSettings is null)
             {
-                throw new System.ArgumentNullException(nameof(validationSettings));
+                throw new ArgumentNullException(nameof(validationSettings));
             }
 
             CountQueryOptionValidator.Validate(queryOptions, validationSettings);

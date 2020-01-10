@@ -1,4 +1,5 @@
-﻿using Net.Http.OData.Model;
+﻿using System;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using NorthwindModel;
 using Xunit;
@@ -41,7 +42,7 @@ namespace Net.Http.OData.Tests.Query
         [Fact]
         public void WhenConstructed_WithEdmProperty()
         {
-            var type = typeof(Customer);
+            Type type = typeof(Customer);
             var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
 
             var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, (_) => true);

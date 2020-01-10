@@ -10,11 +10,11 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Net.Http.Headers;
+
 namespace Net.Http.OData
 {
-    using System;
-    using System.Net.Http.Headers;
-
     /// <summary>
     /// A class containing extension methods for <see cref="ODataMetadataLevel"/>.
     /// </summary>
@@ -25,9 +25,9 @@ namespace Net.Http.OData
         /// </summary>
         public const string HeaderName = "odata.metadata";
 
-        private static readonly NameValueHeaderValue MetadataLevelFull = new NameValueHeaderValue(HeaderName, "full");
-        private static readonly NameValueHeaderValue MetadataLevelMinimal = new NameValueHeaderValue(HeaderName, "minimal");
-        private static readonly NameValueHeaderValue MetadataLevelNone = new NameValueHeaderValue(HeaderName, "none");
+        private static readonly NameValueHeaderValue s_metadataLevelFull = new NameValueHeaderValue(HeaderName, "full");
+        private static readonly NameValueHeaderValue s_metadataLevelMinimal = new NameValueHeaderValue(HeaderName, "minimal");
+        private static readonly NameValueHeaderValue s_metadataLevelNone = new NameValueHeaderValue(HeaderName, "none");
 
         /// <summary>
         /// Gets the <see cref="NameValueHeaderValue"/> to represent the specified <see cref="ODataMetadataLevel"/>.
@@ -39,13 +39,13 @@ namespace Net.Http.OData
             switch (metadataLevel)
             {
                 case ODataMetadataLevel.Full:
-                    return MetadataLevelFull;
+                    return s_metadataLevelFull;
 
                 case ODataMetadataLevel.Minimal:
-                    return MetadataLevelMinimal;
+                    return s_metadataLevelMinimal;
 
                 case ODataMetadataLevel.None:
-                    return MetadataLevelNone;
+                    return s_metadataLevelNone;
 
                 default:
                     throw new NotSupportedException(metadataLevel.ToString());

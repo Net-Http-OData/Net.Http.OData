@@ -10,11 +10,11 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using Net.Http.OData.Model;
+
 namespace Net.Http.OData.Query.Expressions
 {
-    using System;
-    using Net.Http.OData.Model;
-
     /// <summary>
     /// A QueryNode which represents a constant value.
     /// </summary>
@@ -29,9 +29,9 @@ namespace Net.Http.OData.Query.Expressions
         /// <param name="value">The value.</param>
         internal ConstantNode(EdmType edmType, string literalText, object value)
         {
-            this.EdmType = edmType;
-            this.LiteralText = literalText;
-            this.Value = value;
+            EdmType = edmType;
+            LiteralText = literalText;
+            Value = value;
         }
 
         /// <summary>

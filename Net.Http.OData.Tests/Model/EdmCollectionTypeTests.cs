@@ -9,8 +9,8 @@ namespace Net.Http.OData.Tests.Model
         [Fact]
         public void Constructor_SetsProperties()
         {
-            var type = typeof(int);
-            var edmType = EdmPrimitiveType.Int32;
+            Type type = typeof(int);
+            EdmType edmType = EdmPrimitiveType.Int32;
             var edmCollectionType = new EdmCollectionType(type, edmType);
 
             Assert.Same(type, edmCollectionType.ClrType);
@@ -22,7 +22,7 @@ namespace Net.Http.OData.Tests.Model
         [Fact]
         public void Constructor_ThrowsArgumentNullException_ForNullContainedType()
         {
-            var type = typeof(int);
+            Type type = typeof(int);
 
             Assert.Throws<ArgumentNullException>(() => new EdmCollectionType(type, null));
         }

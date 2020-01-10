@@ -10,12 +10,12 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Globalization;
+using System.Text;
+
 namespace Net.Http.OData.Query
 {
-    using System;
-    using System.Globalization;
-    using System.Text;
-
     /// <summary>
     /// Extensions for the <see cref="ODataQueryOptions"/> class.
     /// </summary>
@@ -35,9 +35,9 @@ namespace Net.Http.OData.Query
                 throw new ArgumentNullException(nameof(queryOptions));
             }
 
-            var requestUri = queryOptions.Request.RequestUri;
+            Uri requestUri = queryOptions.Request.RequestUri;
 
-            var uriBuilder = new StringBuilder()
+            StringBuilder uriBuilder = new StringBuilder()
                 .Append(requestUri.Scheme)
                 .Append(Uri.SchemeDelimiter)
                 .Append(requestUri.Authority)

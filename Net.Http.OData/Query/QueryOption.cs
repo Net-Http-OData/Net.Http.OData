@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Query
 {
-    using System;
-
     /// <summary>
     /// The base class for an OData System Query Option.
     /// </summary>
@@ -27,7 +27,7 @@ namespace Net.Http.OData.Query
         /// <exception cref="ArgumentNullException">Thrown if raw value is null.</exception>
         protected QueryOption(string rawValue)
         {
-            this.RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
+            RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
         }
 
         /// <summary>

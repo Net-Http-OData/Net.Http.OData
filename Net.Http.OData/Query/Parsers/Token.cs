@@ -17,8 +17,8 @@ namespace Net.Http.OData.Query.Parsers
     {
         internal Token(string value, TokenType tokenType)
         {
-            this.Value = value;
-            this.TokenType = tokenType;
+            Value = value;
+            TokenType = tokenType;
         }
 
         internal TokenType TokenType { get; }

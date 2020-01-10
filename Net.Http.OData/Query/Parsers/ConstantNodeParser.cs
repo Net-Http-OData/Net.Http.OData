@@ -10,14 +10,14 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Globalization;
+using System.Net;
+using Net.Http.OData.Model;
+using Net.Http.OData.Query.Expressions;
+
 namespace Net.Http.OData.Query.Parsers
 {
-    using System;
-    using System.Globalization;
-    using System.Net;
-    using Net.Http.OData.Model;
-    using Net.Http.OData.Query.Expressions;
-
     internal static class ConstantNodeParser
     {
         private const string ODataDateFormat = "yyyy-MM-dd";
@@ -35,19 +35,19 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.DateTimeOffset(token.Value, dateTimeOffsetValue);
 
                 case TokenType.Decimal:
-                    var decimalText = token.Value.Substring(0, token.Value.Length - 1);
-                    var decimalValue = decimal.Parse(decimalText, CultureInfo.InvariantCulture);
+                    string decimalText = token.Value.Substring(0, token.Value.Length - 1);
+                    decimal decimalValue = decimal.Parse(decimalText, CultureInfo.InvariantCulture);
                     return ConstantNode.Decimal(token.Value, decimalValue);
 
                 case TokenType.Double:
-                    var doubleText = token.Value.EndsWith("d", StringComparison.OrdinalIgnoreCase)
+                    string doubleText = token.Value.EndsWith("d", StringComparison.OrdinalIgnoreCase)
                         ? token.Value.Substring(0, token.Value.Length - 1)
                         : token.Value;
-                    var doubleValue = double.Parse(doubleText, CultureInfo.InvariantCulture);
+                    double doubleValue = double.Parse(doubleText, CultureInfo.InvariantCulture);
                     return ConstantNode.Double(token.Value, doubleValue);
 
                 case TokenType.Duration:
-                    var durationText = token.Value.Substring(9, token.Value.Length - 10)
+                    string durationText = token.Value.Substring(9, token.Value.Length - 10)
                         .Replace("P", string.Empty)
                         .Replace("DT", ".")
                         .Replace("H", ":")
@@ -57,11 +57,11 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Duration(token.Value, durationTimeSpanValue);
 
                 case TokenType.Enum:
-                    var firstQuote = token.Value.IndexOf('\'');
-                    var edmEnumTypeName = token.Value.Substring(0, firstQuote);
-                    var edmEnumType = (EdmEnumType)EdmType.GetEdmType(edmEnumTypeName);
-                    var edmEnumMemberName = token.Value.Substring(firstQuote + 1, token.Value.Length - firstQuote - 2);
-                    var enumValue = edmEnumType.GetClrValue(edmEnumMemberName);
+                    int firstQuote = token.Value.IndexOf('\'');
+                    string edmEnumTypeName = token.Value.Substring(0, firstQuote);
+                    EdmEnumType edmEnumType = (EdmEnumType)EdmType.GetEdmType(edmEnumTypeName);
+                    string edmEnumMemberName = token.Value.Substring(firstQuote + 1, token.Value.Length - firstQuote - 2);
+                    object enumValue = edmEnumType.GetClrValue(edmEnumMemberName);
 
                     return new ConstantNode(edmEnumType, token.Value, enumValue);
 
@@ -73,38 +73,39 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Guid(token.Value, guidValue);
 
                 case TokenType.Integer:
-                    var integerText = token.Value;
+                    string integerText = token.Value;
 
                     if (integerText == "0")
                     {
                         return ConstantNode.Int32Zero;
                     }
-                    else if (integerText == "0l" || integerText == "0L")
+
+                    if (integerText == "0l" || integerText == "0L")
                     {
                         return ConstantNode.Int64Zero;
                     }
 
-                    var is64BitSuffix = integerText.EndsWith("l", StringComparison.OrdinalIgnoreCase);
+                    bool is64BitSuffix = integerText.EndsWith("l", StringComparison.OrdinalIgnoreCase);
 
                     if (!is64BitSuffix && int.TryParse(integerText, out int int32Value))
                     {
                         return ConstantNode.Int32(token.Value, int32Value);
                     }
 
-                    var int64Text = !is64BitSuffix ? integerText : integerText.Substring(0, integerText.Length - 1);
-                    var int64Value = long.Parse(int64Text, CultureInfo.InvariantCulture);
+                    string int64Text = !is64BitSuffix ? integerText : integerText.Substring(0, integerText.Length - 1);
+                    long int64Value = long.Parse(int64Text, CultureInfo.InvariantCulture);
                     return ConstantNode.Int64(token.Value, int64Value);
 
                 case TokenType.Null:
                     return ConstantNode.Null;
 
                 case TokenType.Single:
-                    var singleText = token.Value.Substring(0, token.Value.Length - 1);
-                    var singleValue = float.Parse(singleText, CultureInfo.InvariantCulture);
+                    string singleText = token.Value.Substring(0, token.Value.Length - 1);
+                    float singleValue = float.Parse(singleText, CultureInfo.InvariantCulture);
                     return ConstantNode.Single(token.Value, singleValue);
 
                 case TokenType.String:
-                    var stringText = token.Value.Trim('\'').Replace("''", "'");
+                    string stringText = token.Value.Trim('\'').Replace("''", "'");
                     return ConstantNode.String(token.Value, stringText);
 
                 case TokenType.TimeOfDay:

@@ -10,11 +10,11 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Net;
+using Net.Http.OData.Query.Expressions;
+
 namespace Net.Http.OData.Query.Parsers
 {
-    using System.Net;
-    using Net.Http.OData.Query.Expressions;
-
     internal static class UnaryOperatorKindParser
     {
         internal static UnaryOperatorKind ToUnaryOperatorKind(this string operatorType)

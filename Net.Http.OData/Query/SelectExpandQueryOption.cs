@@ -10,12 +10,12 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Collections.Generic;
+using System.Linq;
+using Net.Http.OData.Model;
+
 namespace Net.Http.OData.Query
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Net.Http.OData.Model;
-
     /// <summary>
     /// A class containing deserialised values from the $select or $expand query option.
     /// </summary>
@@ -37,22 +37,22 @@ namespace Net.Http.OData.Query
 
             if (rawValue == "$select=*")
             {
-                this.PropertyPaths = model.Properties.Where(p => !p.IsNavigable).Select(p => new PropertyPathSegment(p)).ToList();
+                PropertyPaths = model.Properties.Where(p => !p.IsNavigable).Select(p => new PropertyPathSegment(p)).ToList();
             }
             else if (rawValue == "$expand=*")
             {
-                this.PropertyPaths = model.Properties.Where(p => p.IsNavigable).Select(p => new PropertyPathSegment(p)).ToList();
+                PropertyPaths = model.Properties.Where(p => p.IsNavigable).Select(p => new PropertyPathSegment(p)).ToList();
             }
             else
             {
-                var equals = rawValue.IndexOf('=') + 1;
+                int equals = rawValue.IndexOf('=') + 1;
 
                 var properties = rawValue.Substring(equals, rawValue.Length - equals)
                     .Split(SplitCharacter.Comma)
                     .Select(p => PropertyPathSegment.For(p, model))
                     .ToList();
 
-                this.PropertyPaths = properties;
+                PropertyPaths = properties;
             }
         }
 

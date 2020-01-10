@@ -10,7 +10,7 @@ namespace Net.Http.OData.Tests.Model
         [Fact]
         public void Constructor_SetsProperties()
         {
-            var type = typeof(AccessLevel);
+            Type type = typeof(AccessLevel);
             var members = new EdmEnumMember[0];
 
             var edmEnumType = new EdmEnumType(type, members);
@@ -24,7 +24,7 @@ namespace Net.Http.OData.Tests.Model
         [Fact]
         public void Constructor_ThrowsArgumentNullException_ForNullMembers()
         {
-            var type = typeof(AccessLevel);
+            Type type = typeof(AccessLevel);
 
             Assert.Throws<ArgumentNullException>(() => new EdmEnumType(type, null));
         }
@@ -32,7 +32,7 @@ namespace Net.Http.OData.Tests.Model
         [Fact]
         public void GetClrValue()
         {
-            var type = typeof(AccessLevel);
+            Type type = typeof(AccessLevel);
             var members = new EdmEnumMember[] { new EdmEnumMember("Read", 1) };
 
             var edmEnumType = new EdmEnumType(type, members);

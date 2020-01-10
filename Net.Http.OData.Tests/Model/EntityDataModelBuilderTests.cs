@@ -1,10 +1,10 @@
-﻿namespace Net.Http.OData.Tests.Model
-{
-    using System;
-    using Net.Http.OData.Model;
-    using NorthwindModel;
-    using Xunit;
+﻿using System;
+using Net.Http.OData.Model;
+using NorthwindModel;
+using Xunit;
 
+namespace Net.Http.OData.Tests.Model
+{
     public class EntityDataModelBuilderTests
     {
         [Fact]
@@ -13,7 +13,7 @@
             var entityDataModelBuilder = new EntityDataModelBuilder(StringComparer.OrdinalIgnoreCase);
             entityDataModelBuilder.RegisterEntitySet<Category>("Categories", x => x.Name);
 
-            var exception = Assert.Throws<ArgumentException>(() => entityDataModelBuilder.RegisterEntitySet<Category>("categories", x => x.Name));
+            ArgumentException exception = Assert.Throws<ArgumentException>(() => entityDataModelBuilder.RegisterEntitySet<Category>("categories", x => x.Name));
             Assert.Equal("An item with the same key has already been added. Key: categories", exception.Message);
         }
 
@@ -23,14 +23,14 @@
             var entityDataModelBuilder = new EntityDataModelBuilder(StringComparer.OrdinalIgnoreCase);
             entityDataModelBuilder.RegisterEntitySet<Category>("Categories", x => x.Name);
 
-            var entityDataModel = entityDataModelBuilder.BuildModel();
+            EntityDataModel entityDataModel = entityDataModelBuilder.BuildModel();
 
             Assert.Same(entityDataModel.EntitySets["categories"], entityDataModel.EntitySets["Categories"]);
         }
 
         public class WhenCalling_BuildModelWith_Models_AndCustomEntitySetName
         {
-            private readonly EntityDataModel entityDataModel;
+            private readonly EntityDataModel _entityDataModel;
 
             public WhenCalling_BuildModelWith_Models_AndCustomEntitySetName()
             {
@@ -42,26 +42,26 @@
                 entityDataModelBuilder.RegisterEntitySet<Order>("Orders", x => x.OrderId, Capabilities.Insertable | Capabilities.Updatable);
                 entityDataModelBuilder.RegisterEntitySet<Product>("Products", x => x.ProductId, Capabilities.Insertable | Capabilities.Updatable);
 
-                this.entityDataModel = entityDataModelBuilder.BuildModel();
+                _entityDataModel = entityDataModelBuilder.BuildModel();
             }
 
             [Fact]
             public void EntityDataModel_Current_IsSetToTheReturnedModel()
             {
-                Assert.Same(this.entityDataModel, EntityDataModel.Current);
+                Assert.Same(_entityDataModel, EntityDataModel.Current);
             }
 
             [Fact]
             public void The_Categories_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Categories"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Categories"));
 
-                var entitySet = this.entityDataModel.EntitySets["Categories"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Categories"];
 
                 Assert.Equal("Categories", entitySet.Name);
                 Assert.Equal(Capabilities.Insertable | Capabilities.Updatable | Capabilities.Deletable, entitySet.Capabilities);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Null(edmComplexType.BaseType);
                 Assert.Equal(typeof(Category), edmComplexType.ClrType);
@@ -81,14 +81,14 @@
             [Fact]
             public void The_Customers_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Customers"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Customers"));
 
-                var entitySet = this.entityDataModel.EntitySets["Customers"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Customers"];
 
                 Assert.Equal("Customers", entitySet.Name);
                 Assert.Equal(Capabilities.Updatable, entitySet.Capabilities);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Null(edmComplexType.BaseType);
                 Assert.Equal(typeof(Customer), edmComplexType.ClrType);
@@ -126,14 +126,14 @@
             [Fact]
             public void The_Employees_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Employees"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Employees"));
 
-                var entitySet = this.entityDataModel.EntitySets["Employees"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Employees"];
 
                 Assert.Equal("Employees", entitySet.Name);
                 Assert.Equal(Capabilities.None, entitySet.Capabilities);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Null(edmComplexType.BaseType);
                 Assert.Equal(typeof(Employee), edmComplexType.ClrType);
@@ -213,14 +213,14 @@
             [Fact]
             public void The_Managers_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Managers"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Managers"));
 
-                var entitySet = this.entityDataModel.EntitySets["Managers"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Managers"];
 
                 Assert.Equal("Managers", entitySet.Name);
                 Assert.Equal(Capabilities.None, entitySet.Capabilities);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Equal(EdmType.GetEdmType(typeof(Employee)), edmComplexType.BaseType);
                 Assert.Equal(typeof(Manager), edmComplexType.ClrType);
@@ -247,14 +247,14 @@
             [Fact]
             public void The_Orders_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Orders"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Orders"));
 
-                var entitySet = this.entityDataModel.EntitySets["Orders"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Orders"];
 
                 Assert.Equal("Orders", entitySet.Name);
                 Assert.Equal(Capabilities.Insertable | Capabilities.Updatable, entitySet.Capabilities);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Null(edmComplexType.BaseType);
                 Assert.Equal(typeof(Order), edmComplexType.ClrType);
@@ -299,14 +299,14 @@
             [Fact]
             public void The_Products_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Products"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Products"));
 
-                var entitySet = this.entityDataModel.EntitySets["Products"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Products"];
 
                 Assert.Equal("Products", entitySet.Name);
                 Assert.Equal(Capabilities.Insertable | Capabilities.Updatable, entitySet.Capabilities);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Null(edmComplexType.BaseType);
                 Assert.Equal(typeof(Product), edmComplexType.ClrType);
@@ -386,13 +386,13 @@
             [Fact]
             public void ThereAre_6_RegisteredCollections()
             {
-                Assert.Equal(6, this.entityDataModel.EntitySets.Count);
+                Assert.Equal(6, _entityDataModel.EntitySets.Count);
             }
         }
 
         public class WhenCalling_BuildModelWith_Models_AndTypeNameForEntitySetName
         {
-            private readonly EntityDataModel entityDataModel;
+            private readonly EntityDataModel _entityDataModel;
 
             public WhenCalling_BuildModelWith_Models_AndTypeNameForEntitySetName()
             {
@@ -404,19 +404,19 @@
                 entityDataModelBuilder.RegisterEntitySet<Order>(x => x.OrderId);
                 entityDataModelBuilder.RegisterEntitySet<Product>(x => x.ProductId);
 
-                this.entityDataModel = entityDataModelBuilder.BuildModel();
+                _entityDataModel = entityDataModelBuilder.BuildModel();
             }
 
             [Fact]
             public void The_Categories_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Category"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Category"));
 
-                var entitySet = this.entityDataModel.EntitySets["Category"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Category"];
 
                 Assert.Equal("Category", entitySet.Name);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Equal(typeof(Category), edmComplexType.ClrType);
             }
@@ -424,13 +424,13 @@
             [Fact]
             public void The_Customers_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Customer"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Customer"));
 
-                var entitySet = this.entityDataModel.EntitySets["Customer"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Customer"];
 
                 Assert.Equal("Customer", entitySet.Name);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Equal(typeof(Customer), edmComplexType.ClrType);
             }
@@ -438,13 +438,13 @@
             [Fact]
             public void The_Employees_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Employee"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Employee"));
 
-                var entitySet = this.entityDataModel.EntitySets["Employee"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Employee"];
 
                 Assert.Equal("Employee", entitySet.Name);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Equal(typeof(Employee), edmComplexType.ClrType);
             }
@@ -452,13 +452,13 @@
             [Fact]
             public void The_Managers_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Manager"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Manager"));
 
-                var entitySet = this.entityDataModel.EntitySets["Manager"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Manager"];
 
                 Assert.Equal("Manager", entitySet.Name);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Equal(typeof(Manager), edmComplexType.ClrType);
             }
@@ -466,13 +466,13 @@
             [Fact]
             public void The_Orders_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Order"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Order"));
 
-                var entitySet = this.entityDataModel.EntitySets["Order"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Order"];
 
                 Assert.Equal("Order", entitySet.Name);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Equal(typeof(Order), edmComplexType.ClrType);
             }
@@ -480,13 +480,13 @@
             [Fact]
             public void The_Products_CollectionIsCorrect()
             {
-                Assert.True(this.entityDataModel.EntitySets.ContainsKey("Product"));
+                Assert.True(_entityDataModel.EntitySets.ContainsKey("Product"));
 
-                var entitySet = this.entityDataModel.EntitySets["Product"];
+                EntitySet entitySet = _entityDataModel.EntitySets["Product"];
 
                 Assert.Equal("Product", entitySet.Name);
 
-                var edmComplexType = entitySet.EdmType;
+                EdmComplexType edmComplexType = entitySet.EdmType;
 
                 Assert.Equal(typeof(Product), edmComplexType.ClrType);
             }
@@ -494,7 +494,7 @@
             [Fact]
             public void ThereAre_6_RegisteredCollections()
             {
-                Assert.Equal(6, this.entityDataModel.EntitySets.Count);
+                Assert.Equal(6, _entityDataModel.EntitySets.Count);
             }
         }
     }

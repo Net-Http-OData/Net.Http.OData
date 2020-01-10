@@ -25,9 +25,9 @@ namespace Net.Http.OData
         /// <param name="target">The error target.</param>
         public ODataError(string code, string message, string target)
         {
-            this.Code = code;
-            this.Message = message;
-            this.Target = target;
+            Code = code;
+            Message = message;
+            Target = target;
         }
 
         /// <summary>

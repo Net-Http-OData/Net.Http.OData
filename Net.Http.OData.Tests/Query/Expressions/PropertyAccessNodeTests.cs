@@ -1,38 +1,37 @@
-﻿namespace Net.Http.OData.Tests.Query.Expressions
-{
-    using Net.Http.OData.Model;
-    using Net.Http.OData.Query;
-    using Net.Http.OData.Query.Expressions;
-    using Net.Http.OData.Tests;
-    using Xunit;
+﻿using Net.Http.OData.Model;
+using Net.Http.OData.Query;
+using Net.Http.OData.Query.Expressions;
+using Xunit;
 
+namespace Net.Http.OData.Tests.Query.Expressions
+{
     public class PropertyAccessNodeTests
     {
         public class WhenConstructed
         {
-            private readonly PropertyAccessNode node;
-            private readonly PropertyPathSegment propertyPathSegment;
+            private readonly PropertyAccessNode _node;
+            private readonly PropertyPathSegment _propertyPathSegment;
 
             public WhenConstructed()
             {
                 TestHelper.EnsureEDM();
 
-                var model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
+                EdmComplexType model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-                this.propertyPathSegment = new PropertyPathSegment(model.GetProperty("CompanyName"));
-                this.node = new PropertyAccessNode(this.propertyPathSegment);
+                _propertyPathSegment = new PropertyPathSegment(model.GetProperty("CompanyName"));
+                _node = new PropertyAccessNode(_propertyPathSegment);
             }
 
             [Fact]
             public void TheKindIsQueryNodeKindPropertyAccess()
             {
-                Assert.Equal(QueryNodeKind.PropertyAccess, this.node.Kind);
+                Assert.Equal(QueryNodeKind.PropertyAccess, _node.Kind);
             }
 
             [Fact]
             public void ThePropertyPathIsSet()
             {
-                Assert.Equal(this.propertyPathSegment, this.node.PropertyPath);
+                Assert.Equal(_propertyPathSegment, _node.PropertyPath);
             }
         }
     }

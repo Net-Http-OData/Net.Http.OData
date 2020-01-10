@@ -1,9 +1,9 @@
-﻿namespace Net.Http.OData.Tests.Model
-{
-    using System;
-    using Net.Http.OData.Model;
-    using Xunit;
+﻿using System;
+using Net.Http.OData.Model;
+using Xunit;
 
+namespace Net.Http.OData.Tests.Model
+{
     public class EdmTypeCacheTests
     {
         [Fact]

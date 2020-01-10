@@ -10,23 +10,23 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Xml.Linq;
+using Net.Http.OData.Model;
+
 namespace Net.Http.OData.Metadata
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Reflection;
-    using System.Xml.Linq;
-    using Net.Http.OData.Model;
-
     /// <summary>
     /// Provides the Metadata XML document for the Entity Data Model.
     /// </summary>
     public static class MetadataProvider
     {
-        private static readonly XNamespace EdmNs = "http://docs.oasis-open.org/odata/ns/edm";
-        private static readonly XNamespace EdmxNs = "http://docs.oasis-open.org/odata/ns/edmx";
+        private static readonly XNamespace s_edmNs = "http://docs.oasis-open.org/odata/ns/edm";
+        private static readonly XNamespace s_edmxNs = "http://docs.oasis-open.org/odata/ns/edmx";
 
         /// <summary>
         /// Creates an <see cref="XDocument"/> containing the Metadata XML document for the Entity Data Model.
@@ -43,14 +43,14 @@ namespace Net.Http.OData.Metadata
             var document = new XDocument(
                 new XDeclaration("1.0", "utf-8", null),
                 new XElement(
-                    EdmxNs + "Edmx",
-                    new XAttribute(XNamespace.Xmlns + "edmx", EdmxNs),
+                    s_edmxNs + "Edmx",
+                    new XAttribute(XNamespace.Xmlns + "edmx", s_edmxNs),
                     new XAttribute("Version", "4.0"),
                     new XElement(
-                        EdmxNs + "DataServices",
+                        s_edmxNs + "DataServices",
                         new XElement(
-                            EdmNs + "Schema",
-                            new XAttribute("xmlns", EdmNs),
+                            s_edmNs + "Schema",
+                            new XAttribute("xmlns", s_edmNs),
                             new XAttribute("Namespace", entityDataModel.EntitySets.First().Value.EdmType.ClrType.Namespace),
                             GetEnumTypes(entityDataModel),
                             GetComplexTypes(entityDataModel),
@@ -68,40 +68,40 @@ namespace Net.Http.OData.Metadata
         private static XElement GetAnnotations(EntityDataModel entityDataModel)
         {
             var annotations = new XElement(
-                EdmNs + "Annotations",
+                s_edmNs + "Annotations",
                 new XAttribute("Target", entityDataModel.EntitySets.First().Value.EdmType.ClrType.Namespace + ".DefaultContainer"),
                 new XElement(
-                    EdmNs + "Annotation",
+                    s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.DereferenceableIDs"),
                     new XAttribute("Bool", "true")),
                 new XElement(
-                    EdmNs + "Annotation",
+                    s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.ConventionalIDs"),
                     new XAttribute("Bool", "true")),
                 new XElement(
-                    EdmNs + "Annotation",
+                    s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.ConformanceLevel"),
-                    new XElement(EdmNs + "EnumMember", "Org.OData.Capabilities.V1.ConformanceLevelType/Minimal")),
+                    new XElement(s_edmNs + "EnumMember", "Org.OData.Capabilities.V1.ConformanceLevelType/Minimal")),
                 new XElement(
-                    EdmNs + "Annotation",
+                    s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.SupportedFormats"),
                     new XElement(
-                        EdmNs + "Collection",
-                        entityDataModel.SupportedFormats.Select(format => new XElement(EdmNs + "String", format)))),
+                        s_edmNs + "Collection",
+                        entityDataModel.SupportedFormats.Select(format => new XElement(s_edmNs + "String", format)))),
                 new XElement(
-                    EdmNs + "Annotation",
+                    s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.AsynchronousRequestsSupported"),
                     new XAttribute("Bool", "false")),
                 new XElement(
-                    EdmNs + "Annotation",
+                    s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.BatchContinueOnErrorSupported"),
                     new XAttribute("Bool", "false")),
                 new XElement(
-                    EdmNs + "Annotation",
+                    s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.FilterFunctions"),
                     new XElement(
-                        EdmNs + "Collection",
-                        entityDataModel.FilterFunctions.Select(function => new XElement(EdmNs + "String", function)))));
+                        s_edmNs + "Collection",
+                        entityDataModel.FilterFunctions.Select(function => new XElement(s_edmNs + "String", function)))));
 
             return annotations;
         }
@@ -109,14 +109,14 @@ namespace Net.Http.OData.Metadata
         private static IEnumerable<XElement> GetComplexTypes(EntityDataModel entityDataModel)
         {
             // Any types used in the model which aren't Entity Sets.
-            var complexCollectionTypes = entityDataModel.EntitySets.Values
+            IEnumerable<EdmComplexType> complexCollectionTypes = entityDataModel.EntitySets.Values
                 .SelectMany(t => t.EdmType.Properties)
                 .Select(p => p.PropertyType)
                 .OfType<EdmCollectionType>()
                 .Select(t => t.ContainedType)
                 .OfType<EdmComplexType>();
 
-            var complexTypes = entityDataModel.EntitySets.Values
+            IEnumerable<XElement> complexTypes = entityDataModel.EntitySets.Values
                 .SelectMany(t => t.EdmType.Properties)
                 .Select(p => p.PropertyType)
                 .OfType<EdmComplexType>()
@@ -126,7 +126,7 @@ namespace Net.Http.OData.Metadata
                 .Select(t =>
                 {
                     var element = new XElement(
-                       EdmNs + "ComplexType",
+                       s_edmNs + "ComplexType",
                        new XAttribute("Name", t.Name),
                        GetProperties(t.Properties));
 
@@ -144,43 +144,43 @@ namespace Net.Http.OData.Metadata
         private static XElement GetEntityContainer(EntityDataModel entityDataModel)
         {
             var entityContainer = new XElement(
-                EdmNs + "EntityContainer",
+                s_edmNs + "EntityContainer",
                 new XAttribute(
                     "Name", "DefaultContainer"),
                 entityDataModel.EntitySets.Select(
                     kvp => new XElement(
-                        EdmNs + "EntitySet",
+                        s_edmNs + "EntitySet",
                         new XAttribute("Name", kvp.Key),
                         new XAttribute("EntityType", kvp.Value.EdmType.ClrType.FullName),
                         new XElement(
-                            EdmNs + "Annotation",
+                            s_edmNs + "Annotation",
                             new XAttribute("Term", "Org.OData.Core.V1.ResourcePath"),
                             new XAttribute("String", kvp.Key)),
                         new XElement(
-                            EdmNs + "Annotation",
+                            s_edmNs + "Annotation",
                             new XAttribute("Term", "Org.OData.Capabilities.V1.InsertRestrictions"),
                             new XElement(
-                                EdmNs + "Record",
+                                s_edmNs + "Record",
                                 new XElement(
-                                    EdmNs + "PropertyValue",
+                                    s_edmNs + "PropertyValue",
                                     new XAttribute("Property", "Insertable"),
                                     new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Insertable) == Capabilities.Insertable).ToString(CultureInfo.InvariantCulture))))),
                         new XElement(
-                            EdmNs + "Annotation",
+                            s_edmNs + "Annotation",
                             new XAttribute("Term", "Org.OData.Capabilities.V1.UpdateRestrictions"),
                             new XElement(
-                                EdmNs + "Record",
+                                s_edmNs + "Record",
                                 new XElement(
-                                    EdmNs + "PropertyValue",
+                                    s_edmNs + "PropertyValue",
                                     new XAttribute("Property", "Updatable"),
                                     new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Updatable) == Capabilities.Updatable).ToString(CultureInfo.InvariantCulture))))),
                         new XElement(
-                            EdmNs + "Annotation",
+                            s_edmNs + "Annotation",
                             new XAttribute("Term", "Org.OData.Capabilities.V1.DeleteRestrictions"),
                             new XElement(
-                                EdmNs + "Record",
+                                s_edmNs + "Record",
                                 new XElement(
-                                    EdmNs + "PropertyValue",
+                                    s_edmNs + "PropertyValue",
                                     new XAttribute("Property", "Deletable"),
                                     new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Deletable) == Capabilities.Deletable).ToString(CultureInfo.InvariantCulture))))))));
 
@@ -189,18 +189,18 @@ namespace Net.Http.OData.Metadata
 
         private static XElement GetEntityKey(EdmProperty edmProperty)
             => new XElement(
-                EdmNs + "Key",
+                s_edmNs + "Key",
                 new XElement(
-                    EdmNs + "PropertyRef",
+                    s_edmNs + "PropertyRef",
                     new XAttribute("Name", edmProperty.Name)));
 
         private static IEnumerable<XElement> GetEntityTypes(EntityDataModel entityDataModel)
         {
-            var entityTypes = entityDataModel.EntitySets.Values.Select(
+            IEnumerable<XElement> entityTypes = entityDataModel.EntitySets.Values.Select(
                 t =>
                 {
                     var element = new XElement(
-                      EdmNs + "EntityType",
+                      s_edmNs + "EntityType",
                       new XAttribute("Name", t.Name),
                       GetProperties(t.EdmType.Properties));
 
@@ -222,18 +222,18 @@ namespace Net.Http.OData.Metadata
         private static IEnumerable<XElement> GetEnumTypes(EntityDataModel entityDataModel)
         {
             // Any enums defined in the model.
-            var enumTypes = entityDataModel.EntitySets
+            IEnumerable<XElement> enumTypes = entityDataModel.EntitySets
                 .SelectMany(kvp => kvp.Value.EdmType.Properties)
                 .Select(p => p.PropertyType)
                 .OfType<EdmEnumType>()
                 .Distinct()
                 .Select(t => new XElement(
-                    EdmNs + "EnumType",
+                    s_edmNs + "EnumType",
                     new XAttribute("Name", t.Name),
                     new XAttribute("UnderlyingType", EdmType.GetEdmType(Enum.GetUnderlyingType(t.ClrType)).FullName),
                     new XAttribute("IsFlags", (t.ClrType.GetCustomAttribute<FlagsAttribute>() != null).ToString(CultureInfo.InvariantCulture)),
                     t.Members.Select(m => new XElement(
-                        EdmNs + "Member",
+                        s_edmNs + "Member",
                         new XAttribute("Name", m.Name),
                         new XAttribute("Value", m.Value.ToString(CultureInfo.InvariantCulture))))));
 
@@ -247,7 +247,7 @@ namespace Net.Http.OData.Metadata
             .Where(p => !p.IsNavigable)
             .Select(p =>
             {
-                var element = new XElement(EdmNs + "Property", new XAttribute("Name", p.Name), new XAttribute("Type", p.PropertyType.FullName));
+                var element = new XElement(s_edmNs + "Property", new XAttribute("Name", p.Name), new XAttribute("Type", p.PropertyType.FullName));
 
                 if (!p.IsNullable)
                 {
@@ -258,6 +258,6 @@ namespace Net.Http.OData.Metadata
             })
             .Concat(properties
                 .Where(p => p.IsNavigable)
-                .Select(p => new XElement(EdmNs + "NavigationProperty", new XAttribute("Name", p.Name), new XAttribute("Type", p.PropertyType.FullName))));
+                .Select(p => new XElement(s_edmNs + "NavigationProperty", new XAttribute("Name", p.Name), new XAttribute("Type", p.PropertyType.FullName))));
     }
 }

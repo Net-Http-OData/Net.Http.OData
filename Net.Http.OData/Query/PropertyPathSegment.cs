@@ -10,11 +10,11 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using Net.Http.OData.Model;
+
 namespace Net.Http.OData.Query
 {
-    using System;
-    using Net.Http.OData.Model;
-
     /// <summary>
     /// A class which represents a segment of a property path.
     /// </summary>
@@ -37,8 +37,8 @@ namespace Net.Http.OData.Query
         /// <param name="next">The next <see cref="PropertyPathSegment"/> in the property path.</param>
         public PropertyPathSegment(EdmProperty property, PropertyPathSegment next)
         {
-            this.Property = property ?? throw new ArgumentNullException(nameof(property));
-            this.Next = next;
+            Property = property ?? throw new ArgumentNullException(nameof(property));
+            Next = next;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Net.Http.OData.Query
         /// Creates the <see cref="PropertyPathSegment"/> for the given property path.
         /// </summary>
         /// <param name="propertyPath">The property path.</param>
-        /// <param name="edmComplexType">The <see cref="EdmComplexType"/> which contains the first property in the property path</param>
+        /// <param name="edmComplexType">The <see cref="EdmComplexType"/> which contains the first property in the property path.</param>
         /// <returns>The <see cref="PropertyPathSegment"/> for the given property path.</returns>
         internal static PropertyPathSegment For(string propertyPath, EdmComplexType edmComplexType)
         {
@@ -64,11 +64,11 @@ namespace Net.Http.OData.Query
                 return new PropertyPathSegment(edmComplexType.GetProperty(propertyPath));
             }
 
-            var nameSegments = propertyPath.Split(SplitCharacter.ForwardSlash);
+            string[] nameSegments = propertyPath.Split(SplitCharacter.ForwardSlash);
 
             var edmProperties = new EdmProperty[nameSegments.Length];
 
-            var model = edmComplexType;
+            EdmComplexType model = edmComplexType;
 
             for (int i = 0; i < nameSegments.Length; i++)
             {

@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData
 {
-    using System;
-
     /// <summary>
     /// Contains OData options for the request.
     /// </summary>
@@ -27,9 +27,9 @@ namespace Net.Http.OData
         /// <param name="metadataLevel">The odata.metadata level specified in the ACCEPT header by the client, or Minimal if not otherwise specified.</param>
         public ODataRequestOptions(Uri dataServiceUri, ODataIsolationLevel isolationLevel, ODataMetadataLevel metadataLevel)
         {
-            this.DataServiceUri = dataServiceUri;
-            this.IsolationLevel = isolationLevel;
-            this.MetadataLevel = metadataLevel;
+            DataServiceUri = dataServiceUri;
+            IsolationLevel = isolationLevel;
+            MetadataLevel = metadataLevel;
         }
 
         /// <summary>

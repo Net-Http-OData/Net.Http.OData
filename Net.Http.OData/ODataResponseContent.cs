@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.WebApi.OData
 {
-    using System;
-
     /// <summary>
     /// A class which is used to return OData content.
     /// </summary>
@@ -49,10 +49,10 @@ namespace Net.Http.WebApi.OData
         /// <param name="nextLink">The URI to the next results in a paged response.</param>
         public ODataResponseContent(Uri context, object value, int? count, Uri nextLink)
         {
-            this.Context = context;
-            this.Value = value;
-            this.Count = count;
-            this.NextLink = nextLink;
+            Context = context;
+            Value = value;
+            Count = count;
+            NextLink = nextLink;
         }
 
         /// <summary>

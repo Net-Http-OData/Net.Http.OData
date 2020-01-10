@@ -10,12 +10,12 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Net;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net;
-
     /// <summary>
     /// Represents a complex type in the Entity Data Model.
     /// </summary>
@@ -31,8 +31,8 @@ namespace Net.Http.OData.Model
         internal EdmComplexType(Type clrType, EdmType baseType, IReadOnlyList<EdmProperty> properties)
             : base(clrType.Name, clrType.FullName, clrType)
         {
-            this.BaseType = baseType;
-            this.Properties = properties ?? throw new ArgumentNullException(nameof(properties));
+            BaseType = baseType;
+            Properties = properties ?? throw new ArgumentNullException(nameof(properties));
         }
 
         /// <summary>
@@ -53,9 +53,9 @@ namespace Net.Http.OData.Model
         /// <exception cref="ArgumentException">The type does not contain a property with the specified name.</exception>
         public EdmProperty GetProperty(string name)
         {
-            for (int i = 0; i < this.Properties.Count; i++)
+            for (int i = 0; i < Properties.Count; i++)
             {
-                var property = this.Properties[i];
+                EdmProperty property = Properties[i];
 
                 if (property.Name.Equals(name, StringComparison.Ordinal))
                 {
@@ -63,7 +63,7 @@ namespace Net.Http.OData.Model
                 }
             }
 
-            throw new ODataException(HttpStatusCode.BadRequest, $"The type '{this.FullName}' does not contain a property named '{name}'");
+            throw new ODataException(HttpStatusCode.BadRequest, $"The type '{FullName}' does not contain a property named '{name}'");
         }
     }
 }

@@ -10,11 +10,11 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Represents an Enum type in the Entity Data Model.
     /// </summary>
@@ -25,7 +25,7 @@ namespace Net.Http.OData.Model
         internal EdmEnumType(Type clrType, IReadOnlyList<EdmEnumMember> members)
             : base(clrType.Name, clrType.FullName, clrType)
         {
-            this.Members = members ?? throw new ArgumentNullException(nameof(members));
+            Members = members ?? throw new ArgumentNullException(nameof(members));
         }
 
         /// <summary>
@@ -38,6 +38,6 @@ namespace Net.Http.OData.Model
         /// </summary>
         /// <param name="value">The Enum string value in the Entity Data Model.</param>
         /// <returns>An object containing the CLR Enum value.</returns>
-        public object GetClrValue(string value) => Enum.Parse(this.ClrType, value);
+        public object GetClrValue(string value) => Enum.Parse(ClrType, value);
     }
 }

@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-
     /// <summary>
     /// Specifies the permitted capabilities of an <see cref="EntitySet"/> in the <see cref="EntityDataModel"/>.
     /// </summary>

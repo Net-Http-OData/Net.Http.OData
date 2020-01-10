@@ -10,21 +10,21 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-
     /// <summary>
     /// A class which builds the <see cref="EntityDataModel"/>.
     /// </summary>
     public sealed class EntityDataModelBuilder
     {
-        private readonly EntityDataModel entityDataModel;
-        private readonly Dictionary<string, EntitySet> entitySets;
+        private readonly EntityDataModel _entityDataModel;
+        private readonly Dictionary<string, EntitySet> _entitySets;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="EntityDataModelBuilder"/> class.
@@ -32,15 +32,15 @@ namespace Net.Http.OData.Model
         /// <param name="entitySetNameComparer">The equality comparer to use for the Entity Set name.</param>
         public EntityDataModelBuilder(IEqualityComparer<string> entitySetNameComparer)
         {
-            this.entitySets = new Dictionary<string, EntitySet>(entitySetNameComparer) ?? throw new ArgumentNullException(nameof(entitySetNameComparer));
-            this.entityDataModel = new EntityDataModel(this.entitySets);
+            _entitySets = new Dictionary<string, EntitySet>(entitySetNameComparer) ?? throw new ArgumentNullException(nameof(entitySetNameComparer));
+            _entityDataModel = new EntityDataModel(_entitySets);
         }
 
         /// <summary>
         /// Builds the Entity Data Model containing the collections registered.
         /// </summary>
         /// <returns>The Entity Data Model.</returns>
-        public EntityDataModel BuildModel() => EntityDataModel.Current = this.entityDataModel;
+        public EntityDataModel BuildModel() => EntityDataModel.Current = _entityDataModel;
 
         /// <summary>
         /// Registers an Entity Set of the specified type to the Entity Data Model with the name of the type as the Entity Set name which can only be queried.
@@ -49,7 +49,7 @@ namespace Net.Http.OData.Model
         /// <param name="entityKeyExpression">The Entity Key expression.</param>
         [Obsolete("Please use RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression), this method will be removed in a future version")]
         public void RegisterEntitySet<T>(Expression<Func<T, object>> entityKeyExpression)
-            => this.RegisterEntitySet(typeof(T).Name, entityKeyExpression, Capabilities.None);
+            => RegisterEntitySet(typeof(T).Name, entityKeyExpression, Capabilities.None);
 
         /// <summary>
         /// Registers an Entity Set of the specified type to the Entity Data Model with the name of the type as the Entity Set name and <see cref="Capabilities"/>.
@@ -59,7 +59,7 @@ namespace Net.Http.OData.Model
         /// <param name="capabilities">The capabilities of the Entity Set.</param>
         [Obsolete("Please use RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression, Capabilities capabilities), this method will be removed in a future version")]
         public void RegisterEntitySet<T>(Expression<Func<T, object>> entityKeyExpression, Capabilities capabilities)
-            => this.RegisterEntitySet(typeof(T).Name, entityKeyExpression, capabilities);
+            => RegisterEntitySet(typeof(T).Name, entityKeyExpression, capabilities);
 
         /// <summary>
         /// Registers an Entity Set of the specified type to the Entity Data Model with the specified name which can only be queried.
@@ -68,7 +68,7 @@ namespace Net.Http.OData.Model
         /// <param name="entitySetName">Name of the Entity Set.</param>
         /// <param name="entityKeyExpression">The Entity Key expression.</param>
         public void RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression)
-            => this.RegisterEntitySet(entitySetName, entityKeyExpression, Capabilities.None);
+            => RegisterEntitySet(entitySetName, entityKeyExpression, Capabilities.None);
 
         /// <summary>
         /// Registers an Entity Set of the specified type to the Entity Data Model with the specified name and <see cref="Capabilities"/>.
@@ -84,13 +84,13 @@ namespace Net.Http.OData.Model
                 throw new ArgumentNullException(nameof(entityKeyExpression));
             }
 
-            var edmType = (EdmComplexType)EdmTypeCache.Map.GetOrAdd(typeof(T), this.EdmTypeResolver);
+            var edmType = (EdmComplexType)EdmTypeCache.Map.GetOrAdd(typeof(T), EdmTypeResolver);
 
-            var entityKey = edmType.BaseType is null ? edmType.GetProperty(entityKeyExpression.GetMemberInfo().Name) : null;
+            EdmProperty entityKey = edmType.BaseType is null ? edmType.GetProperty(entityKeyExpression.GetMemberInfo().Name) : null;
 
             var entitySet = new EntitySet(entitySetName, edmType, entityKey, capabilities);
 
-            this.entitySets.Add(entitySet.Name, entitySet);
+            _entitySets.Add(entitySet.Name, entitySet);
         }
 
         private EdmType EdmTypeResolver(Type clrType)
@@ -99,7 +99,7 @@ namespace Net.Http.OData.Model
             {
                 var members = new List<EdmEnumMember>();
 
-                foreach (var value in Enum.GetValues(clrType))
+                foreach (object value in Enum.GetValues(clrType))
                 {
                     members.Add(new EdmEnumMember(value.ToString(), (int)value));
                 }
@@ -109,11 +109,11 @@ namespace Net.Http.OData.Model
 
             if (clrType.IsGenericType)
             {
-                var innerType = clrType.GetGenericArguments()[0];
+                Type innerType = clrType.GetGenericArguments()[0];
 
                 if (typeof(IEnumerable<>).MakeGenericType(innerType).IsAssignableFrom(clrType))
                 {
-                    var containedType = EdmTypeCache.Map.GetOrAdd(innerType, this.EdmTypeResolver);
+                    EdmType containedType = EdmTypeCache.Map.GetOrAdd(innerType, EdmTypeResolver);
 
                     return EdmTypeCache.Map.GetOrAdd(clrType, t => new EdmCollectionType(t, containedType));
                 }
@@ -123,16 +123,16 @@ namespace Net.Http.OData.Model
                 }
             }
 
-            EdmType baseEdmType = clrType.BaseType != typeof(object) ? EdmTypeCache.Map.GetOrAdd(clrType.BaseType, this.EdmTypeResolver) : null;
+            EdmType baseEdmType = clrType.BaseType != typeof(object) ? EdmTypeCache.Map.GetOrAdd(clrType.BaseType, EdmTypeResolver) : null;
 
-            var clrTypeProperties = clrType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            PropertyInfo[] clrTypeProperties = clrType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
             var edmProperties = new List<EdmProperty>(clrTypeProperties.Length);
             var edmComplexType = (EdmComplexType)EdmTypeCache.Map.GetOrAdd(clrType, t => new EdmComplexType(t, baseEdmType, edmProperties.AsReadOnly()));
 
             edmProperties.AddRange(clrTypeProperties
                 .OrderBy(p => p.Name)
-                .Select(p => new EdmProperty(p, EdmTypeCache.Map.GetOrAdd(p.PropertyType, this.EdmTypeResolver), edmComplexType, this.entityDataModel.IsEntitySet)));
+                .Select(p => new EdmProperty(p, EdmTypeCache.Map.GetOrAdd(p.PropertyType, EdmTypeResolver), edmComplexType, _entityDataModel.IsEntitySet)));
 
             return edmComplexType;
         }

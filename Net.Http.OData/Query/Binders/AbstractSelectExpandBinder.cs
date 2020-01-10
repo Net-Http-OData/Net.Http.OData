@@ -30,9 +30,9 @@ namespace Net.Http.OData.Query.Binders
 
             for (int i = 0; i < selectExpandQueryOption.PropertyPaths.Count; i++)
             {
-                var propertyPath = selectExpandQueryOption.PropertyPaths[i];
+                PropertyPathSegment propertyPath = selectExpandQueryOption.PropertyPaths[i];
 
-                this.Bind(propertyPath);
+                Bind(propertyPath);
             }
         }
 

@@ -10,70 +10,70 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Net;
+using Net.Http.OData.Model;
+using Net.Http.OData.Query.Expressions;
+
 namespace Net.Http.OData.Query.Parsers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net;
-    using Net.Http.OData.Model;
-    using Net.Http.OData.Query.Expressions;
-
     internal static class FilterExpressionParser
     {
         internal static QueryNode Parse(string filterValue, EdmComplexType model)
         {
             var parserImpl = new FilterExpressionParserImpl(model);
-            var queryNode = parserImpl.Parse(new Lexer(filterValue));
+            QueryNode queryNode = parserImpl.Parse(new Lexer(filterValue));
 
             return queryNode;
         }
 
         private sealed class FilterExpressionParserImpl
         {
-            private readonly EdmComplexType model;
-            private readonly Stack<QueryNode> nodeStack = new Stack<QueryNode>();
-            private readonly Queue<Token> tokens = new Queue<Token>();
-            private int groupingDepth;
-            private BinaryOperatorKind nextBinaryOperatorKind = BinaryOperatorKind.None;
+            private readonly EdmComplexType _model;
+            private readonly Stack<QueryNode> _nodeStack = new Stack<QueryNode>();
+            private readonly Queue<Token> _tokens = new Queue<Token>();
+            private int _groupingDepth;
+            private BinaryOperatorKind _nextBinaryOperatorKind = BinaryOperatorKind.None;
 
             internal FilterExpressionParserImpl(EdmComplexType model)
             {
-                this.model = model;
+                _model = model;
             }
 
             internal QueryNode Parse(Lexer lexer)
             {
                 while (lexer.MoveNext())
                 {
-                    var token = lexer.Current;
+                    Token token = lexer.Current;
 
                     switch (token.TokenType)
                     {
                         case TokenType.And:
-                            this.nextBinaryOperatorKind = BinaryOperatorKind.And;
-                            this.UpdateExpressionTree();
+                            _nextBinaryOperatorKind = BinaryOperatorKind.And;
+                            UpdateExpressionTree();
                             break;
 
                         case TokenType.Or:
-                            this.nextBinaryOperatorKind = BinaryOperatorKind.Or;
-                            this.UpdateExpressionTree();
+                            _nextBinaryOperatorKind = BinaryOperatorKind.Or;
+                            UpdateExpressionTree();
                             break;
 
                         default:
-                            this.tokens.Enqueue(token);
+                            _tokens.Enqueue(token);
                             break;
                     }
                 }
 
-                this.nextBinaryOperatorKind = BinaryOperatorKind.None;
-                this.UpdateExpressionTree();
+                _nextBinaryOperatorKind = BinaryOperatorKind.None;
+                UpdateExpressionTree();
 
-                if (this.groupingDepth != 0 || this.nodeStack.Count != 1)
+                if (_groupingDepth != 0 || _nodeStack.Count != 1)
                 {
                     throw new ODataException(HttpStatusCode.BadRequest, "Unable to parse the specified $filter system query option, an extra opening or missing closing parenthesis may be present");
                 }
 
-                var node = this.nodeStack.Pop();
+                QueryNode node = _nodeStack.Pop();
 
                 if (node is BinaryOperatorNode binaryNode && (binaryNode.Left is null || binaryNode.Right is null))
                 {
@@ -90,34 +90,34 @@ namespace Net.Http.OData.Query.Parsers
 
                 var stack = new Stack<FunctionCallNode>();
 
-                while (this.tokens.Count > 0)
+                while (_tokens.Count > 0)
                 {
-                    var token = this.tokens.Dequeue();
+                    Token token = _tokens.Dequeue();
 
                     switch (token.TokenType)
                     {
                         case TokenType.OpenParentheses:
-                            if (this.tokens.Count > 0 && this.tokens.Peek().TokenType == TokenType.CloseParentheses)
+                            if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
                                 // All OData functions have at least 1 or 2 parameters
                                 throw new ODataException(HttpStatusCode.BadRequest, $"Unable to parse the specified $filter system query option, the function {node?.Name} has no parameters");
                             }
 
-                            this.groupingDepth++;
+                            _groupingDepth++;
                             stack.Push(node);
                             break;
 
                         case TokenType.CloseParentheses:
-                            if (this.groupingDepth == 0)
+                            if (_groupingDepth == 0)
                             {
                                 throw new ODataException(HttpStatusCode.BadRequest, "Unable to parse the specified $filter system query option, closing parenthesis not expected");
                             }
 
-                            this.groupingDepth--;
+                            _groupingDepth--;
 
                             if (stack.Count > 0)
                             {
-                                var lastNode = stack.Pop();
+                                FunctionCallNode lastNode = stack.Pop();
 
                                 if (stack.Count > 0)
                                 {
@@ -147,7 +147,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.PropertyName:
-                            var propertyAccessNode = new PropertyAccessNode(PropertyPathSegment.For(token.Value, this.model));
+                            var propertyAccessNode = new PropertyAccessNode(PropertyPathSegment.For(token.Value, _model));
 
                             if (stack.Count > 0)
                             {
@@ -174,7 +174,7 @@ namespace Net.Http.OData.Query.Parsers
                         case TokenType.String:
                         case TokenType.TimeOfDay:
                         case TokenType.True:
-                            var constantNode = ConstantNodeParser.ParseConstantNode(token);
+                            ConstantNode constantNode = ConstantNodeParser.ParseConstantNode(token);
 
                             if (stack.Count > 0)
                             {
@@ -188,7 +188,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.Comma:
-                            if (this.tokens.Count > 0 && this.tokens.Peek().TokenType == TokenType.CloseParentheses)
+                            if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
                                 // If there is a comma in a function call, there should be another parameter followed by a closing comma
                                 throw new ODataException(HttpStatusCode.BadRequest, $"Unable to parse the specified $filter system query option, the function {node?.Name} has a missing parameter or extra comma");
@@ -214,9 +214,9 @@ namespace Net.Http.OData.Query.Parsers
                 BinaryOperatorKind operatorKind = BinaryOperatorKind.None;
                 QueryNode rightNode = null;
 
-                while (this.tokens.Count > 0)
+                while (_tokens.Count > 0)
                 {
-                    var token = this.tokens.Dequeue();
+                    Token token = _tokens.Dequeue();
 
                     switch (token.TokenType)
                     {
@@ -232,11 +232,11 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.OpenParentheses:
-                            this.groupingDepth++;
+                            _groupingDepth++;
                             break;
 
                         case TokenType.CloseParentheses:
-                            this.groupingDepth--;
+                            _groupingDepth--;
                             break;
 
                         case TokenType.FunctionName:
@@ -252,7 +252,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.PropertyName:
-                            var propertyAccessNode = new PropertyAccessNode(PropertyPathSegment.For(token.Value, this.model));
+                            var propertyAccessNode = new PropertyAccessNode(PropertyPathSegment.For(token.Value, _model));
 
                             if (leftNode is null)
                             {
@@ -293,37 +293,37 @@ namespace Net.Http.OData.Query.Parsers
 
             private QueryNode ParseQueryNode()
             {
-                if (this.tokens.Count == 0)
+                if (_tokens.Count == 0)
                 {
                     throw new ODataException(HttpStatusCode.BadRequest, "Unable to parse the specified $filter system query option, an incomplete filter has been specified");
                 }
 
                 QueryNode node;
 
-                switch (this.tokens.Peek().TokenType)
+                switch (_tokens.Peek().TokenType)
                 {
                     case TokenType.FunctionName:
-                        node = this.ParseFunctionCallNode();
+                        node = ParseFunctionCallNode();
                         break;
 
                     case TokenType.UnaryOperator:
-                        var token = this.tokens.Dequeue();
-                        node = this.ParseQueryNode();
+                        Token token = _tokens.Dequeue();
+                        node = ParseQueryNode();
                         node = new UnaryOperatorNode(node, token.Value.ToUnaryOperatorKind());
                         break;
 
                     case TokenType.OpenParentheses:
-                        this.groupingDepth++;
-                        this.tokens.Dequeue();
-                        node = this.ParseQueryNode();
+                        _groupingDepth++;
+                        _tokens.Dequeue();
+                        node = ParseQueryNode();
                         break;
 
                     case TokenType.PropertyName:
-                        node = this.ParsePropertyAccessNode();
+                        node = ParsePropertyAccessNode();
                         break;
 
                     default:
-                        throw new NotSupportedException(this.tokens.Peek().TokenType.ToString());
+                        throw new NotSupportedException(_tokens.Peek().TokenType.ToString());
                 }
 
                 return node;
@@ -331,78 +331,78 @@ namespace Net.Http.OData.Query.Parsers
 
             private void UpdateExpressionTree()
             {
-                var initialGroupingDepth = this.groupingDepth;
+                int initialGroupingDepth = _groupingDepth;
 
-                var node = this.ParseQueryNode();
+                QueryNode node = ParseQueryNode();
 
-                if (this.groupingDepth == initialGroupingDepth)
+                if (_groupingDepth == initialGroupingDepth)
                 {
-                    if (this.nodeStack.Count == 0)
+                    if (_nodeStack.Count == 0)
                     {
-                        if (this.nextBinaryOperatorKind == BinaryOperatorKind.None)
+                        if (_nextBinaryOperatorKind == BinaryOperatorKind.None)
                         {
-                            this.nodeStack.Push(node);
+                            _nodeStack.Push(node);
                         }
                         else
                         {
-                            this.nodeStack.Push(new BinaryOperatorNode(node, this.nextBinaryOperatorKind, null));
+                            _nodeStack.Push(new BinaryOperatorNode(node, _nextBinaryOperatorKind, null));
                         }
                     }
                     else
                     {
-                        var leftNode = this.nodeStack.Pop();
+                        QueryNode leftNode = _nodeStack.Pop();
 
                         if (leftNode is BinaryOperatorNode binaryNode && binaryNode.Right is null)
                         {
                             binaryNode.Right = node;
 
-                            if (this.nextBinaryOperatorKind != BinaryOperatorKind.None)
+                            if (_nextBinaryOperatorKind != BinaryOperatorKind.None)
                             {
-                                binaryNode = new BinaryOperatorNode(binaryNode, this.nextBinaryOperatorKind, null);
+                                binaryNode = new BinaryOperatorNode(binaryNode, _nextBinaryOperatorKind, null);
                             }
                         }
                         else
                         {
-                            binaryNode = new BinaryOperatorNode(leftNode, this.nextBinaryOperatorKind, node);
+                            binaryNode = new BinaryOperatorNode(leftNode, _nextBinaryOperatorKind, node);
                         }
 
-                        this.nodeStack.Push(binaryNode);
+                        _nodeStack.Push(binaryNode);
                     }
                 }
-                else if (this.groupingDepth > initialGroupingDepth)
+                else if (_groupingDepth > initialGroupingDepth)
                 {
-                    this.nodeStack.Push(new BinaryOperatorNode(node, this.nextBinaryOperatorKind, null));
+                    _nodeStack.Push(new BinaryOperatorNode(node, _nextBinaryOperatorKind, null));
                 }
-                else if (this.groupingDepth < initialGroupingDepth)
+                else if (_groupingDepth < initialGroupingDepth)
                 {
-                    var binaryNode = (BinaryOperatorNode)this.nodeStack.Pop();
+                    var binaryNode = (BinaryOperatorNode)_nodeStack.Pop();
                     binaryNode.Right = node;
 
-                    if (this.nextBinaryOperatorKind == BinaryOperatorKind.None)
+                    if (_nextBinaryOperatorKind == BinaryOperatorKind.None)
                     {
-                        this.nodeStack.Push(binaryNode);
+                        _nodeStack.Push(binaryNode);
 
-                        while (this.nodeStack.Count > 1)
+                        while (_nodeStack.Count > 1)
                         {
-                            var rightNode = this.nodeStack.Pop();
+                            QueryNode rightNode = _nodeStack.Pop();
 
-                            var binaryParent = (BinaryOperatorNode)this.nodeStack.Pop();
+                            var binaryParent = (BinaryOperatorNode)_nodeStack.Pop();
                             binaryParent.Right = rightNode;
 
-                            this.nodeStack.Push(binaryParent);
+                            _nodeStack.Push(binaryParent);
                         }
                     }
                     else
                     {
-                        if (this.groupingDepth == 0 && this.nodeStack.Count > 0)
+                        if (_groupingDepth == 0 && _nodeStack.Count > 0)
                         {
-                            var binaryParent = (BinaryOperatorNode)this.nodeStack.Pop();
+                            var binaryParent = (BinaryOperatorNode)_nodeStack.Pop();
                             binaryParent.Right = binaryNode;
 
                             binaryNode = binaryParent;
                         }
 
-                        this.nodeStack.Push(new BinaryOperatorNode(binaryNode, this.nextBinaryOperatorKind, null));
+                        _nodeStack.Push(new BinaryOperatorNode(binaryNode, _nextBinaryOperatorKind, null));
                     }
                 }
             }

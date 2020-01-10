@@ -24,7 +24,7 @@ namespace Net.Http.OData.Query.Expressions
         /// <param name="propertyPathSegment">The property path being referenced in the query.</param>
         internal PropertyAccessNode(PropertyPathSegment propertyPathSegment)
         {
-            this.PropertyPath = propertyPathSegment;
+            PropertyPath = propertyPathSegment;
         }
 
         /// <summary>

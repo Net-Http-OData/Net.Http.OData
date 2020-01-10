@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-
     /// <summary>
     /// Represents a type in the Entity Data Model.
     /// </summary>
@@ -38,9 +38,9 @@ namespace Net.Http.OData.Model
                 throw new ArgumentException("FullName must be specified", nameof(fullName));
             }
 
-            this.Name = name;
-            this.FullName = fullName;
-            this.ClrType = clrType ?? throw new ArgumentNullException(nameof(clrType));
+            Name = name;
+            FullName = fullName;
+            ClrType = clrType ?? throw new ArgumentNullException(nameof(clrType));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Net.Http.OData.Model
         /// <returns>The EdmType with the specified name, if found; otherwise, null.</returns>
         public static EdmType GetEdmType(string edmTypeName)
         {
-            foreach (var edmType in EdmTypeCache.Map.Values)
+            foreach (EdmType edmType in EdmTypeCache.Map.Values)
             {
                 if (edmType.FullName.Equals(edmTypeName, StringComparison.Ordinal))
                 {
@@ -90,7 +90,7 @@ namespace Net.Http.OData.Model
         /// <returns>
         ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj) => this.Equals(obj as EdmType);
+        public override bool Equals(object obj) => Equals(obj as EdmType);
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -111,7 +111,7 @@ namespace Net.Http.OData.Model
                 return true;
             }
 
-            return this.ClrType.Equals(other.ClrType);
+            return ClrType.Equals(other.ClrType);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Net.Http.OData.Model
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
-        public override int GetHashCode() => this.ClrType.GetHashCode();
+        public override int GetHashCode() => ClrType.GetHashCode();
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.
@@ -128,6 +128,6 @@ namespace Net.Http.OData.Model
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public override string ToString() => this.FullName;
+        public override string ToString() => FullName;
     }
 }

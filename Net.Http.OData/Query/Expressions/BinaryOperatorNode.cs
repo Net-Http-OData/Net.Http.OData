@@ -26,9 +26,9 @@ namespace Net.Http.OData.Query.Expressions
         /// <param name="right">The right query node.</param>
         internal BinaryOperatorNode(QueryNode left, BinaryOperatorKind operatorKind, QueryNode right)
         {
-            this.Left = left;
-            this.OperatorKind = operatorKind;
-            this.Right = right;
+            Left = left;
+            OperatorKind = operatorKind;
+            Right = right;
         }
 
         /// <summary>

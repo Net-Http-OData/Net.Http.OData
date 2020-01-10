@@ -10,12 +10,12 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-
     internal static class EdmTypeCache
     {
         internal static ConcurrentDictionary<Type, EdmType> Map { get; } = new ConcurrentDictionary<Type, EdmType>(

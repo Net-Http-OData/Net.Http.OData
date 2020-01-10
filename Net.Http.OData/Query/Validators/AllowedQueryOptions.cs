@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Query.Validators
 {
-    using System;
-
     /// <summary>
     /// An enumeration which represents the query options allowed by an OData query.
     /// </summary>

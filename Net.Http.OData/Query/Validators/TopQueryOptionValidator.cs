@@ -10,11 +10,11 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Globalization;
+using System.Net;
+
 namespace Net.Http.OData.Query.Validators
 {
-    using System.Globalization;
-    using System.Net;
-
     /// <summary>
     /// A class which validates the $top query option based upon the <see cref="ODataValidationSettings"/>.
     /// </summary>

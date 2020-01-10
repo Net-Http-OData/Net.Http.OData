@@ -1,9 +1,9 @@
-﻿namespace Net.Http.OData.Tests
-{
-    using System;
-    using Net.Http.OData.Model;
-    using NorthwindModel;
+﻿using System;
+using Net.Http.OData.Model;
+using NorthwindModel;
 
+namespace Net.Http.OData.Tests
+{
     internal static class TestHelper
     {
         internal static void EnsureEDM()

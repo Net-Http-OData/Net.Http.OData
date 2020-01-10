@@ -10,16 +10,16 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Net;
+
 namespace Net.Http.OData.Query.Parsers
 {
-    using System;
-    using System.Net;
-
     internal struct Lexer
     {
         // More restrictive expressions should be added before less restrictive expressions which could also match.
         // Also, within those bounds then order by the most common first where possible.
-        private static readonly TokenDefinition[] TokenDefinitions = new[]
+        private static readonly TokenDefinition[] s_tokenDefinitions = new[]
         {
             new TokenDefinition(TokenType.OpenParentheses,      @"\("),
             new TokenDefinition(TokenType.CloseParentheses,     @"\)"),
@@ -47,50 +47,48 @@ namespace Net.Http.OData.Query.Parsers
             new TokenDefinition(TokenType.Whitespace,           @"\s", ignore: true),
         };
 
-        private readonly string content;
-        private Token current;
-        private int position;
+        private readonly string _content;
+        private int _position;
 
         internal Lexer(string content)
         {
-            this.content = content;
-            this.current = default;
-
-            this.position = this.content.StartsWith("$filter=", StringComparison.Ordinal) ? content.IndexOf('=') + 1 : 0;
+            _content = content;
+            Current = default;
+            _position = content.StartsWith("$filter=", StringComparison.Ordinal) ? content.IndexOf('=') + 1 : 0;
         }
 
-        internal Token Current => this.current;
+        internal Token Current { get; private set; }
 
         internal bool MoveNext()
         {
-            if (this.content.Length == this.position)
+            if (_content.Length == _position)
             {
                 return false;
             }
 
-            for (int i = 0; i < TokenDefinitions.Length; i++)
+            for (int i = 0; i < s_tokenDefinitions.Length; i++)
             {
-                var tokenDefinition = TokenDefinitions[i];
+                TokenDefinition tokenDefinition = s_tokenDefinitions[i];
 
-                var match = tokenDefinition.Regex.Match(this.content, this.position);
+                System.Text.RegularExpressions.Match match = tokenDefinition.Regex.Match(_content, _position);
 
                 if (match.Success)
                 {
                     if (tokenDefinition.Ignore)
                     {
-                        this.position += match.Length;
+                        _position += match.Length;
                         i = -1;
                         continue;
                     }
 
-                    this.current = tokenDefinition.CreateToken(match);
-                    this.position += match.Length;
+                    Current = tokenDefinition.CreateToken(match);
+                    _position += match.Length;
 
                     return true;
                 }
             }
 
-            if (this.content.Length != this.position)
+            if (_content.Length != _position)
             {
                 throw new ODataException(HttpStatusCode.BadRequest, "Unable to parse the specified $filter system query option");
             }

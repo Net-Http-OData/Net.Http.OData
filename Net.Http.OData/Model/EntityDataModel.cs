@@ -10,11 +10,11 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Net.Http.OData.Model
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
     /// A class which represents the Entity Data Model.
     /// </summary>
@@ -22,9 +22,9 @@ namespace Net.Http.OData.Model
     {
         internal EntityDataModel(IReadOnlyDictionary<string, EntitySet> entitySets)
         {
-            this.EntitySets = entitySets;
+            EntitySets = entitySets;
 
-            this.FilterFunctions = new[]
+            FilterFunctions = new[]
             {
                 "cast",
                 "isof",
@@ -54,7 +54,7 @@ namespace Net.Http.OData.Model
                 "floor",
             };
 
-            this.SupportedFormats = new[]
+            SupportedFormats = new[]
             {
                 "application/json;odata.metadata=none",
                 "application/json;odata.metadata=minimal",
@@ -89,6 +89,6 @@ namespace Net.Http.OData.Model
         /// </summary>
         /// <param name="edmType">The <see cref="EdmType"/> to check.</param>
         /// <returns>True if the <see cref="EdmType"/> is an <see cref="EntitySet"/> in the Entity Data Model; otherwise false.</returns>
-        public bool IsEntitySet(EdmType edmType) => this.EntitySets.Values.Any(x => x.EdmType == edmType);
+        public bool IsEntitySet(EdmType edmType) => EntitySets.Values.Any(x => x.EdmType == edmType);
     }
 }

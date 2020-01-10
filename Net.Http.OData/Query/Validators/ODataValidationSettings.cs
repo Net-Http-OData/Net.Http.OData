@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Query.Validators
 {
-    using System;
-
     /// <summary>
     /// A class which defines the validation settings to use when validating values in <see cref="ODataQueryOptions"/>.
     /// </summary>
@@ -23,37 +23,27 @@ namespace Net.Http.OData.Query.Validators
         /// Gets the validation settings for when all OData queries are allowed.
         /// </summary>
         public static ODataValidationSettings All
-        {
-            get
+            => new ODataValidationSettings
             {
-                return new ODataValidationSettings
-                {
-                    AllowedArithmeticOperators = AllowedArithmeticOperators.All,
-                    AllowedFunctions = AllowedFunctions.AllFunctions,
-                    AllowedLogicalOperators = AllowedLogicalOperators.All,
-                    AllowedQueryOptions = AllowedQueryOptions.All,
-                    MaxTop = 100,
-                };
-            }
-        }
+                AllowedArithmeticOperators = AllowedArithmeticOperators.All,
+                AllowedFunctions = AllowedFunctions.AllFunctions,
+                AllowedLogicalOperators = AllowedLogicalOperators.All,
+                AllowedQueryOptions = AllowedQueryOptions.All,
+                MaxTop = 100,
+            };
 
         /// <summary>
         /// Gets the validation settings for when no OData queries are allowed.
         /// </summary>
         public static ODataValidationSettings None
-        {
-            get
+            => new ODataValidationSettings
             {
-                return new ODataValidationSettings
-                {
-                    AllowedArithmeticOperators = AllowedArithmeticOperators.None,
-                    AllowedFunctions = AllowedFunctions.None,
-                    AllowedLogicalOperators = AllowedLogicalOperators.None,
-                    AllowedQueryOptions = AllowedQueryOptions.None,
-                    MaxTop = 0,
-                };
-            }
-        }
+                AllowedArithmeticOperators = AllowedArithmeticOperators.None,
+                AllowedFunctions = AllowedFunctions.None,
+                AllowedLogicalOperators = AllowedLogicalOperators.None,
+                AllowedQueryOptions = AllowedQueryOptions.None,
+                MaxTop = 0,
+            };
 
         /// <summary>
         /// Gets or sets the allowed arithmetic operators.
@@ -129,7 +119,7 @@ namespace Net.Http.OData.Query.Validators
                 return false;
             }
 
-            return this.Equals(other);
+            return Equals(other);
         }
 
         /// <summary>
@@ -146,11 +136,11 @@ namespace Net.Http.OData.Query.Validators
                 return false;
             }
 
-            return other.AllowedArithmeticOperators == this.AllowedArithmeticOperators
-                && other.AllowedFunctions == this.AllowedFunctions
-                && other.AllowedLogicalOperators == this.AllowedLogicalOperators
-                && other.AllowedQueryOptions == this.AllowedQueryOptions
-                && other.MaxTop == this.MaxTop;
+            return other.AllowedArithmeticOperators == AllowedArithmeticOperators
+                && other.AllowedFunctions == AllowedFunctions
+                && other.AllowedLogicalOperators == AllowedLogicalOperators
+                && other.AllowedQueryOptions == AllowedQueryOptions
+                && other.MaxTop == MaxTop;
         }
 
         /// <summary>
@@ -160,12 +150,10 @@ namespace Net.Http.OData.Query.Validators
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
-        {
-            return this.AllowedArithmeticOperators.GetHashCode()
-                ^ this.AllowedFunctions.GetHashCode()
-                ^ this.AllowedLogicalOperators.GetHashCode()
-                ^ this.AllowedQueryOptions.GetHashCode()
-                ^ this.MaxTop.GetHashCode();
-        }
+            => AllowedArithmeticOperators.GetHashCode()
+            ^ AllowedFunctions.GetHashCode()
+            ^ AllowedLogicalOperators.GetHashCode()
+            ^ AllowedQueryOptions.GetHashCode()
+            ^ MaxTop.GetHashCode();
     }
 }

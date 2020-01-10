@@ -10,12 +10,12 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Net;
+using System.Runtime.Serialization;
+
 namespace Net.Http.OData
 {
-    using System;
-    using System.Net;
-    using System.Runtime.Serialization;
-
     /// <summary>
     /// An exception which is thrown in relation to an OData request.
     /// </summary>
@@ -67,15 +67,15 @@ namespace Net.Http.OData
         public ODataException(HttpStatusCode statusCode, string message, string target)
             : base(message)
         {
-            this.StatusCode = statusCode;
-            this.Target = target;
+            StatusCode = statusCode;
+            Target = target;
         }
 
         private ODataException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.StatusCode = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), info.GetString("StatusCode"));
-            this.Target = info.GetString("Target");
+            StatusCode = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), info.GetString("StatusCode"));
+            Target = info.GetString("Target");
         }
 
         /// <summary>
@@ -97,8 +97,8 @@ namespace Net.Http.OData
         {
             if (info != null)
             {
-                info.AddValue("StatusCode", this.StatusCode.ToString());
-                info.AddValue("Target", this.Target);
+                info.AddValue("StatusCode", StatusCode.ToString());
+                info.AddValue("Target", Target);
             }
 
             base.GetObjectData(info, context);

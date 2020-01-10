@@ -20,8 +20,8 @@ namespace Net.Http.OData.Model
     {
         internal EdmEnumMember(string name, int value)
         {
-            this.Name = name;
-            this.Value = value;
+            Name = name;
+            Value = value;
         }
 
         /// <summary>

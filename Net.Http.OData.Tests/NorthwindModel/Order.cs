@@ -1,8 +1,8 @@
-﻿namespace NorthwindModel
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace NorthwindModel
+{
     public class Order
     {
         public decimal Freight { get; set; }

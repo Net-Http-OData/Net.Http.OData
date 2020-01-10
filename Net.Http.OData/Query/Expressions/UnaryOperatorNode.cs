@@ -25,8 +25,8 @@ namespace Net.Http.OData.Query.Expressions
         /// <param name="operatorKind">Kind of the operator.</param>
         internal UnaryOperatorNode(QueryNode operand, UnaryOperatorKind operatorKind)
         {
-            this.Operand = operand;
-            this.OperatorKind = operatorKind;
+            Operand = operand;
+            OperatorKind = operatorKind;
         }
 
         /// <summary>

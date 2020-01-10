@@ -10,16 +10,16 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Globalization;
+
 namespace Net.Http.OData
 {
-    using System.Globalization;
-
     /// <summary>
     /// A class representing the OData content of an error.
     /// </summary>
     public sealed class ODataErrorContent
     {
-        private ODataErrorContent(ODataError error) => this.Error = error;
+        private ODataErrorContent(ODataError error) => Error = error;
 
         /// <summary>
         /// Gets the <see cref="ODataError"/> details.

@@ -1,9 +1,9 @@
-﻿namespace Net.Http.OData.Tests.Metadata
-{
-    using System;
-    using Net.Http.OData.Metadata;
-    using Xunit;
+﻿using System;
+using Net.Http.OData.Metadata;
+using Xunit;
 
+namespace Net.Http.OData.Tests.Metadata
+{
     public class ServiceDocumentItemTests
     {
         [Fact]

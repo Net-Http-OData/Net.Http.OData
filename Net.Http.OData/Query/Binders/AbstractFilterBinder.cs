@@ -10,12 +10,12 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Net;
+using Net.Http.OData.Query.Expressions;
+
 namespace Net.Http.OData.Query.Binders
 {
-    using System;
-    using System.Net;
-    using Net.Http.OData.Query.Expressions;
-
     /// <summary>
     /// A base class for binding the $filter query option.
     /// </summary>
@@ -32,7 +32,7 @@ namespace Net.Http.OData.Query.Binders
                 return;
             }
 
-            this.Bind(filterQueryOption.Expression);
+            Bind(filterQueryOption.Expression);
         }
 
         /// <summary>
@@ -62,23 +62,23 @@ namespace Net.Http.OData.Query.Binders
             switch (queryNode.Kind)
             {
                 case QueryNodeKind.BinaryOperator:
-                    this.Bind((BinaryOperatorNode)queryNode);
+                    Bind((BinaryOperatorNode)queryNode);
                     break;
 
                 case QueryNodeKind.Constant:
-                    this.Bind((ConstantNode)queryNode);
+                    Bind((ConstantNode)queryNode);
                     break;
 
                 case QueryNodeKind.FunctionCall:
-                    this.Bind((FunctionCallNode)queryNode);
+                    Bind((FunctionCallNode)queryNode);
                     break;
 
                 case QueryNodeKind.PropertyAccess:
-                    this.Bind((PropertyAccessNode)queryNode);
+                    Bind((PropertyAccessNode)queryNode);
                     break;
 
                 case QueryNodeKind.UnaryOperator:
-                    this.Bind((UnaryOperatorNode)queryNode);
+                    Bind((UnaryOperatorNode)queryNode);
                     break;
 
                 default:

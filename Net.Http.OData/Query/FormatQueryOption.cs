@@ -10,19 +10,19 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Net.Http.Headers;
+
 namespace Net.Http.OData.Query
 {
-    using System.Net.Http.Headers;
-
     /// <summary>
     /// A class containing deserialised values from the $format query option.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{RawValue}")]
     public sealed class FormatQueryOption : QueryOption
     {
-        private static readonly MediaTypeHeaderValue AtomXml = new MediaTypeHeaderValue("application/atom+xml");
-        private static readonly MediaTypeHeaderValue Json = new MediaTypeHeaderValue("application/json");
-        private static readonly MediaTypeHeaderValue Xml = new MediaTypeHeaderValue("application/xml");
+        private static readonly MediaTypeHeaderValue s_atomXml = new MediaTypeHeaderValue("application/atom+xml");
+        private static readonly MediaTypeHeaderValue s_json = new MediaTypeHeaderValue("application/json");
+        private static readonly MediaTypeHeaderValue s_xml = new MediaTypeHeaderValue("application/xml");
 
         /// <summary>
         /// Initialises a new instance of the <see cref="FormatQueryOption"/> class.
@@ -31,25 +31,25 @@ namespace Net.Http.OData.Query
         internal FormatQueryOption(string rawValue)
             : base(rawValue)
         {
-            var equals = rawValue.IndexOf('=') + 1;
-            var value = rawValue.Substring(equals, rawValue.Length - equals);
+            int equals = rawValue.IndexOf('=') + 1;
+            string value = rawValue.Substring(equals, rawValue.Length - equals);
 
             switch (value)
             {
                 case "atom":
-                    this.MediaTypeHeaderValue = AtomXml;
+                    MediaTypeHeaderValue = s_atomXml;
                     break;
 
                 case "json":
-                    this.MediaTypeHeaderValue = Json;
+                    MediaTypeHeaderValue = s_json;
                     break;
 
                 case "xml":
-                    this.MediaTypeHeaderValue = Xml;
+                    MediaTypeHeaderValue = s_xml;
                     break;
 
                 default:
-                    this.MediaTypeHeaderValue = new MediaTypeHeaderValue(value);
+                    MediaTypeHeaderValue = new MediaTypeHeaderValue(value);
                     break;
             }
         }

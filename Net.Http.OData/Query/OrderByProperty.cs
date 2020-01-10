@@ -10,12 +10,12 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Net;
+using Net.Http.OData.Model;
+
 namespace Net.Http.OData.Query
 {
-    using System;
-    using System.Net;
-    using Net.Http.OData.Model;
-
     /// <summary>
     /// A class containing deserialised values from the $orderby query option.
     /// </summary>
@@ -36,30 +36,30 @@ namespace Net.Http.OData.Query
                 throw new ArgumentNullException(nameof(model));
             }
 
-            this.RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
+            RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
 
-            var space = rawValue.IndexOf(' ');
+            int space = rawValue.IndexOf(' ');
 
             if (space == -1)
             {
-                this.PropertyPath = PropertyPathSegment.For(rawValue, model);
+                PropertyPath = PropertyPathSegment.For(rawValue, model);
             }
             else
             {
-                this.PropertyPath = PropertyPathSegment.For(rawValue.Substring(0, space), model);
+                PropertyPath = PropertyPathSegment.For(rawValue.Substring(0, space), model);
 
                 switch (rawValue.Substring(space + 1, rawValue.Length - (space + 1)))
                 {
                     case "asc":
-                        this.Direction = OrderByDirection.Ascending;
+                        Direction = OrderByDirection.Ascending;
                         break;
 
                     case "desc":
-                        this.Direction = OrderByDirection.Descending;
+                        Direction = OrderByDirection.Descending;
                         break;
 
                     default:
-                        throw new ODataException(HttpStatusCode.BadRequest, $"The supplied order value for {this.PropertyPath.Property.Name} is invalid, valid options are 'asc' and 'desc'");
+                        throw new ODataException(HttpStatusCode.BadRequest, $"The supplied order value for {PropertyPath.Property.Name} is invalid, valid options are 'asc' and 'desc'");
                 }
             }
         }

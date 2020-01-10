@@ -10,24 +10,24 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Net;
+using System.Net.Http;
+using Net.Http.OData.Model;
+
 namespace Net.Http.OData.Query
 {
-    using System;
-    using System.Net;
-    using System.Net.Http;
-    using Net.Http.OData.Model;
-
     /// <summary>
     /// An object which contains the query options in an OData query.
     /// </summary>
     public sealed class ODataQueryOptions
     {
-        private SelectExpandQueryOption expand;
-        private FilterQueryOption filter;
-        private FormatQueryOption format;
-        private OrderByQueryOption orderBy;
-        private SelectExpandQueryOption select;
-        private SkipTokenQueryOption skipToken;
+        private SelectExpandQueryOption _expand;
+        private FilterQueryOption _filter;
+        private FormatQueryOption _format;
+        private OrderByQueryOption _orderBy;
+        private SelectExpandQueryOption _select;
+        private SkipTokenQueryOption _skipToken;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataQueryOptions" /> class.
@@ -37,15 +37,15 @@ namespace Net.Http.OData.Query
         /// <exception cref="ArgumentNullException">Thrown if the request or model are null.</exception>
         public ODataQueryOptions(HttpRequestMessage request, EntitySet entitySet)
         {
-            this.Request = request ?? throw new ArgumentNullException(nameof(request));
-            this.EntitySet = entitySet ?? throw new ArgumentNullException(nameof(entitySet));
-            this.RawValues = new ODataRawQueryOptions(request.RequestUri.Query);
+            Request = request ?? throw new ArgumentNullException(nameof(request));
+            EntitySet = entitySet ?? throw new ArgumentNullException(nameof(entitySet));
+            RawValues = new ODataRawQueryOptions(request.RequestUri.Query);
         }
 
         /// <summary>
         /// Gets a value indicating whether the count query option has been specified.
         /// </summary>
-        public bool Count => this.RawValues.Count?.Equals("$count=true", StringComparison.Ordinal) == true;
+        public bool Count => RawValues.Count?.Equals("$count=true", StringComparison.Ordinal) == true;
 
         /// <summary>
         /// Gets the <see cref="EntitySet"/> to apply the OData query against.
@@ -59,12 +59,12 @@ namespace Net.Http.OData.Query
         {
             get
             {
-                if (this.expand is null && this.RawValues.Expand != null)
+                if (_expand is null && RawValues.Expand != null)
                 {
-                    this.expand = new SelectExpandQueryOption(this.RawValues.Expand, this.EntitySet.EdmType);
+                    _expand = new SelectExpandQueryOption(RawValues.Expand, EntitySet.EdmType);
                 }
 
-                return this.expand;
+                return _expand;
             }
         }
 
@@ -75,12 +75,12 @@ namespace Net.Http.OData.Query
         {
             get
             {
-                if (this.filter is null && this.RawValues.Filter != null)
+                if (_filter is null && RawValues.Filter != null)
                 {
-                    this.filter = new FilterQueryOption(this.RawValues.Filter, this.EntitySet.EdmType);
+                    _filter = new FilterQueryOption(RawValues.Filter, EntitySet.EdmType);
                 }
 
-                return this.filter;
+                return _filter;
             }
         }
 
@@ -91,12 +91,12 @@ namespace Net.Http.OData.Query
         {
             get
             {
-                if (this.format is null && this.RawValues.Format != null)
+                if (_format is null && RawValues.Format != null)
                 {
-                    this.format = new FormatQueryOption(this.RawValues.Format);
+                    _format = new FormatQueryOption(RawValues.Format);
                 }
 
-                return this.format;
+                return _format;
             }
         }
 
@@ -107,12 +107,12 @@ namespace Net.Http.OData.Query
         {
             get
             {
-                if (this.orderBy is null && this.RawValues.OrderBy != null)
+                if (_orderBy is null && RawValues.OrderBy != null)
                 {
-                    this.orderBy = new OrderByQueryOption(this.RawValues.OrderBy, this.EntitySet.EdmType);
+                    _orderBy = new OrderByQueryOption(RawValues.OrderBy, EntitySet.EdmType);
                 }
 
-                return this.orderBy;
+                return _orderBy;
             }
         }
 
@@ -129,7 +129,7 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Gets the search query option.
         /// </summary>
-        public string Search => this.RawValues.Search?.Substring(this.RawValues.Search.IndexOf('=') + 1);
+        public string Search => RawValues.Search?.Substring(RawValues.Search.IndexOf('=') + 1);
 
         /// <summary>
         /// Gets the select query option.
@@ -138,19 +138,19 @@ namespace Net.Http.OData.Query
         {
             get
             {
-                if (this.select is null && this.RawValues.Select != null)
+                if (_select is null && RawValues.Select != null)
                 {
-                    this.select = new SelectExpandQueryOption(this.RawValues.Select, this.EntitySet.EdmType);
+                    _select = new SelectExpandQueryOption(RawValues.Select, EntitySet.EdmType);
                 }
 
-                return this.select;
+                return _select;
             }
         }
 
         /// <summary>
         /// Gets the skip query option.
         /// </summary>
-        public int? Skip => ParseInt(this.RawValues.Skip);
+        public int? Skip => ParseInt(RawValues.Skip);
 
         /// <summary>
         /// Gets the skip token query option.
@@ -159,19 +159,19 @@ namespace Net.Http.OData.Query
         {
             get
             {
-                if (this.skipToken is null && this.RawValues.SkipToken != null)
+                if (_skipToken is null && RawValues.SkipToken != null)
                 {
-                    this.skipToken = new SkipTokenQueryOption(this.RawValues.SkipToken);
+                    _skipToken = new SkipTokenQueryOption(RawValues.SkipToken);
                 }
 
-                return this.skipToken;
+                return _skipToken;
             }
         }
 
         /// <summary>
         /// Gets the top query option.
         /// </summary>
-        public int? Top => ParseInt(this.RawValues.Top);
+        public int? Top => ParseInt(RawValues.Top);
 
         private static int? ParseInt(string rawValue)
         {
@@ -180,15 +180,15 @@ namespace Net.Http.OData.Query
                 return null;
             }
 
-            var equals = rawValue.IndexOf('=') + 1;
-            var value = rawValue.Substring(equals, rawValue.Length - equals);
+            int equals = rawValue.IndexOf('=') + 1;
+            string value = rawValue.Substring(equals, rawValue.Length - equals);
 
             if (int.TryParse(value, out int integer))
             {
                 return integer;
             }
 
-            var queryOption = rawValue.Substring(0, equals - 1);
+            string queryOption = rawValue.Substring(0, equals - 1);
 
             throw new ODataException(HttpStatusCode.BadRequest, $"The value for OData query {queryOption} must be a non-negative numeric value");
         }

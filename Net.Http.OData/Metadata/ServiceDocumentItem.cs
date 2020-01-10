@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Metadata
 {
-    using System;
-
     /// <summary>
     /// Represents an item in the service document.
     /// </summary>
@@ -21,9 +21,9 @@ namespace Net.Http.OData.Metadata
     {
         private ServiceDocumentItem(string name, string kind, Uri url)
         {
-            this.Name = name;
-            this.Kind = kind;
-            this.Url = url;
+            Name = name;
+            Kind = kind;
+            Url = url;
         }
 
         /// <summary>

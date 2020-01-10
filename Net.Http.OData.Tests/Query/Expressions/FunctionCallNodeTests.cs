@@ -1,60 +1,60 @@
-﻿namespace Net.Http.OData.Tests.Query.Expressions
-{
-    using Net.Http.OData.Query.Expressions;
-    using Xunit;
+﻿using Net.Http.OData.Query.Expressions;
+using Xunit;
 
+namespace Net.Http.OData.Tests.Query.Expressions
+{
     public class FunctionCallNodeTests
     {
         public class WhenAddingAParameter
         {
-            private readonly FunctionCallNode node;
-            private readonly QueryNode parameter = ConstantNode.String("Hi", "Hi");
+            private readonly FunctionCallNode _node;
+            private readonly QueryNode _parameter = ConstantNode.String("Hi", "Hi");
 
             public WhenAddingAParameter()
             {
-                this.node = new FunctionCallNode("contains");
-                this.node.AddParameter(parameter);
+                _node = new FunctionCallNode("contains");
+                _node.AddParameter(_parameter);
             }
 
             [Fact]
             public void TheParameterExistsInTheParameterCollection()
             {
-                Assert.Contains(parameter, node.Parameters);
+                Assert.Contains(_parameter, _node.Parameters);
             }
         }
 
         public class WhenConstructed
         {
-            private readonly string functionName = "contains";
-            private readonly FunctionCallNode node;
+            private readonly string _functionName = "contains";
+            private readonly FunctionCallNode _node;
 
             public WhenConstructed()
             {
-                this.node = new FunctionCallNode(this.functionName);
+                _node = new FunctionCallNode(_functionName);
             }
 
             [Fact]
             public void TheKindIsQueryNodeKindSingleValueFunctionCall()
             {
-                Assert.Equal(QueryNodeKind.FunctionCall, this.node.Kind);
+                Assert.Equal(QueryNodeKind.FunctionCall, _node.Kind);
             }
 
             [Fact]
             public void TheParametersCollectionIsEmpty()
             {
-                Assert.Empty(this.node.Parameters);
+                Assert.Empty(_node.Parameters);
             }
 
             [Fact]
             public void TheParametersCollectionIsNotNull()
             {
-                Assert.NotNull(this.node.Parameters);
+                Assert.NotNull(_node.Parameters);
             }
 
             [Fact]
             public void ThePropertyNamePropertyIsSet()
             {
-                Assert.Equal(this.functionName, this.node.Name);
+                Assert.Equal(_functionName, _node.Name);
             }
         }
     }

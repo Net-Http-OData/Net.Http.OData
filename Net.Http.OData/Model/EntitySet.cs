@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-
     /// <summary>
     /// Represents an Entity Set in the Entity Data Model.
     /// </summary>
@@ -26,10 +26,10 @@ namespace Net.Http.OData.Model
                 throw new ArgumentException("Entity Set name must be specified", nameof(name));
             }
 
-            this.Name = name;
-            this.EdmType = edmType ?? throw new ArgumentNullException(nameof(edmType));
-            this.EntityKey = entityKey;
-            this.Capabilities = capabilities;
+            Name = name;
+            EdmType = edmType ?? throw new ArgumentNullException(nameof(edmType));
+            EntityKey = entityKey;
+            Capabilities = capabilities;
         }
 
         /// <summary>

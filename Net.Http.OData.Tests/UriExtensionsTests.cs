@@ -1,8 +1,8 @@
-﻿namespace Net.Http.OData.Tests
-{
-    using System;
-    using Xunit;
+﻿using System;
+using Xunit;
 
+namespace Net.Http.OData.Tests
+{
     public class UriExtensionsTests
     {
         [Fact]

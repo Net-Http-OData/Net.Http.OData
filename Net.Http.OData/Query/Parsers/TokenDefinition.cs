@@ -10,14 +10,14 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Text.RegularExpressions;
+
 namespace Net.Http.OData.Query.Parsers
 {
-    using System.Text.RegularExpressions;
-
     [System.Diagnostics.DebuggerDisplay("{tokenType}: {Regex}")]
     internal struct TokenDefinition
     {
-        private readonly TokenType tokenType;
+        private readonly TokenType _tokenType;
 
         internal TokenDefinition(TokenType tokenType, string expression)
             : this(tokenType, expression, false)
@@ -26,15 +26,15 @@ namespace Net.Http.OData.Query.Parsers
 
         internal TokenDefinition(TokenType tokenType, string expression, bool ignore)
         {
-            this.tokenType = tokenType;
-            this.Regex = new Regex(@"\G" + expression, RegexOptions.Singleline);
-            this.Ignore = ignore;
+            _tokenType = tokenType;
+            Regex = new Regex(@"\G" + expression, RegexOptions.Singleline);
+            Ignore = ignore;
         }
 
         internal bool Ignore { get; }
 
         internal Regex Regex { get; }
 
-        internal Token CreateToken(Match match) => new Token(match.Value, this.tokenType);
+        internal Token CreateToken(Match match) => new Token(match.Value, _tokenType);
     }
 }

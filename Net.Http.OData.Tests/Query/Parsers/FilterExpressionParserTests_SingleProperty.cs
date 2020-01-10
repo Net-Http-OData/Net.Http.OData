@@ -1,14 +1,13 @@
+using System;
+using System.Globalization;
+using Net.Http.OData.Model;
+using Net.Http.OData.Query.Expressions;
+using Net.Http.OData.Query.Parsers;
+using NorthwindModel;
+using Xunit;
+
 namespace Net.Http.OData.Tests.Query.Parsers
 {
-    using System;
-    using System.Globalization;
-    using Net.Http.OData.Model;
-    using Net.Http.OData.Query.Expressions;
-    using Net.Http.OData.Query.Parsers;
-    using Net.Http.OData.Tests;
-    using NorthwindModel;
-    using Xunit;
-
     public partial class FilterExpressionParserTests
     {
         public class SingleValuePropertyValueTests
@@ -21,7 +20,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyAddValueEqValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price add 2.45M eq 5.00M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price add 2.45M eq 5.00M", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -49,7 +48,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyDivValueEqValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price div 2.55M eq 1M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price div 2.55M eq 1M", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -77,7 +76,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqDateTimeOffset_DateHourMinute_ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-06-18T09:30", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-06-18T09:30", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -100,7 +99,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqDateTimeOffset_DateHourMinuteSecond_ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-06-18T09:30:54", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-06-18T09:30:54", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -123,7 +122,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqDateTimeOffset_MinusOffset_ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2002-10-15T17:34:23-02:00", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2002-10-15T17:34:23-02:00", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -144,7 +143,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqDateTimeOffset_MomentJsIsoStringFormat_ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-02-04T22:44:30.652Z", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-02-04T22:44:30.652Z", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -165,7 +164,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqDateTimeOffset_PlusOffset_ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2002-10-15T17:34:23+02:00", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2002-10-15T17:34:23+02:00", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -186,7 +185,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqDateTimeOffset_ToStringSFormat_ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-06-18T09:30:20", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-06-18T09:30:20", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -209,7 +208,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqDateTimeOffset_Z_ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2002-10-15T17:34:23Z", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2002-10-15T17:34:23Z", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -230,7 +229,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqDateTimeOffset_ZeroOffset_ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2017-02-28T16:34:18", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2017-02-28T16:34:18", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -253,7 +252,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqDateValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-06-18", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 2013-06-18", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -274,7 +273,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqEnumFlagsValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("AccessLevel has NorthwindModel.AccessLevel'Read,Write'", EntityDataModel.Current.EntitySets["Employees"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("AccessLevel has NorthwindModel.AccessLevel'Read,Write'", EntityDataModel.Current.EntitySets["Employees"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -295,7 +294,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqEnumValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Colour eq NorthwindModel.Colour'Blue'", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Colour eq NorthwindModel.Colour'Blue'", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -316,7 +315,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqFalseValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Deleted eq false", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Deleted eq false", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -335,7 +334,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqGuidValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("TransactionId eq 0D01B09B-38CD-4C53-AA04-181371087A00", EntityDataModel.Current.EntitySets["Orders"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("TransactionId eq 0D01B09B-38CD-4C53-AA04-181371087A00", EntityDataModel.Current.EntitySets["Orders"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -356,7 +355,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqInt32ZeroValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq 0", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq 0", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -375,7 +374,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqInt64ZeroValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq 0L", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq 0L", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -394,7 +393,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeDecimalValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price eq -1234.567M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq -1234.567M", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -415,7 +414,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeDecimalWithNoDigitBeforeDecimalPointValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price eq -.1M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq -.1M", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -436,7 +435,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeDoubleValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq -1234.567D", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq -1234.567D", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -457,7 +456,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeDoubleWithExponentValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq -0.314e1", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq -0.314e1", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -478,7 +477,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeDurationValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq duration'-P6DT23H59M59.9999S'", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq duration'-P6DT23H59M59.9999S'", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -499,7 +498,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeFloatValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq -1234.567F", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq -1234.567F", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -520,7 +519,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeInt32MinValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq -2147483648", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq -2147483648", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -541,7 +540,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeInt32ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq -1234", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq -1234", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -562,7 +561,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeInt64MinValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq -9223372036854775808L", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq -9223372036854775808L", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -583,7 +582,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNegativeInt64ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq -1234L", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq -1234L", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -605,7 +604,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             public void ParsePropertyEqNegativeInt64ValueWithoutSuffixExpression()
             {
                 // -2147483649 is 1 less than int.MinValue so must be a long
-                var queryNode = FilterExpressionParser.Parse("Rating eq -2147483649", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq -2147483649", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -626,7 +625,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqNullValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Description eq null", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Description eq null", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -645,7 +644,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveDecimalSignedValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price eq +1234.567M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq +1234.567M", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -666,7 +665,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveDecimalValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price eq 1234.567M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq 1234.567M", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -687,7 +686,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveDecimalWithNoDigitBeforeDecimalPointValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price eq .1M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq .1M", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -708,7 +707,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveDoubleSignedValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price eq +1234.567D", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq +1234.567D", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -729,7 +728,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveDoubleValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price eq 1234.567D", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq 1234.567D", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -750,7 +749,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveDoubleWithExponentValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq 0.314e1", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq 0.314e1", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -771,7 +770,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveDurationValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq duration'P6DT23H59M59.9999S'", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq duration'P6DT23H59M59.9999S'", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -792,7 +791,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveFloatSignedValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq +1234.567F", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq +1234.567F", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -813,7 +812,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveFloatValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq 1234.567F", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq 1234.567F", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -834,7 +833,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveInt32MaxValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq 2147483647", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq 2147483647", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -855,7 +854,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveInt32SignedValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq +1234", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq +1234", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -876,7 +875,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveInt32ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq 1234", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq 1234", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -897,7 +896,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveInt64MaxValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq 9223372036854775807L", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq 9223372036854775807L", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -918,7 +917,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveInt64SignedValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq +1234L", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq +1234L", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -939,7 +938,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPositiveInt64ValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Rating eq 1234L", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq 1234L", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -961,7 +960,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             public void ParsePropertyEqPositiveInt64ValueWithoutSuffixExpression()
             {
                 // 2147483648 is 1 more than int.MaxValue so must be a long
-                var queryNode = FilterExpressionParser.Parse("Rating eq 2147483648", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Rating eq 2147483648", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -982,7 +981,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqPropertyExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Name eq Description", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Name eq Description", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1001,7 +1000,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqStringFullCharacterSetValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse(@"Name eq 'ABCDEFGHIHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~!$&('')*+,;=@\/'", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse(@"Name eq 'ABCDEFGHIHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~!$&('')*+,;=@\/'", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1022,7 +1021,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqStringValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Name eq 'Milk'", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Name eq 'Milk'", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1043,7 +1042,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqStringWithQuoteCharacterValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("CompanyName eq 'O''Neil'", EntityDataModel.Current.EntitySets["Customers"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("CompanyName eq 'O''Neil'", EntityDataModel.Current.EntitySets["Customers"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1064,7 +1063,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqTimeOfDayHourMinuteSecondFractionalSecondValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 13:20:45.352", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 13:20:45.352", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1085,7 +1084,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqTimeOfDayHourMinuteSecondValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 13:20:45", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 13:20:45", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1106,7 +1105,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqTimeOfDayHourMinuteValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("ReleaseDate eq 13:20", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("ReleaseDate eq 13:20", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1127,7 +1126,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqTrueValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Deleted eq true", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Deleted eq true", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1146,7 +1145,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyGeThanIntValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price ge 10", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price ge 10", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1167,7 +1166,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyGtThanIntValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price gt 20", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price gt 20", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1188,7 +1187,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyLeThanIntValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price le 100", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price le 100", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1209,7 +1208,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyLtThanIntValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price lt 20", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price lt 20", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1230,7 +1229,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyModValueEqPropertyExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price mod 2 eq 0", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price mod 2 eq 0", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1258,7 +1257,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyMulValueEqValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price mul 2.0M eq 5.10M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price mul 2.0M eq 5.10M", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1286,7 +1285,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyNeStringValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Name ne 'Milk'", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Name ne 'Milk'", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1307,7 +1306,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyPathEqValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Category/Name eq 'Dairy'", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Category/Name eq 'Dairy'", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1332,7 +1331,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertySubValueEqValueExpression()
             {
-                var queryNode = FilterExpressionParser.Parse("Price sub 0.55M eq 2.00M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price sub 0.55M eq 2.00M", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);

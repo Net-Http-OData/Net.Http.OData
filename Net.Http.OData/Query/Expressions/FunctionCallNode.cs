@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Collections.Generic;
+
 namespace Net.Http.OData.Query.Expressions
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// A QueryNode which represents a function call.
     /// </summary>
@@ -26,7 +26,7 @@ namespace Net.Http.OData.Query.Expressions
         /// <param name="name">The name of the function.</param>
         internal FunctionCallNode(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>
@@ -44,6 +44,6 @@ namespace Net.Http.OData.Query.Expressions
         /// </summary>
         public IReadOnlyList<QueryNode> Parameters { get; } = new List<QueryNode>();
 
-        internal void AddParameter(QueryNode queryNode) => ((IList<QueryNode>)this.Parameters).Add(queryNode);
+        internal void AddParameter(QueryNode queryNode) => ((IList<QueryNode>)Parameters).Add(queryNode);
     }
 }

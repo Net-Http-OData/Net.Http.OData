@@ -10,11 +10,11 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.IO;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-    using System.IO;
-
     /// <summary>
     /// Represents a primitive type in the Entity Data Model.
     /// </summary>

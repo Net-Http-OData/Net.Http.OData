@@ -10,17 +10,17 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Net;
+
 namespace Net.Http.OData.Query
 {
-    using System;
-    using System.Net;
-
     /// <summary>
     /// A class which contains the raw request values.
     /// </summary>
     public sealed class ODataRawQueryOptions
     {
-        private readonly string rawQuery;
+        private readonly string _rawQuery;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataRawQueryOptions"/> class.
@@ -36,19 +36,19 @@ namespace Net.Http.OData.Query
 
             // Any + signs we want in the data should have been encoded as %2B,
             // so do the replace first otherwise we replace legitemate + signs!
-            this.rawQuery = rawQuery.Replace('+', ' ');
+            _rawQuery = rawQuery.Replace('+', ' ');
 
-            if (this.rawQuery.Length > 0)
+            if (_rawQuery.Length > 0)
             {
                 // Drop the ?
-                var query = this.rawQuery.Substring(1, this.rawQuery.Length - 1);
+                string query = _rawQuery.Substring(1, _rawQuery.Length - 1);
 
-                var queryOptions = query.Split(SplitCharacter.Ampersand, StringSplitOptions.RemoveEmptyEntries);
+                string[] queryOptions = query.Split(SplitCharacter.Ampersand, StringSplitOptions.RemoveEmptyEntries);
 
-                foreach (var queryOption in queryOptions)
+                foreach (string queryOption in queryOptions)
                 {
                     // Decode the chunks to prevent splitting the query on an '&' which is actually part of a string value
-                    var rawQueryOption = Uri.UnescapeDataString(queryOption);
+                    string rawQueryOption = Uri.UnescapeDataString(queryOption);
 
                     if (rawQueryOption.StartsWith("$select=", StringComparison.Ordinal))
                     {
@@ -57,7 +57,7 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $select cannot be empty");
                         }
 
-                        this.Select = rawQueryOption;
+                        Select = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$filter=", StringComparison.Ordinal))
                     {
@@ -66,7 +66,7 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $filter cannot be empty");
                         }
 
-                        this.Filter = rawQueryOption;
+                        Filter = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$orderby=", StringComparison.Ordinal))
                     {
@@ -75,7 +75,7 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $orderby cannot be empty");
                         }
 
-                        this.OrderBy = rawQueryOption;
+                        OrderBy = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$skip=", StringComparison.Ordinal))
                     {
@@ -84,7 +84,7 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $skip cannot be empty");
                         }
 
-                        this.Skip = rawQueryOption;
+                        Skip = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$top=", StringComparison.Ordinal))
                     {
@@ -93,7 +93,7 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $top cannot be empty");
                         }
 
-                        this.Top = rawQueryOption;
+                        Top = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$count=", StringComparison.Ordinal))
                     {
@@ -102,7 +102,7 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $count cannot be empty");
                         }
 
-                        this.Count = rawQueryOption;
+                        Count = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$format=", StringComparison.Ordinal))
                     {
@@ -111,7 +111,7 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $format cannot be empty");
                         }
 
-                        this.Format = rawQueryOption;
+                        Format = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$expand=", StringComparison.Ordinal))
                     {
@@ -120,7 +120,7 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $expand cannot be empty");
                         }
 
-                        this.Expand = rawQueryOption;
+                        Expand = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$search=", StringComparison.Ordinal))
                     {
@@ -129,7 +129,7 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $search cannot be empty");
                         }
 
-                        this.Search = rawQueryOption;
+                        Search = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$skiptoken=", StringComparison.Ordinal))
                     {
@@ -138,11 +138,11 @@ namespace Net.Http.OData.Query
                             throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $skiptoken cannot be empty");
                         }
 
-                        this.SkipToken = rawQueryOption;
+                        SkipToken = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$", StringComparison.Ordinal))
                     {
-                        var optionName = rawQueryOption.Substring(0, rawQueryOption.IndexOf('='));
+                        string optionName = rawQueryOption.Substring(0, rawQueryOption.IndexOf('='));
 
                         throw new ODataException(HttpStatusCode.BadRequest, $"Unknown OData query option {optionName}");
                     }
@@ -206,6 +206,6 @@ namespace Net.Http.OData.Query
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public override string ToString() => this.rawQuery;
+        public override string ToString() => _rawQuery;
     }
 }

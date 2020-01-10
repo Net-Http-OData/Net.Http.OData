@@ -1,10 +1,10 @@
-﻿namespace Net.Http.OData.Tests.Model
-{
-    using System;
-    using System.IO;
-    using Net.Http.OData.Model;
-    using Xunit;
+﻿using System;
+using System.IO;
+using Net.Http.OData.Model;
+using Xunit;
 
+namespace Net.Http.OData.Tests.Model
+{
     public class EdmPrimitiveTypeTests
     {
         [Fact]

@@ -10,12 +10,12 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using Net.Http.OData.Model;
+using Net.Http.OData.Query.Expressions;
+using Net.Http.OData.Query.Parsers;
+
 namespace Net.Http.OData.Query
 {
-    using Net.Http.OData.Model;
-    using Net.Http.OData.Query.Expressions;
-    using Net.Http.OData.Query.Parsers;
-
     /// <summary>
     /// A class containing deserialised values from the $filter query option.
     /// </summary>
@@ -30,7 +30,7 @@ namespace Net.Http.OData.Query
         internal FilterQueryOption(string rawValue, EdmComplexType model)
             : base(rawValue)
         {
-            this.Expression = FilterExpressionParser.Parse(rawValue, model);
+            Expression = FilterExpressionParser.Parse(rawValue, model);
         }
 
         /// <summary>

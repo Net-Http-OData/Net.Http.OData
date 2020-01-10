@@ -1,11 +1,10 @@
-﻿namespace Net.Http.OData.Tests.Metadata
-{
-    using System.Xml.Linq;
-    using Net.Http.OData.Metadata;
-    using Net.Http.OData.Model;
-    using Net.Http.OData.Tests;
-    using Xunit;
+﻿using System.Xml.Linq;
+using Net.Http.OData.Metadata;
+using Net.Http.OData.Model;
+using Xunit;
 
+namespace Net.Http.OData.Tests.Metadata
+{
     public class MetadataProviderTests
     {
         [Fact]
@@ -252,7 +251,7 @@
   </edmx:DataServices>
 </edmx:Edmx>");
 
-            var csdlDocument = MetadataProvider.Create(EntityDataModel.Current);
+            XDocument csdlDocument = MetadataProvider.Create(EntityDataModel.Current);
 
             Assert.Equal(expected.ToString(), csdlDocument.ToString());
         }

@@ -1,37 +1,36 @@
-﻿namespace Net.Http.OData.Tests.Query
-{
-    using Net.Http.OData.Model;
-    using Net.Http.OData.Query;
-    using Net.Http.OData.Tests;
-    using Xunit;
+﻿using Net.Http.OData.Model;
+using Net.Http.OData.Query;
+using Xunit;
 
+namespace Net.Http.OData.Tests.Query
+{
     public class FilterQueryOptionTests
     {
         public class WhenConstructedWithAValidValue
         {
-            private readonly FilterQueryOption option;
-            private readonly string rawValue;
+            private readonly FilterQueryOption _option;
+            private readonly string _rawValue;
 
             public WhenConstructedWithAValidValue()
             {
                 TestHelper.EnsureEDM();
 
-                var model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
+                EdmComplexType model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-                this.rawValue = "$filter=CompanyName eq 'Alfreds Futterkiste'";
-                this.option = new FilterQueryOption(this.rawValue, model);
+                _rawValue = "$filter=CompanyName eq 'Alfreds Futterkiste'";
+                _option = new FilterQueryOption(_rawValue, model);
             }
 
             [Fact]
             public void TheExpressionShouldBeSet()
             {
-                Assert.NotNull(this.option.Expression);
+                Assert.NotNull(_option.Expression);
             }
 
             [Fact]
             public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
             {
-                Assert.Equal(this.rawValue, this.option.RawValue);
+                Assert.Equal(_rawValue, _option.RawValue);
             }
         }
     }

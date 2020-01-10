@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Net;
+
 namespace Net.Http.OData.Query.Validators
 {
-    using System.Net;
-
     /// <summary>
     /// A class which validates the $filter query option based upon the <see cref="ODataValidationSettings"/>.
     /// </summary>
@@ -52,7 +52,7 @@ namespace Net.Http.OData.Query.Validators
                 return;
             }
 
-            var rawFilterValue = queryOptions.RawValues.Filter;
+            string rawFilterValue = queryOptions.RawValues.Filter;
 
             if ((validationSettings.AllowedArithmeticOperators & AllowedArithmeticOperators.Add) != AllowedArithmeticOperators.Add
                 && rawFilterValue.Contains(" add "))
@@ -93,7 +93,7 @@ namespace Net.Http.OData.Query.Validators
                 return;
             }
 
-            var rawFilterValue = queryOptions.RawValues.Filter;
+            string rawFilterValue = queryOptions.RawValues.Filter;
 
             if ((validationSettings.AllowedFunctions & AllowedFunctions.Year) != AllowedFunctions.Year
                 && rawFilterValue.Contains("year("))
@@ -163,7 +163,7 @@ namespace Net.Http.OData.Query.Validators
                 return;
             }
 
-            var rawFilterValue = queryOptions.RawValues.Filter;
+            string rawFilterValue = queryOptions.RawValues.Filter;
 
             if ((validationSettings.AllowedFunctions & AllowedFunctions.Cast) != AllowedFunctions.Cast
                 && rawFilterValue.Contains("cast("))
@@ -185,7 +185,7 @@ namespace Net.Http.OData.Query.Validators
                 return;
             }
 
-            var rawFilterValue = queryOptions.RawValues.Filter;
+            string rawFilterValue = queryOptions.RawValues.Filter;
 
             if ((validationSettings.AllowedLogicalOperators & AllowedLogicalOperators.And) != AllowedLogicalOperators.And
                 && rawFilterValue.Contains(" and "))
@@ -250,7 +250,7 @@ namespace Net.Http.OData.Query.Validators
                 return;
             }
 
-            var rawFilterValue = queryOptions.RawValues.Filter;
+            string rawFilterValue = queryOptions.RawValues.Filter;
 
             if ((validationSettings.AllowedFunctions & AllowedFunctions.Round) != AllowedFunctions.Round
                 && rawFilterValue.Contains("round("))
@@ -279,7 +279,7 @@ namespace Net.Http.OData.Query.Validators
                 return;
             }
 
-            var rawFilterValue = queryOptions.RawValues.Filter;
+            string rawFilterValue = queryOptions.RawValues.Filter;
 
             if ((validationSettings.AllowedFunctions & AllowedFunctions.EndsWith) != AllowedFunctions.EndsWith
                 && rawFilterValue.Contains("endswith("))

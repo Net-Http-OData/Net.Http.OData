@@ -10,19 +10,19 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.Reflection;
-
     /// <summary>
     /// A class which represents an entity property in the Entity Data Model.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{Name}")]
     public sealed class EdmProperty
     {
-        private readonly Func<EdmType, bool> isNavigableFunc;
+        private readonly Func<EdmType, bool> _isNavigableFunc;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="EdmProperty" /> class.
@@ -34,12 +34,12 @@ namespace Net.Http.OData.Model
         /// <exception cref="ArgumentNullException">Constructor argument not specified.</exception>
         internal EdmProperty(PropertyInfo propertyInfo, EdmType propertyType, EdmComplexType declaringType, Func<EdmType, bool> isNavigableFunc)
         {
-            this.Name = propertyInfo?.Name ?? throw new ArgumentNullException(nameof(propertyInfo));
-            this.PropertyType = propertyType ?? throw new ArgumentNullException(nameof(propertyType));
-            this.DeclaringType = declaringType ?? throw new ArgumentNullException(nameof(declaringType));
-            this.isNavigableFunc = isNavigableFunc;
+            Name = propertyInfo?.Name ?? throw new ArgumentNullException(nameof(propertyInfo));
+            PropertyType = propertyType ?? throw new ArgumentNullException(nameof(propertyType));
+            DeclaringType = declaringType ?? throw new ArgumentNullException(nameof(declaringType));
+            _isNavigableFunc = isNavigableFunc;
 
-            this.IsNullable = Nullable.GetUnderlyingType(propertyType.ClrType) != null
+            IsNullable = Nullable.GetUnderlyingType(propertyType.ClrType) != null
                 || ((propertyType.ClrType.IsClass || propertyType.ClrType.IsInterface) && propertyInfo.GetCustomAttribute<RequiredAttribute>() == null);
         }
 
@@ -51,7 +51,7 @@ namespace Net.Http.OData.Model
         /// <summary>
         /// Gets a value indicating whether the property is navigable (i.e. a navigation property).
         /// </summary>
-        public bool IsNavigable => this.isNavigableFunc((this.PropertyType as EdmCollectionType)?.ContainedType ?? this.PropertyType);
+        public bool IsNavigable => _isNavigableFunc((PropertyType as EdmCollectionType)?.ContainedType ?? PropertyType);
 
         /// <summary>
         /// Gets a value indicating whether the property is nullable.
@@ -74,6 +74,6 @@ namespace Net.Http.OData.Model
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public override string ToString() => this.Name;
+        public override string ToString() => Name;
     }
 }

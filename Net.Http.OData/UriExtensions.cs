@@ -10,21 +10,21 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using Net.Http.OData.Model;
+using Net.Http.OData.Query;
+
 namespace Net.Http.OData
 {
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text;
-    using Net.Http.OData.Model;
-    using Net.Http.OData.Query;
-
     /// <summary>
     /// Extensions for the Uri class.
     /// </summary>
     public static class UriExtensions
     {
-        private static readonly char[] NonNameCharacters = new[] { '(', '/', '$', '%' };
+        private static readonly char[] s_nonNameCharacters = new[] { '(', '/', '$', '%' };
 
         /// <summary>
         /// Builds the OData context URI.
@@ -33,7 +33,7 @@ namespace Net.Http.OData
         /// <returns>The OData context URI.</returns>
         public static StringBuilder ODataContextUriBuilder(this Uri requestUri)
         {
-            var contextUriBuilder = ODataServiceUriBuilder(requestUri);
+            StringBuilder contextUriBuilder = ODataServiceUriBuilder(requestUri);
             contextUriBuilder.Append("$metadata");
 
             return contextUriBuilder;
@@ -52,7 +52,7 @@ namespace Net.Http.OData
                 throw new ArgumentNullException(nameof(entitySet));
             }
 
-            var contextUriBuilder = ODataContextUriBuilder(requestUri);
+            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri);
             contextUriBuilder.Append("#").Append(entitySet.Name);
 
             return contextUriBuilder;
@@ -77,7 +77,7 @@ namespace Net.Http.OData
                 throw new ArgumentNullException(nameof(selectExpandQueryOption));
             }
 
-            var contextUriBuilder = ODataContextUriBuilder(requestUri);
+            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri);
             contextUriBuilder.Append("#").Append(entitySet.Name);
 
             if (selectExpandQueryOption?.RawValue.Equals("$select=*", StringComparison.Ordinal) == true)
@@ -102,7 +102,7 @@ namespace Net.Http.OData
         /// <returns>The OData context URI.</returns>
         public static StringBuilder ODataContextUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey)
         {
-            var contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
+            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
             contextUriBuilder.Append("/$entity");
 
             return contextUriBuilder;
@@ -119,7 +119,7 @@ namespace Net.Http.OData
         /// <returns>The OData context URI.</returns>
         public static StringBuilder ODataContextUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey, string propertyName)
         {
-            var contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
+            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
 
             if (typeof(TEntityKey) == typeof(string))
             {
@@ -150,7 +150,7 @@ namespace Net.Http.OData
                 throw new ArgumentNullException(nameof(entitySet));
             }
 
-            var contextUriBuilder = ODataServiceUriBuilder(requestUri);
+            StringBuilder contextUriBuilder = ODataServiceUriBuilder(requestUri);
             contextUriBuilder.Append(entitySet.Name);
 
             if (typeof(TEntityKey) == typeof(string))
@@ -177,7 +177,7 @@ namespace Net.Http.OData
                 throw new ArgumentNullException(nameof(requestUri));
             }
 
-            var modelNameSegmentIndex = -1;
+            int modelNameSegmentIndex = -1;
 
             for (int i = 0; i < requestUri.Segments.Length; i++)
             {
@@ -193,9 +193,9 @@ namespace Net.Http.OData
                 return null;
             }
 
-            var modelNameSegment = requestUri.Segments[modelNameSegmentIndex];
+            string modelNameSegment = requestUri.Segments[modelNameSegmentIndex];
 
-            var nonNameCharacterIndex = modelNameSegment.IndexOfAny(NonNameCharacters);
+            int nonNameCharacterIndex = modelNameSegment.IndexOfAny(s_nonNameCharacters);
 
             if (nonNameCharacterIndex > 0)
             {
@@ -220,14 +220,14 @@ namespace Net.Http.OData
                 throw new ArgumentNullException(nameof(requestUri));
             }
 
-            var uriBuilder = new StringBuilder()
+            StringBuilder uriBuilder = new StringBuilder()
                 .Append(requestUri.Scheme)
                 .Append(Uri.SchemeDelimiter)
                 .Append(requestUri.Authority);
 
             for (int i = 0; i < requestUri.Segments.Length; i++)
             {
-                var segment = requestUri.Segments[i];
+                string segment = requestUri.Segments[i];
                 uriBuilder.Append(segment);
 
                 if (segment.StartsWith("odata", StringComparison.OrdinalIgnoreCase))

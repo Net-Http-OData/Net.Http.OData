@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Model
 {
-    using System;
-
     /// <summary>
     /// Represents a collection type in the Entity Data Model.
     /// </summary>
@@ -24,7 +24,7 @@ namespace Net.Http.OData.Model
         internal EdmCollectionType(Type clrType, EdmType containedType)
             : base("Collection", $"Collection({containedType?.FullName})", clrType)
         {
-            this.ContainedType = containedType ?? throw new ArgumentNullException(nameof(containedType));
+            ContainedType = containedType ?? throw new ArgumentNullException(nameof(containedType));
         }
 
         /// <summary>

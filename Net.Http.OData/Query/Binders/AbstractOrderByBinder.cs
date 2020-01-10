@@ -30,9 +30,9 @@ namespace Net.Http.OData.Query.Binders
 
             for (int i = 0; i < orderByQueryOption.Properties.Count; i++)
             {
-                var property = orderByQueryOption.Properties[i];
+                OrderByProperty property = orderByQueryOption.Properties[i];
 
-                this.Bind(property);
+                Bind(property);
             }
         }
 

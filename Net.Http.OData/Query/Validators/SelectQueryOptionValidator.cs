@@ -10,10 +10,10 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Net;
+
 namespace Net.Http.OData.Query.Validators
 {
-    using System.Net;
-
     /// <summary>
     /// A class which validates the $select query option based upon the <see cref="ODataValidationSettings"/>.
     /// </summary>

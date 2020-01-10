@@ -10,12 +10,12 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Collections.Generic;
+using System.Linq;
+using Net.Http.OData.Model;
+
 namespace Net.Http.OData.Query
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Net.Http.OData.Model;
-
     /// <summary>
     /// A class containing deserialised values from the $orderby query option.
     /// </summary>
@@ -30,18 +30,18 @@ namespace Net.Http.OData.Query
         internal OrderByQueryOption(string rawValue, EdmComplexType model)
             : base(rawValue)
         {
-            var equals = rawValue.IndexOf('=') + 1;
-            var properties = rawValue.Substring(equals, rawValue.Length - equals);
+            int equals = rawValue.IndexOf('=') + 1;
+            string properties = rawValue.Substring(equals, rawValue.Length - equals);
 
             if (properties.IndexOf(',') > 0)
             {
-                this.Properties = properties.Split(SplitCharacter.Comma)
+                Properties = properties.Split(SplitCharacter.Comma)
                     .Select(raw => new OrderByProperty(raw, model))
                     .ToArray();
             }
             else
             {
-                this.Properties = new[] { new OrderByProperty(properties, model) };
+                Properties = new[] { new OrderByProperty(properties, model) };
             }
         }
 
