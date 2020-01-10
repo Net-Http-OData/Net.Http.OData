@@ -43,25 +43,6 @@ namespace Net.Http.OData.Model
         public EntityDataModel BuildModel() => EntityDataModel.Current = _entityDataModel;
 
         /// <summary>
-        /// Registers an Entity Set of the specified type to the Entity Data Model with the name of the type as the Entity Set name which can only be queried.
-        /// </summary>
-        /// <typeparam name="T">The type exposed by the collection.</typeparam>
-        /// <param name="entityKeyExpression">The Entity Key expression.</param>
-        [Obsolete("Please use RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression), this method will be removed in a future version")]
-        public void RegisterEntitySet<T>(Expression<Func<T, object>> entityKeyExpression)
-            => RegisterEntitySet(typeof(T).Name, entityKeyExpression, Capabilities.None);
-
-        /// <summary>
-        /// Registers an Entity Set of the specified type to the Entity Data Model with the name of the type as the Entity Set name and <see cref="Capabilities"/>.
-        /// </summary>
-        /// <typeparam name="T">The type exposed by the collection.</typeparam>
-        /// <param name="entityKeyExpression">The Entity Key expression.</param>
-        /// <param name="capabilities">The capabilities of the Entity Set.</param>
-        [Obsolete("Please use RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression, Capabilities capabilities), this method will be removed in a future version")]
-        public void RegisterEntitySet<T>(Expression<Func<T, object>> entityKeyExpression, Capabilities capabilities)
-            => RegisterEntitySet(typeof(T).Name, entityKeyExpression, capabilities);
-
-        /// <summary>
         /// Registers an Entity Set of the specified type to the Entity Data Model with the specified name which can only be queried.
         /// </summary>
         /// <typeparam name="T">The type exposed by the collection.</typeparam>
