@@ -21,5 +21,9 @@ steps:
   displayName: 'dotnet test'
 
 - script: dotnet pack --no-build -p:PackageVersion=$(BuildVersion)-$(Date:yyyyMMdd)$(Rev:.r)
+  displayName: 'dotnet pack (pre)'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+
+- script: dotnet pack --no-build -p:PackageVersion=$(BuildVersion)
   displayName: 'dotnet pack'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'), ne(variables['Build.Reason'], 'PullRequest'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
