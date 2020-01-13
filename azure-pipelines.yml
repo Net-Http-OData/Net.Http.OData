@@ -20,7 +20,7 @@ steps:
 - script: dotnet test
   displayName: 'dotnet test'
 
-- script: dotnet pack --no-build -p:PackageVersion=$(BuildVersion)-$(Date:yyyyMMdd)$(Rev:.r)
+- script: dotnet pack --no-build -p:PackageVersion="$(BuildVersion)-$(Date:yyyyMMdd)$(Rev:.r)"
   displayName: 'dotnet pack (pre)'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
 
