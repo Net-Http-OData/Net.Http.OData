@@ -5,6 +5,7 @@
 
 trigger:
 - master
+- develop
 
 pool:
   vmImage: 'windows-latest'
@@ -18,3 +19,7 @@ steps:
 
 - script: dotnet test
   displayName: 'dotnet test'
+
+- script: dotnet pack --no-build -p:PackageVersion=$(BuildVersion)-$(Date:yyyyMMdd)$(Rev:.r)
+  displayName: 'dotnet pack'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'), ne(variables['Build.Reason'], 'PullRequest'))
