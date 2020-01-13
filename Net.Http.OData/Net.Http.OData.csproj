@@ -10,9 +10,9 @@
     <Copyright>Copyright 2020 Project Contributors</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageTags>OData Parser</PackageTags>
-    <PackageReleaseNotes>See https://github.com/TrevorPilley/Net.Http.WebApi.OData/releases for a summary of changes made in this release of the package.</PackageReleaseNotes>
+    <PackageReleaseNotes>See https://github.com/TrevorPilley/Net.Http.OData/releases for a summary of changes made in this release of the package.</PackageReleaseNotes>
     <NeutralLanguage>en-GB</NeutralLanguage>
-    <RepositoryUrl>https://github.com/TrevorPilley/Net.Http.WebApi.OData/</RepositoryUrl>
+    <RepositoryUrl>https://github.com/TrevorPilley/Net.Http.OData/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
