@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Net.Http.OData.Model;
@@ -27,12 +28,12 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="rawValue">The raw request value.</param>
         /// <param name="model">The model.</param>
-        public SelectExpandQueryOption(string rawValue, EdmComplexType model)
+        internal SelectExpandQueryOption(string rawValue, EdmComplexType model)
             : base(rawValue)
         {
             if (model is null)
             {
-                throw new System.ArgumentNullException(nameof(model));
+                throw new ArgumentNullException(nameof(model));
             }
 
             if (rawValue == "$select=*")

@@ -25,7 +25,7 @@ namespace Net.Http.OData.Query
         /// Initialises a new instance of the <see cref="PropertyPathSegment"/> class representing the end of a path segment.
         /// </summary>
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
-        public PropertyPathSegment(EdmProperty property)
+        internal PropertyPathSegment(EdmProperty property)
             : this(property, null)
         {
         }
@@ -35,7 +35,7 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
         /// <param name="next">The next <see cref="PropertyPathSegment"/> in the property path.</param>
-        public PropertyPathSegment(EdmProperty property, PropertyPathSegment next)
+        internal PropertyPathSegment(EdmProperty property, PropertyPathSegment next)
         {
             Property = property ?? throw new ArgumentNullException(nameof(property));
             Next = next;
