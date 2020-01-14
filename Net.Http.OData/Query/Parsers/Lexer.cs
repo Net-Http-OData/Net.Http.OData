@@ -12,6 +12,7 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Net.Http.OData.Query.Parsers
 {
@@ -70,7 +71,7 @@ namespace Net.Http.OData.Query.Parsers
             {
                 TokenDefinition tokenDefinition = s_tokenDefinitions[i];
 
-                System.Text.RegularExpressions.Match match = tokenDefinition.Regex.Match(_content, _position);
+                Match match = tokenDefinition.Regex.Match(_content, _position);
 
                 if (match.Success)
                 {
