@@ -13,7 +13,7 @@
       "fileNamingConvention": "stylecop",
       "headerDecoration": "-----------------------------------------------------------------------",
       "xmlHeader": true
-},
+    },
     "indentation": {
     },
     "layoutRules": {
