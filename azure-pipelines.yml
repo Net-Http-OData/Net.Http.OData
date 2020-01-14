@@ -27,7 +27,7 @@ steps:
     script: |
       $projVersion = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version" | Select-Object { $_.node.InnerXML }
 
-      Write-Host "##vso[task.setvariable variable=buildVersion;]$projVersion")-beta$(Build.BuildId)"
+      Write-Host "##vso[task.setvariable variable=buildVersion]$projVersion")-beta$(Build.BuildId)"
 
 - script: dotnet pack --no-build -p:PackageVersion="$(buildVersion)-beta$(Build.BuildId)"
   displayName: 'dotnet pack (pre)'
