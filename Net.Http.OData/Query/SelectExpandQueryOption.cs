@@ -36,25 +36,33 @@ namespace Net.Http.OData.Query
                 throw new ArgumentNullException(nameof(model));
             }
 
-            if (rawValue == "$select=*")
-            {
-                PropertyPaths = model.Properties.Where(p => !p.IsNavigable).Select(p => new PropertyPathSegment(p)).ToList();
-            }
-            else if (rawValue == "$expand=*")
-            {
-                PropertyPaths = model.Properties.Where(p => p.IsNavigable).Select(p => new PropertyPathSegment(p)).ToList();
-            }
-            else
-            {
-                int equals = rawValue.IndexOf('=') + 1;
+            int equals = rawValue.IndexOf('=') + 1;
 
-                var properties = rawValue.Substring(equals, rawValue.Length - equals)
-                    .Split(SplitCharacter.Comma)
-                    .Select(p => PropertyPathSegment.For(p, model))
-                    .ToList();
+            string[] propertyPathNames = rawValue.Substring(equals, rawValue.Length - equals)
+                .Split(SplitCharacter.Comma);
 
-                PropertyPaths = properties;
+            var propertyPaths = new List<PropertyPathSegment>();
+
+            foreach (string propertyPathName in propertyPathNames)
+            {
+                if (propertyPathName == "*")
+                {
+                    if (rawValue.StartsWith("$select", StringComparison.Ordinal))
+                    {
+                        propertyPaths.AddRange(model.Properties.Where(p => !p.IsNavigable).Select(p => new PropertyPathSegment(p)));
+                    }
+                    else if (rawValue.StartsWith("$expand", StringComparison.Ordinal))
+                    {
+                        propertyPaths.AddRange(model.Properties.Where(p => p.IsNavigable).Select(p => new PropertyPathSegment(p)));
+                    }
+                }
+                else
+                {
+                    propertyPaths.Add(PropertyPathSegment.For(propertyPathName, model));
+                }
             }
+
+            PropertyPaths = propertyPaths;
         }
 
         /// <summary>
