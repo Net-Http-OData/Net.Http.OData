@@ -29,11 +29,11 @@ steps:
 
       Write-Host "##vso[task.setvariable variable=buildVersion]$projVersion"
 
-- script: dotnet pack --no-build -p:PackageVersion="$(buildVersion)-beta$(Build.BuildId)"
+- script: dotnet pack --no-build -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion="$(buildVersion)-beta$(Build.BuildId)"
   displayName: 'dotnet pack (pre)'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
 
-- script: dotnet pack --no-build -p:PackageVersion=$(buildVersion)
+- script: dotnet pack --no-build -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion=$(buildVersion)
   displayName: 'dotnet pack'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
