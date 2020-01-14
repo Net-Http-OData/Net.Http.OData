@@ -25,7 +25,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $projVersion = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version" | select { $_.Node.InnerText }
+      $projVersion = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
 
       Write-Host "##vso[task.setvariable variable=buildVersion]$projVersion"
 
