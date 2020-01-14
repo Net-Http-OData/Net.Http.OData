@@ -77,8 +77,7 @@ namespace Net.Http.OData
                 throw new ArgumentNullException(nameof(selectExpandQueryOption));
             }
 
-            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri);
-            contextUriBuilder.Append("#").Append(entitySet.Name);
+            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
 
             if (selectExpandQueryOption?.RawValue.Equals("$select=*", StringComparison.Ordinal) == true)
             {
@@ -101,12 +100,7 @@ namespace Net.Http.OData
         /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
         /// <returns>The OData context URI.</returns>
         public static StringBuilder ODataContextUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey)
-        {
-            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
-            contextUriBuilder.Append("/$entity");
-
-            return contextUriBuilder;
-        }
+            => ODataContextUriBuilder(requestUri, entitySet).Append("/$entity");
 
         /// <summary>
         /// Builds the OData context URI.
