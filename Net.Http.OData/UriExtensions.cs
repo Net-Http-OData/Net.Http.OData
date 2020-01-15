@@ -72,11 +72,6 @@ namespace Net.Http.OData
                 throw new ArgumentNullException(nameof(entitySet));
             }
 
-            if (selectExpandQueryOption is null)
-            {
-                throw new ArgumentNullException(nameof(selectExpandQueryOption));
-            }
-
             StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
 
             if (selectExpandQueryOption?.RawValue.Equals("$select=*", StringComparison.Ordinal) == true)
