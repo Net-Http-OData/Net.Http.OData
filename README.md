@@ -2,8 +2,8 @@ Net.Http.OData
 ==============
 
 [![NuGet version](https://badge.fury.io/nu/Net.Http.OData.svg)](http://badge.fury.io/nu/Net.Http.OData)
-[![Build Status - /develop](https://dev.azure.com/trevorpilley/Net.Http.OData/_apis/build/status/Net-Http-OData.Net.Http.OData?branchName=develop)](https://dev.azure.com/trevorpilley/Net.Http.OData/_build/latest?definitionId=19&branchName=develop)
-[![Build Status - /master](https://dev.azure.com/trevorpilley/Net.Http.OData/_apis/build/status/Net-Http-OData.Net.Http.OData?branchName=master)](https://dev.azure.com/trevorpilley/Net.Http.OData/_build/latest?definitionId=19&branchName=master)
+/develop [![Build Status](https://dev.azure.com/trevorpilley/Net.Http.OData/_apis/build/status/Net-Http-OData.Net.Http.OData?branchName=develop)](https://dev.azure.com/trevorpilley/Net.Http.OData/_build/latest?definitionId=19&branchName=develop)
+/master [![Build Status](https://dev.azure.com/trevorpilley/Net.Http.OData/_apis/build/status/Net-Http-OData.Net.Http.OData?branchName=master)](https://dev.azure.com/trevorpilley/Net.Http.OData/_build/latest?definitionId=19&branchName=master)
 
 Net.Http.OData is a .NET Standard library which makes it easy to consume an OData 4.0 Query.
 
