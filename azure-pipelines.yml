@@ -26,7 +26,7 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 
 - script: dotnet test
-  displayName: 'dotnet test'
+  displayName: 'dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\'
 
 - task: PowerShell@2
   inputs:
