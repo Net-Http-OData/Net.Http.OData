@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestResults\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\Net.Http.OData.snk" Link="Net.Http.OData.snk" />
   </ItemGroup>
 
