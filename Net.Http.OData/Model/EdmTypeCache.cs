@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Net.Http.OData.Model
 {
@@ -48,12 +49,10 @@ namespace Net.Http.OData.Model
                 [typeof(sbyte?)] = EdmPrimitiveType.NullableSByte,
                 [typeof(float)] = EdmPrimitiveType.Single,
                 [typeof(float?)] = EdmPrimitiveType.NullableSingle,
-                ////[typeof(Stream)] = EdmPrimitiveType.Stream,
+                [typeof(Stream)] = EdmPrimitiveType.Stream,
                 [typeof(char)] = EdmPrimitiveType.String,
                 [typeof(char?)] = EdmPrimitiveType.String,
                 [typeof(string)] = EdmPrimitiveType.String,
-                ////[typeof(TimeSpan)] = EdmPrimitiveType.TimeOfDay,
-                ////[typeof(TimeSpan?)] = EdmPrimitiveType.NullableTimeOfDay
             });
     }
 }

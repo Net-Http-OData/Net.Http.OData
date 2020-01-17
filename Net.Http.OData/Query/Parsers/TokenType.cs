@@ -38,5 +38,6 @@ namespace Net.Http.OData.Query.Parsers
         TimeOfDay,
         Duration,
         Enum,
+        Base64Binary,
     }
 }

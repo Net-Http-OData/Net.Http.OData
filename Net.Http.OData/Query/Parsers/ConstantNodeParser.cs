@@ -26,6 +26,10 @@ namespace Net.Http.OData.Query.Parsers
         {
             switch (token.TokenType)
             {
+                case TokenType.Base64Binary:
+                    byte[] binary = Convert.FromBase64String(token.Value);
+                    return ConstantNode.Binary(token.Value, binary);
+
                 case TokenType.Date:
                     var dateTimeValue = DateTime.ParseExact(token.Value, ODataDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
                     return ConstantNode.Date(token.Value, dateTimeValue);

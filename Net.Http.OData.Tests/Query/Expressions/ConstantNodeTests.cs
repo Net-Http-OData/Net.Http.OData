@@ -1,5 +1,4 @@
-﻿using System;
-using Net.Http.OData.Model;
+﻿using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Xunit;
 
@@ -52,19 +51,19 @@ namespace Net.Http.OData.Tests.Query.Expressions
             Assert.Same(node1, node2);
         }
 
-        public class DateTimeOffsetValue
+        public class ByteValue
         {
             private readonly ConstantNode _node;
 
-            public DateTimeOffsetValue()
+            public ByteValue()
             {
-                _node = ConstantNode.DateTimeOffset("2002-10-15T17:34:23Z", new DateTimeOffset(2002, 10, 15, 17, 34, 23, TimeSpan.Zero));
+                _node = ConstantNode.Byte("", 254);
             }
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
             {
-                Assert.Equal(EdmPrimitiveType.DateTimeOffset, _node.EdmType);
+                Assert.Equal(EdmPrimitiveType.Byte, _node.EdmType);
             }
 
             [Fact]
@@ -76,119 +75,14 @@ namespace Net.Http.OData.Tests.Query.Expressions
             [Fact]
             public void TheLiteralTextPropertyIsSet()
             {
-                Assert.Equal("2002-10-15T17:34:23Z", _node.LiteralText);
+                Assert.Equal("", _node.LiteralText);
             }
 
             [Fact]
             public void TheValuePropertyIsSet()
             {
-                Assert.IsType<DateTimeOffset>(_node.Value);
-                Assert.Equal(new DateTimeOffset(2002, 10, 15, 17, 34, 23, TimeSpan.Zero), _node.Value);
-            }
-        }
-
-        public class DateValue
-        {
-            private readonly ConstantNode _node;
-
-            public DateValue()
-            {
-                _node = ConstantNode.Date("2000-12-18", new DateTime(2000, 12, 18));
-            }
-
-            [Fact]
-            public void TheEdmPrimitiveTypeIsSet()
-            {
-                Assert.Equal(EdmPrimitiveType.Date, _node.EdmType);
-            }
-
-            [Fact]
-            public void TheKindIsQueryNodeKindConstant()
-            {
-                Assert.Equal(QueryNodeKind.Constant, _node.Kind);
-            }
-
-            [Fact]
-            public void TheLiteralTextPropertyIsSet()
-            {
-                Assert.Equal("2000-12-18", _node.LiteralText);
-            }
-
-            [Fact]
-            public void TheValuePropertyIsSet()
-            {
-                Assert.IsType<DateTime>(_node.Value);
-                Assert.Equal(new DateTime(2000, 12, 18), _node.Value);
-            }
-        }
-
-        public class DecimalValue
-        {
-            private readonly ConstantNode _node;
-
-            public DecimalValue()
-            {
-                _node = ConstantNode.Decimal("2.345M", 2.345M);
-            }
-
-            [Fact]
-            public void TheEdmPrimitiveTypeIsSet()
-            {
-                Assert.Equal(EdmPrimitiveType.Decimal, _node.EdmType);
-            }
-
-            [Fact]
-            public void TheKindIsQueryNodeKindConstant()
-            {
-                Assert.Equal(QueryNodeKind.Constant, _node.Kind);
-            }
-
-            [Fact]
-            public void TheLiteralTextPropertyIsSet()
-            {
-                Assert.Equal("2.345M", _node.LiteralText);
-            }
-
-            [Fact]
-            public void TheValuePropertyIsSet()
-            {
-                Assert.IsType<decimal>(_node.Value);
-                Assert.Equal(2.345M, _node.Value);
-            }
-        }
-
-        public class DoubleValue
-        {
-            private readonly ConstantNode _node;
-
-            public DoubleValue()
-            {
-                _node = ConstantNode.Double("2.029d", 2.029d);
-            }
-
-            [Fact]
-            public void TheEdmPrimitiveTypeIsSet()
-            {
-                Assert.Equal(EdmPrimitiveType.Double, _node.EdmType);
-            }
-
-            [Fact]
-            public void TheKindIsQueryNodeKindConstant()
-            {
-                Assert.Equal(QueryNodeKind.Constant, _node.Kind);
-            }
-
-            [Fact]
-            public void TheLiteralTextPropertyIsSet()
-            {
-                Assert.Equal("2.029d", _node.LiteralText);
-            }
-
-            [Fact]
-            public void TheValuePropertyIsSet()
-            {
-                Assert.IsType<double>(_node.Value);
-                Assert.Equal(2.029d, _node.Value);
+                Assert.IsType<byte>(_node.Value);
+                Assert.Equal((byte)254, _node.Value);
             }
         }
 
@@ -227,19 +121,19 @@ namespace Net.Http.OData.Tests.Query.Expressions
             }
         }
 
-        public class GuidValue
+        public class Int16Value
         {
             private readonly ConstantNode _node;
 
-            public GuidValue()
+            public Int16Value()
             {
-                _node = ConstantNode.Guid("12345678-aaaa-bbbb-cccc-ddddeeeeffff", new Guid("12345678-aaaa-bbbb-cccc-ddddeeeeffff"));
+                _node = ConstantNode.Int16("16", 16);
             }
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
             {
-                Assert.Equal(EdmPrimitiveType.Guid, _node.EdmType);
+                Assert.Equal(EdmPrimitiveType.Int16, _node.EdmType);
             }
 
             [Fact]
@@ -251,49 +145,14 @@ namespace Net.Http.OData.Tests.Query.Expressions
             [Fact]
             public void TheLiteralTextPropertyIsSet()
             {
-                Assert.Equal("12345678-aaaa-bbbb-cccc-ddddeeeeffff", _node.LiteralText);
+                Assert.Equal("16", _node.LiteralText);
             }
 
             [Fact]
             public void TheValuePropertyIsSet()
             {
-                Assert.IsType<Guid>(_node.Value);
-                Assert.Equal(new Guid("12345678-aaaa-bbbb-cccc-ddddeeeeffff"), _node.Value);
-            }
-        }
-
-        public class Int32Value
-        {
-            private readonly ConstantNode _node;
-
-            public Int32Value()
-            {
-                _node = ConstantNode.Int32("32", 32);
-            }
-
-            [Fact]
-            public void TheEdmPrimitiveTypeIsSet()
-            {
-                Assert.Equal(EdmPrimitiveType.Int32, _node.EdmType);
-            }
-
-            [Fact]
-            public void TheKindIsQueryNodeKindConstant()
-            {
-                Assert.Equal(QueryNodeKind.Constant, _node.Kind);
-            }
-
-            [Fact]
-            public void TheLiteralTextPropertyIsSet()
-            {
-                Assert.Equal("32", _node.LiteralText);
-            }
-
-            [Fact]
-            public void TheValuePropertyIsSet()
-            {
-                Assert.IsType<int>(_node.Value);
-                Assert.Equal(32, _node.Value);
+                Assert.IsType<short>(_node.Value);
+                Assert.Equal((short)16, _node.Value);
             }
         }
 
@@ -328,41 +187,6 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public void TheValuePropertyIsSet()
             {
                 Assert.Equal(0, _node.Value);
-            }
-        }
-
-        public class Int64Value
-        {
-            private readonly ConstantNode _node;
-
-            public Int64Value()
-            {
-                _node = ConstantNode.Int64("64L", 64L);
-            }
-
-            [Fact]
-            public void TheEdmPrimitiveTypeIsSet()
-            {
-                Assert.Equal(EdmPrimitiveType.Int64, _node.EdmType);
-            }
-
-            [Fact]
-            public void TheKindIsQueryNodeKindConstant()
-            {
-                Assert.Equal(QueryNodeKind.Constant, _node.Kind);
-            }
-
-            [Fact]
-            public void TheLiteralTextPropertyIsSet()
-            {
-                Assert.Equal("64L", _node.LiteralText);
-            }
-
-            [Fact]
-            public void TheValuePropertyIsSet()
-            {
-                Assert.IsType<long>(_node.Value);
-                Assert.Equal(64L, _node.Value);
             }
         }
 
@@ -434,19 +258,19 @@ namespace Net.Http.OData.Tests.Query.Expressions
             }
         }
 
-        public class SingleValue
+        public class SByteValue
         {
             private readonly ConstantNode _node;
 
-            public SingleValue()
+            public SByteValue()
             {
-                _node = ConstantNode.Single("2.0f", 2.0f);
+                _node = ConstantNode.SByte("", -24);
             }
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
             {
-                Assert.Equal(EdmPrimitiveType.Single, _node.EdmType);
+                Assert.Equal(EdmPrimitiveType.SByte, _node.EdmType);
             }
 
             [Fact]
@@ -458,84 +282,14 @@ namespace Net.Http.OData.Tests.Query.Expressions
             [Fact]
             public void TheLiteralTextPropertyIsSet()
             {
-                Assert.Equal("2.0f", _node.LiteralText);
+                Assert.Equal("", _node.LiteralText);
             }
 
             [Fact]
             public void TheValuePropertyIsSet()
             {
-                Assert.IsType<float>(_node.Value);
-                Assert.Equal(2.0f, _node.Value);
-            }
-        }
-
-        public class StringValue
-        {
-            private readonly ConstantNode _node;
-
-            public StringValue()
-            {
-                _node = ConstantNode.String("'Hello OData'", "Hello OData");
-            }
-
-            [Fact]
-            public void TheEdmPrimitiveTypeIsSet()
-            {
-                Assert.Equal(EdmPrimitiveType.String, _node.EdmType);
-            }
-
-            [Fact]
-            public void TheKindIsQueryNodeKindConstant()
-            {
-                Assert.Equal(QueryNodeKind.Constant, _node.Kind);
-            }
-
-            [Fact]
-            public void TheLiteralTextPropertyIsSet()
-            {
-                Assert.Equal("'Hello OData'", _node.LiteralText);
-            }
-
-            [Fact]
-            public void TheValuePropertyIsSet()
-            {
-                Assert.IsType<string>(_node.Value);
-                Assert.Equal("Hello OData", _node.Value);
-            }
-        }
-
-        public class TimeOfDayValue
-        {
-            private readonly ConstantNode _node;
-
-            public TimeOfDayValue()
-            {
-                _node = ConstantNode.Time("13:20:00", new TimeSpan(13, 20, 0));
-            }
-
-            [Fact]
-            public void TheEdmPrimitiveTypeIsSet()
-            {
-                Assert.Equal(EdmPrimitiveType.TimeOfDay, _node.EdmType);
-            }
-
-            [Fact]
-            public void TheKindIsQueryNodeKindConstant()
-            {
-                Assert.Equal(QueryNodeKind.Constant, _node.Kind);
-            }
-
-            [Fact]
-            public void TheLiteralTextPropertyIsSet()
-            {
-                Assert.Equal("13:20:00", _node.LiteralText);
-            }
-
-            [Fact]
-            public void TheValuePropertyIsSet()
-            {
-                Assert.IsType<TimeSpan>(_node.Value);
-                Assert.Equal(new TimeSpan(13, 20, 0), _node.Value);
+                Assert.IsType<sbyte>(_node.Value);
+                Assert.Equal((sbyte)-24, _node.Value);
             }
         }
 

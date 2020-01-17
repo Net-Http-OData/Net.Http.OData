@@ -80,6 +80,22 @@ namespace Net.Http.OData.Query.Expressions
         internal static ConstantNode True { get; } = new ConstantNode(EdmPrimitiveType.Boolean, "true", true);
 
         /// <summary>
+        /// Gets a ConstantNode which represents a binary value.
+        /// </summary>
+        /// <param name="literalText">The literal text.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>A ConstantNode which represents a binary value.</returns>
+        internal static ConstantNode Binary(string literalText, byte[] value) => new ConstantNode(EdmPrimitiveType.Binary, literalText, value);
+
+        /// <summary>
+        /// Gets a ConstantNode which represents an 8 bit signed integer value.
+        /// </summary>
+        /// <param name="literalText">The literal text.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>A ConstantNode which represents an 8 bit signed integer value.</returns>
+        internal static ConstantNode Byte(string literalText, byte value) => new ConstantNode(EdmPrimitiveType.Byte, literalText, value);
+
+        /// <summary>
         /// Gets a ConstantNode which represents a Date value.
         /// </summary>
         /// <param name="literalText">The literal text.</param>
@@ -128,6 +144,14 @@ namespace Net.Http.OData.Query.Expressions
         internal static ConstantNode Guid(string literalText, Guid value) => new ConstantNode(EdmPrimitiveType.Guid, literalText, value);
 
         /// <summary>
+        /// Gets a ConstantNode which represents a 16 bit signed integer value.
+        /// </summary>
+        /// <param name="literalText">The literal text.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>A ConstantNode representing a 16 bit signed integer value.</returns>
+        internal static ConstantNode Int16(string literalText, short value) => new ConstantNode(EdmPrimitiveType.Int16, literalText, value);
+
+        /// <summary>
         /// Gets a ConstantNode which represents a 32 bit signed integer value.
         /// </summary>
         /// <param name="literalText">The literal text.</param>
@@ -142,6 +166,14 @@ namespace Net.Http.OData.Query.Expressions
         /// <param name="value">The value.</param>
         /// <returns>A ConstantNode representing a 64 bit signed integer value.</returns>
         internal static ConstantNode Int64(string literalText, long value) => new ConstantNode(EdmPrimitiveType.Int64, literalText, value);
+
+        /// <summary>
+        /// Gets a ConstantNode which represents an 8 bit signed integer value.
+        /// </summary>
+        /// <param name="literalText">The literal text.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>A ConstantNode which represents an 8 bit signed integer value.</returns>
+        internal static ConstantNode SByte(string literalText, sbyte value) => new ConstantNode(EdmPrimitiveType.SByte, literalText, value);
 
         /// <summary>
         /// Gets a ConstantNode which represents a float value.
