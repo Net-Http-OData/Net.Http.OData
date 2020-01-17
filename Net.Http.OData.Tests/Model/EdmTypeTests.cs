@@ -4,10 +4,28 @@ using Xunit;
 
 namespace Net.Http.OData.Tests.Model
 {
-    public class EdmTypeCacheTests
+    public class EdmTypeTests
     {
         [Fact]
-        public void PrimitivesAreRegisteredByDefault()
+        public void GetEdmType_String_ReturnsNullForUnknownType()
+        {
+            Assert.Null(EdmType.GetEdmType("System.Console"));
+        }
+
+        [Fact]
+        public void GetEdmType_String_ReturnsPrimitives()
+        {
+            Assert.Equal(EdmType.GetEdmType("Edm.Binary"), EdmPrimitiveType.Binary);
+        }
+
+        [Fact]
+        public void GetEdmType_Type_ReturnsNullForUnknownType()
+        {
+            Assert.Null(EdmType.GetEdmType(typeof(Console)));
+        }
+
+        [Fact]
+        public void GetEdmType_Type_ReturnsPrimitives()
         {
             Assert.Equal(EdmType.GetEdmType(typeof(byte[])), EdmPrimitiveType.Binary);
 
@@ -49,6 +67,8 @@ namespace Net.Http.OData.Tests.Model
 
             Assert.Equal(EdmType.GetEdmType(typeof(float)), EdmPrimitiveType.Single);
             Assert.Equal(EdmType.GetEdmType(typeof(float?)), EdmPrimitiveType.NullableSingle);
+
+            ////Assert.Equal(EdmType.GetEdmType(typeof(Stream)), EdmPrimitiveType.Stream);
 
             Assert.Equal(EdmType.GetEdmType(typeof(char)), EdmPrimitiveType.String);
             Assert.Equal(EdmType.GetEdmType(typeof(char?)), EdmPrimitiveType.String);
