@@ -11,6 +11,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
+using System.Linq;
 
 namespace Net.Http.OData.Model
 {
@@ -59,29 +60,12 @@ namespace Net.Http.OData.Model
         public string Name { get; }
 
         /// <summary>
-        /// Gets the type with the specified name in the Entity Data Model.
-        /// </summary>
-        /// <param name="edmTypeName">Name of the type in the Entity Data Model.</param>
-        /// <returns>The EdmType with the specified name, if found; otherwise, null.</returns>
-        public static EdmType GetEdmType(string edmTypeName)
-        {
-            foreach (EdmType edmType in EdmTypeCache.Map.Values)
-            {
-                if (edmType.FullName.Equals(edmTypeName, StringComparison.Ordinal))
-                {
-                    return edmType;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Gets the type for the specified CLR type in the Entity Data Model.
         /// </summary>
         /// <param name="clrType">The CLR type to find in the Entity Data Model.</param>
         /// <returns>The EdmType for the specified CLR type, if found; otherwise, null.</returns>
-        public static EdmType GetEdmType(Type clrType) => EdmTypeCache.Map.TryGetValue(clrType, out EdmType edmType) ? edmType : default;
+        public static EdmType GetEdmType(Type clrType)
+            => EdmTypeCache.Map.TryGetValue(clrType, out EdmType edmType) ? edmType : default;
 
         /// <summary>
         /// Determines whether the specified <see cref="object" />, is equal to this instance.
@@ -129,5 +113,17 @@ namespace Net.Http.OData.Model
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString() => FullName;
+
+        /// <summary>
+        /// Gets the type with the specified name in the Entity Data Model.
+        /// </summary>
+        /// <param name="edmTypeName">Name of the type in the Entity Data Model.</param>
+        /// <returns>The EdmType with the specified name, if found; otherwise, null.</returns>
+        /// <remarks>
+        /// This method shouldn't be public, there are multiple System.Types mapped to the same EdmType name.
+        /// At present, this method is only used to resolve Enums.
+        /// </remarks>
+        internal static EdmType GetEdmType(string edmTypeName)
+            => EdmTypeCache.Map.Values.FirstOrDefault(t => t.FullName.Equals(edmTypeName, StringComparison.Ordinal));
     }
 }

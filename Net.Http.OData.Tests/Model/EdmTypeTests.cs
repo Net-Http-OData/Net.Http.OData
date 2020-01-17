@@ -1,5 +1,6 @@
 ﻿using System;
 using Net.Http.OData.Model;
+using NorthwindModel;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Model
@@ -15,7 +16,12 @@ namespace Net.Http.OData.Tests.Model
         [Fact]
         public void GetEdmType_String_ReturnsPrimitives()
         {
-            Assert.Equal(EdmType.GetEdmType("Edm.Binary"), EdmPrimitiveType.Binary);
+            TestHelper.EnsureEDM();
+
+            var edmType = EdmType.GetEdmType("NorthwindModel.AccessLevel");
+
+            Assert.NotNull(edmType);
+            Assert.Equal(typeof(AccessLevel), edmType.ClrType);
         }
 
         [Fact]
