@@ -89,6 +89,6 @@ namespace Net.Http.OData.Model
         /// </summary>
         /// <param name="edmType">The <see cref="EdmType"/> to check.</param>
         /// <returns>True if the <see cref="EdmType"/> is an <see cref="EntitySet"/> in the Entity Data Model; otherwise false.</returns>
-        public bool IsEntitySet(EdmType edmType) => EntitySets.Values.Any(x => x.EdmType == edmType);
+        internal bool IsEntitySet(EdmType edmType) => EntitySets.Values.Any(x => x.EdmType == edmType);
     }
 }
