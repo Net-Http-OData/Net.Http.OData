@@ -121,17 +121,17 @@ namespace Net.Http.OData.Tests.Query
             {
                 Assert.Equal(1, _option.PropertyPaths.Count);
 
-                PropertyPathSegment propertyPathSegment = _option.PropertyPaths[0];
+                PropertyPath propertyPath = _option.PropertyPaths[0];
 
-                Assert.Equal("Category", propertyPathSegment.Property.Name);
-                Assert.Equal("Product", propertyPathSegment.Property.DeclaringType.Name);
-                Assert.NotNull(propertyPathSegment.Next);
+                Assert.Equal("Category", propertyPath.Property.Name);
+                Assert.Equal("Product", propertyPath.Property.DeclaringType.Name);
+                Assert.NotNull(propertyPath.Next);
 
-                propertyPathSegment = propertyPathSegment.Next;
+                propertyPath = propertyPath.Next;
 
-                Assert.Equal("Name", propertyPathSegment.Property.Name);
-                Assert.Equal("Category", propertyPathSegment.Property.DeclaringType.Name);
-                Assert.Null(propertyPathSegment.Next);
+                Assert.Equal("Name", propertyPath.Property.Name);
+                Assert.Equal("Category", propertyPath.Property.DeclaringType.Name);
+                Assert.Null(propertyPath.Next);
             }
 
             [Fact]

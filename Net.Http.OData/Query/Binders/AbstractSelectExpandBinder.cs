@@ -30,16 +30,16 @@ namespace Net.Http.OData.Query.Binders
 
             for (int i = 0; i < selectExpandQueryOption.PropertyPaths.Count; i++)
             {
-                PropertyPathSegment propertyPath = selectExpandQueryOption.PropertyPaths[i];
+                PropertyPath propertyPath = selectExpandQueryOption.PropertyPaths[i];
 
                 Bind(propertyPath);
             }
         }
 
         /// <summary>
-        /// Binds the specified <see cref="PropertyPathSegment"/>.
+        /// Binds the specified <see cref="PropertyPath"/>.
         /// </summary>
-        /// <param name="propertyPath">The <see cref="PropertyPathSegment"/> to bind.</param>
-        protected abstract void Bind(PropertyPathSegment propertyPath);
+        /// <param name="propertyPath">The <see cref="PropertyPath"/> to bind.</param>
+        protected abstract void Bind(PropertyPath propertyPath);
     }
 }

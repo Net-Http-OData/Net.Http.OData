@@ -42,11 +42,11 @@ namespace Net.Http.OData.Query
 
             if (space == -1)
             {
-                PropertyPath = PropertyPathSegment.For(rawValue, model);
+                PropertyPath = PropertyPath.For(rawValue, model);
             }
             else
             {
-                PropertyPath = PropertyPathSegment.For(rawValue.Substring(0, space), model);
+                PropertyPath = PropertyPath.For(rawValue.Substring(0, space), model);
 
                 switch (rawValue.Substring(space + 1, rawValue.Length - (space + 1)))
                 {
@@ -72,7 +72,7 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Gets the property path to order by.
         /// </summary>
-        public PropertyPathSegment PropertyPath { get; }
+        public PropertyPath PropertyPath { get; }
 
         /// <summary>
         /// Gets the raw request value.

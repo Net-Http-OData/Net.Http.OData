@@ -21,10 +21,10 @@ namespace Net.Http.OData.Query.Expressions
         /// <summary>
         /// Initialises a new instance of the <see cref="PropertyAccessNode"/> class.
         /// </summary>
-        /// <param name="propertyPathSegment">The property path being referenced in the query.</param>
-        internal PropertyAccessNode(PropertyPathSegment propertyPathSegment)
+        /// <param name="propertyPath">The property path being referenced in the query.</param>
+        internal PropertyAccessNode(PropertyPath propertyPath)
         {
-            PropertyPath = propertyPathSegment;
+            PropertyPath = propertyPath;
         }
 
         /// <summary>
@@ -35,6 +35,6 @@ namespace Net.Http.OData.Query.Expressions
         /// <summary>
         /// Gets the property path being referenced in the query.
         /// </summary>
-        public PropertyPathSegment PropertyPath { get; }
+        public PropertyPath PropertyPath { get; }
     }
 }

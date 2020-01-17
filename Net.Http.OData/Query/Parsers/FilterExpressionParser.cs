@@ -147,7 +147,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.PropertyName:
-                            var propertyAccessNode = new PropertyAccessNode(PropertyPathSegment.For(token.Value, _model));
+                            var propertyAccessNode = new PropertyAccessNode(PropertyPath.For(token.Value, _model));
 
                             if (stack.Count > 0)
                             {
@@ -252,7 +252,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.PropertyName:
-                            var propertyAccessNode = new PropertyAccessNode(PropertyPathSegment.For(token.Value, _model));
+                            var propertyAccessNode = new PropertyAccessNode(PropertyPath.For(token.Value, _model));
 
                             if (leftNode is null)
                             {

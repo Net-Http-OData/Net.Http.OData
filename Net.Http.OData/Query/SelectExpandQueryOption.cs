@@ -41,7 +41,7 @@ namespace Net.Http.OData.Query
             string[] propertyPathNames = rawValue.Substring(equals, rawValue.Length - equals)
                 .Split(SplitCharacter.Comma);
 
-            var propertyPaths = new List<PropertyPathSegment>();
+            var propertyPaths = new List<PropertyPath>();
 
             foreach (string propertyPathName in propertyPathNames)
             {
@@ -49,16 +49,16 @@ namespace Net.Http.OData.Query
                 {
                     if (rawValue.StartsWith("$select", StringComparison.Ordinal))
                     {
-                        propertyPaths.AddRange(model.Properties.Where(p => !p.IsNavigable).Select(p => new PropertyPathSegment(p)));
+                        propertyPaths.AddRange(model.Properties.Where(p => !p.IsNavigable).Select(p => new PropertyPath(p)));
                     }
                     else if (rawValue.StartsWith("$expand", StringComparison.Ordinal))
                     {
-                        propertyPaths.AddRange(model.Properties.Where(p => p.IsNavigable).Select(p => new PropertyPathSegment(p)));
+                        propertyPaths.AddRange(model.Properties.Where(p => p.IsNavigable).Select(p => new PropertyPath(p)));
                     }
                 }
                 else
                 {
-                    propertyPaths.Add(PropertyPathSegment.For(propertyPathName, model));
+                    propertyPaths.Add(PropertyPath.For(propertyPathName, model));
                 }
             }
 
@@ -68,6 +68,6 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Gets the property paths specified in the query.
         /// </summary>
-        public IReadOnlyList<PropertyPathSegment> PropertyPaths { get; }
+        public IReadOnlyList<PropertyPath> PropertyPaths { get; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="PropertyPathSegment.cs" company="Project Contributors">
+// <copyright file="PropertyPath.cs" company="Project Contributors">
 // Copyright 2012 - 2020 Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,26 +16,26 @@ using Net.Http.OData.Model;
 namespace Net.Http.OData.Query
 {
     /// <summary>
-    /// A class which represents a segment of a property path.
+    /// A class which represents a property path.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{Property}/{Next}")]
-    public sealed class PropertyPathSegment
+    public sealed class PropertyPath
     {
         /// <summary>
-        /// Initialises a new instance of the <see cref="PropertyPathSegment"/> class representing the end of a path segment.
+        /// Initialises a new instance of the <see cref="PropertyPath"/> class for the specified <see cref="EdmProperty"/> with no next path segment.
         /// </summary>
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
-        internal PropertyPathSegment(EdmProperty property)
+        internal PropertyPath(EdmProperty property)
             : this(property, null)
         {
         }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="PropertyPathSegment"/> class representing part of a path segment.
+        /// Initialises a new instance of the <see cref="PropertyPath"/> class for the specified <see cref="EdmProperty"/> with the next path segment.
         /// </summary>
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
-        /// <param name="next">The next <see cref="PropertyPathSegment"/> in the property path.</param>
-        internal PropertyPathSegment(EdmProperty property, PropertyPathSegment next)
+        /// <param name="next">The next <see cref="PropertyPath"/> in the property path.</param>
+        internal PropertyPath(EdmProperty property, PropertyPath next)
         {
             Property = property ?? throw new ArgumentNullException(nameof(property));
             Next = next;
@@ -44,7 +44,7 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Gets the next property in the path being referenced in the query.
         /// </summary>
-        public PropertyPathSegment Next { get; }
+        public PropertyPath Next { get; }
 
         /// <summary>
         /// Gets the property being referenced in the query.
@@ -52,19 +52,19 @@ namespace Net.Http.OData.Query
         public EdmProperty Property { get; }
 
         /// <summary>
-        /// Creates the <see cref="PropertyPathSegment"/> for the given property path.
+        /// Creates the <see cref="PropertyPath"/> for the given property path.
         /// </summary>
-        /// <param name="propertyPath">The property path.</param>
+        /// <param name="rawPropertyPath">The raw property path.</param>
         /// <param name="edmComplexType">The <see cref="EdmComplexType"/> which contains the first property in the property path.</param>
-        /// <returns>The <see cref="PropertyPathSegment"/> for the given property path.</returns>
-        internal static PropertyPathSegment For(string propertyPath, EdmComplexType edmComplexType)
+        /// <returns>The <see cref="PropertyPath"/> for the given property path.</returns>
+        internal static PropertyPath For(string rawPropertyPath, EdmComplexType edmComplexType)
         {
-            if (propertyPath.IndexOf('/') == -1)
+            if (rawPropertyPath.IndexOf('/') == -1)
             {
-                return new PropertyPathSegment(edmComplexType.GetProperty(propertyPath));
+                return new PropertyPath(edmComplexType.GetProperty(rawPropertyPath));
             }
 
-            string[] nameSegments = propertyPath.Split(SplitCharacter.ForwardSlash);
+            string[] nameSegments = rawPropertyPath.Split(SplitCharacter.ForwardSlash);
 
             var edmProperties = new EdmProperty[nameSegments.Length];
 
@@ -76,14 +76,14 @@ namespace Net.Http.OData.Query
                 model = edmProperties[i].PropertyType as EdmComplexType;
             }
 
-            PropertyPathSegment propertyPathSegment = null;
+            PropertyPath propertyPath = null;
 
             for (int i = edmProperties.Length - 1; i >= 0; i--)
             {
-                propertyPathSegment = new PropertyPathSegment(edmProperties[i], propertyPathSegment);
+                propertyPath = new PropertyPath(edmProperties[i], propertyPath);
             }
 
-            return propertyPathSegment;
+            return propertyPath;
         }
     }
 }

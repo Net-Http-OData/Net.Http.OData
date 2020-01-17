@@ -10,7 +10,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
         public class WhenConstructed
         {
             private readonly PropertyAccessNode _node;
-            private readonly PropertyPathSegment _propertyPathSegment;
+            private readonly PropertyPath _propertyPath;
 
             public WhenConstructed()
             {
@@ -18,8 +18,8 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
                 EdmComplexType model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-                _propertyPathSegment = new PropertyPathSegment(model.GetProperty("CompanyName"));
-                _node = new PropertyAccessNode(_propertyPathSegment);
+                _propertyPath = new PropertyPath(model.GetProperty("CompanyName"));
+                _node = new PropertyAccessNode(_propertyPath);
             }
 
             [Fact]
@@ -31,7 +31,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             [Fact]
             public void ThePropertyPathIsSet()
             {
-                Assert.Equal(_propertyPathSegment, _node.PropertyPath);
+                Assert.Equal(_propertyPath, _node.PropertyPath);
             }
         }
     }
