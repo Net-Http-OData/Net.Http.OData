@@ -14,6 +14,7 @@ trigger:
       - README.md
       - stylecop.json
 
+# Must be Windows due to the .NET 4.5 build target
 pool:
   vmImage: 'windows-latest'
 
@@ -27,6 +28,15 @@ steps:
 
 - script: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\
   displayName: 'dotnet test'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet cli report generator'
+  inputs:
+    command: 'custom'
+    custom: 'reportgenerator'
+    workingDirectory: 'Net.Http.OData.Tests'
+    projects: '**/*Tests.csproj'
+    arguments: '"-reports:TestResults\coverage.cobertura.xml" "-targetdir:TestResults\html" -reporttypes:HTML;'
 
 - task: PowerShell@2
   inputs:
