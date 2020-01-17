@@ -48,7 +48,8 @@ namespace Net.Http.OData.Model
         /// <typeparam name="T">The type exposed by the collection.</typeparam>
         /// <param name="entitySetName">Name of the Entity Set.</param>
         /// <param name="entityKeyExpression">The Entity Key expression.</param>
-        public void RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression)
+        /// <returns>This entity data model builder.</returns>
+        public EntityDataModelBuilder RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression)
             => RegisterEntitySet(entitySetName, entityKeyExpression, Capabilities.None);
 
         /// <summary>
@@ -58,7 +59,8 @@ namespace Net.Http.OData.Model
         /// <param name="entitySetName">Name of the Entity Set.</param>
         /// <param name="entityKeyExpression">The Entity Key expression.</param>
         /// <param name="capabilities">The capabilities of the Entity Set.</param>
-        public void RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression, Capabilities capabilities)
+        /// <returns>This entity data model builder.</returns>
+        public EntityDataModelBuilder RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression, Capabilities capabilities)
         {
             if (entityKeyExpression is null)
             {
@@ -72,6 +74,8 @@ namespace Net.Http.OData.Model
             var entitySet = new EntitySet(entitySetName, edmType, entityKey, capabilities);
 
             _entitySets.Add(entitySet.Name, entitySet);
+
+            return this;
         }
 
         private EdmType EdmTypeResolver(Type clrType)
