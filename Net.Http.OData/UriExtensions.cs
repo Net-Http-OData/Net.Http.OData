@@ -27,6 +27,29 @@ namespace Net.Http.OData
         private static readonly char[] s_nonNameCharacters = new[] { '(', '/', '$', '%' };
 
         /// <summary>
+        /// Gets a value indicating whether the specified URI is an OData URI.
+        /// </summary>
+        /// <param name="uri">The URI to check.</param>
+        /// <returns>True if the URI is an OData URI, otherwise false.</returns>
+        public static bool IsODataUri(this Uri uri)
+        {
+            if (uri is null)
+            {
+                throw new ArgumentNullException(nameof(uri));
+            }
+
+            for (int i = 0; i < uri.Segments.Length; i++)
+            {
+                if (uri.Segments[i].StartsWith("odata", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Builds the OData context URI.
         /// </summary>
         /// <param name="requestUri">The OData request URI.</param>
