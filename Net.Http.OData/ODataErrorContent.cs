@@ -32,6 +32,15 @@ namespace Net.Http.OData
         /// </summary>
         /// <param name="code">The error code.</param>
         /// <param name="message">The error message.</param>
+        /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
+        public static ODataErrorContent Create(int code, string message)
+            => Create(code, message, null);
+
+        /// <summary>
+        /// Creates a new <see cref="ODataErrorContent"/> for the specified values.
+        /// </summary>
+        /// <param name="code">The error code.</param>
+        /// <param name="message">The error message.</param>
         /// <param name="target">The error target.</param>
         /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
         public static ODataErrorContent Create(int code, string message, string target)
