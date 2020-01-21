@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Net.Http;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Validators;
@@ -23,7 +22,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=x"),
+                    "?$count=x",
                     EntityDataModel.Current.EntitySets["Products"]);
             }
 
@@ -52,7 +51,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=true"),
+                    "?$count=true",
                     EntityDataModel.Current.EntitySets["Products"]);
             }
 
@@ -81,7 +80,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=true"),
+                    "?$count=true",
                     EntityDataModel.Current.EntitySets["Products"]);
             }
 
@@ -106,7 +105,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=false"),
+                    "?$count=false",
                     EntityDataModel.Current.EntitySets["Products"]);
             }
 

@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Net.Http;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Validators;
@@ -23,7 +22,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=50"),
+                    "?$top=50",
                     EntityDataModel.Current.EntitySets["Products"]);
             }
 
@@ -53,7 +52,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=50"),
+                    "?$top=50",
                     EntityDataModel.Current.EntitySets["Products"]);
             }
 
@@ -78,7 +77,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=-1"),
+                    "?$top=-1",
                     EntityDataModel.Current.EntitySets["Products"]);
             }
 
@@ -108,7 +107,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=25"),
+                    "?$top=25",
                     EntityDataModel.Current.EntitySets["Products"]);
             }
 
@@ -132,9 +131,7 @@ namespace Net.Http.OData.Tests.Query.Validators
             {
                 TestHelper.EnsureEDM();
 
-                _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                _queryOptions = new ODataQueryOptions("", EntityDataModel.Current.EntitySets["Products"]);
             }
 
             [Fact]
@@ -159,7 +156,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=150"),
+                    "?$top=150",
                     EntityDataModel.Current.EntitySets["Products"]);
             }
 

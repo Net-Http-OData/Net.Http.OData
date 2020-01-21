@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
@@ -24,8 +23,7 @@ namespace Net.Http.OData.Tests.Query
         {
             TestHelper.EnsureEDM();
 
-            Assert.Throws<ArgumentNullException>(
-                () => new ODataQueryOptions(new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products"), null));
+            Assert.Throws<ArgumentNullException>(() => new ODataQueryOptions("", null));
         }
 
         /// <summary>
@@ -37,7 +35,7 @@ namespace Net.Http.OData.Tests.Query
             TestHelper.EnsureEDM();
 
             var option = new ODataQueryOptions(
-                new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=LegacyId+eq+2139+and+CompanyName+eq+'Pool+Farm+%26+Primrose+Hill+Nursery'&$top=1"),
+                "?$filter=LegacyId+eq+2139+and+CompanyName+eq+'Pool+Farm+%26+Primrose+Hill+Nursery'&$top=1",
                 EntityDataModel.Current.EntitySets["Customers"]);
 
             Assert.NotNull(option);
@@ -73,7 +71,7 @@ namespace Net.Http.OData.Tests.Query
             TestHelper.EnsureEDM();
 
             var option = new ODataQueryOptions(
-                new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$skip=A"),
+                "?$skip=A",
                 EntityDataModel.Current.EntitySets["Customers"]);
 
             ODataException exception = Assert.Throws<ODataException>(() => option.Skip);
@@ -88,7 +86,7 @@ namespace Net.Http.OData.Tests.Query
             TestHelper.EnsureEDM();
 
             var option = new ODataQueryOptions(
-                new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$top=A"),
+                "?$top=A",
                 EntityDataModel.Current.EntitySets["Customers"]);
 
             ODataException exception = Assert.Throws<ODataException>(() => option.Top);
@@ -99,18 +97,15 @@ namespace Net.Http.OData.Tests.Query
 
         public class WhenConstructedWithAllQueryOptions
         {
-            private readonly HttpRequestMessage _httpRequestMessage;
             private readonly ODataQueryOptions _option;
 
             public WhenConstructedWithAllQueryOptions()
             {
                 TestHelper.EnsureEDM();
 
-                _httpRequestMessage = new HttpRequestMessage(
-                    HttpMethod.Get,
-                    "http://services.odata.org/OData/Products?$count=true&$expand=Category&$filter=Name eq 'Milk'&$format=json&$orderby=Name&$search=blue OR green&$select=Name,Price&$skip=10&$skiptoken=5&$top=25");
-
-                _option = new ODataQueryOptions(_httpRequestMessage, EntityDataModel.Current.EntitySets["Products"]);
+                _option = new ODataQueryOptions(
+                    "?$count=true&$expand=Category&$filter=Name eq 'Milk'&$format=json&$orderby=Name&$search=blue OR green&$select=Name,Price&$skip=10&$skiptoken=5&$top=25",
+                    EntityDataModel.Current.EntitySets["Products"]);
             }
 
             [Fact]
@@ -156,12 +151,6 @@ namespace Net.Http.OData.Tests.Query
             }
 
             [Fact]
-            public void TheRequestPropertyShouldReturnTheRequestMessage()
-            {
-                Assert.Equal(_httpRequestMessage, _option.Request);
-            }
-
-            [Fact]
             public void TheSearchPropertyShouldBeSet()
             {
                 Assert.NotNull(_option.Search);
@@ -195,18 +184,13 @@ namespace Net.Http.OData.Tests.Query
 
         public class WhenConstructedWithNoQueryOptions
         {
-            private readonly HttpRequestMessage _httpRequestMessage;
             private readonly ODataQueryOptions _option;
 
             public WhenConstructedWithNoQueryOptions()
             {
                 TestHelper.EnsureEDM();
 
-                _httpRequestMessage = new HttpRequestMessage(
-                    HttpMethod.Get,
-                    "http://services.odata.org/OData/Products");
-
-                _option = new ODataQueryOptions(_httpRequestMessage, EntityDataModel.Current.EntitySets["Products"]);
+                _option = new ODataQueryOptions("", EntityDataModel.Current.EntitySets["Products"]);
             }
 
             [Fact]
@@ -252,12 +236,6 @@ namespace Net.Http.OData.Tests.Query
             }
 
             [Fact]
-            public void TheRequestPropertyShouldReturnTheRequestMessage()
-            {
-                Assert.Equal(_httpRequestMessage, _option.Request);
-            }
-
-            [Fact]
             public void TheSearchPropertyShouldNotBeSet()
             {
                 Assert.Null(_option.Search);
@@ -293,18 +271,15 @@ namespace Net.Http.OData.Tests.Query
         /// </summary>
         public class WhenConstructedWithPlusSignsInsteadOfSpacesInTheUrl
         {
-            private readonly HttpRequestMessage _httpRequestMessage;
             private readonly ODataQueryOptions _option;
 
             public WhenConstructedWithPlusSignsInsteadOfSpacesInTheUrl()
             {
                 TestHelper.EnsureEDM();
 
-                _httpRequestMessage = new HttpRequestMessage(
-                    HttpMethod.Get,
-                    "http://services.odata.org/OData/Employees?$filter=Forename+eq+'John'&$orderby=Forename+asc");
-
-                _option = new ODataQueryOptions(_httpRequestMessage, EntityDataModel.Current.EntitySets["Employees"]);
+                _option = new ODataQueryOptions(
+                    "?$filter=Forename+eq+'John'&$orderby=Forename+asc",
+                    EntityDataModel.Current.EntitySets["Employees"]);
             }
 
             [Fact]
@@ -358,18 +333,15 @@ namespace Net.Http.OData.Tests.Query
         /// </summary>
         public class WhenConstructedWithUrlEncodedPlusSignsAndPlusSignsInsteadOfSpacesInTheUrl
         {
-            private readonly HttpRequestMessage _httpRequestMessage;
             private readonly ODataQueryOptions _option;
 
             public WhenConstructedWithUrlEncodedPlusSignsAndPlusSignsInsteadOfSpacesInTheUrl()
             {
                 TestHelper.EnsureEDM();
 
-                _httpRequestMessage = new HttpRequestMessage(
-                    HttpMethod.Get,
-                    "http://services.odata.org/OData/Employees?$filter=Forename+eq+'John'+and+ImageData+eq+'TG9yZW0gaXBzdW0gZG9s%2Bb3Igc2l0IGF%3D'");
-
-                _option = new ODataQueryOptions(_httpRequestMessage, EntityDataModel.Current.EntitySets["Employees"]);
+                _option = new ODataQueryOptions(
+                    "?$filter=Forename+eq+'John'+and+ImageData+eq+'TG9yZW0gaXBzdW0gZG9s%2Bb3Igc2l0IGF%3D'",
+                    EntityDataModel.Current.EntitySets["Employees"]);
             }
 
             [Fact]

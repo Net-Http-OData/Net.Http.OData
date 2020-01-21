@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Net;
-using System.Net.Http;
 using Net.Http.OData.Model;
 
 namespace Net.Http.OData.Query
@@ -32,14 +31,18 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataQueryOptions" /> class.
         /// </summary>
-        /// <param name="request">The current http request message.</param>
+        /// <param name="query">The query fom the request URI.</param>
         /// <param name="entitySet">The Entity Set to apply the OData query against.</param>
         /// <exception cref="ArgumentNullException">Thrown if the request or model are null.</exception>
-        public ODataQueryOptions(HttpRequestMessage request, EntitySet entitySet)
+        public ODataQueryOptions(string query, EntitySet entitySet)
         {
-            Request = request ?? throw new ArgumentNullException(nameof(request));
+            if (query is null)
+            {
+                throw new ArgumentNullException(nameof(query));
+            }
+
             EntitySet = entitySet ?? throw new ArgumentNullException(nameof(entitySet));
-            RawValues = new ODataRawQueryOptions(request.RequestUri.Query);
+            RawValues = new ODataRawQueryOptions(query);
         }
 
         /// <summary>
@@ -120,11 +123,6 @@ namespace Net.Http.OData.Query
         /// Gets the raw values of the OData query request.
         /// </summary>
         public ODataRawQueryOptions RawValues { get; }
-
-        /// <summary>
-        /// Gets the request message associated with this OData query.
-        /// </summary>
-        public HttpRequestMessage Request { get; }
 
         /// <summary>
         /// Gets the search query option.
