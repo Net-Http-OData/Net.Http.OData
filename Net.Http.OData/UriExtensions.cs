@@ -24,8 +24,6 @@ namespace Net.Http.OData
     /// </summary>
     public static class UriExtensions
     {
-        private static readonly char[] s_nonNameCharacters = new[] { '(', '/', '$', '%' };
-
         /// <summary>
         /// Gets a value indicating whether the specified URI is an OData URI.
         /// </summary>
@@ -175,46 +173,6 @@ namespace Net.Http.OData
             }
 
             return contextUriBuilder;
-        }
-
-        /// <summary>
-        /// Resolves the name of the Entity Set referenced in the request.
-        /// </summary>
-        /// <param name="requestUri">The HTTP request message which led to ths OData request.</param>
-        /// <returns>The name of the Entity Set referenced in the request, or null if no entity set was referenced.</returns>
-        public static string ResolveODataEntitySetName(this Uri requestUri)
-        {
-            if (requestUri is null)
-            {
-                throw new ArgumentNullException(nameof(requestUri));
-            }
-
-            int modelNameSegmentIndex = -1;
-
-            for (int i = 0; i < requestUri.Segments.Length; i++)
-            {
-                if (requestUri.Segments[i].StartsWith("odata", StringComparison.OrdinalIgnoreCase))
-                {
-                    modelNameSegmentIndex = i + 1;
-                    break;
-                }
-            }
-
-            if (modelNameSegmentIndex < 0 || modelNameSegmentIndex >= requestUri.Segments.Length)
-            {
-                return null;
-            }
-
-            string modelNameSegment = requestUri.Segments[modelNameSegmentIndex];
-
-            int nonNameCharacterIndex = modelNameSegment.IndexOfAny(s_nonNameCharacters);
-
-            if (nonNameCharacterIndex > 0)
-            {
-                modelNameSegment = modelNameSegment.Substring(0, nonNameCharacterIndex);
-            }
-
-            return modelNameSegment;
         }
 
         /// <summary>

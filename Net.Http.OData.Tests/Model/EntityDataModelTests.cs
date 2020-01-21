@@ -22,6 +22,24 @@ namespace Net.Http.OData.Tests.Model
             _entityDataModel = entityDataModelBuilder.BuildModel();
         }
 
+        [Theory]
+        [InlineData("/odata/products")]
+        [InlineData("/OData/Products")]
+        [InlineData("/OData/Products/")]
+        [InlineData("/OData/Products(1)")]
+        [InlineData("/OData/Products(1)/Name/$value")]
+        [InlineData("/OData/Products%281%29")]
+        [InlineData("/OData/Products$select=Name")]
+        public void EntitySetForPath_ReturnsEntitySet(string path)
+        {
+            TestHelper.EnsureEDM();
+
+            EntitySet entitySet = EntityDataModel.Current.EntitySetForPath(path);
+
+            Assert.NotNull(entitySet);
+            Assert.Equal("Products", entitySet.Name);
+        }
+
         [Fact]
         public void FilterFunctions_AreSet()
         {

@@ -12,6 +12,7 @@
 // -----------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace Net.Http.OData.Model
 {
@@ -83,6 +84,23 @@ namespace Net.Http.OData.Model
         /// Gets the formats supported by the service.
         /// </summary>
         public IReadOnlyCollection<string> SupportedFormats { get; }
+
+        /// <summary>
+        /// Gets the <see cref="EntitySet"/> for the path segment of a URI.
+        /// </summary>
+        /// <param name="path">The path segment of a URI.</param>
+        /// <returns>The <see cref="EntitySet"/>.</returns>
+        public EntitySet EntitySetForPath(string path)
+        {
+            string entitySetName = UriUtility.ResolveEntitySetName(path);
+
+            if (EntitySets.TryGetValue(entitySetName, out EntitySet entitySet))
+            {
+                return entitySet;
+            }
+
+            throw new ODataException(HttpStatusCode.BadRequest, $"This service does not contain a collection named '{entitySetName}'");
+        }
 
         /// <summary>
         /// Gets a value indicating whether the specified <see cref="EdmType"/> is an <see cref="EntitySet"/>.
