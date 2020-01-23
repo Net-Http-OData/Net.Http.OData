@@ -30,6 +30,7 @@ namespace Net.Http.OData
         /// </summary>
         /// <param name="requestUri">The OData request URI.</param>
         /// <returns>The OData context URI.</returns>
+        [Obsolete("The functionality in this class will be moved to UriUtility")]
         public static StringBuilder ODataContextUriBuilder(this Uri requestUri)
         {
             StringBuilder contextUriBuilder = ODataServiceUriBuilder(requestUri);
@@ -44,6 +45,7 @@ namespace Net.Http.OData
         /// <param name="requestUri">The OData request URI.</param>
         /// <param name="entitySet">The entity set.</param>
         /// <returns>The OData context URI.</returns>
+        [Obsolete("The functionality in this class will be moved to UriUtility")]
         public static StringBuilder ODataContextUriBuilder(this Uri requestUri, EntitySet entitySet)
         {
             if (entitySet is null)
@@ -64,6 +66,7 @@ namespace Net.Http.OData
         /// <param name="entitySet">The entity set.</param>
         /// <param name="selectExpandQueryOption">The select query option.</param>
         /// <returns>The OData context URI.</returns>
+        [Obsolete("The functionality in this class will be moved to UriUtility")]
         public static StringBuilder ODataContextUriBuilder(this Uri requestUri, EntitySet entitySet, SelectExpandQueryOption selectExpandQueryOption)
         {
             if (entitySet is null)
@@ -93,6 +96,7 @@ namespace Net.Http.OData
         /// <param name="entityKey">The entity key.</param>
         /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
         /// <returns>The OData context URI.</returns>
+        [Obsolete("The functionality in this class will be moved to UriUtility")]
         public static StringBuilder ODataContextUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey)
             => ODataContextUriBuilder(requestUri, entitySet).Append("/$entity");
 
@@ -105,6 +109,7 @@ namespace Net.Http.OData
         /// <param name="propertyName">The name of the property.</param>
         /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
         /// <returns>The OData context URI.</returns>
+        [Obsolete("The functionality in this class will be moved to UriUtility")]
         public static StringBuilder ODataContextUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey, string propertyName)
         {
             StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
@@ -131,6 +136,7 @@ namespace Net.Http.OData
         /// <param name="entityKey">The entity key.</param>
         /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
         /// <returns>The OData entity URI.</returns>
+        [Obsolete("The functionality in this class will be moved to UriUtility")]
         public static StringBuilder ODataEntityUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey)
         {
             if (entitySet is null)
@@ -158,6 +164,7 @@ namespace Net.Http.OData
         /// </summary>
         /// <param name="requestUri">The OData request URI.</param>
         /// <returns>The OData service URI.</returns>
+        [Obsolete("The functionality in this class will be moved to UriUtility")]
         public static Uri ResolveODataServiceUri(this Uri requestUri)
             => new Uri(ODataServiceUriBuilder(requestUri).ToString());
 
