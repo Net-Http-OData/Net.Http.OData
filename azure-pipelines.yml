@@ -23,11 +23,19 @@ variables:
   buildVersion: '0.0.0'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- task: DotNetCoreCLI@2
   displayName: 'dotnet build $(buildConfiguration)'
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
 
-- script: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\
+- task: DotNetCoreCLI@2
   displayName: 'dotnet test'
+  inputs:
+    command: 'test'
+    projects: '**/*Tests.csproj'
+    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet cli report generator'
@@ -60,3 +68,4 @@ steps:
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'NuGet.org (Net.Http.OData)'
+  condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual'))
