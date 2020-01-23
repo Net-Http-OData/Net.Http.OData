@@ -23,19 +23,11 @@ variables:
   buildVersion: '0.0.0'
 
 steps:
-- task: DotNetCoreCLI@2
+- script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
+- script: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\
   displayName: 'dotnet test'
-  inputs:
-    command: 'test'
-    projects: '**/*Tests.csproj'
-    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet cli report generator'
