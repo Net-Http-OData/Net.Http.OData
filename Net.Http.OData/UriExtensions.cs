@@ -22,6 +22,7 @@ namespace Net.Http.OData
     /// <summary>
     /// Extensions for the Uri class.
     /// </summary>
+    [Obsolete("The functionality in this class will be moved to UriUtility")]
     public static class UriExtensions
     {
         /// <summary>
