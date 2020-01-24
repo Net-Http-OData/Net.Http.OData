@@ -16,7 +16,7 @@ using System.Linq;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// Represents a type in the Entity Data Model.
+    /// A class which represents a type in the Entity Data Model.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{FullName}: {ClrType}")]
     public abstract class EdmType : IEquatable<EdmType>

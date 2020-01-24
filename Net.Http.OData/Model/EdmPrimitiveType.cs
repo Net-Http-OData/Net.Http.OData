@@ -16,7 +16,7 @@ using System.IO;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// Represents a primitive type in the Entity Data Model.
+    /// A class which represents a primitive type in the Entity Data Model.
     /// </summary>
     /// <seealso cref="EdmType" />
     [System.Diagnostics.DebuggerDisplay("{FullName}: {ClrType}")]

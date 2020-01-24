@@ -19,7 +19,7 @@ using System.Reflection;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// A class which builds the <see cref="EntityDataModel"/>.
+    /// The class used to build the <see cref="EntityDataModel"/> using a fluent API, it should be used once at application startup.
     /// </summary>
     public sealed class EntityDataModelBuilder
     {

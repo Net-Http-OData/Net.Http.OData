@@ -16,7 +16,7 @@ using System.Collections.Generic;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// Represents an Enum type in the Entity Data Model.
+    /// A class which represents an Enum type in the Entity Data Model.
     /// </summary>
     /// <seealso cref="EdmType" />
     [System.Diagnostics.DebuggerDisplay("{Name}: {ClrType}")]
@@ -29,7 +29,7 @@ namespace Net.Http.OData.Model
         }
 
         /// <summary>
-        /// Gets the enum members.
+        /// Gets the <see cref="EdmEnumMember"/>s that represent the values of the underlying enum.
         /// </summary>
         public IReadOnlyList<EdmEnumMember> Members { get; }
 

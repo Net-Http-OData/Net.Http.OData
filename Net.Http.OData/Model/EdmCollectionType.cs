@@ -15,7 +15,7 @@ using System;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// Represents a collection type in the Entity Data Model.
+    /// A class which represents a collection type in the Entity Data Model.
     /// </summary>
     /// <seealso cref="EdmType"/>
     [System.Diagnostics.DebuggerDisplay("{FullName}: {ClrType}")]
@@ -28,7 +28,7 @@ namespace Net.Http.OData.Model
         }
 
         /// <summary>
-        /// Gets the <see cref="EdmType"/> type contained in the collection.
+        /// Gets the <see cref="EdmType"/> contained in the collection.
         /// </summary>
         public EdmType ContainedType { get; }
     }

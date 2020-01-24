@@ -15,7 +15,7 @@ using System;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// Represents an Entity Set in the Entity Data Model.
+    /// A class which represents an Entity Set in the Entity Data Model.
     /// </summary>
     public sealed class EntitySet
     {
@@ -43,7 +43,7 @@ namespace Net.Http.OData.Model
         public EdmComplexType EdmType { get; }
 
         /// <summary>
-        /// Gets the entity key property.
+        /// Gets the <see cref="EdmProperty"/> which is the entity key.
         /// </summary>
         public EdmProperty EntityKey { get; }
 

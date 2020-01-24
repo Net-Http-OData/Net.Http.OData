@@ -17,7 +17,7 @@ using System.Net;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// Represents a complex type in the Entity Data Model.
+    /// A class which represents a complex type in the Entity Data Model.
     /// </summary>
     /// <seealso cref="EdmType" />
     [System.Diagnostics.DebuggerDisplay("{FullName}: {ClrType}")]
@@ -36,7 +36,7 @@ namespace Net.Http.OData.Model
         }
 
         /// <summary>
-        /// Gets the <see cref="EdmType"/> from which the current <see cref="EdmComplexType"/> directly inherits.
+        /// Gets the <see cref="EdmType"/> from which this <see cref="EdmComplexType"/> directly inherits.
         /// </summary>
         public EdmType BaseType { get; }
 
@@ -46,7 +46,7 @@ namespace Net.Http.OData.Model
         public IReadOnlyList<EdmProperty> Properties { get; }
 
         /// <summary>
-        /// Gets the property with the specified name.
+        /// Gets the <see cref="EdmProperty"/> with the specified name.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <returns>The <see cref="EdmProperty"/> declared in this type with the specified name.</returns>
