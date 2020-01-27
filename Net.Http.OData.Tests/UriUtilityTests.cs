@@ -7,6 +7,30 @@ namespace Net.Http.OData.Tests
     public class UriUtilityTests
     {
         [Fact]
+        public void ODataEntityUri_WithEntityKeyInt_Property()
+        {
+            TestHelper.EnsureEDM();
+
+            EntitySet entitySet = EntityDataModel.Current.EntitySets["Products"];
+
+            Assert.Equal(
+                "https://services.odata.org/OData/Products(10142276)",
+                UriUtility.ODataEntityUri("https", "services.odata.org", "/OData/Products/", entitySet, 10142276).ToString());
+        }
+
+        [Fact]
+        public void ODataEntityUri_WithEntityKeyString_Property()
+        {
+            TestHelper.EnsureEDM();
+
+            EntitySet entitySet = EntityDataModel.Current.EntitySets["Customers"];
+
+            Assert.Equal(
+                "https://services.odata.org/OData/Customers('Tesco')",
+                UriUtility.ODataEntityUri("https", "services.odata.org", "/OData/Customers/", entitySet, "Tesco").ToString());
+        }
+
+        [Fact]
         public void ODataServiceContextUri()
         {
             Assert.Equal(

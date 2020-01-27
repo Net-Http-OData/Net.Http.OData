@@ -28,6 +28,19 @@ namespace Net.Http.OData
         private static readonly char[] s_nonNameCharacters = new[] { '(', '/', '$', '%' };
 
         /// <summary>
+        /// Returns a <see cref="Uri"/> which represents the URI of the entity with the specified key.
+        /// </summary>
+        /// <param name="scheme">The scheme, which should be HTTP or HTTPS.</param>
+        /// <param name="host">The host (e.g. odataservice.org).</param>
+        /// <param name="path">The path (e.g. /odata/...)</param>
+        /// <param name="entitySet">The <see cref="EntitySet"/>.</param>
+        /// <param name="entityKey">The entity key for the entity set.</param>
+        /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
+        /// <returns>A <see cref="Uri"/> which represents the URI of the entity with the specified key.</returns>
+        public static Uri ODataEntityUri<TEntityKey>(string scheme, string host, string path, EntitySet entitySet, TEntityKey entityKey)
+            => new Uri(ODataContextUriBuilder(scheme, host, path, entitySet).Replace("$metadata#", string.Empty).AppendEntityKey(entityKey).ToString());
+
+        /// <summary>
         /// Returns a <see cref="Uri"/> which represents the @odata.context URI.
         /// </summary>
         /// <param name="metadataLevel">The OData metadata level for the current request.</param>
@@ -138,8 +151,22 @@ namespace Net.Http.OData
             return null;
         }
 
+        private static StringBuilder AppendEntityKey<TEntityKey>(this StringBuilder contextUriBuilder, TEntityKey entityKey)
+        {
+            if (typeof(TEntityKey) == typeof(string))
+            {
+                contextUriBuilder.Append("('").Append(entityKey.ToString()).Append("')");
+            }
+            else
+            {
+                contextUriBuilder.Append("(").Append(entityKey.ToString()).Append(")");
+            }
+
+            return contextUriBuilder;
+        }
+
         private static StringBuilder ODataContextUriBuilder(string scheme, string host, string path)
-            => ODataServiceUriBuilder(scheme, host, path).Append("$metadata");
+                    => ODataServiceUriBuilder(scheme, host, path).Append("$metadata");
 
         private static StringBuilder ODataContextUriBuilder(string scheme, string host, string path, EntitySet entitySet)
         {
@@ -169,18 +196,10 @@ namespace Net.Http.OData
 
         private static StringBuilder ODataContextUriBuilder<TEntityKey>(string scheme, string host, string path, EntitySet entitySet, TEntityKey entityKey, string propertyName)
         {
-            StringBuilder contextUriBuilder = ODataContextUriBuilder(scheme, host, path, entitySet);
-
-            if (typeof(TEntityKey) == typeof(string))
-            {
-                contextUriBuilder.Append("('").Append(entityKey.ToString()).Append("')");
-            }
-            else
-            {
-                contextUriBuilder.Append("(").Append(entityKey.ToString()).Append(")");
-            }
-
-            contextUriBuilder.Append('/').Append(propertyName);
+            StringBuilder contextUriBuilder = ODataContextUriBuilder(scheme, host, path, entitySet)
+                .AppendEntityKey(entityKey)
+                .Append('/')
+                .Append(propertyName);
 
             return contextUriBuilder;
         }
