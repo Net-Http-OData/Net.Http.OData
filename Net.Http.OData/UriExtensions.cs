@@ -26,109 +26,6 @@ namespace Net.Http.OData
     public static class UriExtensions
     {
         /// <summary>
-        /// Builds the OData context URI.
-        /// </summary>
-        /// <param name="requestUri">The OData request URI.</param>
-        /// <returns>The OData context URI.</returns>
-        [Obsolete("The functionality in this class will be moved to UriUtility")]
-        public static StringBuilder ODataContextUriBuilder(this Uri requestUri)
-        {
-            StringBuilder contextUriBuilder = ODataServiceUriBuilder(requestUri);
-            contextUriBuilder.Append("$metadata");
-
-            return contextUriBuilder;
-        }
-
-        /// <summary>
-        /// Builds the OData context URI.
-        /// </summary>
-        /// <param name="requestUri">The OData request URI.</param>
-        /// <param name="entitySet">The entity set.</param>
-        /// <returns>The OData context URI.</returns>
-        [Obsolete("The functionality in this class will be moved to UriUtility")]
-        public static StringBuilder ODataContextUriBuilder(this Uri requestUri, EntitySet entitySet)
-        {
-            if (entitySet is null)
-            {
-                throw new ArgumentNullException(nameof(entitySet));
-            }
-
-            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri);
-            contextUriBuilder.Append("#").Append(entitySet.Name);
-
-            return contextUriBuilder;
-        }
-
-        /// <summary>
-        /// Builds the OData context URI.
-        /// </summary>
-        /// <param name="requestUri">The OData request URI.</param>
-        /// <param name="entitySet">The entity set.</param>
-        /// <param name="selectExpandQueryOption">The select query option.</param>
-        /// <returns>The OData context URI.</returns>
-        [Obsolete("The functionality in this class will be moved to UriUtility")]
-        public static StringBuilder ODataContextUriBuilder(this Uri requestUri, EntitySet entitySet, SelectExpandQueryOption selectExpandQueryOption)
-        {
-            if (entitySet is null)
-            {
-                throw new ArgumentNullException(nameof(entitySet));
-            }
-
-            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
-
-            if (selectExpandQueryOption?.RawValue.Equals("$select=*", StringComparison.Ordinal) == true)
-            {
-                contextUriBuilder.Append("(*)");
-            }
-            else if (selectExpandQueryOption?.PropertyPaths.Count > 0)
-            {
-                contextUriBuilder.AppendFormat(CultureInfo.InvariantCulture, "({0})", string.Join(",", selectExpandQueryOption.PropertyPaths.Select(p => p.Property.Name)));
-            }
-
-            return contextUriBuilder;
-        }
-
-        /// <summary>
-        /// Builds the OData context URI.
-        /// </summary>
-        /// <param name="requestUri">The OData request URI.</param>
-        /// <param name="entitySet">The entity set.</param>
-        /// <param name="entityKey">The entity key.</param>
-        /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
-        /// <returns>The OData context URI.</returns>
-        [Obsolete("The functionality in this class will be moved to UriUtility")]
-        public static StringBuilder ODataContextUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey)
-            => ODataContextUriBuilder(requestUri, entitySet).Append("/$entity");
-
-        /// <summary>
-        /// Builds the OData context URI.
-        /// </summary>
-        /// <param name="requestUri">The OData request URI.</param>
-        /// <param name="entitySet">The entity set.</param>
-        /// <param name="entityKey">The entity key.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
-        /// <returns>The OData context URI.</returns>
-        [Obsolete("The functionality in this class will be moved to UriUtility")]
-        public static StringBuilder ODataContextUriBuilder<TEntityKey>(this Uri requestUri, EntitySet entitySet, TEntityKey entityKey, string propertyName)
-        {
-            StringBuilder contextUriBuilder = ODataContextUriBuilder(requestUri, entitySet);
-
-            if (typeof(TEntityKey) == typeof(string))
-            {
-                contextUriBuilder.Append("('").Append(entityKey.ToString()).Append("')");
-            }
-            else
-            {
-                contextUriBuilder.Append("(").Append(entityKey.ToString()).Append(")");
-            }
-
-            contextUriBuilder.Append('/').Append(propertyName);
-
-            return contextUriBuilder;
-        }
-
-        /// <summary>
         /// Builds the OData entity URI.
         /// </summary>
         /// <param name="requestUri">The OData request URI.</param>
@@ -158,15 +55,6 @@ namespace Net.Http.OData
 
             return contextUriBuilder;
         }
-
-        /// <summary>
-        /// Builds the OData service URI.
-        /// </summary>
-        /// <param name="requestUri">The OData request URI.</param>
-        /// <returns>The OData service URI.</returns>
-        [Obsolete("The functionality in this class will be moved to UriUtility")]
-        public static Uri ResolveODataServiceUri(this Uri requestUri)
-            => new Uri(ODataServiceUriBuilder(requestUri).ToString());
 
         private static StringBuilder ODataServiceUriBuilder(Uri requestUri)
         {
