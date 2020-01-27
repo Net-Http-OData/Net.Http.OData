@@ -181,6 +181,10 @@ namespace Net.Http.OData.Tests
         {
             Assert.Equal(
                 "https://services.odata.org/OData/",
+                UriUtility.ODataServiceRootUri("https", "services.odata.org", "/OData").ToString());
+
+            Assert.Equal(
+                "https://services.odata.org/OData/",
                 UriUtility.ODataServiceRootUri("https", "services.odata.org", "/OData/Products").ToString());
 
             Assert.Equal(
