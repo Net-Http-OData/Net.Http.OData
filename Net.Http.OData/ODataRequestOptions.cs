@@ -22,12 +22,12 @@ namespace Net.Http.OData
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataRequestOptions"/> class.
         /// </summary>
-        /// <param name="dataServiceUri">The root URI of the OData Service.</param>
+        /// <param name="dataServiceRoot">The root URI of the OData Service.</param>
         /// <param name="isolationLevel">The OData-Isolation requested by the client, or None if not otherwise specified.</param>
         /// <param name="metadataLevel">The odata.metadata level specified in the ACCEPT header by the client, or Minimal if not otherwise specified.</param>
-        public ODataRequestOptions(Uri dataServiceUri, ODataIsolationLevel isolationLevel, ODataMetadataLevel metadataLevel)
+        public ODataRequestOptions(Uri dataServiceRoot, ODataIsolationLevel isolationLevel, ODataMetadataLevel metadataLevel)
         {
-            DataServiceUri = dataServiceUri;
+            DataServiceRoot = dataServiceRoot ?? throw new ArgumentNullException(nameof(dataServiceRoot));
             IsolationLevel = isolationLevel;
             MetadataLevel = metadataLevel;
         }
@@ -35,7 +35,7 @@ namespace Net.Http.OData
         /// <summary>
         /// Gets the root URI of the OData Service.
         /// </summary>
-        public Uri DataServiceUri { get; }
+        public Uri DataServiceRoot { get; }
 
         /// <summary>
         /// Gets the OData-Isolation requested by the client, or None if not otherwise specified.
