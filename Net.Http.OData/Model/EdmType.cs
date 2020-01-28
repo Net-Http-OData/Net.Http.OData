@@ -67,13 +67,7 @@ namespace Net.Http.OData.Model
         public static EdmType GetEdmType(Type clrType)
             => EdmTypeCache.Map.TryGetValue(clrType, out EdmType edmType) ? edmType : default;
 
-        /// <summary>
-        /// Determines whether the specified <see cref="object" />, is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
+        /// <inheritdoc/>
         public override bool Equals(object obj) => Equals(obj as EdmType);
 
         /// <summary>
@@ -98,20 +92,10 @@ namespace Net.Http.OData.Model
             return ClrType.Equals(other.ClrType);
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-        /// </returns>
+        /// <inheritdoc/>
         public override int GetHashCode() => ClrType.GetHashCode();
 
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="string" /> that represents this instance.
-        /// </returns>
+        /// <inheritdoc/>
         public override string ToString() => FullName;
 
         /// <summary>

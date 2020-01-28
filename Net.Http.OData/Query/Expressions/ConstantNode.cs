@@ -39,9 +39,7 @@ namespace Net.Http.OData.Query.Expressions
         /// </summary>
         public EdmType EdmType { get; }
 
-        /// <summary>
-        /// Gets the kind of query node.
-        /// </summary>
+        /// <inheritdoc/>
         public override QueryNodeKind Kind { get; } = QueryNodeKind.Constant;
 
         /// <summary>

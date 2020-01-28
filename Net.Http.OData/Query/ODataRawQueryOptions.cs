@@ -201,12 +201,7 @@ namespace Net.Http.OData.Query
         /// </summary>
         public string Top { get; }
 
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="string" /> that represents this instance.
-        /// </returns>
+        /// <inheritdoc/>
         public override string ToString() => _rawQuery;
     }
 }

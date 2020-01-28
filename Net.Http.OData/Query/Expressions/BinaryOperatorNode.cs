@@ -31,9 +31,7 @@ namespace Net.Http.OData.Query.Expressions
             Right = right;
         }
 
-        /// <summary>
-        /// Gets the kind of query node.
-        /// </summary>
+        /// <inheritdoc/>
         public override QueryNodeKind Kind { get; } = QueryNodeKind.BinaryOperator;
 
         /// <summary>

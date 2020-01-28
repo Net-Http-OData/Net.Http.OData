@@ -27,9 +27,7 @@ namespace Net.Http.OData.Query.Expressions
             PropertyPath = propertyPath;
         }
 
-        /// <summary>
-        /// Gets the kind of query node.
-        /// </summary>
+        /// <inheritdoc/>
         public override QueryNodeKind Kind { get; } = QueryNodeKind.PropertyAccess;
 
         /// <summary>

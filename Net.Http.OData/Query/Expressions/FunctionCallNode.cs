@@ -29,9 +29,7 @@ namespace Net.Http.OData.Query.Expressions
             Name = name;
         }
 
-        /// <summary>
-        /// Gets the kind of query node.
-        /// </summary>
+        /// <inheritdoc/>
         public override QueryNodeKind Kind { get; } = QueryNodeKind.FunctionCall;
 
         /// <summary>
