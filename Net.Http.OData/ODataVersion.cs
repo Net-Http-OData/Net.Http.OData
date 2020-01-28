@@ -32,11 +32,6 @@ namespace Net.Http.OData
         /// <param name="version">The string representation of the OData version (e.g. '4.0').</param>
         private ODataVersion(string version)
         {
-            if (!s_regex.IsMatch(version))
-            {
-                throw new ArgumentOutOfRangeException(nameof(version));
-            }
-
             _decimalVersion = decimal.Parse(version, CultureInfo.InvariantCulture);
             _version = version;
         }
@@ -132,6 +127,8 @@ namespace Net.Http.OData
         /// </summary>
         /// <param name="version">The string representation of the OData version (e.g. '4.0').</param>
         /// <returns>An <see cref="ODataVersion"/> which represents the specified version string.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the specified version is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the specified version is not a string representation of an OData version.</exception>
         public static ODataVersion Parse(string version)
         {
             if (version is null)
@@ -139,13 +136,33 @@ namespace Net.Http.OData
                 throw new ArgumentNullException(nameof(version));
             }
 
+            return TryParse(version, out ODataVersion odataVersion) ? odataVersion : throw new ArgumentOutOfRangeException(nameof(version));
+        }
+
+        /// <summary>
+        /// Converts the string representation of an OData version to its <see cref="ODataVersion"/> equivalent.
+        /// A return value indicates whether the conversion succeeded or failed.
+        /// </summary>
+        /// <param name="version">The string representation of the OData version (e.g. '4.0').</param>
+        /// <param name="odataVersion">The <see cref="ODataVersion"/> representation of the specified string if converted successfully, otherwise null.</param>
+        /// <returns> true if s was converted successfully; otherwise, false.</returns>
+        public static bool TryParse(string version, out ODataVersion odataVersion)
+        {
+            if (version is null || !s_regex.IsMatch(version))
+            {
+                odataVersion = default;
+                return false;
+            }
+
             switch (version)
             {
                 case "4.0":
-                    return OData40;
+                    odataVersion = OData40;
+                    return true;
 
                 default:
-                    return new ODataVersion(version);
+                    odataVersion = new ODataVersion(version);
+                    return true;
             }
         }
 

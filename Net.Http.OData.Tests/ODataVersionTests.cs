@@ -82,6 +82,12 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
+        public void Parse_Returns_ODataVersion()
+        {
+            Assert.NotNull(ODataVersion.Parse("3.0"));
+        }
+
+        [Fact]
         public void Parse_ReturnsPropertyRef_ForSameValue()
         {
             Assert.Same(ODataVersion.OData40, ODataVersion.Parse("4.0"));
@@ -93,19 +99,38 @@ namespace Net.Http.OData.Tests
             Assert.Throws<ArgumentNullException>(() => ODataVersion.Parse(null));
         }
 
-        [Fact]
-        public void Parse_Throws_ArgumentOutOfRangeException_IfVersionNotParsable()
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("1.0.0")]
+        [InlineData("10")]
+        public void Parse_Throws_ArgumentOutOfRangeException_IfVersionNotParsable(string version)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ODataVersion.Parse(""));
-            Assert.Throws<ArgumentOutOfRangeException>(() => ODataVersion.Parse("foo"));
-            Assert.Throws<ArgumentOutOfRangeException>(() => ODataVersion.Parse("1.0.0"));
-            Assert.Throws<ArgumentOutOfRangeException>(() => ODataVersion.Parse("10"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ODataVersion.Parse(version));
         }
 
         [Fact]
         public void ToString_ReturnsString()
         {
             Assert.Equal("4.0", ODataVersion.OData40.ToString());
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("1.0.0")]
+        [InlineData("10")]
+        public void TryParse_Returns_False_NullODataVersion(string version)
+        {
+            Assert.False(ODataVersion.TryParse(version, out ODataVersion odataVersion));
+            Assert.Null(odataVersion);
+        }
+
+        [Fact]
+        public void TryParse_Returns_True_ODataVersion()
+        {
+            Assert.True(ODataVersion.TryParse("3.0", out ODataVersion odataVersion));
+            Assert.NotNull(odataVersion);
         }
     }
 }
