@@ -22,5 +22,7 @@ namespace Net.Http.OData
         internal static char[] Comma { get; } = new[] { ',' };
 
         internal static char[] ForwardSlash { get; } = new[] { '/' };
+
+        internal static char[] Period { get; } = new[] { '.' };
     }
 }

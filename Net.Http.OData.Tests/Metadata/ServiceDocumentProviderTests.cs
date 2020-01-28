@@ -16,7 +16,7 @@ namespace Net.Http.OData.Tests.Metadata
 
             List<ServiceDocumentItem> serviceDocumentItems = ServiceDocumentProvider.Create(
                 EntityDataModel.Current,
-                new ODataRequestOptions(new Uri("https://services.odata.org/OData"), ODataIsolationLevel.None, ODataMetadataLevel.Minimal))
+                new ODataRequestOptions(new Uri("https://services.odata.org/OData"), ODataIsolationLevel.None, ODataMetadataLevel.Minimal, ODataVersion.OData40))
                 .ToList();
 
             Assert.Equal(6, serviceDocumentItems.Count);
@@ -53,7 +53,7 @@ namespace Net.Http.OData.Tests.Metadata
 
             List<ServiceDocumentItem> serviceDocumentItems = ServiceDocumentProvider.Create(
                 EntityDataModel.Current,
-                new ODataRequestOptions(new Uri("https://services.odata.org/OData/"), ODataIsolationLevel.None, ODataMetadataLevel.None))
+                new ODataRequestOptions(new Uri("https://services.odata.org/OData/"), ODataIsolationLevel.None, ODataMetadataLevel.None, ODataVersion.OData40))
                 .ToList();
 
             Assert.Equal(6, serviceDocumentItems.Count);
