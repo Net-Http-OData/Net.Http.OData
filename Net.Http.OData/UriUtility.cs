@@ -166,7 +166,7 @@ namespace Net.Http.OData
         }
 
         private static StringBuilder ODataContextUriBuilder(string scheme, string host, string path)
-                    => ODataServiceUriBuilder(scheme, host, path).Append("$metadata");
+            => ODataServiceUriBuilder(scheme, host, path).Append("$metadata");
 
         private static StringBuilder ODataContextUriBuilder(string scheme, string host, string path, EntitySet entitySet)
         {

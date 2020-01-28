@@ -28,6 +28,7 @@ namespace Net.Http.OData.Metadata
         /// <param name="entityDataModel">The Entity Data Model.</param>
         /// <param name="requestOptions">The OData request options.</param>
         /// <returns>The <see cref="ServiceDocumentItem"/>s.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entityDataModel"/> or <paramref name="requestOptions"/> are null.</exception>
         public static IEnumerable<ServiceDocumentItem> Create(EntityDataModel entityDataModel, ODataRequestOptions requestOptions)
         {
             if (entityDataModel is null)

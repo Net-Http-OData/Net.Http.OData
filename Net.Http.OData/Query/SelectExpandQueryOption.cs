@@ -28,6 +28,7 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="rawValue">The raw request value.</param>
         /// <param name="model">The model.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawValue"/> is null.</exception>
         internal SelectExpandQueryOption(string rawValue, EdmComplexType model)
             : base(rawValue)
         {

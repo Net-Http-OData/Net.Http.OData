@@ -33,6 +33,7 @@ namespace Net.Http.OData.Metadata
         /// </summary>
         /// <param name="entityDataModel">The Entity Data Model to include the Metadata for.</param>
         /// <returns>An <see cref="XDocument"/> containing the Metadata XML document for the Entity Data Model.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entityDataModel"/> is null.</exception>
         public static XDocument Create(EntityDataModel entityDataModel)
         {
             if (entityDataModel is null)

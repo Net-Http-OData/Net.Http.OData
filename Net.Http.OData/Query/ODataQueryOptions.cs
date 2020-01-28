@@ -33,7 +33,7 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="query">The query fom the request URI.</param>
         /// <param name="entitySet">The Entity Set to apply the OData query against.</param>
-        /// <exception cref="ArgumentNullException">Thrown if the request or model are null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> or <paramref name="entitySet"/> are null.</exception>
         public ODataQueryOptions(string query, EntitySet entitySet)
         {
             EntitySet = entitySet ?? throw new ArgumentNullException(nameof(entitySet));

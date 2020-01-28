@@ -35,6 +35,7 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
         /// <param name="next">The next <see cref="PropertyPath"/> in the property path.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="property"/> is null.</exception>
         internal PropertyPath(EdmProperty property, PropertyPath next)
         {
             Property = property ?? throw new ArgumentNullException(nameof(property));
@@ -42,7 +43,7 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the next property in the path being referenced in the query.
+        /// Gets the next property in the path being referenced in the query, or null if this instance is the last property in the path.
         /// </summary>
         public PropertyPath Next { get; }
 

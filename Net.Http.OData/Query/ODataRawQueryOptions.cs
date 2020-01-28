@@ -26,7 +26,8 @@ namespace Net.Http.OData.Query
         /// Initialises a new instance of the <see cref="ODataRawQueryOptions"/> class.
         /// </summary>
         /// <param name="rawQuery">The raw query.</param>
-        /// <exception cref="ArgumentNullException">Thrown if raw query is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawQuery"/> is null.</exception>
+        /// <exception cref="ODataException">Thrown if an error occurs parsing the <paramref name="rawQuery"/>.</exception>
         internal ODataRawQueryOptions(string rawQuery)
         {
             if (rawQuery is null)

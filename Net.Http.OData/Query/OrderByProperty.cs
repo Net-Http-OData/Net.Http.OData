@@ -27,8 +27,8 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="rawValue">The raw value.</param>
         /// <param name="model">The model.</param>
-        /// <exception cref="ArgumentNullException">Thrown if raw value or model are null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If supplied, the direction should be either 'asc' or 'desc'.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawValue"/> or <paramref name="model"/> are null.</exception>
+        /// <exception cref="ODataException">Thrown if there is an error parsing the <paramref name="rawValue"/>.</exception>
         internal OrderByProperty(string rawValue, EdmComplexType model)
         {
             if (model is null)

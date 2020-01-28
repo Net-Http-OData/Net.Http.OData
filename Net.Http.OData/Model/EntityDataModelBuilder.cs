@@ -30,6 +30,7 @@ namespace Net.Http.OData.Model
         /// Initialises a new instance of the <see cref="EntityDataModelBuilder"/> class.
         /// </summary>
         /// <param name="entitySetNameComparer">The equality comparer to use for the Entity Set name.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entitySetNameComparer"/> is null.</exception>
         public EntityDataModelBuilder(IEqualityComparer<string> entitySetNameComparer)
         {
             _entitySets = new Dictionary<string, EntitySet>(entitySetNameComparer) ?? throw new ArgumentNullException(nameof(entitySetNameComparer));
@@ -60,6 +61,7 @@ namespace Net.Http.OData.Model
         /// <param name="entityKeyExpression">The Entity Key expression.</param>
         /// <param name="capabilities">The capabilities of the Entity Set.</param>
         /// <returns>This entity data model builder.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entityKeyExpression"/> is null.</exception>
         public EntityDataModelBuilder RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression, Capabilities capabilities)
         {
             if (entityKeyExpression is null)
