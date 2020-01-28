@@ -36,13 +36,8 @@ namespace Net.Http.OData.Query
         /// <exception cref="ArgumentNullException">Thrown if the request or model are null.</exception>
         public ODataQueryOptions(string query, EntitySet entitySet)
         {
-            if (query is null)
-            {
-                throw new ArgumentNullException(nameof(query));
-            }
-
             EntitySet = entitySet ?? throw new ArgumentNullException(nameof(entitySet));
-            RawValues = new ODataRawQueryOptions(query);
+            RawValues = new ODataRawQueryOptions(query ?? throw new ArgumentNullException(nameof(query)));
         }
 
         /// <summary>
