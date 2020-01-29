@@ -10,7 +10,6 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
-using System;
 
 namespace Net.Http.WebApi.OData
 {
@@ -22,35 +21,35 @@ namespace Net.Http.WebApi.OData
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataResponseContent"/> class.
         /// </summary>
-        /// <param name="context">The URI to the metadata.</param>
         /// <param name="value">The value to be returned.</param>
-        public ODataResponseContent(Uri context, object value)
-            : this(context, value, null, null)
+        /// <param name="context">The @odata.context for the value.</param>
+        public ODataResponseContent(object value, string context)
+            : this(value, context, null, null)
         {
         }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataResponseContent"/> class.
         /// </summary>
-        /// <param name="context">The URI to the metadata.</param>
         /// <param name="value">The value to be returned.</param>
-        /// <param name="count">The total result count.</param>
-        public ODataResponseContent(Uri context, object value, int? count)
-            : this(context, value, count, null)
+        /// <param name="context">The @odata.context for the value.</param>
+        /// <param name="count">The @odata.count (total result count).</param>
+        public ODataResponseContent(object value, string context, int? count)
+            : this(value, context, count, null)
         {
         }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataResponseContent"/> class.
         /// </summary>
-        /// <param name="context">The URI to the metadata.</param>
         /// <param name="value">The value to be returned.</param>
-        /// <param name="count">The total result count.</param>
-        /// <param name="nextLink">The URI to the next results in a paged response.</param>
-        public ODataResponseContent(Uri context, object value, int? count, Uri nextLink)
+        /// <param name="context">The @odata.context for the value.</param>
+        /// <param name="count">The @odata.count (total result count).</param>
+        /// <param name="nextLink">The @odata.nextLink to the next results in a paged response.</param>
+        public ODataResponseContent(object value, string context, int? count, string nextLink)
         {
-            Context = context;
             Value = value;
+            Context = context;
             Count = count;
             NextLink = nextLink;
         }
@@ -59,7 +58,7 @@ namespace Net.Http.WebApi.OData
         /// Gets the URI to the metadata.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.context", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
-        public Uri Context { get; }
+        public string Context { get; }
 
         /// <summary>
         /// Gets the total result count.
@@ -71,7 +70,7 @@ namespace Net.Http.WebApi.OData
         /// Gets the URI to the next results in a paged response.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.nextLink", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 2)]
-        public Uri NextLink { get; }
+        public string NextLink { get; }
 
         /// <summary>
         /// Gets the value to be returned.

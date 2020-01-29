@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Net.Http.WebApi.OData;
 using Xunit;
@@ -9,15 +8,15 @@ namespace Net.Http.OData.Tests
     {
         public class WhenConstructed
         {
-            private readonly Uri _context = new Uri("http://services.odata.org/OData/$metadata#Products");
+            private readonly string _context = "http://services.odata.org/OData/$metadata#Products";
             private readonly int _count = 5;
-            private readonly Uri _nextLink = new Uri("http://services.odata.org/OData/Products?$skip=5");
+            private readonly string _nextLink = "http://services.odata.org/OData/Products?$skip=5";
             private readonly ODataResponseContent _responseContent;
             private readonly List<int> _value = new List<int> { 1, 2, 3 };
 
             public WhenConstructed()
             {
-                _responseContent = new ODataResponseContent(_context, _value, _count, _nextLink);
+                _responseContent = new ODataResponseContent(_value, _context, _count, _nextLink);
             }
 
             [Fact]

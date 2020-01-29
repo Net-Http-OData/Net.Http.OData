@@ -1,4 +1,3 @@
-using System;
 using System.Dynamic;
 using Net.Http.WebApi.OData;
 using Newtonsoft.Json;
@@ -18,8 +17,8 @@ namespace Net.Http.OData.Tests
             };
 
             var responseContent = new ODataResponseContent(
-                null,
                 new[] { item },
+                null,
                 count: 12);
 
             string jsonResult = JsonConvert.SerializeObject(responseContent);
@@ -37,8 +36,8 @@ namespace Net.Http.OData.Tests
             };
 
             var responseContent = new ODataResponseContent(
-                new Uri("http://services.odata.org/OData/$metadata#Products"),
                 new[] { item },
+                "http://services.odata.org/OData/$metadata#Products",
                 count: 12);
 
             string jsonResult = JsonConvert.SerializeObject(responseContent);
@@ -56,10 +55,10 @@ namespace Net.Http.OData.Tests
             };
 
             var responseContent = new ODataResponseContent(
-                new Uri("http://services.odata.org/OData/$metadata#Products"),
                 new[] { item },
+                "http://services.odata.org/OData/$metadata#Products",
                 count: 12,
-                nextLink: new Uri("http://services.odata.org/OData/Products?$skip=5"));
+                nextLink: "http://services.odata.org/OData/Products?$skip=5");
 
             string jsonResult = JsonConvert.SerializeObject(responseContent);
 
@@ -74,8 +73,8 @@ namespace Net.Http.OData.Tests
             item.Name = "Fred";
 
             var responseContent = new ODataResponseContent(
-                new Uri("http://services.odata.org/OData/$metadata#Products"),
                 new[] { item },
+                "http://services.odata.org/OData/$metadata#Products",
                 count: 12);
 
             string jsonResult = JsonConvert.SerializeObject(responseContent);
@@ -91,10 +90,10 @@ namespace Net.Http.OData.Tests
             item.Name = "Fred";
 
             var responseContent = new ODataResponseContent(
-                new Uri("http://services.odata.org/OData/$metadata#Products"),
                 new[] { item },
+                "http://services.odata.org/OData/$metadata#Products",
                 count: 12,
-                nextLink: new Uri("http://services.odata.org/OData/Products?$skip=5"));
+                nextLink: "http://services.odata.org/OData/Products?$skip=5");
 
             string jsonResult = JsonConvert.SerializeObject(responseContent);
 
@@ -109,8 +108,8 @@ namespace Net.Http.OData.Tests
             item.Name = "Fred";
 
             var responseContent = new ODataResponseContent(
-                null,
                 new[] { item },
+                null,
                 count: 12);
 
             string jsonResult = JsonConvert.SerializeObject(responseContent);
@@ -122,8 +121,8 @@ namespace Net.Http.OData.Tests
         public void JsonSerializationWith_SimpleContent_Count()
         {
             var responseContent = new ODataResponseContent(
-                null,
                 new[] { 1, 2, 3 },
+                null,
                 count: 5);
 
             string jsonResult = JsonConvert.SerializeObject(responseContent);
@@ -133,17 +132,9 @@ namespace Net.Http.OData.Tests
 
         public class Thing
         {
-            public string Name
-            {
-                get;
-                set;
-            }
+            public string Name { get; set; }
 
-            public decimal Total
-            {
-                get;
-                set;
-            }
+            public decimal Total { get; set; }
         }
     }
 }

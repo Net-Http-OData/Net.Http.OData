@@ -92,7 +92,7 @@ namespace Net.Http.OData.Model
         /// <returns>The <see cref="EntitySet"/>.</returns>
         public EntitySet EntitySetForPath(string path)
         {
-            string entitySetName = UriUtility.ResolveEntitySetName(path);
+            string entitySetName = ODataUtility.ResolveEntitySetName(path);
 
             if (EntitySets.TryGetValue(entitySetName, out EntitySet entitySet))
             {
