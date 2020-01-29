@@ -11,6 +11,7 @@ trigger:
   paths:
     exclude:
       - .editorconfig
+      - build.ps1
       - README.md
       - stylecop.json
 
