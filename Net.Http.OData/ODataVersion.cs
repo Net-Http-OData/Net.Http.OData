@@ -19,6 +19,7 @@ namespace Net.Http.OData
     /// <summary>
     /// A class which represents an OData Version.
     /// </summary>
+    [System.Diagnostics.DebuggerDisplay("{_version}")]
     public sealed class ODataVersion : IComparable, IComparable<ODataVersion>, IEquatable<ODataVersion>
     {
         private static readonly Regex s_regex = new Regex(@"^\d+\.\d+$");
