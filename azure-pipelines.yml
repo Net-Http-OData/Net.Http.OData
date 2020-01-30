@@ -22,6 +22,8 @@ pool:
 variables:
   buildConfiguration: 'Release'
   buildVersion: '0.0.0'
+  projectPath: '.\Net.Http.OData\Net.Http.OData.csproj'
+  testWorkingDirectory: 'Net.Http.OData.Tests'
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
@@ -35,7 +37,7 @@ steps:
   inputs:
     command: 'custom'
     custom: 'reportgenerator'
-    workingDirectory: 'Net.Http.OData.Tests'
+    workingDirectory: $(testWorkingDirectory)
     projects: '**/*Tests.csproj'
     arguments: '"-reports:TestResults\coverage.cobertura.xml" "-targetdir:TestResults\html" -reporttypes:HTML;'
 
@@ -43,7 +45,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $projVersion = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+      $projVersion = ([xml](Get-Content "$(projectPath)")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
 
       Write-Host "##vso[task.setvariable variable=buildVersion]$projVersion"
 
