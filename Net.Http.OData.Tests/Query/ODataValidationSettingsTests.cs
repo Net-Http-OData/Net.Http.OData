@@ -1,7 +1,7 @@
-using Net.Http.OData.Query.Validators;
+using Net.Http.OData.Query;
 using Xunit;
 
-namespace Net.Http.OData.Tests.Query.Validators
+namespace Net.Http.OData.Tests.Query
 {
     public class ODataValidationSettingsTests
     {

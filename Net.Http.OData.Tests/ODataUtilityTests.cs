@@ -1,5 +1,7 @@
-﻿using Net.Http.OData.Model;
+﻿using Moq;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query;
+using Net.Http.OData.Query.Validators;
 using Xunit;
 
 namespace Net.Http.OData.Tests
@@ -65,7 +67,7 @@ namespace Net.Http.OData.Tests
 
             EntitySet entitySet = EntityDataModel.Current.EntitySets["Products"];
 
-            var queryOptions = new ODataQueryOptions("?$select=Name,Description,Price", entitySet);
+            var queryOptions = new ODataQueryOptions("?$select=Name,Description,Price", entitySet, Mock.Of<IODataQueryOptionsValidator>());
 
             Assert.Equal(
                 "https://services.odata.org/OData/$metadata#Products(Name,Description,Price)",
@@ -85,7 +87,7 @@ namespace Net.Http.OData.Tests
 
             EntitySet entitySet = EntityDataModel.Current.EntitySets["Products"];
 
-            var queryOptions = new ODataQueryOptions("?$select=*", entitySet);
+            var queryOptions = new ODataQueryOptions("?$select=*", entitySet, Mock.Of<IODataQueryOptionsValidator>());
 
             Assert.Equal(
                 "https://services.odata.org/OData/$metadata#Products(*)",

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Validators;
@@ -25,7 +26,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price add 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -56,7 +58,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price add 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -82,7 +85,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename eq 'John' and Surname eq 'Smith'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -112,7 +116,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename eq 'John' and Surname eq 'Smith'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -138,7 +143,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=cast(Price, 'Edm.Int64') eq 20",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -169,7 +175,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=cast(Price, 'Edm.Int64') eq 20",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -195,7 +202,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=ceiling(Freight) eq 32",
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -226,7 +234,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=ceiling(Freight) eq 32",
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -252,7 +261,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=concat(concat(City, ', '), Country) eq 'Berlin, Germany'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -283,7 +293,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=concat(concat(City, ', '), Country) eq 'Berlin, Germany'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -309,7 +320,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=contains(CompanyName,'Alfreds')",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -340,7 +352,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=contains(CompanyName,'Alfreds')",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -366,7 +379,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=day(BirthDate) eq 8",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -397,7 +411,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=day(BirthDate) eq 8",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -424,7 +439,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price div 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -455,7 +471,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price div 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -481,7 +498,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=endswith(Surname, 'yes') eq true",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -512,7 +530,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=endswith(Surname, 'yes') eq true",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -538,7 +557,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename eq 'John'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -568,7 +588,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename eq 'John'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -594,7 +615,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=floor(Freight) eq 32",
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -625,7 +647,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=floor(Freight) eq 32",
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -651,7 +674,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=fractionalseconds(BirthDate) lt 0.1m",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -682,7 +706,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=fractionalseconds(BirthDate) lt 0.1m",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -708,7 +733,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price gt 35",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -738,7 +764,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price gt 35",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -764,7 +791,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price ge 35",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -794,7 +822,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price ge 35",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -820,7 +849,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=AccessLevel has NorthwindModel.AccessLevel'Write'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -850,7 +880,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=AccessLevel has NorthwindModel.AccessLevel'Write'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -876,7 +907,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=hour(BirthDate) eq 8",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -907,7 +939,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=hour(BirthDate) eq 8",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -933,7 +966,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=indexof(Surname, 'Hayes') eq 1",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -964,7 +998,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=indexof(Surname, 'Hayes') eq 1",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -990,7 +1025,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=isof(Price, 'Edm.Int64')",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1021,7 +1057,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=isof(Price, 'Edm.Int64')",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1047,7 +1084,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=length(CompanyName) eq 19",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1078,7 +1116,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=length(CompanyName) eq 19",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1104,7 +1143,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price lt 35",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1134,7 +1174,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price lt 35",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1160,7 +1201,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price le 35",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1190,7 +1232,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price le 35",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1216,7 +1259,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=ReleaseDate eq maxdatetime()",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1247,7 +1291,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=ReleaseDate eq maxdatetime()",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1273,7 +1318,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=ReleaseDate eq mindatetime()",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1304,7 +1350,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=ReleaseDate eq mindatetime()",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1330,7 +1377,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=minute(BirthDate) eq 8",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1361,7 +1409,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=minute(BirthDate) eq 8",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1388,7 +1437,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price mod 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1419,7 +1469,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price mod 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1445,7 +1496,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=month(BirthDate) eq 5",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1476,7 +1528,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=month(BirthDate) eq 5",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1503,7 +1556,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price mul 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1534,7 +1588,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price mul 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1560,7 +1615,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename ne 'John'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1590,7 +1646,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename ne 'John'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1617,7 +1674,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=ReleaseDate eq now()",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1648,7 +1706,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=ReleaseDate ge now()",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1674,7 +1733,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename eq 'John' or Surname eq 'Smith'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1704,7 +1764,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename eq 'John' or Surname eq 'Smith'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1730,7 +1791,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=replace(CompanyName, ' ', '') eq 'AlfredsFutterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1761,7 +1823,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=replace(CompanyName, ' ', '') eq 'AlfredsFutterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1787,7 +1850,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=round(Freight) eq 32",
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1818,7 +1882,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=round(Freight) eq 32",
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1844,7 +1909,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=second(BirthDate) eq 8",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1875,7 +1941,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=second(BirthDate) eq 8",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1901,7 +1968,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=startswith(Surname, 'Hay') eq true",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1932,7 +2000,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=startswith(Surname, 'Hay') eq true",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1958,7 +2027,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=substring(CompanyName, 1) eq 'lfreds Futterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1989,7 +2059,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=substring(CompanyName, 1) eq 'lfreds Futterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2016,7 +2087,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price sub 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2047,7 +2119,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Price sub 100 eq 150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2073,7 +2146,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=tolower(CompanyName) eq 'alfreds futterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2104,7 +2178,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=tolower(CompanyName) eq 'alfreds futterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2130,7 +2205,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=toupper(CompanyName) eq 'ALFREDS FUTTERKISTE'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2161,7 +2237,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=toupper(CompanyName) eq 'ALFREDS FUTTERKISTE'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2187,7 +2264,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=trim(CompanyName) eq 'Alfreds Futterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2218,7 +2296,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=trim(CompanyName) eq 'Alfreds Futterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2244,7 +2323,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=year(BirthDate) eq 1971",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2275,7 +2355,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=year(BirthDate) eq 1971",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2300,7 +2381,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Surname eq 'Smith'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2330,7 +2412,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Surname eq 'Smith'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]

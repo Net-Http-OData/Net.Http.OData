@@ -12,7 +12,7 @@
 // -----------------------------------------------------------------------
 using System;
 
-namespace Net.Http.OData.Query.Validators
+namespace Net.Http.OData.Query
 {
     /// <summary>
     /// A class which defines the validation settings to use when validating values in <see cref="ODataQueryOptions"/>.

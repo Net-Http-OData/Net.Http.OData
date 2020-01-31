@@ -12,7 +12,7 @@
 // -----------------------------------------------------------------------
 using System;
 
-namespace Net.Http.OData.Query.Validators
+namespace Net.Http.OData.Query
 {
     /// <summary>
     /// An enumeration which represents the functions allowed in the $filter query option of an OData query.

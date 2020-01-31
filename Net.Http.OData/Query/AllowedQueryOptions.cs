@@ -12,7 +12,7 @@
 // -----------------------------------------------------------------------
 using System;
 
-namespace Net.Http.OData.Query.Validators
+namespace Net.Http.OData.Query
 {
     /// <summary>
     /// An enumeration which represents the query options allowed by an OData query.

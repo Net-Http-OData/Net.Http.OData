@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Validators;
@@ -23,7 +24,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$count=x",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -52,7 +54,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$count=true",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -81,7 +84,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$count=true",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -106,7 +110,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$count=false",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]

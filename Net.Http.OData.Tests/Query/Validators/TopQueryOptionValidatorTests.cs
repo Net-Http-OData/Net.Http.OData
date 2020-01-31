@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Validators;
@@ -23,7 +24,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$top=50",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -53,7 +55,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$top=50",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -78,7 +81,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$top=-1",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -108,7 +112,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$top=25",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -131,7 +136,10 @@ namespace Net.Http.OData.Tests.Query.Validators
             {
                 TestHelper.EnsureEDM();
 
-                _queryOptions = new ODataQueryOptions("", EntityDataModel.Current.EntitySets["Products"]);
+                _queryOptions = new ODataQueryOptions(
+                    "",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -157,7 +165,8 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 _queryOptions = new ODataQueryOptions(
                     "?$top=150",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]

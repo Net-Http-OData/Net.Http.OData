@@ -21,6 +21,7 @@ namespace Net.Http.OData.Query
     /// </summary>
     public sealed class ODataQueryOptions
     {
+        private readonly IODataQueryOptionsValidator _validator;
         private SelectExpandQueryOption _expand;
         private FilterQueryOption _filter;
         private FormatQueryOption _format;
@@ -33,11 +34,13 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="query">The query fom the request URI.</param>
         /// <param name="entitySet">The Entity Set to apply the OData query against.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/> or <paramref name="entitySet"/> are null.</exception>
-        public ODataQueryOptions(string query, EntitySet entitySet)
+        /// <param name="validator">The query options validator to use.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/>, <paramref name="entitySet"/> or <paramref name="validator"/> are null.</exception>
+        public ODataQueryOptions(string query, EntitySet entitySet, IODataQueryOptionsValidator validator)
         {
             EntitySet = entitySet ?? throw new ArgumentNullException(nameof(entitySet));
             RawValues = new ODataRawQueryOptions(query ?? throw new ArgumentNullException(nameof(query)));
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
         /// <summary>
@@ -165,6 +168,12 @@ namespace Net.Http.OData.Query
         /// Gets the top query option.
         /// </summary>
         public int? Top => ParseInt(RawValues.Top);
+
+        /// <summary>
+        /// Validates this instance using the specified validation settings.
+        /// </summary>
+        /// <param name="validationSettings">The validation settings to configure the validation.</param>
+        public void Validate(ODataValidationSettings validationSettings) => _validator.Validate(this, validationSettings);
 
         private static int? ParseInt(string rawValue)
         {

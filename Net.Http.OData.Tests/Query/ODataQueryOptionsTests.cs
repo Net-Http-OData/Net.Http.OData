@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
@@ -10,20 +11,28 @@ namespace Net.Http.OData.Tests.Query
     public class ODataQueryOptionsTests
     {
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullHttpReuestMessage()
+        public void Constructor_ThrowsArgumentNullException_ForNullEntitySet()
+        {
+            TestHelper.EnsureEDM();
+
+            Assert.Throws<ArgumentNullException>(() => new ODataQueryOptions("", null, Mock.Of<IODataQueryOptionsValidator>()));
+        }
+
+        [Fact]
+        public void Constructor_ThrowsArgumentNullException_ForNullQuery()
         {
             TestHelper.EnsureEDM();
 
             Assert.Throws<ArgumentNullException>(
-                () => new ODataQueryOptions(null, EntityDataModel.Current.EntitySets["Products"]));
+                () => new ODataQueryOptions(null, EntityDataModel.Current.EntitySets["Products"], Mock.Of<IODataQueryOptionsValidator>()));
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullModel()
+        public void Constructor_ThrowsArgumentNullException_ForNullValidator()
         {
             TestHelper.EnsureEDM();
 
-            Assert.Throws<ArgumentNullException>(() => new ODataQueryOptions("", null));
+            Assert.Throws<ArgumentNullException>(() => new ODataQueryOptions("", EntityDataModel.Current.EntitySets["Products"], null));
         }
 
         /// <summary>
@@ -36,7 +45,8 @@ namespace Net.Http.OData.Tests.Query
 
             var option = new ODataQueryOptions(
                 "?$filter=LegacyId+eq+2139+and+CompanyName+eq+'Pool+Farm+%26+Primrose+Hill+Nursery'&$top=1",
-                EntityDataModel.Current.EntitySets["Customers"]);
+                EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
 
             Assert.NotNull(option);
             Assert.NotNull(option.Filter);
@@ -72,7 +82,8 @@ namespace Net.Http.OData.Tests.Query
 
             var option = new ODataQueryOptions(
                 "?$skip=A",
-                EntityDataModel.Current.EntitySets["Customers"]);
+                EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
 
             ODataException exception = Assert.Throws<ODataException>(() => option.Skip);
 
@@ -87,7 +98,8 @@ namespace Net.Http.OData.Tests.Query
 
             var option = new ODataQueryOptions(
                 "?$top=A",
-                EntityDataModel.Current.EntitySets["Customers"]);
+                EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
 
             ODataException exception = Assert.Throws<ODataException>(() => option.Top);
 
@@ -105,7 +117,8 @@ namespace Net.Http.OData.Tests.Query
 
                 _option = new ODataQueryOptions(
                     "?$count=true&$expand=Category&$filter=Name eq 'Milk'&$format=json&$orderby=Name&$search=blue OR green&$select=Name,Price&$skip=10&$skiptoken=5&$top=25",
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -190,7 +203,10 @@ namespace Net.Http.OData.Tests.Query
             {
                 TestHelper.EnsureEDM();
 
-                _option = new ODataQueryOptions("", EntityDataModel.Current.EntitySets["Products"]);
+                _option = new ODataQueryOptions(
+                    "",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -279,7 +295,8 @@ namespace Net.Http.OData.Tests.Query
 
                 _option = new ODataQueryOptions(
                     "?$filter=Forename+eq+'John'&$orderby=Forename+asc",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -341,7 +358,8 @@ namespace Net.Http.OData.Tests.Query
 
                 _option = new ODataQueryOptions(
                     "?$filter=Forename+eq+'John'+and+ImageData+eq+'TG9yZW0gaXBzdW0gZG9s%2Bb3Igc2l0IGF%3D'",
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
