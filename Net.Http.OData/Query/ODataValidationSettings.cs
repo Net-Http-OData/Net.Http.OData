@@ -116,13 +116,7 @@ namespace Net.Http.OData.Query
             return Equals(other);
         }
 
-        /// <summary>
-        /// Determines whether the specified <see cref="ODataValidationSettings" /> is equal to this instance.
-        /// </summary>
-        /// <param name="other">The <see cref="ODataValidationSettings"/> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="ODataValidationSettings" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
+        /// <inheritdoc/>
         public bool Equals(ODataValidationSettings other)
         {
             if (other is null)
