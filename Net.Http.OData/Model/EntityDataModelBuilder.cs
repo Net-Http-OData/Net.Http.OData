@@ -84,9 +84,11 @@ namespace Net.Http.OData.Model
         {
             if (clrType.IsEnum)
             {
-                var members = new List<EdmEnumMember>();
+                Array enumValues = Enum.GetValues(clrType);
 
-                foreach (object value in Enum.GetValues(clrType))
+                var members = new List<EdmEnumMember>(enumValues.Length);
+
+                foreach (object value in enumValues)
                 {
                     members.Add(new EdmEnumMember(value.ToString(), (int)value));
                 }

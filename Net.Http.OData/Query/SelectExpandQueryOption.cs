@@ -42,7 +42,7 @@ namespace Net.Http.OData.Query
             string[] propertyPathNames = rawValue.Substring(equals, rawValue.Length - equals)
                 .Split(SplitCharacter.Comma);
 
-            var propertyPaths = new List<PropertyPath>();
+            var propertyPaths = new List<PropertyPath>(propertyPathNames.Length);
 
             foreach (string propertyPathName in propertyPathNames)
             {
