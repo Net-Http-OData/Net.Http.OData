@@ -12,7 +12,7 @@ namespace Net.Http.OData.Tests.Query
 
             public WhenConstructedWithRawValueAtom()
             {
-                _rawValue = "format=atom";
+                _rawValue = "$format=atom";
                 _option = new FormatQueryOption(_rawValue);
             }
 
@@ -36,7 +36,7 @@ namespace Net.Http.OData.Tests.Query
 
             public WhenConstructedWithRawValueJson()
             {
-                _rawValue = "format=json";
+                _rawValue = "$format=json";
                 _option = new FormatQueryOption(_rawValue);
             }
 
@@ -60,7 +60,7 @@ namespace Net.Http.OData.Tests.Query
 
             public WhenConstructedWithRawValueVCard()
             {
-                _rawValue = "format=text/vcard";
+                _rawValue = "$format=text/vcard";
                 _option = new FormatQueryOption(_rawValue);
             }
 
@@ -84,7 +84,7 @@ namespace Net.Http.OData.Tests.Query
 
             public WhenConstructedWithRawValueXml()
             {
-                _rawValue = "format=xml";
+                _rawValue = "$format=xml";
                 _option = new FormatQueryOption(_rawValue);
             }
 

@@ -31,24 +31,24 @@ namespace Net.Http.OData.Query
         internal FormatQueryOption(string rawValue)
             : base(rawValue)
         {
-            int equals = rawValue.IndexOf('=') + 1;
-            string value = rawValue.Substring(equals, rawValue.Length - equals);
-
-            switch (value)
+            switch (rawValue)
             {
-                case "atom":
+                case "$format=atom":
                     MediaTypeHeaderValue = s_atomXml;
                     break;
 
-                case "json":
+                case "$format=json":
                     MediaTypeHeaderValue = s_json;
                     break;
 
-                case "xml":
+                case "$format=xml":
                     MediaTypeHeaderValue = s_xml;
                     break;
 
                 default:
+                    int equals = rawValue.IndexOf('=') + 1;
+                    string value = rawValue.Substring(equals, rawValue.Length - equals);
+
                     MediaTypeHeaderValue = new MediaTypeHeaderValue(value);
                     break;
             }
