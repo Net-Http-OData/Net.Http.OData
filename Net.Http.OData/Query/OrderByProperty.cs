@@ -48,18 +48,17 @@ namespace Net.Http.OData.Query
             {
                 PropertyPath = PropertyPath.For(rawValue.Substring(0, space), model);
 
-                switch (rawValue.Substring(space + 1, rawValue.Length - (space + 1)))
+                if (rawValue.EndsWith(" asc", StringComparison.Ordinal))
                 {
-                    case "asc":
-                        Direction = OrderByDirection.Ascending;
-                        break;
-
-                    case "desc":
-                        Direction = OrderByDirection.Descending;
-                        break;
-
-                    default:
-                        throw new ODataException(HttpStatusCode.BadRequest, $"The supplied order value for {PropertyPath.Property.Name} is invalid, valid options are 'asc' and 'desc'");
+                    Direction = OrderByDirection.Ascending;
+                }
+                else if (rawValue.EndsWith(" desc", StringComparison.Ordinal))
+                {
+                    Direction = OrderByDirection.Descending;
+                }
+                else
+                {
+                    throw new ODataException(HttpStatusCode.BadRequest, $"The supplied order value for {PropertyPath.Property.Name} is invalid, valid options are 'asc' and 'desc'");
                 }
             }
         }
