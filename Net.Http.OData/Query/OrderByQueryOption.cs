@@ -38,8 +38,7 @@ namespace Net.Http.OData.Query
             }
             else
             {
-                int equals = rawValue.IndexOf('=') + 1;
-                string property = rawValue.Substring(equals, rawValue.Length - equals);
+                string property = rawValue.SubstringAfter('=');
 
                 Properties = new[] { new OrderByProperty(property, model) };
             }

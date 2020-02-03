@@ -38,15 +38,13 @@ namespace Net.Http.OData.Query
 
             RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
 
-            int space = rawValue.IndexOf(' ');
-
-            if (space == -1)
+            if (rawValue.IndexOf(' ') == -1)
             {
                 PropertyPath = PropertyPath.For(rawValue, model);
             }
             else
             {
-                PropertyPath = PropertyPath.For(rawValue.Substring(0, space), model);
+                PropertyPath = PropertyPath.For(rawValue.SubstringBefore(' '), model);
 
                 if (rawValue.EndsWith(" asc", StringComparison.Ordinal))
                 {

@@ -46,8 +46,7 @@ namespace Net.Http.OData.Query
                     break;
 
                 default:
-                    int equals = rawValue.IndexOf('=') + 1;
-                    string value = rawValue.Substring(equals, rawValue.Length - equals);
+                    string value = rawValue.SubstringAfter('=');
 
                     MediaTypeHeaderValue = new MediaTypeHeaderValue(value);
                     break;

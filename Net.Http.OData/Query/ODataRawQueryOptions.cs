@@ -138,7 +138,7 @@ namespace Net.Http.OData.Query
                     }
                     else if (rawQueryOption.StartsWith("$", StringComparison.Ordinal))
                     {
-                        string optionName = rawQueryOption.Substring(0, rawQueryOption.IndexOf('='));
+                        string optionName = rawQueryOption.SubstringBefore('=');
 
                         throw new ODataException(HttpStatusCode.BadRequest, $"Unknown OData query option {optionName}");
                     }

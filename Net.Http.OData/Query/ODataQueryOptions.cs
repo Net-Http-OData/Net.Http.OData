@@ -125,7 +125,7 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Gets the search query option.
         /// </summary>
-        public string Search => RawValues.Search?.Substring(RawValues.Search.IndexOf('=') + 1);
+        public string Search => RawValues.Search?.SubstringAfter('=');
 
         /// <summary>
         /// Gets the select query option.
@@ -182,15 +182,14 @@ namespace Net.Http.OData.Query
                 return null;
             }
 
-            int equals = rawValue.IndexOf('=') + 1;
-            string value = rawValue.Substring(equals, rawValue.Length - equals);
+            string value = rawValue.SubstringAfter('=');
 
             if (int.TryParse(value, out int integer))
             {
                 return integer;
             }
 
-            string queryOption = rawValue.Substring(0, equals - 1);
+            string queryOption = rawValue.SubstringBefore('=');
 
             throw new ODataException(HttpStatusCode.BadRequest, $"The value for OData query {queryOption} must be a non-negative numeric value");
         }

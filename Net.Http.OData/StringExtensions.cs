@@ -55,5 +55,26 @@ namespace Net.Http.OData
                 yield return value.Substring(startPos);
             }
         }
+
+        /// <summary>
+        /// Returns the remainder of the string value after the first occurance of the specified character.
+        /// </summary>
+        /// <param name="value">The string value.</param>
+        /// <param name="separator">The character to separate based upon.</param>
+        /// <returns>A string containing the remainder of the string value after the first occurance of the specified character.</returns>
+        internal static string SubstringAfter(this string value, char separator)
+        {
+            int charPos = value.IndexOf(separator) + 1;
+            return value.Substring(charPos, value.Length - charPos);
+        }
+
+        /// <summary>
+        /// Returns the begining of the string value before the first occurance of the specified character.
+        /// </summary>
+        /// <param name="value">The string value.</param>
+        /// <param name="separator">The character to separate based upon.</param>
+        /// <returns>A string containing the begining of the string value before the first occurance of the specified character.</returns>
+        internal static string SubstringBefore(this string value, char separator)
+            => value.Substring(0, value.IndexOf(separator));
     }
 }
