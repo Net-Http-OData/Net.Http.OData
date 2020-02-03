@@ -15,6 +15,7 @@ namespace Net.Http.OData.Tests.Model
 
             var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, (_) => true);
 
+            Assert.NotNull(edmProperty.ClrProperty);
             Assert.Same(edmComplexType, edmProperty.DeclaringType);
             Assert.True(edmProperty.IsNavigable);
             Assert.Equal("CompanyName", edmProperty.Name);

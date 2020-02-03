@@ -34,7 +34,8 @@ namespace Net.Http.OData.Model
         /// <exception cref="ArgumentNullException">Constructor argument not specified.</exception>
         internal EdmProperty(PropertyInfo propertyInfo, EdmType propertyType, EdmComplexType declaringType, Func<EdmType, bool> isNavigableFunc)
         {
-            Name = propertyInfo?.Name ?? throw new ArgumentNullException(nameof(propertyInfo));
+            ClrProperty = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
+            Name = propertyInfo.Name;
             PropertyType = propertyType ?? throw new ArgumentNullException(nameof(propertyType));
             DeclaringType = declaringType ?? throw new ArgumentNullException(nameof(declaringType));
             _isNavigableFunc = isNavigableFunc;
@@ -42,6 +43,11 @@ namespace Net.Http.OData.Model
             IsNullable = Nullable.GetUnderlyingType(propertyType.ClrType) != null
                 || ((propertyType.ClrType.IsClass || propertyType.ClrType.IsInterface) && propertyInfo.GetCustomAttribute<RequiredAttribute>() == null);
         }
+
+        /// <summary>
+        /// Gets the CLR property.
+        /// </summary>
+        public PropertyInfo ClrProperty { get; }
 
         /// <summary>
         /// Gets the type in the Entity Data Model which declares this property.
