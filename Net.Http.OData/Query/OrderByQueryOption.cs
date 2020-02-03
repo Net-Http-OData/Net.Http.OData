@@ -30,18 +30,18 @@ namespace Net.Http.OData.Query
         internal OrderByQueryOption(string rawValue, EdmComplexType model)
             : base(rawValue)
         {
-            int equals = rawValue.IndexOf('=') + 1;
-            string properties = rawValue.Substring(equals, rawValue.Length - equals);
-
-            if (properties.IndexOf(',') > 0)
+            if (rawValue.IndexOf(',') > 0)
             {
-                Properties = properties.Split(SplitCharacter.Comma)
+                Properties = rawValue.Slice(',', rawValue.IndexOf('=') + 1)
                     .Select(raw => new OrderByProperty(raw, model))
                     .ToArray();
             }
             else
             {
-                Properties = new[] { new OrderByProperty(properties, model) };
+                int equals = rawValue.IndexOf('=') + 1;
+                string property = rawValue.Substring(equals, rawValue.Length - equals);
+
+                Properties = new[] { new OrderByProperty(property, model) };
             }
         }
 

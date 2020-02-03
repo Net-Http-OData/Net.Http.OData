@@ -41,12 +41,7 @@ namespace Net.Http.OData.Query
 
             if (_rawQuery.Length > 0)
             {
-                // Drop the ?
-                string query = _rawQuery.Substring(1, _rawQuery.Length - 1);
-
-                string[] queryOptions = query.Split(SplitCharacter.Ampersand, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string queryOption in queryOptions)
+                foreach (string queryOption in _rawQuery.Slice('&', _rawQuery.IndexOf('?') + 1))
                 {
                     // Decode the chunks to prevent splitting the query on an '&' which is actually part of a string value
                     string rawQueryOption = Uri.UnescapeDataString(queryOption);

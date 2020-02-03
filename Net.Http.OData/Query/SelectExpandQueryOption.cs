@@ -37,14 +37,9 @@ namespace Net.Http.OData.Query
                 throw new ArgumentNullException(nameof(model));
             }
 
-            int equals = rawValue.IndexOf('=') + 1;
+            var propertyPaths = new List<PropertyPath>();
 
-            string[] propertyPathNames = rawValue.Substring(equals, rawValue.Length - equals)
-                .Split(SplitCharacter.Comma);
-
-            var propertyPaths = new List<PropertyPath>(propertyPathNames.Length);
-
-            foreach (string propertyPathName in propertyPathNames)
+            foreach (string propertyPathName in rawValue.Slice(',', rawValue.IndexOf('=') + 1))
             {
                 if (propertyPathName == "*")
                 {

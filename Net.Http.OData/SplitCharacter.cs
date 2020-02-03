@@ -17,12 +17,6 @@ namespace Net.Http.OData
     /// </summary>
     internal static class SplitCharacter
     {
-        internal static char[] Ampersand { get; } = new[] { '&' };
-
-        internal static char[] Comma { get; } = new[] { ',' };
-
         internal static char[] ForwardSlash { get; } = new[] { '/' };
-
-        internal static char[] Period { get; } = new[] { '.' };
     }
 }
