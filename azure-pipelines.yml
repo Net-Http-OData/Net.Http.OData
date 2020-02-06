@@ -55,11 +55,11 @@ jobs:
 
           Write-Host "##vso[task.setvariable variable=buildVersion]$projVersion"
 
-    - script: dotnet pack --no-build -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion="$(buildVersion)-preview$(Build.BuildNumber)"
+    - script: dotnet pack -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion="$(buildVersion)-preview$(Build.BuildNumber)"
       displayName: 'dotnet pack (pre)'
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
 
-    - script: dotnet pack --no-build -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion=$(buildVersion)
+    - script: dotnet pack -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion=$(buildVersion)
       displayName: 'dotnet pack'
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
