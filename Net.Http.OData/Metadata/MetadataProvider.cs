@@ -32,13 +32,19 @@ namespace Net.Http.OData.Metadata
         /// Creates an <see cref="XDocument"/> containing the Metadata XML document for the Entity Data Model.
         /// </summary>
         /// <param name="entityDataModel">The Entity Data Model to include the Metadata for.</param>
+        /// <param name="serviceOptions">The <see cref="ODataServiceOptions"/> for the service.</param>
         /// <returns>An <see cref="XDocument"/> containing the Metadata XML document for the Entity Data Model.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entityDataModel"/> is null.</exception>
-        public static XDocument Create(EntityDataModel entityDataModel)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entityDataModel"/> or <paramref name="serviceOptions"/> is null.</exception>
+        public static XDocument Create(EntityDataModel entityDataModel, ODataServiceOptions serviceOptions)
         {
             if (entityDataModel is null)
             {
                 throw new ArgumentNullException(nameof(entityDataModel));
+            }
+
+            if (serviceOptions is null)
+            {
+                throw new ArgumentNullException(nameof(serviceOptions));
             }
 
             var document = new XDocument(
@@ -46,7 +52,7 @@ namespace Net.Http.OData.Metadata
                 new XElement(
                     s_edmxNs + "Edmx",
                     new XAttribute(XNamespace.Xmlns + "edmx", s_edmxNs),
-                    new XAttribute("Version", "4.0"),
+                    new XAttribute("Version", serviceOptions.MaxVersion),
                     new XElement(
                         s_edmxNs + "DataServices",
                         new XElement(
@@ -59,14 +65,14 @@ namespace Net.Http.OData.Metadata
                             GetFunctions(),
                             GetActions(),
                             GetEntityContainer(entityDataModel),
-                            GetAnnotations(entityDataModel)))));
+                            GetAnnotations(entityDataModel, serviceOptions)))));
 
             return document;
         }
 
         private static IEnumerable<XElement> GetActions() => Enumerable.Empty<XElement>();
 
-        private static XElement GetAnnotations(EntityDataModel entityDataModel)
+        private static XElement GetAnnotations(EntityDataModel entityDataModel, ODataServiceOptions serviceOptions)
         {
             var annotations = new XElement(
                 s_edmNs + "Annotations",
@@ -88,7 +94,9 @@ namespace Net.Http.OData.Metadata
                     new XAttribute("Term", "Org.OData.Capabilities.V1.SupportedFormats"),
                     new XElement(
                         s_edmNs + "Collection",
-                        entityDataModel.SupportedFormats.Select(format => new XElement(s_edmNs + "String", format)))),
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                        serviceOptions.SupportedMetadataLevels.Select(metadataLevel => new XElement(s_edmNs + "String", $"application/json;odata.metadata={metadataLevel.ToString().ToLowerInvariant()}")))),
+#pragma warning restore CA1308 // Normalize strings to uppercase
                 new XElement(
                     s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.AsynchronousRequestsSupported"),
@@ -102,7 +110,7 @@ namespace Net.Http.OData.Metadata
                     new XAttribute("Term", "Org.OData.Capabilities.V1.FilterFunctions"),
                     new XElement(
                         s_edmNs + "Collection",
-                        entityDataModel.FilterFunctions.Select(function => new XElement(s_edmNs + "String", function)))));
+                        serviceOptions.SupportedFilterFunctions.Select(function => new XElement(s_edmNs + "String", function)))));
 
             return annotations;
         }

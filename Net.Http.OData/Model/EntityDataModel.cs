@@ -21,46 +21,7 @@ namespace Net.Http.OData.Model
     /// </summary>
     public sealed class EntityDataModel
     {
-        internal EntityDataModel(IReadOnlyDictionary<string, EntitySet> entitySets)
-        {
-            EntitySets = entitySets;
-
-            FilterFunctions = new[]
-            {
-                "cast",
-                "isof",
-                "endswith",
-                "startswith",
-                "contains",
-                "tolower",
-                "toupper",
-                "trim",
-                "length",
-                "indexof",
-                "replace",
-                "substring",
-                "concat",
-                "year",
-                "month",
-                "day",
-                "hour",
-                "minute",
-                "second",
-                "fractionalseconds",
-                "now",
-                "mindatetime",
-                "maxdatetime",
-                "round",
-                "ceiling",
-                "floor",
-            };
-
-            SupportedFormats = new[]
-            {
-                "application/json;odata.metadata=none",
-                "application/json;odata.metadata=minimal",
-            };
-        }
+        internal EntityDataModel(IReadOnlyDictionary<string, EntitySet> entitySets) => EntitySets = entitySets;
 
         /// <summary>
         /// Gets the current Entity Data Model.
@@ -74,16 +35,6 @@ namespace Net.Http.OData.Model
         /// Gets the Entity Sets defined in the Entity Data Model.
         /// </summary>
         public IReadOnlyDictionary<string, EntitySet> EntitySets { get; }
-
-        /// <summary>
-        /// Gets the filter functions provided by the service.
-        /// </summary>
-        public IReadOnlyCollection<string> FilterFunctions { get; }
-
-        /// <summary>
-        /// Gets the formats supported by the service.
-        /// </summary>
-        public IReadOnlyCollection<string> SupportedFormats { get; }
 
         /// <summary>
         /// Gets the <see cref="EntitySet"/> for the path segment of a URI.

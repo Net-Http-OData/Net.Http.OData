@@ -12,7 +12,9 @@ namespace Net.Http.OData.Tests.Metadata
         {
             TestHelper.EnsureEDM();
 
-            var expected = XDocument.Parse(@"<edmx:Edmx xmlns:edmx=""http://docs.oasis-open.org/odata/ns/edmx"" Version=""4.0"">
+            var serviceOptions = new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion);
+
+            var expected = XDocument.Parse($@"<edmx:Edmx xmlns:edmx=""http://docs.oasis-open.org/odata/ns/edmx"" Version=""{serviceOptions.MaxVersion}"">
   <edmx:DataServices>
     <Schema xmlns=""http://docs.oasis-open.org/odata/ns/edm"" Namespace=""NorthwindModel"">
       <EnumType Name=""AccessLevel"" UnderlyingType=""Edm.Int32"" IsFlags=""True"">
@@ -251,7 +253,7 @@ namespace Net.Http.OData.Tests.Metadata
   </edmx:DataServices>
 </edmx:Edmx>");
 
-            XDocument csdlDocument = MetadataProvider.Create(EntityDataModel.Current);
+            XDocument csdlDocument = MetadataProvider.Create(EntityDataModel.Current, serviceOptions);
 
             Assert.Equal(expected.ToString(), csdlDocument.ToString());
         }
