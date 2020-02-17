@@ -24,9 +24,7 @@ namespace Net.Http.OData.Model
     {
         internal EdmEnumType(Type clrType, IReadOnlyList<EdmEnumMember> members)
             : base(clrType.Name, clrType.FullName, clrType)
-        {
-            Members = members ?? throw new ArgumentNullException(nameof(members));
-        }
+            => Members = members ?? throw new ArgumentNullException(nameof(members));
 
         /// <summary>
         /// Gets the <see cref="EdmEnumMember"/>s that represent the values of the underlying enum.

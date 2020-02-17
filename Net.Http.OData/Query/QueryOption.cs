@@ -25,10 +25,7 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="rawValue">The raw value.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawValue"/> is null.</exception>
-        protected QueryOption(string rawValue)
-        {
-            RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
-        }
+        protected QueryOption(string rawValue) => RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
 
         /// <summary>
         /// Gets the raw request value.

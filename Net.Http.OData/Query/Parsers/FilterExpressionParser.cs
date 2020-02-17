@@ -36,10 +36,7 @@ namespace Net.Http.OData.Query.Parsers
             private int _groupingDepth;
             private BinaryOperatorKind _nextBinaryOperatorKind = BinaryOperatorKind.None;
 
-            internal FilterExpressionParserImpl(EdmComplexType model)
-            {
-                _model = model;
-            }
+            internal FilterExpressionParserImpl(EdmComplexType model) => _model = model;
 
             internal QueryNode Parse(Lexer lexer)
             {

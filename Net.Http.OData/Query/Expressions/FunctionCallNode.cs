@@ -24,10 +24,7 @@ namespace Net.Http.OData.Query.Expressions
         /// Initialises a new instance of the <see cref="FunctionCallNode" /> class.
         /// </summary>
         /// <param name="name">The name of the function.</param>
-        internal FunctionCallNode(string name)
-        {
-            Name = name;
-        }
+        internal FunctionCallNode(string name) => Name = name;
 
         /// <inheritdoc/>
         public override QueryNodeKind Kind { get; } = QueryNodeKind.FunctionCall;
