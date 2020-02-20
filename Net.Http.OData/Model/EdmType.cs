@@ -24,10 +24,19 @@ namespace Net.Http.OData.Model
         /// <summary>
         /// Initialises a new instance of the <see cref="EdmType"/> class.
         /// </summary>
-        /// <param name="name">The name of the type.</param>
-        /// <param name="fullName">The full name of the type.</param>
-        /// <param name="clrType">The CLR type.</param>
-        protected EdmType(string name, string fullName, Type clrType)
+        /// <param name="clrType">The underlying CLR <see cref="Type"/> this type in the Entity Data Model represents.</param>
+        protected EdmType(Type clrType)
+            : this(clrType, clrType?.Name, clrType?.FullName)
+        {
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="EdmType"/> class.
+        /// </summary>
+        /// <param name="clrType">The underlying CLR <see cref="Type"/> this type in the Entity Data Model represents.</param>
+        /// <param name="name">The name of the Entity Data Model Type.</param>
+        /// <param name="fullName">The full name of the Entity Data Model Type.</param>
+        protected EdmType(Type clrType, string name, string fullName)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -45,25 +54,25 @@ namespace Net.Http.OData.Model
         }
 
         /// <summary>
-        /// Gets the CLR type.
+        /// Gets the underlying CLR <see cref="Type"/> this type in the Entity Data Model represents.
         /// </summary>
         public Type ClrType { get; }
 
         /// <summary>
-        /// Gets the full name.
+        /// Gets the full name of the Entity Data Model Type.
         /// </summary>
         public string FullName { get; }
 
         /// <summary>
-        /// Gets the name.
+        /// Gets the name of the Entity Data Model Type.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Gets the type for the specified CLR type in the Entity Data Model.
+        /// Gets the <see cref="EdmType"/> for the specified CLR <see cref="Type"/> in the Entity Data Model.
         /// </summary>
-        /// <param name="clrType">The CLR type to find in the Entity Data Model.</param>
-        /// <returns>The EdmType for the specified CLR type, if found; otherwise, null.</returns>
+        /// <param name="clrType">The CLR <see cref="Type"/> to find in the Entity Data Model.</param>
+        /// <returns>The <see cref="EdmType"/> for the specified CLR <see cref="Type"/>, if found; otherwise, null.</returns>
         public static EdmType GetEdmType(Type clrType)
             => EdmTypeCache.Map.TryGetValue(clrType, out EdmType edmType) ? edmType : default;
 

@@ -29,7 +29,7 @@ namespace Net.Http.OData.Model
         }
 
         internal EdmComplexType(Type clrType, EdmType baseType, IReadOnlyList<EdmProperty> properties)
-            : base(clrType.Name, clrType.FullName, clrType)
+            : base(clrType)
         {
             BaseType = baseType;
             Properties = properties ?? throw new ArgumentNullException(nameof(properties));

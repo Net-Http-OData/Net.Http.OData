@@ -23,7 +23,7 @@ namespace Net.Http.OData.Model
     public sealed class EdmEnumType : EdmType
     {
         internal EdmEnumType(Type clrType, IReadOnlyList<EdmEnumMember> members)
-            : base(clrType.Name, clrType.FullName, clrType)
+            : base(clrType)
             => Members = members ?? throw new ArgumentNullException(nameof(members));
 
         /// <summary>
