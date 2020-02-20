@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MetadataProvider.cs" company="Project Contributors">
+// <copyright file="XmlMetadataProvider.cs" company="Project Contributors">
 // Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@ namespace Net.Http.OData.Metadata
     /// <summary>
     /// Provides the Metadata XML document for the Entity Data Model.
     /// </summary>
-    public static class MetadataProvider
+    public static class XmlMetadataProvider
     {
         private static readonly XNamespace s_edmNs = "http://docs.oasis-open.org/odata/ns/edm";
         private static readonly XNamespace s_edmxNs = "http://docs.oasis-open.org/odata/ns/edmx";

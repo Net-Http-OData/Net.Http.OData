@@ -253,7 +253,7 @@ namespace Net.Http.OData.Tests.Metadata
   </edmx:DataServices>
 </edmx:Edmx>");
 
-            XDocument csdlDocument = MetadataProvider.Create(EntityDataModel.Current, serviceOptions);
+            XDocument csdlDocument = XmlMetadataProvider.Create(EntityDataModel.Current, serviceOptions);
 
             Assert.Equal(expected.ToString(), csdlDocument.ToString());
         }
