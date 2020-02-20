@@ -43,12 +43,12 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the next property in the path being referenced in the query, or null if this instance is the last property in the path.
+        /// Gets the next property in the path being referenced in the query, or null if this instance is the last (or only) property in the path.
         /// </summary>
         public PropertyPath Next { get; }
 
         /// <summary>
-        /// Gets the property being referenced in the query.
+        /// Gets the <see cref="EdmProperty"/> representing the property being referenced in the query.
         /// </summary>
         public EdmProperty Property { get; }
 
