@@ -23,9 +23,9 @@ See the [Entity Data Model](https://github.com/Net-Http-OData/Net.Http.OData/wik
 
 The Query classes describe an OData Query request, the classes are in the namespace `Net.Http.OData.Query`.
 
-* See the [Query])https://github.com/Net-Http-OData/Net.Http.OData/wiki/Query) page in the wiki for details of the classes.
-* See the [Query - Supported Syntax](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Query---Supported-Syntax) page in the wiki for details of the OData query syntax supported by the library.
-* See the [Query - Parsing Query Options](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Query---Parsing-Query-Options) page in the wiki for details of how to parse the `ODataQueryOptions` class.
+* See the [Query](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Query) page in the wiki for details of the classes.
+* See the [Supported Query Syntax](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Supported-Query-Syntax) page in the wiki for details of the OData query syntax supported by the library.
+* See the [Parsing Query Options](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Parsing-Query-Options) page in the wiki for details of how to parse the `ODataQueryOptions` class.
 
 ### Supported .NET Versions
 
