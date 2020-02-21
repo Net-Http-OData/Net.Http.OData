@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Net;
 using System.Net.Http.Headers;
 
 namespace Net.Http.OData.Query
@@ -20,9 +21,7 @@ namespace Net.Http.OData.Query
     [System.Diagnostics.DebuggerDisplay("{RawValue}")]
     public sealed class FormatQueryOption : QueryOption
     {
-        private static readonly MediaTypeHeaderValue s_atomXml = new MediaTypeHeaderValue("application/atom+xml");
         private static readonly MediaTypeHeaderValue s_json = new MediaTypeHeaderValue("application/json");
-        private static readonly MediaTypeHeaderValue s_xml = new MediaTypeHeaderValue("application/xml");
 
         /// <summary>
         /// Initialises a new instance of the <see cref="FormatQueryOption"/> class.
@@ -33,23 +32,14 @@ namespace Net.Http.OData.Query
         {
             switch (rawValue)
             {
-                case "$format=atom":
-                    MediaTypeHeaderValue = s_atomXml;
-                    break;
-
                 case "$format=json":
                     MediaTypeHeaderValue = s_json;
-                    break;
-
-                case "$format=xml":
-                    MediaTypeHeaderValue = s_xml;
                     break;
 
                 default:
                     string value = rawValue.SubstringAfter('=');
 
-                    MediaTypeHeaderValue = new MediaTypeHeaderValue(value);
-                    break;
+                    throw new ODataException(HttpStatusCode.UnsupportedMediaType, $"The $format '{value}' is not supported by this service, acceptable values are 'json'.");
             }
         }
 

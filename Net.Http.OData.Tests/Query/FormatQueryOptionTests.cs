@@ -1,32 +1,36 @@
-﻿using Net.Http.OData.Query;
+﻿using System.Net;
+using Net.Http.OData.Query;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query
 {
     public class FormatQueryOptionTests
     {
-        public class WhenConstructedWithRawValueAtom
+        [Fact]
+        public void WhenConstructedWithRawValueAtom_AnODataExceptionIsThrown()
         {
-            private readonly FormatQueryOption _option;
-            private readonly string _rawValue;
+            ODataException exception = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=atom"));
 
-            public WhenConstructedWithRawValueAtom()
-            {
-                _rawValue = "$format=atom";
-                _option = new FormatQueryOption(_rawValue);
-            }
+            Assert.Equal("The $format 'atom' is not supported by this service, acceptable values are 'json'.", exception.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, exception.StatusCode);
+        }
 
-            [Fact]
-            public void TheMediaTypeHeaderValueShouldBeApplicationAtomXml()
-            {
-                Assert.Equal("application/atom+xml", _option.MediaTypeHeaderValue.MediaType);
-            }
+        [Fact]
+        public void WhenConstructedWithRawValueVCard_AnODataExceptionIsThrown()
+        {
+            ODataException exception = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=text/vcard"));
 
-            [Fact]
-            public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
-            {
-                Assert.Equal(_rawValue, _option.RawValue);
-            }
+            Assert.Equal("The $format 'text/vcard' is not supported by this service, acceptable values are 'json'.", exception.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, exception.StatusCode);
+        }
+
+        [Fact]
+        public void WhenConstructedWithRawValueXml_AnODataExceptionIsThrown()
+        {
+            ODataException exception = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=xml"));
+
+            Assert.Equal("The $format 'xml' is not supported by this service, acceptable values are 'json'.", exception.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, exception.StatusCode);
         }
 
         public class WhenConstructedWithRawValueJson
@@ -44,54 +48,6 @@ namespace Net.Http.OData.Tests.Query
             public void TheMediaTypeHeaderValueShouldBeApplicationJson()
             {
                 Assert.Equal("application/json", _option.MediaTypeHeaderValue.MediaType);
-            }
-
-            [Fact]
-            public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
-            {
-                Assert.Equal(_rawValue, _option.RawValue);
-            }
-        }
-
-        public class WhenConstructedWithRawValueVCard
-        {
-            private readonly FormatQueryOption _option;
-            private readonly string _rawValue;
-
-            public WhenConstructedWithRawValueVCard()
-            {
-                _rawValue = "$format=text/vcard";
-                _option = new FormatQueryOption(_rawValue);
-            }
-
-            [Fact]
-            public void TheMediaTypeHeaderValueShouldBeTextVCard()
-            {
-                Assert.Equal("text/vcard", _option.MediaTypeHeaderValue.MediaType);
-            }
-
-            [Fact]
-            public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
-            {
-                Assert.Equal(_rawValue, _option.RawValue);
-            }
-        }
-
-        public class WhenConstructedWithRawValueXml
-        {
-            private readonly FormatQueryOption _option;
-            private readonly string _rawValue;
-
-            public WhenConstructedWithRawValueXml()
-            {
-                _rawValue = "$format=xml";
-                _option = new FormatQueryOption(_rawValue);
-            }
-
-            [Fact]
-            public void TheMediaTypeHeaderValueShouldBeApplicationXml()
-            {
-                Assert.Equal("application/xml", _option.MediaTypeHeaderValue.MediaType);
             }
 
             [Fact]
