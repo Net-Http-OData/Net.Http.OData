@@ -54,27 +54,27 @@ namespace Net.Http.WebApi.OData
         }
 
         /// <summary>
-        /// Gets or sets the URI to the metadata.
+        /// Gets the URI to the metadata.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.context", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
-        public string Context { get; set; }
+        public string Context { get; }
 
         /// <summary>
-        /// Gets or sets the total result count.
+        /// Gets the total result count.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.count", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 1)]
-        public int? Count { get; set; }
+        public int? Count { get; }
 
         /// <summary>
-        /// Gets or sets the URI to the next results in a paged response.
+        /// Gets the URI to the next results in a paged response.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.nextLink", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 2)]
-        public string NextLink { get; set; }
+        public string NextLink { get; }
 
         /// <summary>
-        /// Gets or sets the value to be returned.
+        /// Gets the value to be returned.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("value", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 3)]
-        public object Value { get; set; }
+        public object Value { get; }
     }
 }
