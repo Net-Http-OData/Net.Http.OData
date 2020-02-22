@@ -25,7 +25,7 @@ namespace Net.Http.OData
     public static class ODataUtility
     {
         private const string SchemeDelimiter = "://";
-        private static readonly char[] s_nonNameCharacters = new[] { '(', '/', '$', '%' };
+        private static readonly char[] s_nonNameCharacters = new[] { '(', '/', '?', '$', '%' };
 
         /// <summary>
         /// Returns a <see cref="string"/> containing the the @odata.context.
