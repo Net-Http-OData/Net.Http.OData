@@ -29,6 +29,10 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(
                 "https://services.odata.org/OData/$metadata",
+                ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", "/OData/Products(1)/Name"));
+
+            Assert.Equal(
+                "https://services.odata.org/OData/$metadata",
                 ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", "/OData/Products(1)/Name/$value"));
 
             Assert.Equal(
@@ -37,7 +41,7 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(
                 "https://services.odata.org/OData/$metadata",
-                ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", "/OData/Products$select=Name"));
+                ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", "/OData/Products?$select=Name"));
 
             Assert.Null(ODataUtility.ODataContext(ODataMetadataLevel.None, "https", "services.odata.org", "/OData/Products"));
         }
