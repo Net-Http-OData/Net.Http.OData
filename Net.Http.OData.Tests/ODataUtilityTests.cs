@@ -203,6 +203,10 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(
                 "https://services.odata.org/OData/",
+                ODataUtility.ODataServiceRootUri("https", "services.odata.org", "/OData/Products(1)/Name").ToString());
+
+            Assert.Equal(
+                "https://services.odata.org/OData/",
                 ODataUtility.ODataServiceRootUri("https", "services.odata.org", "/OData/Products(1)/Name/$value").ToString());
 
             Assert.Equal(
@@ -211,7 +215,7 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(
                 "https://services.odata.org/OData/",
-                ODataUtility.ODataServiceRootUri("https", "services.odata.org", "/OData/Products$select=Name").ToString());
+                ODataUtility.ODataServiceRootUri("https", "services.odata.org", "/OData/Products?$select=Name").ToString());
         }
 
         [Fact]
@@ -221,9 +225,10 @@ namespace Net.Http.OData.Tests
             Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products"));
             Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products/"));
             Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products(1)"));
+            Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products(1)/Name"));
             Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products(1)/Name/$value"));
             Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products%281%29"));
-            Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products$select=Name"));
+            Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products?$select=Name"));
         }
 
         [Fact]
