@@ -48,6 +48,7 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Newtonsoft.Json" PrivateAssets="All" Version="10.0.1" />
     <PackageReference Include="System.ComponentModel.Annotations" PrivateAssets="All" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" PrivateAssets="All" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,5 +73,4 @@
   <ItemGroup>
     <None Include="..\Net.Http.OData.snk" Link="Net.Http.OData.snk" />
   </ItemGroup>
-
 </Project>

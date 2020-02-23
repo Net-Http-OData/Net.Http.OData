@@ -57,18 +57,27 @@ namespace Net.Http.OData
         /// Gets the URI to the metadata.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.context", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
+#if NETSTANDARD2_0
+        [System.Text.Json.Serialization.JsonPropertyName("@odata.context")]
+#endif
         public string Context { get; }
 
         /// <summary>
         /// Gets the total result count.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.count", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 1)]
+#if NETSTANDARD2_0
+        [System.Text.Json.Serialization.JsonPropertyName("@odata.count")]
+#endif
         public int? Count { get; }
 
         /// <summary>
         /// Gets the URI to the next results in a paged response.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.nextLink", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 2)]
+#if NETSTANDARD2_0
+        [System.Text.Json.Serialization.JsonPropertyName("@odata.nextLink")]
+#endif
         public string NextLink { get; }
 
         /// <summary>
