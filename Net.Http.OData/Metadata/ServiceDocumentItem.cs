@@ -29,16 +29,19 @@ namespace Net.Http.OData.Metadata
         /// <summary>
         /// Gets the name of the item.
         /// </summary>
+        [Newtonsoft.Json.JsonProperty("kind", Order = 1)]
         public string Kind { get; }
 
         /// <summary>
         /// Gets the name of the item.
         /// </summary>
+        [Newtonsoft.Json.JsonProperty("name", Order = 0)]
         public string Name { get; }
 
         /// <summary>
         /// Gets the URL of the item.
         /// </summary>
+        [Newtonsoft.Json.JsonProperty("url", Order = 2)]
         public Uri Url { get; }
 
         /// <summary>

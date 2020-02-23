@@ -33,16 +33,19 @@ namespace Net.Http.OData
         /// <summary>
         /// Gets the error code.
         /// </summary>
+        [Newtonsoft.Json.JsonProperty("code", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
         public string Code { get; }
 
         /// <summary>
         /// Gets the error message.
         /// </summary>
+        [Newtonsoft.Json.JsonProperty("message", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 1)]
         public string Message { get; }
 
         /// <summary>
         /// Gets the error target.
         /// </summary>
+        [Newtonsoft.Json.JsonProperty("target", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 2)]
         public string Target { get; }
     }
 }
