@@ -43,6 +43,10 @@ namespace Net.Http.OData.Tests
                 "https://services.odata.org/OData/$metadata",
                 ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", "/OData/Products?$select=Name"));
 
+            Assert.Equal(
+                "https://services.odata.org/OData/$metadata",
+                ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", "/OData/Products/?$select=Name"));
+
             Assert.Null(ODataUtility.ODataContext(ODataMetadataLevel.None, "https", "services.odata.org", "/OData/Products"));
         }
 
@@ -71,7 +75,10 @@ namespace Net.Http.OData.Tests
 
             EntitySet entitySet = EntityDataModel.Current.EntitySets["Products"];
 
-            var queryOptions = new ODataQueryOptions("?$select=Name,Description,Price", entitySet, Mock.Of<IODataQueryOptionsValidator>());
+            ODataQueryOptions queryOptions = new ODataQueryOptions(
+                "?$select=Name,Description,Price",
+                entitySet,
+                Mock.Of<IODataQueryOptionsValidator>());
 
             Assert.Equal(
                 "https://services.odata.org/OData/$metadata#Products(Name,Description,Price)",
@@ -91,7 +98,10 @@ namespace Net.Http.OData.Tests
 
             EntitySet entitySet = EntityDataModel.Current.EntitySets["Products"];
 
-            var queryOptions = new ODataQueryOptions("?$select=*", entitySet, Mock.Of<IODataQueryOptionsValidator>());
+            ODataQueryOptions queryOptions = new ODataQueryOptions(
+                "?$select=*",
+                entitySet,
+                Mock.Of<IODataQueryOptionsValidator>());
 
             Assert.Equal(
                 "https://services.odata.org/OData/$metadata#Products(*)",
@@ -216,6 +226,10 @@ namespace Net.Http.OData.Tests
             Assert.Equal(
                 "https://services.odata.org/OData/",
                 ODataUtility.ODataServiceRootUri("https", "services.odata.org", "/OData/Products?$select=Name").ToString());
+            
+            Assert.Equal(
+                "https://services.odata.org/OData/",
+                ODataUtility.ODataServiceRootUri("https", "services.odata.org", "/OData/Products/?$select=Name").ToString());
         }
 
         [Fact]
@@ -229,6 +243,7 @@ namespace Net.Http.OData.Tests
             Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products(1)/Name/$value"));
             Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products%281%29"));
             Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products?$select=Name"));
+            Assert.Equal("Products", ODataUtility.ResolveEntitySetName("/OData/Products/?$select=Name"));
         }
 
         [Fact]
