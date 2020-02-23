@@ -15,7 +15,7 @@ namespace Net.Http.OData.Query.Parsers
     [System.Diagnostics.DebuggerDisplay("{TokenType}: {Value}")]
     internal struct Token
     {
-        internal Token(string value, TokenType tokenType)
+        internal Token(TokenType tokenType, string value)
         {
             Value = value;
             TokenType = tokenType;
