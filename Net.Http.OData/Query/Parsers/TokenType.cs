@@ -12,32 +12,45 @@
 // -----------------------------------------------------------------------
 namespace Net.Http.OData.Query.Parsers
 {
+#pragma warning disable SA1124 // Do not use regions
+
     internal enum TokenType
     {
-        OpenParentheses,
-        CloseParentheses,
+        #region Syntax
+
         And,
-        Or,
-        True,
-        False,
-        Null,
         BinaryOperator,
         Comma,
-        Whitespace,
-        Decimal,
-        Double,
-        Integer,
-        Single,
-        Date,
-        DateTimeOffset,
-        Guid,
-        String,
+        CloseParentheses,
         FunctionName,
         PropertyName,
+        OpenParentheses,
+        Or,
         UnaryOperator,
-        TimeOfDay,
+        Whitespace,
+
+        #endregion Syntax
+
+        #region DataTypes
+
+        Base64Binary,
+        Date,
+        DateTimeOffset,
+        Decimal,
+        Double,
         Duration,
         Enum,
-        Base64Binary,
+        False,
+        Guid,
+        Integer,
+        Null,
+        Single,
+        String,
+        TimeOfDay,
+        True,
+
+        #endregion DataTypes
     }
+
+#pragma warning restore SA1124 // Do not use regions
 }
