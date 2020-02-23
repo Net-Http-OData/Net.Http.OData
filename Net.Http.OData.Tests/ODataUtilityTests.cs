@@ -1,7 +1,6 @@
 ﻿using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
-using Net.Http.OData.Query.Validators;
 using Xunit;
 
 namespace Net.Http.OData.Tests
@@ -226,7 +225,7 @@ namespace Net.Http.OData.Tests
             Assert.Equal(
                 "https://services.odata.org/OData/",
                 ODataUtility.ODataServiceRootUri("https", "services.odata.org", "/OData/Products?$select=Name").ToString());
-            
+
             Assert.Equal(
                 "https://services.odata.org/OData/",
                 ODataUtility.ODataServiceRootUri("https", "services.odata.org", "/OData/Products/?$select=Name").ToString());
