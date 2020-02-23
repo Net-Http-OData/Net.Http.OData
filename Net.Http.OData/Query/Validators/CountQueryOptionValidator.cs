@@ -34,13 +34,13 @@ namespace Net.Http.OData.Query.Validators
 
             if ((validationSettings.AllowedQueryOptions & AllowedQueryOptions.Count) != AllowedQueryOptions.Count)
             {
-                throw new ODataException(HttpStatusCode.NotImplemented, "The query option $count is not implemented by this service");
+                throw new ODataException("The query option $count is not implemented by this service", HttpStatusCode.NotImplemented);
             }
 
             if (queryOptions.RawValues.Count != "$count=true"
                 && queryOptions.RawValues.Count != "$count=false")
             {
-                throw new ODataException(HttpStatusCode.BadRequest, "The supplied value for OData query $count is invalid, valid options are 'true' and 'false'");
+                throw new ODataException("The supplied value for OData query $count is invalid, valid options are 'true' and 'false'", HttpStatusCode.BadRequest);
             }
         }
     }

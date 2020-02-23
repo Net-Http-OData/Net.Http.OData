@@ -34,7 +34,7 @@ namespace Net.Http.OData.Query.Validators
 
             if ((validationSettings.AllowedQueryOptions & AllowedQueryOptions.OrderBy) != AllowedQueryOptions.OrderBy)
             {
-                throw new ODataException(HttpStatusCode.NotImplemented, "The query option $orderby is not implemented by this service");
+                throw new ODataException("The query option $orderby is not implemented by this service", HttpStatusCode.NotImplemented);
             }
         }
     }

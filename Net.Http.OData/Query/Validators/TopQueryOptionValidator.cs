@@ -35,12 +35,12 @@ namespace Net.Http.OData.Query.Validators
 
             if ((validationSettings.AllowedQueryOptions & AllowedQueryOptions.Top) != AllowedQueryOptions.Top)
             {
-                throw new ODataException(HttpStatusCode.NotImplemented, "The query option $top is not implemented by this service");
+                throw new ODataException("The query option $top is not implemented by this service", HttpStatusCode.NotImplemented);
             }
 
             if (queryOptions.Top.Value < 0 || queryOptions.Top.Value > validationSettings.MaxTop)
             {
-                throw new ODataException(HttpStatusCode.BadRequest, $"The integer value for $top is invalid, it must be an integer greater than zero and below the max value of {validationSettings.MaxTop.ToString(CultureInfo.InvariantCulture)} allowed by this service");
+                throw new ODataException($"The integer value for $top is invalid, it must be an integer greater than zero and below the max value of {validationSettings.MaxTop.ToString(CultureInfo.InvariantCulture)} allowed by this service", HttpStatusCode.BadRequest);
             }
         }
     }

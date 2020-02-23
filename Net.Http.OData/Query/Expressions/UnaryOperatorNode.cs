@@ -10,6 +10,8 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Query.Expressions
 {
     /// <summary>
@@ -25,7 +27,7 @@ namespace Net.Http.OData.Query.Expressions
         /// <param name="operatorKind">Kind of the operator.</param>
         internal UnaryOperatorNode(QueryNode operand, UnaryOperatorKind operatorKind)
         {
-            Operand = operand;
+            Operand = operand ?? throw new ArgumentNullException(nameof(operand));
             OperatorKind = operatorKind;
         }
 

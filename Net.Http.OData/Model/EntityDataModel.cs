@@ -21,7 +21,8 @@ namespace Net.Http.OData.Model
     /// </summary>
     public sealed class EntityDataModel
     {
-        internal EntityDataModel(IReadOnlyDictionary<string, EntitySet> entitySets) => EntitySets = entitySets;
+        internal EntityDataModel(IReadOnlyDictionary<string, EntitySet> entitySets)
+            => EntitySets = entitySets ?? throw new System.ArgumentNullException(nameof(entitySets));
 
         /// <summary>
         /// Gets the current Entity Data Model.
@@ -50,7 +51,7 @@ namespace Net.Http.OData.Model
                 return entitySet;
             }
 
-            throw new ODataException(HttpStatusCode.BadRequest, $"This service does not contain a collection named '{entitySetName}'");
+            throw new ODataException($"This service does not contain a collection named '{entitySetName}'", HttpStatusCode.BadRequest);
         }
 
         /// <summary>

@@ -32,7 +32,7 @@ namespace Net.Http.OData.Tests
         [Fact]
         public void Create_ODataException_HttpStatusCode_Message()
         {
-            var odataErrorContent = ODataErrorContent.Create(new ODataException(HttpStatusCode.NotFound, "Not Found"));
+            var odataErrorContent = ODataErrorContent.Create(new ODataException("Not Found", HttpStatusCode.NotFound));
 
             Assert.NotNull(odataErrorContent);
             Assert.NotNull(odataErrorContent.Error);
@@ -44,7 +44,7 @@ namespace Net.Http.OData.Tests
         [Fact]
         public void Create_ODataException_HttpStatusCode_Message_Target()
         {
-            var odataErrorContent = ODataErrorContent.Create(new ODataException(HttpStatusCode.NotFound, "Not Found", "target"));
+            var odataErrorContent = ODataErrorContent.Create(new ODataException("Not Found", HttpStatusCode.NotFound, "target"));
 
             Assert.NotNull(odataErrorContent);
             Assert.NotNull(odataErrorContent.Error);

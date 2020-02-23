@@ -38,6 +38,8 @@ namespace Net.Http.OData.Model
         /// <param name="fullName">The full name of the Entity Data Model Type.</param>
         protected EdmType(Type clrType, string name, string fullName)
         {
+            ClrType = clrType ?? throw new ArgumentNullException(nameof(clrType));
+
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("Name must be specified", nameof(name));
@@ -50,7 +52,6 @@ namespace Net.Http.OData.Model
 
             Name = name;
             FullName = fullName;
-            ClrType = clrType ?? throw new ArgumentNullException(nameof(clrType));
         }
 
         /// <summary>

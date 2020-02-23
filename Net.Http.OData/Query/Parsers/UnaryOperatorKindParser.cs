@@ -25,7 +25,7 @@ namespace Net.Http.OData.Query.Parsers
                     return UnaryOperatorKind.Not;
 
                 default:
-                    throw new ODataException(HttpStatusCode.BadRequest, $"The operator '{operatorType}' is not a valid OData operator.");
+                    throw new ODataException($"The operator '{operatorType}' is not a valid OData operator.", HttpStatusCode.BadRequest);
             }
         }
     }

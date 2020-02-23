@@ -34,7 +34,7 @@ namespace Net.Http.OData.Query.Validators
 
             if ((validationSettings.AllowedQueryOptions & AllowedQueryOptions.Format) != AllowedQueryOptions.Format)
             {
-                throw new ODataException(HttpStatusCode.NotImplemented, "The query option $format is not implemented by this service");
+                throw new ODataException("The query option $format is not implemented by this service", HttpStatusCode.NotImplemented);
             }
         }
     }

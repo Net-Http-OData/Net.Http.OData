@@ -19,7 +19,7 @@ namespace Net.Http.OData.Metadata
     /// </summary>
     public sealed class ServiceDocumentItem
     {
-        private ServiceDocumentItem(string name, string kind, Uri url)
+        private ServiceDocumentItem(string kind, string name, Uri url)
         {
             Name = name;
             Kind = kind;
@@ -50,6 +50,6 @@ namespace Net.Http.OData.Metadata
         /// <param name="name">The name of the item.</param>
         /// <param name="url">The URL of the item.</param>
         /// <returns>A service document item which represents an Entity Set in the Entity Data Model.</returns>
-        public static ServiceDocumentItem EntitySet(string name, Uri url) => new ServiceDocumentItem(name, "EntitySet", url);
+        public static ServiceDocumentItem EntitySet(string name, Uri url) => new ServiceDocumentItem("EntitySet", name, url);
     }
 }

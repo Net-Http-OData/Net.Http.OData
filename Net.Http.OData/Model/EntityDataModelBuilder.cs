@@ -117,7 +117,7 @@ namespace Net.Http.OData.Model
             PropertyInfo[] clrTypeProperties = clrType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
             var edmProperties = new List<EdmProperty>(clrTypeProperties.Length);
-            var edmComplexType = (EdmComplexType)EdmTypeCache.Map.GetOrAdd(clrType, t => new EdmComplexType(t, baseEdmType, edmProperties.AsReadOnly()));
+            var edmComplexType = (EdmComplexType)EdmTypeCache.Map.GetOrAdd(clrType, t => new EdmComplexType(t, edmProperties.AsReadOnly(), baseEdmType));
 
             edmProperties.AddRange(clrTypeProperties
                 .OrderBy(p => p.Name)

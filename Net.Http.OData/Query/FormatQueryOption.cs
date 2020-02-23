@@ -39,7 +39,7 @@ namespace Net.Http.OData.Query
                 default:
                     string value = rawValue.SubstringAfter('=');
 
-                    throw new ODataException(HttpStatusCode.UnsupportedMediaType, $"The $format '{value}' is not supported by this service, acceptable values are 'json'.");
+                    throw new ODataException($"The $format '{value}' is not supported by this service, acceptable values are 'json'.", HttpStatusCode.UnsupportedMediaType);
             }
         }
 

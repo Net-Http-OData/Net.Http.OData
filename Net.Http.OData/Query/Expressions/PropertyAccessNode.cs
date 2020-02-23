@@ -10,6 +10,8 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Query.Expressions
 {
     /// <summary>
@@ -22,7 +24,8 @@ namespace Net.Http.OData.Query.Expressions
         /// Initialises a new instance of the <see cref="PropertyAccessNode"/> class.
         /// </summary>
         /// <param name="propertyPath">The property path being referenced in the query.</param>
-        internal PropertyAccessNode(PropertyPath propertyPath) => PropertyPath = propertyPath;
+        internal PropertyAccessNode(PropertyPath propertyPath)
+            => PropertyPath = propertyPath ?? throw new ArgumentNullException(nameof(propertyPath));
 
         /// <inheritdoc/>
         public override QueryNodeKind Kind { get; } = QueryNodeKind.PropertyAccess;

@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Net.Http.OData.Model;
@@ -30,6 +31,11 @@ namespace Net.Http.OData.Query
         internal OrderByQueryOption(string rawValue, EdmComplexType model)
             : base(rawValue)
         {
+            if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             if (rawValue.IndexOf(',') > 0)
             {
                 Properties = rawValue.Slice(',', rawValue.IndexOf('=') + 1)

@@ -51,20 +51,20 @@ namespace Net.Http.OData
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataException"/> class.
         /// </summary>
-        /// <param name="statusCode">The HTTP status code that describes the error.</param>
         /// <param name="message">The message that describes the error.</param>
-        public ODataException(HttpStatusCode statusCode, string message)
-            : this(statusCode, message, null)
+        /// <param name="statusCode">The HTTP status code that describes the error.</param>
+        public ODataException(string message, HttpStatusCode statusCode)
+            : this(message, statusCode, null)
         {
         }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataException" /> class.
         /// </summary>
-        /// <param name="statusCode">The HTTP status code that describes the error.</param>
         /// <param name="message">The message that describes the error.</param>
+        /// <param name="statusCode">The HTTP status code that describes the error.</param>
         /// <param name="target">The target of the exception.</param>
-        public ODataException(HttpStatusCode statusCode, string message, string target)
+        public ODataException(string message, HttpStatusCode statusCode, string target)
             : base(message)
         {
             StatusCode = statusCode;

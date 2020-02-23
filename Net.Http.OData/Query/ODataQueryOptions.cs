@@ -191,7 +191,7 @@ namespace Net.Http.OData.Query
 
             string queryOption = rawValue.SubstringBefore('=');
 
-            throw new ODataException(HttpStatusCode.BadRequest, $"The value for OData query {queryOption} must be a non-negative numeric value");
+            throw new ODataException($"The value for OData query {queryOption} must be a non-negative numeric value", HttpStatusCode.BadRequest);
         }
     }
 }

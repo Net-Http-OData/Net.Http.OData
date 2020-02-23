@@ -120,7 +120,7 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.True;
 
                 default:
-                    throw new ODataException(HttpStatusCode.NotImplemented, token.TokenType.ToString());
+                    throw new ODataException(token.TokenType.ToString(), HttpStatusCode.NotImplemented);
             }
         }
     }

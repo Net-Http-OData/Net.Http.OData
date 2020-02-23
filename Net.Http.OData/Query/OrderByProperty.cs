@@ -31,12 +31,12 @@ namespace Net.Http.OData.Query
         /// <exception cref="ODataException">Thrown if there is an error parsing the <paramref name="rawValue"/>.</exception>
         internal OrderByProperty(string rawValue, EdmComplexType model)
         {
+            RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
+
             if (model is null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
-
-            RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
 
             if (rawValue.IndexOf(' ') == -1)
             {
@@ -56,7 +56,7 @@ namespace Net.Http.OData.Query
                 }
                 else
                 {
-                    throw new ODataException(HttpStatusCode.BadRequest, $"The supplied order value for {PropertyPath.Property.Name} is invalid, valid options are 'asc' and 'desc'");
+                    throw new ODataException($"The supplied order value for {PropertyPath.Property.Name} is invalid, valid options are 'asc' and 'desc'", HttpStatusCode.BadRequest);
                 }
             }
         }

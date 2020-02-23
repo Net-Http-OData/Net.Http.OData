@@ -24,15 +24,15 @@ namespace Net.Http.OData.Model
     public sealed class EdmComplexType : EdmType
     {
         internal EdmComplexType(Type clrType, IReadOnlyList<EdmProperty> properties)
-            : this(clrType, null, properties)
+            : this(clrType, properties, null)
         {
         }
 
-        internal EdmComplexType(Type clrType, EdmType baseType, IReadOnlyList<EdmProperty> properties)
+        internal EdmComplexType(Type clrType, IReadOnlyList<EdmProperty> properties, EdmType baseType)
             : base(clrType)
         {
-            BaseType = baseType;
             Properties = properties ?? throw new ArgumentNullException(nameof(properties));
+            BaseType = baseType;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Net.Http.OData.Model
                 }
             }
 
-            throw new ODataException(HttpStatusCode.BadRequest, $"The type '{FullName}' does not contain a property named '{name}'");
+            throw new ODataException($"The type '{FullName}' does not contain a property named '{name}'", HttpStatusCode.BadRequest);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Net.Http.OData.Tests.Model
             var baseType = new EdmComplexType(typeof(Employee), new EdmProperty[0]);
             var properties = new EdmProperty[0];
 
-            var edmComplexType = new EdmComplexType(type, baseType, properties);
+            var edmComplexType = new EdmComplexType(type, properties, baseType);
 
             Assert.Same(baseType, edmComplexType.BaseType);
             Assert.Same(type, edmComplexType.ClrType);
