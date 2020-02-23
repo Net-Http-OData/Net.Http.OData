@@ -157,6 +157,7 @@ namespace Net.Http.OData.Query.Parsers
 
                             break;
 
+                        case TokenType.Base64Binary:
                         case TokenType.Date:
                         case TokenType.DateTimeOffset:
                         case TokenType.Decimal:
@@ -262,6 +263,7 @@ namespace Net.Http.OData.Query.Parsers
 
                             break;
 
+                        case TokenType.Base64Binary:
                         case TokenType.Date:
                         case TokenType.DateTimeOffset:
                         case TokenType.Decimal:
