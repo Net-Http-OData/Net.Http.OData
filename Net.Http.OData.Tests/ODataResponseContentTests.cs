@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Net.Http.WebApi.OData;
+using Net.Http.OData;
 using Xunit;
 
 namespace Net.Http.OData.Tests

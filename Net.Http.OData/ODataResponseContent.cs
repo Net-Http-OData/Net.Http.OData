@@ -10,7 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
-namespace Net.Http.WebApi.OData
+namespace Net.Http.OData
 {
     /// <summary>
     /// A class which is used to return OData content.

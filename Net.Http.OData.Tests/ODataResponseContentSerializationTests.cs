@@ -1,5 +1,5 @@
 using System.Dynamic;
-using Net.Http.WebApi.OData;
+using Net.Http.OData;
 using Newtonsoft.Json;
 using Xunit;
 
