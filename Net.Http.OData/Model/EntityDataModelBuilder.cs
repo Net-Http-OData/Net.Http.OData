@@ -121,7 +121,16 @@ namespace Net.Http.OData.Model
 
             edmProperties.AddRange(clrTypeProperties
                 .OrderBy(p => p.Name)
-                .Select(p => new EdmProperty(p, EdmTypeCache.Map.GetOrAdd(p.PropertyType, EdmTypeResolver), edmComplexType, _entityDataModel.IsEntitySet)));
+                .Select(p =>
+                {
+                    EdmType propertyEdmType = EdmTypeCache.Map.GetOrAdd(p.PropertyType, EdmTypeResolver);
+
+                    return new EdmProperty(
+                        p,
+                        propertyEdmType,
+                        edmComplexType,
+                        new Lazy<bool>(() => _entityDataModel.IsEntitySet((propertyEdmType as EdmCollectionType)?.ContainedType ?? propertyEdmType)));
+                }));
 
             return edmComplexType;
         }

@@ -63,7 +63,7 @@ namespace Net.Http.OData.Tests.Query
             Type type = typeof(Customer);
             var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
 
-            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, (_) => true);
+            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, new Lazy<bool>(() => true));
 
             var propertyPath = new PropertyPath(edmProperty);
 

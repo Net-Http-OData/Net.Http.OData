@@ -22,7 +22,7 @@ namespace Net.Http.OData.Model
     [System.Diagnostics.DebuggerDisplay("{Name}")]
     public sealed class EdmProperty
     {
-        private readonly Func<EdmType, bool> _isNavigableFunc;
+        private readonly Lazy<bool> _isNavigable;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="EdmProperty" /> class.
@@ -30,15 +30,15 @@ namespace Net.Http.OData.Model
         /// <param name="propertyInfo">The PropertyInfo for the property.</param>
         /// <param name="propertyType">Type of the edm.</param>
         /// <param name="declaringType">Type of the declaring.</param>
-        /// <param name="isNavigableFunc">A function which indicates whether the property is a navigation property.</param>
+        /// <param name="isNavigable">A lazy value which indicates whether the property is a navigation property.</param>
         /// <exception cref="ArgumentNullException">Constructor argument not specified.</exception>
-        internal EdmProperty(PropertyInfo propertyInfo, EdmType propertyType, EdmComplexType declaringType, Func<EdmType, bool> isNavigableFunc)
+        internal EdmProperty(PropertyInfo propertyInfo, EdmType propertyType, EdmComplexType declaringType, Lazy<bool> isNavigable)
         {
             ClrProperty = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
             Name = propertyInfo.Name;
             PropertyType = propertyType ?? throw new ArgumentNullException(nameof(propertyType));
             DeclaringType = declaringType ?? throw new ArgumentNullException(nameof(declaringType));
-            _isNavigableFunc = isNavigableFunc;
+            _isNavigable = isNavigable;
 
             IsNullable = Nullable.GetUnderlyingType(propertyType.ClrType) != null
                 || ((propertyType.ClrType.IsClass || propertyType.ClrType.IsInterface) && propertyInfo.GetCustomAttribute<RequiredAttribute>() == null);
@@ -57,7 +57,7 @@ namespace Net.Http.OData.Model
         /// <summary>
         /// Gets a value indicating whether the property is navigable (i.e. a navigation property).
         /// </summary>
-        public bool IsNavigable => _isNavigableFunc((PropertyType as EdmCollectionType)?.ContainedType ?? PropertyType);
+        public bool IsNavigable => _isNavigable.Value;
 
         /// <summary>
         /// Gets a value indicating whether the property is nullable.
