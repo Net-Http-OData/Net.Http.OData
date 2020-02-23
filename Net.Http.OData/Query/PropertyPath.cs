@@ -11,6 +11,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
+using System.Net;
 using Net.Http.OData.Model;
 
 namespace Net.Http.OData.Query
@@ -74,6 +75,15 @@ namespace Net.Http.OData.Query
             for (int i = 0; i < nameSegments.Length; i++)
             {
                 edmProperties[i] = model.GetProperty(nameSegments[i]);
+
+                // All properties in the path except the last must be navigable.
+                if (i < nameSegments.Length - 1 && !edmProperties[i].IsNavigable)
+                {
+                    throw new ODataException(
+                        $"The property '{nameSegments[i]}' in the path '{rawPropertyPath}' is not a navigable property.",
+                        HttpStatusCode.BadRequest);
+                }
+
                 model = edmProperties[i].PropertyType as EdmComplexType;
             }
 
