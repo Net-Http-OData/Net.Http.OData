@@ -17,6 +17,7 @@ namespace Net.Http.OData.Model
     /// <summary>
     /// A class which represents an Entity Set in the Entity Data Model.
     /// </summary>
+    [System.Diagnostics.DebuggerDisplay("{Name} - {EdmType.FullName}")]
     public sealed class EntitySet
     {
         internal EntitySet(string name, EdmComplexType edmType, EdmProperty entityKey, Capabilities capabilities)
