@@ -24,7 +24,6 @@ namespace Net.Http.OData
         /// <summary>
         /// Gets the <see cref="ODataError"/> details.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("error", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
         public ODataError Error { get; }
 
         /// <summary>
