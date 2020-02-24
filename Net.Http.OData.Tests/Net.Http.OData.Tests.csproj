@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-reportgenerator-cli" Version="4.4.5" />
+    <DotNetCliToolReference Include="dotnet-reportgenerator-cli" Version="4.4.7" />
   </ItemGroup>
 
   <ItemGroup>
