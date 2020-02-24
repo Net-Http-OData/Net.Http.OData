@@ -1,4 +1,5 @@
-﻿using Net.Http.OData.Model;
+﻿using System;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Xunit;
 
@@ -6,6 +7,10 @@ namespace Net.Http.OData.Tests.Query
 {
     public class SelectExpandQueryOptionTests
     {
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_ForNullModel()
+            => Assert.Throws<ArgumentNullException>(() => new SelectExpandQueryOption("$select=*", null));
+
         public class WhenConstructedWithExpandSingleValue
         {
             private readonly SelectExpandQueryOption _option;

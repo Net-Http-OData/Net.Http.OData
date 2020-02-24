@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Parsers;
 using Xunit;
@@ -7,6 +8,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 {
     public partial class FilterExpressionParserTests
     {
+        [Fact]
+        public void Parse_Throws_ArgumentNullException_ForNullModel()
+            => Assert.Throws<ArgumentNullException>(() => FilterExpressionParser.Parse("$filter=", null));
+
         public class InvalidSyntax
         {
             public InvalidSyntax()

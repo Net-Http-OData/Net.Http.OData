@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Xunit;
@@ -50,6 +51,41 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
+        public void ODataContext_Throws_ArgumentException_ForNullHost()
+        {
+            ArgumentException exception = Assert.Throws<ArgumentException>(
+                () => ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", null, "/OData/Products"));
+
+            Assert.Equal("Host must be specified (Parameter 'host')", exception.Message);
+            Assert.Equal("host", exception.ParamName);
+        }
+
+        [Fact]
+        public void ODataContext_Throws_ArgumentException_ForNullPath()
+        {
+            ArgumentException exception = Assert.Throws<ArgumentException>(
+                () => ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", null));
+
+            Assert.Equal("Path must be specified (Parameter 'path')", exception.Message);
+            Assert.Equal("path", exception.ParamName);
+        }
+
+        [Fact]
+        public void ODataContext_Throws_ArgumentException_ForNullScheme()
+        {
+            ArgumentException exception = Assert.Throws<ArgumentException>(
+                () => ODataUtility.ODataContext(ODataMetadataLevel.Minimal, null, "services.odata.org", "/OData/Products"));
+
+            Assert.Equal("Scheme must be specified (Parameter 'scheme')", exception.Message);
+            Assert.Equal("scheme", exception.ParamName);
+        }
+
+        [Fact]
+        public void ODataContext_Throws_ArgumentNullException_ForNullEntitySet()
+            => Assert.Throws<ArgumentNullException>(
+                () => ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", "/OData/Products", default));
+
+        [Fact]
         public void ODataContext_WithEntitySet()
         {
             TestHelper.EnsureEDM();
@@ -65,6 +101,29 @@ namespace Net.Http.OData.Tests
                 ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", "/OData/Products/", entitySet));
 
             Assert.Null(ODataUtility.ODataContext(ODataMetadataLevel.None, "https", "services.odata.org", "/OData/Products", entitySet));
+        }
+
+        [Fact]
+        public void ODataContext_WithEntitySet_AndNoSelect()
+        {
+            TestHelper.EnsureEDM();
+
+            EntitySet entitySet = EntityDataModel.Current.EntitySets["Products"];
+
+            ODataQueryOptions queryOptions = new ODataQueryOptions(
+                "?$count=true",
+                entitySet,
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            Assert.Equal(
+                "https://services.odata.org/OData/$metadata#Products",
+                ODataUtility.ODataContext(ODataMetadataLevel.Full, "https", "services.odata.org", "/OData/Products/", entitySet, queryOptions.Select));
+
+            Assert.Equal(
+                "https://services.odata.org/OData/$metadata#Products",
+                ODataUtility.ODataContext(ODataMetadataLevel.Minimal, "https", "services.odata.org", "/OData/Products/", entitySet, queryOptions.Select));
+
+            Assert.Null(ODataUtility.ODataContext(ODataMetadataLevel.None, "https", "services.odata.org", "/OData/Products/", entitySet, queryOptions.Select));
         }
 
         [Fact]

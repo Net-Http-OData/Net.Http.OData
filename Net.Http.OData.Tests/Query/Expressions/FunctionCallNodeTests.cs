@@ -1,10 +1,15 @@
-﻿using Net.Http.OData.Query.Expressions;
+﻿using System;
+using Net.Http.OData.Query.Expressions;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query.Expressions
 {
     public class FunctionCallNodeTests
     {
+        [Fact]
+        public void Constructor_Throws_ArgumentException_ForNullName()
+            => Assert.Throws<ArgumentException>(() => new FunctionCallNode(null));
+
         public class WhenAddingAParameter
         {
             private readonly FunctionCallNode _node;

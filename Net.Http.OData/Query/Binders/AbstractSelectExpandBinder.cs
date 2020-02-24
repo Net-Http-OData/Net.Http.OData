@@ -15,6 +15,7 @@ namespace Net.Http.OData.Query.Binders
     /// <summary>
     /// A base class for binding the $select and $expand query options.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public abstract class AbstractSelectExpandBinder
     {
         /// <summary>

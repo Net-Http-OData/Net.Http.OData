@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
@@ -9,6 +10,15 @@ namespace Net.Http.OData.Tests.Query.Parsers
 {
     public class ConstantNodeParserTests
     {
+        [Fact]
+        public void ParseConstantNode_Throws_ODataException_ForUnsupportedTokenType()
+        {
+            ODataException exception = Assert.Throws<ODataException>(() => ConstantNodeParser.ParseConstantNode(new Token(TokenType.Comma, ",")));
+
+            Assert.Equal("Comma", exception.Message);
+            Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
+        }
+
         public class Parse_Base64Binary
         {
             private readonly ConstantNode _node;
@@ -385,6 +395,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void Returns_ConstantNodeInt64Zero()
             {
+                Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0l")));
                 Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0L")));
             }
         }

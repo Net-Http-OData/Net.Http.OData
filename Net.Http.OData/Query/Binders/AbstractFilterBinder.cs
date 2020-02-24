@@ -19,6 +19,7 @@ namespace Net.Http.OData.Query.Binders
     /// <summary>
     /// A base class for binding the $filter query option.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public abstract class AbstractFilterBinder
     {
         /// <summary>

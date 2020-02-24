@@ -1,4 +1,5 @@
-﻿using Net.Http.OData.Model;
+﻿using System;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
 using Xunit;
@@ -7,6 +8,10 @@ namespace Net.Http.OData.Tests.Query.Expressions
 {
     public class PropertyAccessNodeTests
     {
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_ForNullPropertyPath()
+            => Assert.Throws<ArgumentNullException>(() => new PropertyAccessNode(null));
+
         public class WhenConstructed
         {
             private readonly PropertyAccessNode _node;

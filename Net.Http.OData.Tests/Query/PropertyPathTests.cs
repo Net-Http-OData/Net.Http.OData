@@ -12,6 +12,10 @@ namespace Net.Http.OData.Tests.Query
         public PropertyPathTests() => TestHelper.EnsureEDM();
 
         [Fact]
+        public void Constructor_Throws_ArgumentNullException_ForNullEdmProperty()
+            => Assert.Throws<ArgumentNullException>(() => new PropertyPath(null));
+
+        [Fact]
         public void For_PropertyPath()
         {
             var propertyPath = PropertyPath.For("Category/Name", EntityDataModel.Current.EntitySets["Products"].EdmType);

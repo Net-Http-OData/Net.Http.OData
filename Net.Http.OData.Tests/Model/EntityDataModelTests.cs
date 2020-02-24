@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Net.Http.OData.Model;
 using NorthwindModel;
 using Xunit;
@@ -11,13 +12,13 @@ namespace Net.Http.OData.Tests.Model
 
         public EntityDataModelTests()
         {
-            var entityDataModelBuilder = new EntityDataModelBuilder(StringComparer.OrdinalIgnoreCase);
-            entityDataModelBuilder.RegisterEntitySet<Category>("Categories", x => x.Name, Capabilities.Insertable | Capabilities.Updatable | Capabilities.Deletable);
-            entityDataModelBuilder.RegisterEntitySet<Customer>("Customers", x => x.CompanyName, Capabilities.Updatable);
-            entityDataModelBuilder.RegisterEntitySet<Employee>("Employees", x => x.Id);
-            entityDataModelBuilder.RegisterEntitySet<Manager>("Managers", x => x.Id);
-            entityDataModelBuilder.RegisterEntitySet<Order>("Orders", x => x.OrderId, Capabilities.Insertable | Capabilities.Updatable);
-            entityDataModelBuilder.RegisterEntitySet<Product>("Products", x => x.ProductId, Capabilities.Insertable | Capabilities.Updatable);
+            EntityDataModelBuilder entityDataModelBuilder = new EntityDataModelBuilder(StringComparer.OrdinalIgnoreCase)
+                .RegisterEntitySet<Category>("Categories", x => x.Name, Capabilities.Insertable | Capabilities.Updatable | Capabilities.Deletable)
+                .RegisterEntitySet<Customer>("Customers", x => x.CompanyName, Capabilities.Updatable)
+                .RegisterEntitySet<Employee>("Employees", x => x.Id)
+                .RegisterEntitySet<Manager>("Managers", x => x.Id)
+                .RegisterEntitySet<Order>("Orders", x => x.OrderId, Capabilities.Insertable | Capabilities.Updatable)
+                .RegisterEntitySet<Product>("Products", x => x.ProductId, Capabilities.Insertable | Capabilities.Updatable);
 
             _entityDataModel = entityDataModelBuilder.BuildModel();
         }
@@ -41,9 +42,20 @@ namespace Net.Http.OData.Tests.Model
         }
 
         [Fact]
-        public void IsEntitySet_ReturnsFalse_IfEdmTypeIsNotEntitySet() => Assert.True(_entityDataModel.IsEntitySet(EdmType.GetEdmType(typeof(Category))));
+        public void EntitySetForPath_Throws_ODataException_IfEntitySetNotRegistered()
+        {
+            ODataException exception = Assert.Throws<ODataException>(() => EntityDataModel.Current.EntitySetForPath("/OData/Colour"));
+
+            Assert.Equal("This service does not contain a collection named 'Colour'", exception.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
+        }
 
         [Fact]
-        public void IsEntitySet_ReturnsTrue_IfEdmTypeIsEntitySet() => Assert.True(_entityDataModel.IsEntitySet(EdmType.GetEdmType(typeof(Customer))));
+        public void IsEntitySet_ReturnsFalse_IfEdmTypeIsNotEntitySet()
+            => Assert.True(_entityDataModel.IsEntitySet(EdmType.GetEdmType(typeof(Category))));
+
+        [Fact]
+        public void IsEntitySet_ReturnsTrue_IfEdmTypeIsEntitySet()
+            => Assert.True(_entityDataModel.IsEntitySet(EdmType.GetEdmType(typeof(Customer))));
     }
 }

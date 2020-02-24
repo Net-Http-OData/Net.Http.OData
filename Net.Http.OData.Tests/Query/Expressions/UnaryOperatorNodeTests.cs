@@ -1,3 +1,4 @@
+using System;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
@@ -7,6 +8,10 @@ namespace Net.Http.OData.Tests.Query.Expressions
 {
     public class UnaryOperatorNodeTests
     {
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_ForNullPropertyPath()
+            => Assert.Throws<ArgumentNullException>(() => new UnaryOperatorNode(null, UnaryOperatorKind.Not));
+
         public class WhenConstructed
         {
             private readonly UnaryOperatorNode _node;

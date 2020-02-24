@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
 using Net.Http.OData.Metadata;
 using Net.Http.OData.Model;
 using Xunit;
@@ -257,5 +258,13 @@ namespace Net.Http.OData.Tests.Metadata
 
             Assert.Equal(expected.ToString(), csdlDocument.ToString());
         }
+
+        [Fact]
+        public void Create_Throws_ArgumentNullException_For_Null_EntityDataModel()
+            => Assert.Throws<ArgumentNullException>(() => XmlMetadataProvider.Create(null, ODataServiceOptions.Default));
+
+        [Fact]
+        public void Create_Throws_ArgumentNullException_For_Null_ODataServiceOptions()
+            => Assert.Throws<ArgumentNullException>(() => XmlMetadataProvider.Create(EntityDataModel.Current, null));
     }
 }

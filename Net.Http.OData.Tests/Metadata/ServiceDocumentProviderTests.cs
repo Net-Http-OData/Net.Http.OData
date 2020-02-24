@@ -82,5 +82,15 @@ namespace Net.Http.OData.Tests.Metadata
             Assert.Equal("Products", serviceDocumentItems[5].Name);
             Assert.Equal("https://services.odata.org/OData/Products", serviceDocumentItems[5].Url.ToString());
         }
+
+        [Fact]
+        public void Create_Throws_ArgumentNullException_For_Null_EntityDataModel()
+            => Assert.Throws<ArgumentNullException>(() => ServiceDocumentProvider.Create(
+                null,
+                new ODataRequestOptions(new Uri("https://services.odata.org/OData"), ODataIsolationLevel.None, ODataMetadataLevel.Minimal, ODataVersion.OData40)));
+
+        [Fact]
+        public void Create_Throws_ArgumentNullException_For_Null_ODataRequestOptions()
+            => Assert.Throws<ArgumentNullException>(() => ServiceDocumentProvider.Create(EntityDataModel.Current, null));
     }
 }

@@ -28,6 +28,10 @@ namespace Net.Http.OData.Tests.Model
             Assert.Same(entityDataModel.EntitySets["categories"], entityDataModel.EntitySets["Categories"]);
         }
 
+        [Fact]
+        public void RegisterEntitySet_Throws_ArgumentNullException_ForNullEntityKeyExpression()
+            => Assert.Throws<ArgumentNullException>(() => new EntityDataModelBuilder(StringComparer.OrdinalIgnoreCase).RegisterEntitySet<Category>("Categories", null));
+
         public class WhenCalling_BuildModelWith_Models_AndCustomEntitySetName
         {
             private readonly EntityDataModel _entityDataModel;
