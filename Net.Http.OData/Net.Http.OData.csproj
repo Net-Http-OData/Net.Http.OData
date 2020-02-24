@@ -13,7 +13,7 @@
     <PackageTags>OData Parser</PackageTags>
     <PackageReleaseNotes>See https://github.com/Net-Http-OData/Net.Http.OData/releases for a summary of changes made in this release of the package.</PackageReleaseNotes>
     <NeutralLanguage>en-GB</NeutralLanguage>
-    <RepositoryUrl>https://github.com/Net-Http-OData/Net.Http.OData/</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Net-Http-OData/Net.Http.OData</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
@@ -73,4 +73,5 @@
   <ItemGroup>
     <None Include="..\Net.Http.OData.snk" Link="Net.Http.OData.snk" />
   </ItemGroup>
+
 </Project>
