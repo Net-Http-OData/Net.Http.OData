@@ -56,38 +56,13 @@ namespace Net.Http.OData
 
         public static bool operator !=(ODataVersion left, ODataVersion right) => !(left == right);
 
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
         public static bool operator <(ODataVersion a, ODataVersion b)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
-            if (a == null || b == null)
-            {
-                return false;
-            }
-
-            return a._decimalVersion < b._decimalVersion;
-        }
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+            => a != null && b != null && a._decimalVersion < b._decimalVersion;
 
         public static bool operator <=(ODataVersion a, ODataVersion b)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
-            if (a == null || b == null)
-            {
-                return false;
-            }
-
-            return a._decimalVersion <= b._decimalVersion;
-        }
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+            => a != null && b != null && a._decimalVersion <= b._decimalVersion;
 
         public static bool operator ==(ODataVersion left, ODataVersion right)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             if (left is null)
             {
@@ -97,31 +72,13 @@ namespace Net.Http.OData
             return left.Equals(right);
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
         public static bool operator >(ODataVersion a, ODataVersion b)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
-            if (a == null || b == null)
-            {
-                return false;
-            }
-
-            return a._decimalVersion > b._decimalVersion;
-        }
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+            => a != null && b != null && a._decimalVersion > b._decimalVersion;
 
         public static bool operator >=(ODataVersion a, ODataVersion b)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
-            if (a == null || b == null)
-            {
-                return false;
-            }
+            => a != null && b != null && a._decimalVersion >= b._decimalVersion;
 
-            return a._decimalVersion >= b._decimalVersion;
-        }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Returns an <see cref="ODataVersion"/> which represents the specified version string.
@@ -190,15 +147,7 @@ namespace Net.Http.OData
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            return Equals(obj as ODataVersion);
-        }
+        public override bool Equals(object obj) => Equals(obj as ODataVersion);
 
         /// <inheritdoc/>
         public bool Equals(ODataVersion other)
