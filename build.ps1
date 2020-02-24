@@ -1,6 +1,6 @@
 # A script for building, testing and viewing code coverage locally
+dotnet clean
 dotnet build
-
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\
 
 Set-Location Net.Http.OData.Tests
