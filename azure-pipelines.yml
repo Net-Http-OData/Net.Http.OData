@@ -36,6 +36,13 @@ steps:
     projects: '**/*Tests.csproj'
     arguments: '"-reports:TestResults\coverage.cobertura.xml" "-targetdir:TestResults\html" -reporttypes:HTML;'
 
+- task: PublishCodeCoverageResults@1
+  displayName: 'publish code coverage'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)\$(testWorkingDirectory)\TestResults\coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)\$(testWorkingDirectory)\TestResults\html'
+
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
