@@ -12,14 +12,20 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Net;
+
+#if NET45
 using System.Runtime.Serialization;
+#endif
 
 namespace Net.Http.OData
 {
     /// <summary>
     /// An exception which is thrown in relation to an OData request.
     /// </summary>
+#if NET45
     [Serializable]
+#endif
+
     public sealed class ODataException : Exception
     {
         /// <summary>
@@ -71,12 +77,14 @@ namespace Net.Http.OData
             Target = target;
         }
 
+#if NET45
         private ODataException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
             StatusCode = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), info.GetString("StatusCode"));
             Target = info.GetString("Target");
         }
+#endif
 
         /// <summary>
         /// Gets or sets the HTTP status code that describes the error.
@@ -88,6 +96,7 @@ namespace Net.Http.OData
         /// </summary>
         public string Target { get; set; }
 
+#if NET45
         /// <inheritdoc/>
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -99,5 +108,6 @@ namespace Net.Http.OData
 
             base.GetObjectData(info, context);
         }
+#endif
     }
 }
