@@ -31,13 +31,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator add", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator add", odataException.Message);
             }
         }
 
@@ -90,13 +90,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator and", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator and", odataException.Message);
             }
         }
 
@@ -148,13 +148,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function cast", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function cast", odataException.Message);
             }
         }
 
@@ -207,13 +207,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function ceiling", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function ceiling", odataException.Message);
             }
         }
 
@@ -266,13 +266,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function concat", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function concat", odataException.Message);
             }
         }
 
@@ -325,13 +325,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function contains", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function contains", odataException.Message);
             }
         }
 
@@ -384,13 +384,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function day", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function day", odataException.Message);
             }
         }
 
@@ -444,13 +444,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator div", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator div", odataException.Message);
             }
         }
 
@@ -503,13 +503,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function endswith", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function endswith", odataException.Message);
             }
         }
 
@@ -562,13 +562,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator eq", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator eq", odataException.Message);
             }
         }
 
@@ -620,13 +620,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function floor", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function floor", odataException.Message);
             }
         }
 
@@ -679,13 +679,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function fractionalseconds", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function fractionalseconds", odataException.Message);
             }
         }
 
@@ -738,13 +738,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator gt", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator gt", odataException.Message);
             }
         }
 
@@ -796,13 +796,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator ge", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator ge", odataException.Message);
             }
         }
 
@@ -854,13 +854,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator has", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator has", odataException.Message);
             }
         }
 
@@ -912,13 +912,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function hour", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function hour", odataException.Message);
             }
         }
 
@@ -971,13 +971,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function indexof", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function indexof", odataException.Message);
             }
         }
 
@@ -1030,13 +1030,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function isof", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function isof", odataException.Message);
             }
         }
 
@@ -1089,13 +1089,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function length", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function length", odataException.Message);
             }
         }
 
@@ -1148,13 +1148,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator lt", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator lt", odataException.Message);
             }
         }
 
@@ -1206,13 +1206,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator le", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator le", odataException.Message);
             }
         }
 
@@ -1264,13 +1264,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function maxdatetime", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function maxdatetime", odataException.Message);
             }
         }
 
@@ -1323,13 +1323,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function mindatetime", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function mindatetime", odataException.Message);
             }
         }
 
@@ -1382,13 +1382,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function minute", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function minute", odataException.Message);
             }
         }
 
@@ -1442,13 +1442,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator mod", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator mod", odataException.Message);
             }
         }
 
@@ -1501,13 +1501,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function month", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function month", odataException.Message);
             }
         }
 
@@ -1561,13 +1561,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator mul", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator mul", odataException.Message);
             }
         }
 
@@ -1620,13 +1620,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator ne", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator ne", odataException.Message);
             }
         }
 
@@ -1679,13 +1679,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function now", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function now", odataException.Message);
             }
         }
 
@@ -1738,13 +1738,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator or", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator or", odataException.Message);
             }
         }
 
@@ -1796,13 +1796,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function replace", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function replace", odataException.Message);
             }
         }
 
@@ -1855,13 +1855,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function round", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function round", odataException.Message);
             }
         }
 
@@ -1914,13 +1914,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function second", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function second", odataException.Message);
             }
         }
 
@@ -1973,13 +1973,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function startswith", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function startswith", odataException.Message);
             }
         }
 
@@ -2032,13 +2032,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function substring", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function substring", odataException.Message);
             }
         }
 
@@ -2092,13 +2092,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator sub", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator sub", odataException.Message);
             }
         }
 
@@ -2151,13 +2151,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function tolower", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function tolower", odataException.Message);
             }
         }
 
@@ -2210,13 +2210,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function toupper", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function toupper", odataException.Message);
             }
         }
 
@@ -2269,13 +2269,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function trim", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function trim", odataException.Message);
             }
         }
 
@@ -2328,13 +2328,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function year", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function year", odataException.Message);
             }
         }
 
@@ -2386,13 +2386,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("The query option $filter is not implemented by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("The query option $filter is not implemented by this service", odataException.Message);
             }
         }
 

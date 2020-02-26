@@ -8,7 +8,7 @@ namespace Net.Http.OData.Tests.Query
     public class ODataRawQueryOptionsTests
     {
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullHttpReuestMessage()
+        public void Constructor_Throws_ArgumentNullException_For_Null_RawQuery()
         {
             Assert.Throws<ArgumentNullException>(() => new ODataRawQueryOptions(null));
         }
@@ -92,124 +92,94 @@ namespace Net.Http.OData.Tests.Query
             }
         }
 
-        public class WhenCallingConstructorWithAnEmptyCount
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyCountQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$count="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$count="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $count cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$count"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
-        public class WhenCallingConstructorWithAnEmptyExpand
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyExpandQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$expand="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$expand="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $expand cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$expand"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
-        public class WhenCallingConstructorWithAnEmptyFilter
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyFilterQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$filter="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$filter="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $filter cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$filter"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
-        public class WhenCallingConstructorWithAnEmptyFormat
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyFormatQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$format="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$format="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $format cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$format"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
-        public class WhenCallingConstructorWithAnEmptyOrderBy
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyOrderByQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$orderby="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$orderby="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $orderby cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$orderby"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
-        public class WhenCallingConstructorWithAnEmptySearch
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptySearchQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$search="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$search="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $search cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$search"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
-        public class WhenCallingConstructorWithAnEmptySelect
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptSelectQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$select="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$select="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $select cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$select"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
-        public class WhenCallingConstructorWithAnEmptySkip
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptySkipQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$skip="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$skip="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $skip cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skip"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
-        public class WhenCallingConstructorWithAnEmptySkipToken
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptySkipTokenQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$skiptoken="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$skiptoken="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $skiptoken cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skiptoken"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
-        public class WhenCallingConstructorWithAnEmptyTop
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyTopQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$top="));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$top="));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The OData query option $top cannot be empty", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$top"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
         public class WhenCallingConstructorWithAnUnknownQueryOptionWhichDoesNotStartsWithADollar
@@ -221,16 +191,13 @@ namespace Net.Http.OData.Tests.Query
             }
         }
 
-        public class WhenCallingConstructorWithAnUnknownQueryOptionWhichStartsWithADollar
+        [Fact]
+        public void Constructor_Throws_ODataException_For_UnknownQueryOption()
         {
-            [Fact]
-            public void AnHttpResponseExceptionShouldBeThrown()
-            {
-                ODataException exception = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$wibble=*"));
+            ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$wibble=*"));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("Unknown OData query option $wibble", exception.Message);
-            }
+            Assert.Equal(ExceptionMessage.UnsupportedQueryOption("$wibble"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
         public class WhenCallingConstructorWithNoQueryOptions

@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Net;
 
 namespace Net.Http.OData.Model
 {
@@ -63,7 +62,7 @@ namespace Net.Http.OData.Model
                 }
             }
 
-            throw new ODataException($"The type '{FullName}' does not contain a property named '{name}'", HttpStatusCode.BadRequest);
+            throw ODataException.BadRequest(ExceptionMessage.EdmTypeDoesNotContainProperty(FullName, name));
         }
     }
 }

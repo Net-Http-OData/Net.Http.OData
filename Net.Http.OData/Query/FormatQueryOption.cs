@@ -10,7 +10,6 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
-using System.Net;
 using System.Net.Http.Headers;
 
 namespace Net.Http.OData.Query
@@ -39,7 +38,7 @@ namespace Net.Http.OData.Query
                 default:
                     string value = rawValue.SubstringAfter('=');
 
-                    throw new ODataException($"The $format '{value}' is not supported by this service, acceptable values are 'json'.", HttpStatusCode.UnsupportedMediaType);
+                    throw ODataException.UnsupportedMediaType(ExceptionMessage.QueryOptionValueNotSupported("$format", value, "'json'"));
             }
         }
 

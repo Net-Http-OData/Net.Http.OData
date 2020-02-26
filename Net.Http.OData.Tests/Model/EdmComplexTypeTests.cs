@@ -9,7 +9,7 @@ namespace Net.Http.OData.Tests.Model
     public class EdmComplexTypeTests
     {
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullProperties()
+        public void Constructor_Throws_ArgumentNullException_For_Null_Properties()
         {
             Type type = typeof(Customer);
 
@@ -107,16 +107,16 @@ namespace Net.Http.OData.Tests.Model
         }
 
         [Fact]
-        public void GetProperty_ThrowsODataExceptionIfPropertyNameNotFound()
+        public void GetProperty_Throws_ODataException_If_PropertyNameNotFound()
         {
             TestHelper.EnsureEDM();
 
             EdmComplexType edmComplexType = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-            ODataException exception = Assert.Throws<ODataException>(() => edmComplexType.GetProperty("Name"));
+            ODataException odataException = Assert.Throws<ODataException>(() => edmComplexType.GetProperty("Name"));
 
-            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-            Assert.Equal("The type 'NorthwindModel.Customer' does not contain a property named 'Name'", exception.Message);
+            Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("NorthwindModel.Customer", "Name"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
         [Fact]

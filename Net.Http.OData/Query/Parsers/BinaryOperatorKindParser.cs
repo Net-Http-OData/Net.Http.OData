@@ -11,7 +11,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System.Collections.Generic;
-using System.Net;
 using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query.Parsers
@@ -37,6 +36,8 @@ namespace Net.Http.OData.Query.Parsers
         };
 
         internal static BinaryOperatorKind ToBinaryOperatorKind(this string operatorType)
-            => s_operatorTypeMap.TryGetValue(operatorType, out BinaryOperatorKind binaryOperatorKind) ? binaryOperatorKind : throw new ODataException($"The operator '{operatorType}' is not a valid OData operator.", HttpStatusCode.BadRequest);
+            => s_operatorTypeMap.TryGetValue(operatorType, out BinaryOperatorKind binaryOperatorKind)
+                ? binaryOperatorKind
+                : throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType));
     }
 }

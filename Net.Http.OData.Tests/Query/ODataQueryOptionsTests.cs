@@ -11,7 +11,7 @@ namespace Net.Http.OData.Tests.Query
     public class ODataQueryOptionsTests
     {
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullEntitySet()
+        public void Constructor_Throws_ArgumentNullException_For_Null_EntitySet()
         {
             TestHelper.EnsureEDM();
 
@@ -19,7 +19,7 @@ namespace Net.Http.OData.Tests.Query
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullQuery()
+        public void Constructor_Throws_ArgumentNullException_For_Null_Query()
         {
             TestHelper.EnsureEDM();
 
@@ -28,7 +28,7 @@ namespace Net.Http.OData.Tests.Query
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullValidator()
+        public void Constructor_Throws_ArgumentNullException_For_Null_Validator()
         {
             TestHelper.EnsureEDM();
 
@@ -85,10 +85,10 @@ namespace Net.Http.OData.Tests.Query
                 EntityDataModel.Current.EntitySets["Customers"],
                     Mock.Of<IODataQueryOptionsValidator>());
 
-            ODataException exception = Assert.Throws<ODataException>(() => option.Skip);
+            ODataException odataException = Assert.Throws<ODataException>(() => option.Skip);
 
-            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-            Assert.Equal("The value for OData query $skip must be a non-negative numeric value", exception.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueMustBePositiveInteger("$skip"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
         [Fact]
@@ -101,10 +101,10 @@ namespace Net.Http.OData.Tests.Query
                 EntityDataModel.Current.EntitySets["Customers"],
                     Mock.Of<IODataQueryOptionsValidator>());
 
-            ODataException exception = Assert.Throws<ODataException>(() => option.Top);
+            ODataException odataException = Assert.Throws<ODataException>(() => option.Top);
 
-            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-            Assert.Equal("The value for OData query $top must be a non-negative numeric value", exception.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueMustBePositiveInteger("$top"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
         public class WhenConstructedWithAllQueryOptions

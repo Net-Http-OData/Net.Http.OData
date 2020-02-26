@@ -35,6 +35,6 @@ namespace Net.Http.OData.Query.Parsers
 
         internal Regex Regex { get; }
 
-        internal Token CreateToken(Match match) => new Token(_tokenType, match.Value);
+        internal Token CreateToken(Match match, int position) => new Token(_tokenType, match.Value, position);
     }
 }

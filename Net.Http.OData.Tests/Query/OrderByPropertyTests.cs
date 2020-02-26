@@ -9,36 +9,34 @@ namespace Net.Http.OData.Tests.Query
     public class OrderByPropertyTests
     {
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullModel()
+        public void Constructor_Throws_ArgumentNullException_For_NullModel()
         {
             TestHelper.EnsureEDM();
 
-            Assert.Throws<ArgumentNullException>(
-                () => new OrderByProperty("CompanyName", null));
+            Assert.Throws<ArgumentNullException>(() => new OrderByProperty("CompanyName", null));
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullRawValue()
+        public void Constructor_Throws_ArgumentNullException_For_NullRawValue()
         {
             TestHelper.EnsureEDM();
 
-            Assert.Throws<ArgumentNullException>(
-                () => new OrderByProperty(null, EntityDataModel.Current.EntitySets["Customers"].EdmType));
+            Assert.Throws<ArgumentNullException>(() => new OrderByProperty(null, EntityDataModel.Current.EntitySets["Customers"].EdmType));
         }
 
         public class WhenConstructedWithAnIncorrectlyCasedValue
         {
             [Fact]
-            public void AnArgumentOutOfRangeExceptionShouldBeThrown()
+            public void AnODataExceptionShouldBeThrown()
             {
                 TestHelper.EnsureEDM();
 
                 EdmComplexType model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-                ODataException exception = Assert.Throws<ODataException>(() => new OrderByProperty("CompanyName ASC", model));
+                ODataException odataException = Assert.Throws<ODataException>(() => new OrderByProperty("CompanyName ASC", model));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The supplied order value for CompanyName is invalid, valid options are 'asc' and 'desc'", exception.Message);
+                Assert.Equal(ExceptionMessage.InvalidOrderByDirection("ASC", "CompanyName"), odataException.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
             }
         }
 
@@ -51,10 +49,10 @@ namespace Net.Http.OData.Tests.Query
 
                 EdmComplexType model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-                ODataException exception = Assert.Throws<ODataException>(() => new OrderByProperty("CompanyName wibble", model));
+                ODataException odataException = Assert.Throws<ODataException>(() => new OrderByProperty("CompanyName wibble", model));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The supplied order value for CompanyName is invalid, valid options are 'asc' and 'desc'", exception.Message);
+                Assert.Equal(ExceptionMessage.InvalidOrderByDirection("wibble", "CompanyName"), odataException.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
             }
         }
 

@@ -10,7 +10,6 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
-using System.Net;
 using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query.Parsers
@@ -25,7 +24,7 @@ namespace Net.Http.OData.Query.Parsers
                     return UnaryOperatorKind.Not;
 
                 default:
-                    throw new ODataException($"The operator '{operatorType}' is not a valid OData operator.", HttpStatusCode.BadRequest);
+                    throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType));
             }
         }
     }

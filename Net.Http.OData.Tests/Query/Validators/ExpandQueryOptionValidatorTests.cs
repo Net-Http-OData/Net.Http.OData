@@ -29,13 +29,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => ExpandQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("The query option $expand is not implemented by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("The query option $expand is not implemented by this service", odataException.Message);
             }
         }
 

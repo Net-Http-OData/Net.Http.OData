@@ -11,7 +11,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
-using System.Net;
 using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query.Binders
@@ -84,7 +83,7 @@ namespace Net.Http.OData.Query.Binders
                     break;
 
                 default:
-                    throw new ODataException($"Query nodes of type '{queryNode.Kind.ToString()}' are not supported.", HttpStatusCode.NotImplemented);
+                    throw new NotSupportedException(ExceptionMessage.QueryNodeKindNotSupported(queryNode.Kind.ToString()));
             }
         }
 

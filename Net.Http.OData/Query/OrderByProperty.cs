@@ -11,7 +11,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
-using System.Net;
 using Net.Http.OData.Model;
 
 namespace Net.Http.OData.Query
@@ -56,7 +55,7 @@ namespace Net.Http.OData.Query
                 }
                 else
                 {
-                    throw new ODataException($"The supplied order value for {PropertyPath.Property.Name} is invalid, valid options are 'asc' and 'desc'", HttpStatusCode.BadRequest);
+                    throw ODataException.BadRequest(ExceptionMessage.InvalidOrderByDirection(rawValue.SubstringAfter(' '), PropertyPath.Property.Name));
                 }
             }
         }

@@ -12,7 +12,7 @@ namespace Net.Http.OData.Tests.Query
         public PropertyPathTests() => TestHelper.EnsureEDM();
 
         [Fact]
-        public void Constructor_Throws_ArgumentNullException_ForNullEdmProperty()
+        public void Constructor_Throws_ArgumentNullException_For_Null_EdmProperty()
             => Assert.Throws<ArgumentNullException>(() => new PropertyPath(null));
 
         [Fact]
@@ -42,22 +42,22 @@ namespace Net.Http.OData.Tests.Query
         }
 
         [Fact]
-        public void Throws_ODataException_For_InvalidNonNavigable()
+        public void For_Throws_ODataException_For_InvalidNonNavigable()
         {
             ODataException odataException = Assert.Throws<ODataException>(
                 () => PropertyPath.For("Colour/Name", EntityDataModel.Current.EntitySets["Products"].EdmType));
 
-            Assert.Equal("The property 'Colour' in the path 'Colour/Name' is not a navigable property.", odataException.Message);
+            Assert.Equal(ExceptionMessage.PropertyNotNavigable("Colour", "Colour/Name"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
         [Fact]
-        public void Throws_ODataException_For_InvalidPath()
+        public void For_Throws_ODataException_For_InvalidPath()
         {
             ODataException odataException = Assert.Throws<ODataException>(
                 () => PropertyPath.For("Category/Definition/Name", EntityDataModel.Current.EntitySets["Products"].EdmType));
 
-            Assert.Equal("The type 'NorthwindModel.Category' does not contain a property named 'Definition'", odataException.Message);
+            Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("NorthwindModel.Category", "Definition"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 

@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Globalization;
-using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 
@@ -120,7 +119,7 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.True;
 
                 default:
-                    throw new ODataException(token.TokenType.ToString(), HttpStatusCode.NotImplemented);
+                    throw new NotSupportedException(token.TokenType.ToString());
             }
         }
     }

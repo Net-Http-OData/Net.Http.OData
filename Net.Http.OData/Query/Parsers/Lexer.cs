@@ -11,7 +11,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Net.Http.OData.Query.Parsers
@@ -83,7 +82,7 @@ namespace Net.Http.OData.Query.Parsers
                         continue;
                     }
 
-                    Current = tokenDefinition.CreateToken(match);
+                    Current = tokenDefinition.CreateToken(match, _position);
                     _position += match.Length;
 
                     return true;
@@ -92,7 +91,7 @@ namespace Net.Http.OData.Query.Parsers
 
             if (_content.Length != _position)
             {
-                throw new ODataException("Unable to parse the specified $filter system query option", HttpStatusCode.BadRequest);
+                throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
             }
 
             return false;

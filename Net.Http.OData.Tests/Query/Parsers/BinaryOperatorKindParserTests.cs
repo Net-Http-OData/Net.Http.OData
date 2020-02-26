@@ -92,12 +92,12 @@ namespace Net.Http.OData.Tests.Query.Parsers
         }
 
         [Fact]
-        public void ToBinaryOperatorKindThrowsArgumentExceptionForUnsupportedOperatorKind()
+        public void ToBinaryOperatorKind_Throws_ODataException_For_UnsupportedOperatorKind()
         {
-            ODataException exception = Assert.Throws<ODataException>(() => "wibble".ToBinaryOperatorKind());
+            ODataException odataException = Assert.Throws<ODataException>(() => "wibble".ToBinaryOperatorKind());
 
-            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-            Assert.Equal("The operator 'wibble' is not a valid OData operator.", exception.Message);
+            Assert.Equal(ExceptionMessage.InvalidOperator("wibble"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
     }
 }

@@ -29,13 +29,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => TopQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("The query option $top is not implemented by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("The query option $top is not implemented by this service", odataException.Message);
             }
         }
 
@@ -86,13 +86,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithBadRequest()
+            public void An_ODataException_IsThrown_WithStatusBadRequest()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => TopQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 0 allowed by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+                Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 0 allowed by this service", odataException.Message);
             }
         }
 
@@ -170,13 +170,13 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithBadRequest()
+            public void An_ODataException_IsThrown_WithStatusBadRequest()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => TopQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 100 allowed by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+                Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 100 allowed by this service", odataException.Message);
             }
         }
     }

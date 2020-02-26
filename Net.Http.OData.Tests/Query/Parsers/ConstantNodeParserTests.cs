@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
@@ -11,12 +10,11 @@ namespace Net.Http.OData.Tests.Query.Parsers
     public class ConstantNodeParserTests
     {
         [Fact]
-        public void ParseConstantNode_Throws_ODataException_ForUnsupportedTokenType()
+        public void ParseConstantNode_Throws_NotSupportedException_For_UnsupportedTokenType()
         {
-            ODataException exception = Assert.Throws<ODataException>(() => ConstantNodeParser.ParseConstantNode(new Token(TokenType.Comma, ",")));
+            NotSupportedException exception = Assert.Throws<NotSupportedException>(() => ConstantNodeParser.ParseConstantNode(new Token(TokenType.Comma, ",", 0)));
 
             Assert.Equal("Comma", exception.Message);
-            Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
         }
 
         public class Parse_Base64Binary
@@ -26,7 +24,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             public Parse_Base64Binary()
             {
                 // Base64 of Net.Http.OData
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Base64Binary, "TmV0Lkh0dHAuT0RhdGE="));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Base64Binary, "TmV0Lkh0dHAuT0RhdGE=", 0));
             }
 
             [Fact]
@@ -61,7 +59,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_Date()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Date, "2000-12-18"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Date, "2000-12-18", 0));
             }
 
             [Fact]
@@ -96,7 +94,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_DateTimeOffset()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.DateTimeOffset, "2002-10-15T17:34:23Z"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.DateTimeOffset, "2002-10-15T17:34:23Z", 0));
             }
 
             [Fact]
@@ -131,7 +129,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_Decimal()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Decimal, "2.345M"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Decimal, "2.345M", 0));
             }
 
             [Fact]
@@ -166,7 +164,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_Double()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "2.029d"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "2.029d", 0));
             }
 
             [Fact]
@@ -201,7 +199,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_Duration()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Duration, "duration'P6DT23H59M59.9999S'"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Duration, "duration'P6DT23H59M59.9999S'", 0));
             }
 
             [Fact]
@@ -238,7 +236,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             {
                 TestHelper.EnsureEDM();
 
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Enum, "NorthwindModel.AccessLevel'Read'"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Enum, "NorthwindModel.AccessLevel'Read'", 0));
             }
 
             [Fact]
@@ -272,7 +270,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void Returns_ConstantNodeFalse()
             {
-                Assert.Equal(ConstantNode.False, ConstantNodeParser.ParseConstantNode(new Token(TokenType.False, "false")));
+                Assert.Equal(ConstantNode.False, ConstantNodeParser.ParseConstantNode(new Token(TokenType.False, "false", 0)));
             }
         }
 
@@ -282,7 +280,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_Guid()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Guid, "12345678-aaaa-bbbb-cccc-ddddeeeeffff"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Guid, "12345678-aaaa-bbbb-cccc-ddddeeeeffff", 0));
             }
 
             [Fact]
@@ -317,7 +315,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_Int32()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "32"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "32", 0));
             }
 
             [Fact]
@@ -351,7 +349,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void Returns_ConstantNodeInt32Zero()
             {
-                Assert.Equal(ConstantNode.Int32Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0")));
+                Assert.Equal(ConstantNode.Int32Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0", 0)));
             }
         }
 
@@ -361,7 +359,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_Int64()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "64L"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "64L", 0));
             }
 
             [Fact]
@@ -395,8 +393,8 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void Returns_ConstantNodeInt64Zero()
             {
-                Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0l")));
-                Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0L")));
+                Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0l", 0)));
+                Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0L", 0)));
             }
         }
 
@@ -405,7 +403,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void Returns_ConstantNodeNull()
             {
-                Assert.Equal(ConstantNode.Null, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Null, "null")));
+                Assert.Equal(ConstantNode.Null, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Null, "null", 0)));
             }
         }
 
@@ -415,7 +413,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_Single()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Single, "2.0f"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Single, "2.0f", 0));
             }
 
             [Fact]
@@ -450,7 +448,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_String()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.String, "'Hello OData'"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.String, "'Hello OData'", 0));
             }
 
             [Fact]
@@ -485,7 +483,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             public Parse_TimeOfDay()
             {
-                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.TimeOfDay, "13:20:00"));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.TimeOfDay, "13:20:00", 0));
             }
 
             [Fact]
@@ -519,7 +517,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void Returns_ConstantNodeTrue()
             {
-                Assert.Equal(ConstantNode.True, ConstantNodeParser.ParseConstantNode(new Token(TokenType.True, "true")));
+                Assert.Equal(ConstantNode.True, ConstantNodeParser.ParseConstantNode(new Token(TokenType.True, "true", 0)));
             }
         }
     }

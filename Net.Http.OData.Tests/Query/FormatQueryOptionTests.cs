@@ -7,30 +7,30 @@ namespace Net.Http.OData.Tests.Query
     public class FormatQueryOptionTests
     {
         [Fact]
-        public void WhenConstructedWithRawValueAtom_AnODataExceptionIsThrown()
+        public void Constructor_Throws_ODataException_For_FormatAtom()
         {
-            ODataException exception = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=atom"));
+            ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=atom"));
 
-            Assert.Equal("The $format 'atom' is not supported by this service, acceptable values are 'json'.", exception.Message);
-            Assert.Equal(HttpStatusCode.UnsupportedMediaType, exception.StatusCode);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "atom", "'json'"), odataException.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
         }
 
         [Fact]
-        public void WhenConstructedWithRawValueVCard_AnODataExceptionIsThrown()
+        public void Constructor_Throws_ODataException_For_FormatTextVCard()
         {
-            ODataException exception = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=text/vcard"));
+            ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=text/vcard"));
 
-            Assert.Equal("The $format 'text/vcard' is not supported by this service, acceptable values are 'json'.", exception.Message);
-            Assert.Equal(HttpStatusCode.UnsupportedMediaType, exception.StatusCode);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "text/vcard", "'json'"), odataException.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
         }
 
         [Fact]
-        public void WhenConstructedWithRawValueXml_AnODataExceptionIsThrown()
+        public void Constructor_Throws_ODataException_For_FormatXml()
         {
-            ODataException exception = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=xml"));
+            ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=xml"));
 
-            Assert.Equal("The $format 'xml' is not supported by this service, acceptable values are 'json'.", exception.Message);
-            Assert.Equal(HttpStatusCode.UnsupportedMediaType, exception.StatusCode);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json'"), odataException.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
         }
 
         public class WhenConstructedWithRawValueJson

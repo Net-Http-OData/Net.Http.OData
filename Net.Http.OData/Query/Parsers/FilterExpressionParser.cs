@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 
@@ -72,14 +71,14 @@ namespace Net.Http.OData.Query.Parsers
 
                 if (_groupingDepth != 0 || _nodeStack.Count != 1)
                 {
-                    throw new ODataException("Unable to parse the specified $filter system query option, an extra opening or missing closing parenthesis may be present", HttpStatusCode.BadRequest);
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter("an extra opening or missing closing parenthesis may be present"));
                 }
 
                 QueryNode node = _nodeStack.Pop();
 
                 if (node is BinaryOperatorNode binaryNode && (binaryNode.Left is null || binaryNode.Right is null))
                 {
-                    throw new ODataException($"Unable to parse the specified $filter system query option, the binary operator {binaryNode.OperatorKind.ToString()} has no {(binaryNode.Left is null ? "left" : "right")} node", HttpStatusCode.BadRequest);
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the binary operator {binaryNode.OperatorKind.ToString()} has no {(binaryNode.Left is null ? "left" : "right")} node"));
                 }
 
                 return node;
@@ -102,7 +101,7 @@ namespace Net.Http.OData.Query.Parsers
                             if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
                                 // All OData functions have at least 1 or 2 parameters
-                                throw new ODataException($"Unable to parse the specified $filter system query option, the function {node?.Name} has no parameters", HttpStatusCode.BadRequest);
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has no parameters", token.Position));
                             }
 
                             _groupingDepth++;
@@ -112,7 +111,7 @@ namespace Net.Http.OData.Query.Parsers
                         case TokenType.CloseParentheses:
                             if (_groupingDepth == 0)
                             {
-                                throw new ODataException("Unable to parse the specified $filter system query option, closing parenthesis not expected", HttpStatusCode.BadRequest);
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the closing parenthesis not expected", token.Position));
                             }
 
                             _groupingDepth--;
@@ -194,7 +193,7 @@ namespace Net.Http.OData.Query.Parsers
                             if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
                                 // If there is a comma in a function call, there should be another parameter followed by a closing comma
-                                throw new ODataException($"Unable to parse the specified $filter system query option, the function {node?.Name} has a missing parameter or extra comma", HttpStatusCode.BadRequest);
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has a missing parameter or extra comma", token.Position));
                             }
 
                             break;
@@ -299,7 +298,7 @@ namespace Net.Http.OData.Query.Parsers
             {
                 if (_tokens.Count == 0)
                 {
-                    throw new ODataException("Unable to parse the specified $filter system query option, an incomplete filter has been specified", HttpStatusCode.BadRequest);
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"));
                 }
 
                 QueryNode node;

@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 namespace Net.Http.OData.Model
 {
@@ -51,7 +50,7 @@ namespace Net.Http.OData.Model
                 return entitySet;
             }
 
-            throw new ODataException($"This service does not contain a collection named '{entitySetName}'", HttpStatusCode.BadRequest);
+            throw ODataException.BadRequest(ExceptionMessage.EntityDataModelDoesNotContainEntitySet(entitySetName));
         }
 
         /// <summary>

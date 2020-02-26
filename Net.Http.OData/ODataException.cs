@@ -96,6 +96,27 @@ namespace Net.Http.OData
         /// </summary>
         public string Target { get; set; }
 
+        /// <summary>
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.BadRequest" />.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <returns>The ODataException.</returns>
+        public static ODataException BadRequest(string message) => new ODataException(message, HttpStatusCode.BadRequest);
+
+        /// <summary>
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.NotImplemented" />.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <returns>The ODataException.</returns>
+        public static ODataException NotImplemented(string message) => new ODataException(message, HttpStatusCode.NotImplemented);
+
+        /// <summary>
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.UnsupportedMediaType" />.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <returns>The ODataException.</returns>
+        public static ODataException UnsupportedMediaType(string message) => new ODataException(message, HttpStatusCode.UnsupportedMediaType);
+
 #if NET45
         /// <inheritdoc/>
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

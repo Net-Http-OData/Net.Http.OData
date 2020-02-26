@@ -44,10 +44,10 @@ namespace Net.Http.OData.Tests.Model
         [Fact]
         public void EntitySetForPath_Throws_ODataException_IfEntitySetNotRegistered()
         {
-            ODataException exception = Assert.Throws<ODataException>(() => EntityDataModel.Current.EntitySetForPath("/OData/Colour"));
+            ODataException odataException = Assert.Throws<ODataException>(() => EntityDataModel.Current.EntitySetForPath("/OData/Colour"));
 
-            Assert.Equal("This service does not contain a collection named 'Colour'", exception.Message);
-            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
+            Assert.Equal(ExceptionMessage.EntityDataModelDoesNotContainEntitySet("Colour"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
         [Fact]
