@@ -31,9 +31,7 @@ namespace Net.Http.OData.Query.Binders
 
             for (int i = 0; i < orderByQueryOption.Properties.Count; i++)
             {
-                OrderByProperty property = orderByQueryOption.Properties[i];
-
-                Bind(property);
+                Bind(orderByQueryOption.Properties[i]);
             }
         }
 
