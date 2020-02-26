@@ -23,13 +23,13 @@ namespace Net.Http.OData.Tests.Model
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullDeclaringType()
+        public void Constructor_Throws_ArgumentNullException_For_Null_DeclaringType()
         {
             Assert.Throws<ArgumentNullException>(() => new EdmProperty(typeof(Customer).GetProperty("CompanyName"), EdmPrimitiveType.String, null, new Lazy<bool>(() => false)));
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullPropertyInfo()
+        public void Constructor_Throws_ArgumentNullException_For_Null_PropertyInfo()
         {
             Type type = typeof(Customer);
             var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
@@ -38,7 +38,7 @@ namespace Net.Http.OData.Tests.Model
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullPropertyType()
+        public void Constructor_Throws_ArgumentNullException_For_Null_PropertyType()
         {
             Type type = typeof(Customer);
             var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);

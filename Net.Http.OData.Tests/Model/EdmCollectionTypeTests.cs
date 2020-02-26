@@ -20,7 +20,7 @@ namespace Net.Http.OData.Tests.Model
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullContainedType()
+        public void Constructor_Throws_ArgumentNullException_For_Null_ContainedType()
         {
             Type type = typeof(int);
 

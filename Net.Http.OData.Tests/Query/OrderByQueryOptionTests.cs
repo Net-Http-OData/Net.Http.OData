@@ -8,7 +8,7 @@ namespace Net.Http.OData.Tests.Query
     public class OrderByQueryOptionTests
     {
         [Fact]
-        public void Constructor_Throws_ArgumentNullException_ForNullModel()
+        public void Constructor_Throws_ArgumentNullException_For_NullModel()
             => Assert.Throws<ArgumentNullException>(() => new OrderByQueryOption("$orderby=Name", null));
 
         public class WhenConstructedWithASingleValue

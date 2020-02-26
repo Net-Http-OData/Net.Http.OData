@@ -16,13 +16,13 @@ namespace Net.Http.OData.Tests.Query
         }
 
         [Fact]
-        public void GetValidator_ThrowsArgumentNullException_ForNullODataVersion()
+        public void GetValidator_Throws_ArgumentNullException_For_Null_ODataVersion()
         {
             Assert.Throws<ArgumentNullException>(() => ODataQueryOptionsValidator.GetValidator(null));
         }
 
         [Fact]
-        public void GetValidator_ThrowsNotSupportedException_ForUnsupportedODataVersion()
+        public void GetValidator_Throws_NotSupportedException_For_Unsupported_ODataVersion()
         {
             Assert.Throws<NotSupportedException>(() => ODataQueryOptionsValidator.GetValidator(ODataVersion.Parse("3.0")));
         }

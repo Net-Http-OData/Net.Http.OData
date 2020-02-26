@@ -8,7 +8,7 @@ namespace Net.Http.OData.Tests.Query
     public class SelectExpandQueryOptionTests
     {
         [Fact]
-        public void Constructor_Throws_ArgumentNullException_ForNullModel()
+        public void Constructor_Throws_ArgumentNullException_For_NullModel()
             => Assert.Throws<ArgumentNullException>(() => new SelectExpandQueryOption("$select=*", null));
 
         public class WhenConstructedWithExpandSingleValue
