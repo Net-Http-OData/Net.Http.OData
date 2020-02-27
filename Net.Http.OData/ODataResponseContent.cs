@@ -18,72 +18,36 @@ namespace Net.Http.OData
     public sealed class ODataResponseContent
     {
         /// <summary>
-        /// Initialises a new instance of the <see cref="ODataResponseContent"/> class.
-        /// </summary>
-        /// <param name="value">The value to be returned.</param>
-        /// <param name="context">The @odata.context for the value.</param>
-        public ODataResponseContent(object value, string context)
-            : this(value, context, null, null)
-        {
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ODataResponseContent"/> class.
-        /// </summary>
-        /// <param name="value">The value to be returned.</param>
-        /// <param name="context">The @odata.context for the value.</param>
-        /// <param name="count">The @odata.count (total result count).</param>
-        public ODataResponseContent(object value, string context, int? count)
-            : this(value, context, count, null)
-        {
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ODataResponseContent"/> class.
-        /// </summary>
-        /// <param name="value">The value to be returned.</param>
-        /// <param name="context">The @odata.context for the value.</param>
-        /// <param name="count">The @odata.count (total result count).</param>
-        /// <param name="nextLink">The @odata.nextLink to the next results in a paged response.</param>
-        public ODataResponseContent(object value, string context, int? count, string nextLink)
-        {
-            Value = value;
-            Context = context;
-            Count = count;
-            NextLink = nextLink;
-        }
-
-        /// <summary>
-        /// Gets the URI to the metadata.
+        /// Gets or sets the URI to the metadata.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.context", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
 #if NETSTANDARD2_0
         [System.Text.Json.Serialization.JsonPropertyName("@odata.context")]
 #endif
-        public string Context { get; }
+        public string Context { get; set; }
 
         /// <summary>
-        /// Gets the total result count.
+        /// Gets or sets the total result count.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.count", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 1)]
 #if NETSTANDARD2_0
         [System.Text.Json.Serialization.JsonPropertyName("@odata.count")]
 #endif
-        public int? Count { get; }
+        public int? Count { get; set; }
 
         /// <summary>
-        /// Gets the URI to the next results in a paged response.
+        /// Gets or sets the URI to the next results in a paged response.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.nextLink", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 2)]
 #if NETSTANDARD2_0
         [System.Text.Json.Serialization.JsonPropertyName("@odata.nextLink")]
 #endif
-        public string NextLink { get; }
+        public string NextLink { get; set; }
 
         /// <summary>
-        /// Gets the value to be returned.
+        /// Gets or sets the value to be returned.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("value", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 3)]
-        public object Value { get; }
+        public object Value { get; set; }
     }
 }
