@@ -73,48 +73,24 @@ namespace Net.Http.OData.Query
         /// </remarks>
         public int MaxTop { get; set; }
 
-        /// <summary>
-        /// Checks whether two separate ODataValidationSettings instances are not equal.
-        /// </summary>
-        /// <param name="settings1">The validation settings to check.</param>
-        /// <param name="settings2">The validation settings to check against.</param>
-        /// <returns><c>true</c> if the instances are not considered equal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(ODataValidationSettings settings1, ODataValidationSettings settings2)
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+        public static bool operator !=(ODataValidationSettings left, ODataValidationSettings right) => !(left == right);
+
+        public static bool operator ==(ODataValidationSettings left, ODataValidationSettings right)
         {
-            if (settings1 != null && settings2 != null)
+            if (left is null)
             {
-                return !settings1.Equals(settings2);
+                return right is null;
             }
 
-            return true;
+            return left.Equals(right);
         }
 
-        /// <summary>
-        /// Checks whether two separate ODataValidationSettings instances are equal.
-        /// </summary>
-        /// <param name="settings1">The validation settings to check.</param>
-        /// <param name="settings2">The validation settings to check against.</param>
-        /// <returns><c>true</c> if the instances are considered equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(ODataValidationSettings settings1, ODataValidationSettings settings2)
-        {
-            if (settings1 != null && settings2 != null)
-            {
-                return settings1.Equals(settings2);
-            }
-
-            return false;
-        }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <inheritdoc/>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is ODataValidationSettings other))
-            {
-                return false;
-            }
-
-            return Equals(other);
-        }
+        public override bool Equals(object obj) => Equals(obj as ODataValidationSettings);
 
         /// <inheritdoc/>
         public bool Equals(ODataValidationSettings other)
