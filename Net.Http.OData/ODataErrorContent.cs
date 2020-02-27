@@ -52,6 +52,6 @@ namespace Net.Http.OData
         /// <param name="odataException">The ODataException to create the ODataErrorContent from.</param>
         /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
         public static ODataErrorContent Create(ODataException odataException)
-            => Create((int)odataException?.StatusCode, odataException.Message, odataException.Target);
+            => Create((int)odataException?.StatusCode, odataException?.Message, odataException?.Target);
     }
 }
