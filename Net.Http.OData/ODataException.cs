@@ -26,6 +26,7 @@ namespace Net.Http.OData
     [Serializable]
 #endif
 
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public sealed class ODataException : Exception
     {
         /// <summary>
