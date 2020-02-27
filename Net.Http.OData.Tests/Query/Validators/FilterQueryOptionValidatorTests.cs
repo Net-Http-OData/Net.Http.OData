@@ -1657,6 +1657,66 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
         }
 
+        public class WhenTheFilterQueryOptionContainsTheNotOperatorNotItIsNotSpecifiedInAllowedLogicalOperators
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.EndsWith,
+                AllowedLogicalOperators = AllowedLogicalOperators.None
+            };
+
+            public WhenTheFilterQueryOptionContainsTheNotOperatorNotItIsNotSpecifiedInAllowedLogicalOperators()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=not endswith(Description, 'ilk')",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
+
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator not", odataException.Message);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheNotOperatorNotItIsSpecifiedInAllowedLogicalOperators
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.EndsWith,
+                AllowedLogicalOperators = AllowedLogicalOperators.Not
+            };
+
+            public WhenTheFilterQueryOptionContainsTheNotOperatorNotItIsSpecifiedInAllowedLogicalOperators()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=not endswith(Description, 'ilk')",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void AnExceptionShouldNotBeThrown()
+            {
+                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
+            }
+        }
+
         public class WhenTheFilterQueryOptionContainsTheNowAndItIsNotSpecifiedInAllowedFunctions
         {
             private readonly ODataQueryOptions _queryOptions;
@@ -1765,65 +1825,6 @@ namespace Net.Http.OData.Tests.Query.Validators
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename eq 'John' or Surname eq 'Smith'",
                     EntityDataModel.Current.EntitySets["Employees"],
-                    Mock.Of<IODataQueryOptionsValidator>());
-            }
-
-            [Fact]
-            public void AnExceptionShouldNotBeThrown()
-            {
-                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
-            }
-        }
-
-        public class WhenTheFilterQueryOptionContainsTheReplaceFunctionAndItIsNotSpecifiedInAllowedFunctions
-        {
-            private readonly ODataQueryOptions _queryOptions;
-
-            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
-            {
-                AllowedQueryOptions = AllowedQueryOptions.Filter,
-                AllowedFunctions = AllowedFunctions.None
-            };
-
-            public WhenTheFilterQueryOptionContainsTheReplaceFunctionAndItIsNotSpecifiedInAllowedFunctions()
-            {
-                TestHelper.EnsureEDM();
-
-                _queryOptions = new ODataQueryOptions(
-                    "?$filter=replace(CompanyName, ' ', '') eq 'AlfredsFutterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"],
-                    Mock.Of<IODataQueryOptionsValidator>());
-            }
-
-            [Fact]
-            public void An_ODataException_IsThrown_WithStatusNotImplemented()
-            {
-                ODataException odataException = Assert.Throws<ODataException>(
-                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
-
-                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
-                Assert.Equal("Unsupported function replace", odataException.Message);
-            }
-        }
-
-        public class WhenTheFilterQueryOptionContainsTheReplaceFunctionAndItIsSpecifiedInAllowedFunctions
-        {
-            private readonly ODataQueryOptions _queryOptions;
-
-            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
-            {
-                AllowedQueryOptions = AllowedQueryOptions.Filter,
-                AllowedFunctions = AllowedFunctions.Replace,
-                AllowedLogicalOperators = AllowedLogicalOperators.Equal
-            };
-
-            public WhenTheFilterQueryOptionContainsTheReplaceFunctionAndItIsSpecifiedInAllowedFunctions()
-            {
-                TestHelper.EnsureEDM();
-
-                _queryOptions = new ODataQueryOptions(
-                    "?$filter=replace(CompanyName, ' ', '') eq 'AlfredsFutterkiste'",
-                    EntityDataModel.Current.EntitySets["Customers"],
                     Mock.Of<IODataQueryOptionsValidator>());
             }
 

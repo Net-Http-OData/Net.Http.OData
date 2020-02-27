@@ -37,9 +37,9 @@ namespace Net.Http.OData.Query.Validators
                 throw new ODataException("The query option $filter is not implemented by this service", HttpStatusCode.NotImplemented);
             }
 
-            ValidateFunctions(queryOptions, validationSettings);
+            ValidateTypeFunctions(queryOptions, validationSettings);
             ValidateStringFunctions(queryOptions, validationSettings);
-            ValidateDateFunctions(queryOptions, validationSettings);
+            ValidateDateTimeFunctions(queryOptions, validationSettings);
             ValidateMathFunctions(queryOptions, validationSettings);
             ValidateLogicalOperators(queryOptions, validationSettings);
             ValidateArithmeticOperators(queryOptions, validationSettings);
@@ -85,7 +85,7 @@ namespace Net.Http.OData.Query.Validators
             }
         }
 
-        private static void ValidateDateFunctions(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
+        private static void ValidateDateTimeFunctions(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
         {
             if (validationSettings.AllowedFunctions == AllowedFunctions.AllFunctions
                 || validationSettings.AllowedFunctions == AllowedFunctions.AllDateTimeFunctions)
@@ -95,40 +95,10 @@ namespace Net.Http.OData.Query.Validators
 
             string rawFilterValue = queryOptions.RawValues.Filter;
 
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Year) != AllowedFunctions.Year
-                && rawFilterValue.Contains("year("))
-            {
-                throw new ODataException("Unsupported function year", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Month) != AllowedFunctions.Month
-                && rawFilterValue.Contains("month("))
-            {
-                throw new ODataException("Unsupported function month", HttpStatusCode.NotImplemented);
-            }
-
             if ((validationSettings.AllowedFunctions & AllowedFunctions.Day) != AllowedFunctions.Day
                 && rawFilterValue.Contains("day("))
             {
                 throw new ODataException("Unsupported function day", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Hour) != AllowedFunctions.Hour
-                && rawFilterValue.Contains("hour("))
-            {
-                throw new ODataException("Unsupported function hour", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Minute) != AllowedFunctions.Minute
-                && rawFilterValue.Contains("minute("))
-            {
-                throw new ODataException("Unsupported function minute", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Second) != AllowedFunctions.Second
-                && rawFilterValue.Contains("second("))
-            {
-                throw new ODataException("Unsupported function second", HttpStatusCode.NotImplemented);
             }
 
             if ((validationSettings.AllowedFunctions & AllowedFunctions.FractionalSeconds) != AllowedFunctions.FractionalSeconds
@@ -137,10 +107,16 @@ namespace Net.Http.OData.Query.Validators
                 throw new ODataException("Unsupported function fractionalseconds", HttpStatusCode.NotImplemented);
             }
 
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Now) != AllowedFunctions.Now
-                && rawFilterValue.Contains("now("))
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Hour) != AllowedFunctions.Hour
+                && rawFilterValue.Contains("hour("))
             {
-                throw new ODataException("Unsupported function now", HttpStatusCode.NotImplemented);
+                throw new ODataException("Unsupported function hour", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.MaxDateTime) != AllowedFunctions.MaxDateTime
+                && rawFilterValue.Contains("maxdatetime("))
+            {
+                throw new ODataException("Unsupported function maxdatetime", HttpStatusCode.NotImplemented);
             }
 
             if ((validationSettings.AllowedFunctions & AllowedFunctions.MinDateTime) != AllowedFunctions.MinDateTime
@@ -149,16 +125,41 @@ namespace Net.Http.OData.Query.Validators
                 throw new ODataException("Unsupported function mindatetime", HttpStatusCode.NotImplemented);
             }
 
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.MaxDateTime) != AllowedFunctions.MaxDateTime
-                && rawFilterValue.Contains("maxdatetime("))
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Minute) != AllowedFunctions.Minute
+                && rawFilterValue.Contains("minute("))
             {
-                throw new ODataException("Unsupported function maxdatetime", HttpStatusCode.NotImplemented);
+                throw new ODataException("Unsupported function minute", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Month) != AllowedFunctions.Month
+                && rawFilterValue.Contains("month("))
+            {
+                throw new ODataException("Unsupported function month", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Now) != AllowedFunctions.Now
+                && rawFilterValue.Contains("now("))
+            {
+                throw new ODataException("Unsupported function now", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Second) != AllowedFunctions.Second
+                && rawFilterValue.Contains("second("))
+            {
+                throw new ODataException("Unsupported function second", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Year) != AllowedFunctions.Year
+                && rawFilterValue.Contains("year("))
+            {
+                throw new ODataException("Unsupported function year", HttpStatusCode.NotImplemented);
             }
         }
 
-        private static void ValidateFunctions(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
+        private static void ValidateTypeFunctions(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
         {
-            if (validationSettings.AllowedFunctions == AllowedFunctions.AllFunctions)
+            if (validationSettings.AllowedFunctions == AllowedFunctions.AllFunctions
+                || validationSettings.AllowedFunctions == AllowedFunctions.AllTypeFunctions)
             {
                 return;
             }
@@ -240,6 +241,12 @@ namespace Net.Http.OData.Query.Validators
             {
                 throw new ODataException("Unsupported operator has", HttpStatusCode.NotImplemented);
             }
+
+            if ((validationSettings.AllowedLogicalOperators & AllowedLogicalOperators.Not) != AllowedLogicalOperators.Not
+                && rawFilterValue.Contains("not "))
+            {
+                throw new ODataException("Unsupported operator not", HttpStatusCode.NotImplemented);
+            }
         }
 
         private static void ValidateMathFunctions(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
@@ -252,12 +259,6 @@ namespace Net.Http.OData.Query.Validators
 
             string rawFilterValue = queryOptions.RawValues.Filter;
 
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Round) != AllowedFunctions.Round
-                && rawFilterValue.Contains("round("))
-            {
-                throw new ODataException("Unsupported function round", HttpStatusCode.NotImplemented);
-            }
-
             if ((validationSettings.AllowedFunctions & AllowedFunctions.Ceiling) != AllowedFunctions.Ceiling
                 && rawFilterValue.Contains("ceiling("))
             {
@@ -268,6 +269,12 @@ namespace Net.Http.OData.Query.Validators
                 && rawFilterValue.Contains("floor("))
             {
                 throw new ODataException("Unsupported function floor", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Round) != AllowedFunctions.Round
+                && rawFilterValue.Contains("round("))
+            {
+                throw new ODataException("Unsupported function round", HttpStatusCode.NotImplemented);
             }
         }
 
@@ -281,10 +288,34 @@ namespace Net.Http.OData.Query.Validators
 
             string rawFilterValue = queryOptions.RawValues.Filter;
 
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Contains) != AllowedFunctions.Contains
+                && rawFilterValue.Contains("contains("))
+            {
+                throw new ODataException("Unsupported function contains", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Concat) != AllowedFunctions.Concat
+                && rawFilterValue.Contains("concat("))
+            {
+                throw new ODataException("Unsupported function concat", HttpStatusCode.NotImplemented);
+            }
+
             if ((validationSettings.AllowedFunctions & AllowedFunctions.EndsWith) != AllowedFunctions.EndsWith
                 && rawFilterValue.Contains("endswith("))
             {
                 throw new ODataException("Unsupported function endswith", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.IndexOf) != AllowedFunctions.IndexOf
+                && rawFilterValue.Contains("indexof("))
+            {
+                throw new ODataException("Unsupported function indexof", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Length) != AllowedFunctions.Length
+                && rawFilterValue.Contains("length("))
+            {
+                throw new ODataException("Unsupported function length", HttpStatusCode.NotImplemented);
             }
 
             if ((validationSettings.AllowedFunctions & AllowedFunctions.StartsWith) != AllowedFunctions.StartsWith
@@ -293,10 +324,10 @@ namespace Net.Http.OData.Query.Validators
                 throw new ODataException("Unsupported function startswith", HttpStatusCode.NotImplemented);
             }
 
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Contains) != AllowedFunctions.Contains
-                && rawFilterValue.Contains("contains("))
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Substring) != AllowedFunctions.Substring
+                && rawFilterValue.Contains("substring("))
             {
-                throw new ODataException("Unsupported function contains", HttpStatusCode.NotImplemented);
+                throw new ODataException("Unsupported function substring", HttpStatusCode.NotImplemented);
             }
 
             if ((validationSettings.AllowedFunctions & AllowedFunctions.ToLower) != AllowedFunctions.ToLower
@@ -315,36 +346,6 @@ namespace Net.Http.OData.Query.Validators
                 && rawFilterValue.Contains("trim("))
             {
                 throw new ODataException("Unsupported function trim", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Length) != AllowedFunctions.Length
-                && rawFilterValue.Contains("length("))
-            {
-                throw new ODataException("Unsupported function length", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.IndexOf) != AllowedFunctions.IndexOf
-                && rawFilterValue.Contains("indexof("))
-            {
-                throw new ODataException("Unsupported function indexof", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Replace) != AllowedFunctions.Replace
-                && rawFilterValue.Contains("replace("))
-            {
-                throw new ODataException("Unsupported function replace", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Substring) != AllowedFunctions.Substring
-                && rawFilterValue.Contains("substring("))
-            {
-                throw new ODataException("Unsupported function substring", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Concat) != AllowedFunctions.Concat
-                && rawFilterValue.Contains("concat("))
-            {
-                throw new ODataException("Unsupported function concat", HttpStatusCode.NotImplemented);
             }
         }
     }
