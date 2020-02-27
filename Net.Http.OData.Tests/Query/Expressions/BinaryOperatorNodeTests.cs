@@ -20,7 +20,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
                 EdmComplexType model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-                _left = new PropertyAccessNode(new PropertyPath(model.GetProperty("CompanyName")));
+                _left = new PropertyAccessNode(PropertyPath.For(model.GetProperty("CompanyName")));
                 _node = new BinaryOperatorNode(_left, _binaryOperatorKind, _right);
             }
 

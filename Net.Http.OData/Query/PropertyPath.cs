@@ -25,7 +25,7 @@ namespace Net.Http.OData.Query
         /// Initialises a new instance of the <see cref="PropertyPath"/> class for the specified <see cref="EdmProperty"/> with no next path segment.
         /// </summary>
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
-        internal PropertyPath(EdmProperty property)
+        private PropertyPath(EdmProperty property)
             : this(property, null)
         {
         }
@@ -36,7 +36,7 @@ namespace Net.Http.OData.Query
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
         /// <param name="next">The next <see cref="PropertyPath"/> in the property path.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="property"/> is null.</exception>
-        internal PropertyPath(EdmProperty property, PropertyPath next)
+        private PropertyPath(EdmProperty property, PropertyPath next)
         {
             Property = property ?? throw new ArgumentNullException(nameof(property));
             Next = next;
@@ -51,6 +51,13 @@ namespace Net.Http.OData.Query
         /// Gets the <see cref="EdmProperty"/> representing the property being referenced in the query.
         /// </summary>
         public EdmProperty Property { get; }
+
+        /// <summary>
+        /// Creates the <see cref="PropertyPath"/> for the given <see cref="EdmProperty"/>.
+        /// </summary>
+        /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
+        /// <returns>The <see cref="PropertyPath"/> for the given EdmProperty.</returns>
+        internal static PropertyPath For(EdmProperty property) => new PropertyPath(property);
 
         /// <summary>
         /// Creates the <see cref="PropertyPath"/> for the given property path.

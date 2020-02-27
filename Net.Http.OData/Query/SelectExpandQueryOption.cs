@@ -45,11 +45,11 @@ namespace Net.Http.OData.Query
                 {
                     if (rawValue.StartsWith("$select", StringComparison.Ordinal))
                     {
-                        propertyPaths.AddRange(model.Properties.Where(p => !p.IsNavigable).Select(p => new PropertyPath(p)));
+                        propertyPaths.AddRange(model.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For));
                     }
                     else if (rawValue.StartsWith("$expand", StringComparison.Ordinal))
                     {
-                        propertyPaths.AddRange(model.Properties.Where(p => p.IsNavigable).Select(p => new PropertyPath(p)));
+                        propertyPaths.AddRange(model.Properties.Where(p => p.IsNavigable).Select(PropertyPath.For));
                     }
                 }
                 else

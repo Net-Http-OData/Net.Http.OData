@@ -12,10 +12,6 @@ namespace Net.Http.OData.Tests.Query
         public PropertyPathTests() => TestHelper.EnsureEDM();
 
         [Fact]
-        public void Constructor_Throws_ArgumentNullException_For_Null_EdmProperty()
-            => Assert.Throws<ArgumentNullException>(() => new PropertyPath(null));
-
-        [Fact]
         public void For_PropertyPath()
         {
             var propertyPath = PropertyPath.For("Category/Name", EntityDataModel.Current.EntitySets["Products"].EdmType);
@@ -40,6 +36,10 @@ namespace Net.Http.OData.Tests.Query
             Assert.NotNull(propertyPath.Property);
             Assert.Equal("Name", propertyPath.Property.Name);
         }
+
+        [Fact]
+        public void For_Throws_ArgumentNullException_For_Null_EdmProperty()
+            => Assert.Throws<ArgumentNullException>(() => PropertyPath.For(null));
 
         [Fact]
         public void For_Throws_ODataException_For_InvalidNonNavigable()
@@ -69,7 +69,7 @@ namespace Net.Http.OData.Tests.Query
 
             var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, new Lazy<bool>(() => true));
 
-            var propertyPath = new PropertyPath(edmProperty);
+            var propertyPath = PropertyPath.For(edmProperty);
 
             Assert.Null(propertyPath.Next);
             Assert.Equal(edmProperty, propertyPath.Property);

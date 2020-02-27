@@ -23,7 +23,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
                 EdmComplexType model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-                _propertyPath = new PropertyPath(model.GetProperty("CompanyName"));
+                _propertyPath = PropertyPath.For(model.GetProperty("CompanyName"));
                 _node = new PropertyAccessNode(_propertyPath);
             }
 
