@@ -76,9 +76,9 @@ namespace Net.Http.OData.Query.Parsers
 
                 QueryNode node = _nodeStack.Pop();
 
-                if (node is BinaryOperatorNode binaryNode && (binaryNode.Left is null || binaryNode.Right is null))
+                if (node is BinaryOperatorNode binaryNode && binaryNode.Right is null)
                 {
-                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the binary operator {binaryNode.OperatorKind.ToString()} has no {(binaryNode.Left is null ? "left" : "right")} node"));
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the binary operator {binaryNode.OperatorKind.ToString()} has no right node"));
                 }
 
                 return node;
@@ -101,7 +101,7 @@ namespace Net.Http.OData.Query.Parsers
                             if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
                                 // All OData functions have at least 1 or 2 parameters
-                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has no parameters", token.Position));
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has no parameters specified", token.Position));
                             }
 
                             _groupingDepth++;

@@ -14,10 +14,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class InvalidSyntax
         {
-            public InvalidSyntax()
-            {
-                TestHelper.EnsureEDM();
-            }
+            public InvalidSyntax() => TestHelper.EnsureEDM();
 
             [Fact]
             public void ParseFunctionEqMissingExpression()
@@ -55,7 +52,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterExpressionParser.Parse("ceiling() eq 32", EntityDataModel.Current.EntitySets["Orders"].EdmType)); ;
 
-                Assert.Equal(ExceptionMessage.UnableToParseFilter("the function ceiling has no parameters at position 8"), odataException.Message);
+                Assert.Equal(ExceptionMessage.UnableToParseFilter("the function ceiling has no parameters specified at position 8"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
             }
 
@@ -76,6 +73,26 @@ namespace Net.Http.OData.Tests.Query.Parsers
                     () => FilterExpressionParser.Parse("cast(Colour,) eq 20", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("the function cast has a missing parameter or extra comma at position 12"), odataException.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            }
+
+            [Fact]
+            public void ParseLeftBinaryNodeMissingExpression()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterExpressionParser.Parse("and Deleted eq true", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
+
+                Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            }
+
+            [Fact]
+            public void ParseInvalidSyntax()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterExpressionParser.Parse("Name eq %", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
+
+                Assert.Equal(ExceptionMessage.GenericUnableToParseFilter, odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
             }
 

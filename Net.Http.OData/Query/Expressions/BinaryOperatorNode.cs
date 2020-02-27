@@ -10,6 +10,8 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Query.Expressions
 {
     /// <summary>
@@ -24,9 +26,10 @@ namespace Net.Http.OData.Query.Expressions
         /// <param name="left">The left query node.</param>
         /// <param name="operatorKind">Kind of the operator.</param>
         /// <param name="right">The right query node.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="left"/> is null.</exception>
         internal BinaryOperatorNode(QueryNode left, BinaryOperatorKind operatorKind, QueryNode right)
         {
-            Left = left;
+            Left = left ?? throw new ArgumentNullException(nameof(left));
             OperatorKind = operatorKind;
             Right = right;
         }
@@ -37,7 +40,7 @@ namespace Net.Http.OData.Query.Expressions
         /// <summary>
         /// Gets the left query node.
         /// </summary>
-        public QueryNode Left { get; internal set; }
+        public QueryNode Left { get; }
 
         /// <summary>
         /// Gets the kind of the operator.
