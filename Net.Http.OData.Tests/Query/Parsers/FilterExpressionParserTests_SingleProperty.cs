@@ -18,6 +18,25 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
+            public void ParseIgnoresTrailingWhitespace()
+            {
+                QueryNode queryNode = FilterExpressionParser.Parse("Deleted eq true ", EntityDataModel.Current.EntitySets["Products"].EdmType);
+
+                Assert.NotNull(queryNode);
+                Assert.IsType<BinaryOperatorNode>(queryNode);
+
+                var node = (BinaryOperatorNode)queryNode;
+
+                Assert.IsType<PropertyAccessNode>(node.Left);
+                Assert.Equal("Deleted", ((PropertyAccessNode)node.Left).PropertyPath.Property.Name);
+
+                Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
+
+                Assert.IsType<ConstantNode>(node.Right);
+                Assert.Same(ConstantNode.True, node.Right);
+            }
+
+            [Fact]
             public void ParsePropertyAddValueEqValueExpression()
             {
                 QueryNode queryNode = FilterExpressionParser.Parse("Price add 2.45M eq 5.00M", EntityDataModel.Current.EntitySets["Products"].EdmType);

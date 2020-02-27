@@ -526,6 +526,44 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
+            public void ParseGroupedPropertyEqValueOrPropertyEqValueAndPropertyEqValueExpression()
+            {
+                QueryNode queryNode = FilterExpressionParser.Parse("(Surname eq 'Smith' or Surname eq 'Smythe') and Forename eq 'John'", EntityDataModel.Current.EntitySets["Employees"].EdmType);
+
+                Assert.NotNull(queryNode);
+                Assert.IsType<BinaryOperatorNode>(queryNode);
+
+                var node = (BinaryOperatorNode)queryNode;
+
+                var nodeLeft = (BinaryOperatorNode)node.Left;
+                Assert.IsType<BinaryOperatorNode>(nodeLeft.Left);
+                var nodeRightLeft = (BinaryOperatorNode)nodeLeft.Left;
+                Assert.IsType<PropertyAccessNode>(nodeRightLeft.Left);
+                Assert.Equal("Surname", ((PropertyAccessNode)nodeRightLeft.Left).PropertyPath.Property.Name);
+                Assert.Equal(BinaryOperatorKind.Equal, nodeRightLeft.OperatorKind);
+                Assert.IsType<ConstantNode>(nodeRightLeft.Right);
+                Assert.Equal("'Smith'", ((ConstantNode)nodeRightLeft.Right).LiteralText);
+                Assert.Equal("Smith", ((ConstantNode)nodeRightLeft.Right).Value);
+                Assert.Equal(BinaryOperatorKind.Or, nodeLeft.OperatorKind);
+                var nodeRightRight = (BinaryOperatorNode)nodeLeft.Right;
+                Assert.IsType<PropertyAccessNode>(nodeRightRight.Left);
+                Assert.Equal("Surname", ((PropertyAccessNode)nodeRightRight.Left).PropertyPath.Property.Name);
+                Assert.Equal(BinaryOperatorKind.Equal, nodeRightRight.OperatorKind);
+                Assert.IsType<ConstantNode>(nodeRightRight.Right);
+                Assert.Equal("'Smythe'", ((ConstantNode)nodeRightRight.Right).LiteralText);
+                Assert.Equal("Smythe", ((ConstantNode)nodeRightRight.Right).Value);
+
+                Assert.Equal(BinaryOperatorKind.And, node.OperatorKind);
+
+                var nodeRight = (BinaryOperatorNode)node.Right;
+                Assert.IsType<PropertyAccessNode>(nodeRight.Left);
+                Assert.Equal("Forename", ((PropertyAccessNode)nodeRight.Left).PropertyPath.Property.Name);
+                Assert.Equal(BinaryOperatorKind.Equal, nodeRight.OperatorKind);
+                Assert.IsType<ConstantNode>(nodeRight.Right);
+                Assert.Equal("John", ((ConstantNode)nodeRight.Right).Value);
+            }
+
+            [Fact]
             public void ParseNestedFunctionCallEqFunctionCallExpression()
             {
                 QueryNode queryNode = FilterExpressionParser.Parse("length(trim(CompanyName)) eq length(CompanyName)", EntityDataModel.Current.EntitySets["Customers"].EdmType);
