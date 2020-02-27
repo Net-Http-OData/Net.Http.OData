@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace Net.Http.OData.Query.Parsers
 {
-    [System.Diagnostics.DebuggerDisplay("{tokenType}: {Regex}")]
+    [System.Diagnostics.DebuggerDisplay("{_tokenType}: {Regex}")]
     internal struct TokenDefinition
     {
         private readonly TokenType _tokenType;
