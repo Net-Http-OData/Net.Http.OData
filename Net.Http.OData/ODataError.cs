@@ -18,34 +18,18 @@ namespace Net.Http.OData
     public sealed class ODataError
     {
         /// <summary>
-        /// Initialises a new instance of the <see cref="ODataError"/> class.
+        /// Gets or sets the error code.
         /// </summary>
-        /// <param name="code">The error code.</param>
-        /// <param name="message">The error message.</param>
-        /// <param name="target">The error target.</param>
-        public ODataError(string code, string message, string target)
-        {
-            Code = code;
-            Message = message;
-            Target = target;
-        }
+        public string Code { get; set; }
 
         /// <summary>
-        /// Gets the error code.
+        /// Gets or sets the error message.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("code", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
-        public string Code { get; }
+        public string Message { get; set; }
 
         /// <summary>
-        /// Gets the error message.
+        /// Gets or sets the error target.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("message", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 1)]
-        public string Message { get; }
-
-        /// <summary>
-        /// Gets the error target.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("target", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 2)]
-        public string Target { get; }
+        public string Target { get; set; }
     }
 }

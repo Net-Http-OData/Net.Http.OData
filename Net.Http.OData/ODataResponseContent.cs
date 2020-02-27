@@ -47,7 +47,7 @@ namespace Net.Http.OData
         /// <summary>
         /// Gets or sets the value to be returned.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("value", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 3)]
+        [Newtonsoft.Json.JsonProperty(NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 3)]
         public object Value { get; set; }
     }
 }

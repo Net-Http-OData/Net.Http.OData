@@ -6,6 +6,18 @@ namespace Net.Http.OData.Tests
 {
     internal static class TestHelper
     {
+        internal static System.Text.Json.JsonSerializerOptions JsonSerializerOptions => new System.Text.Json.JsonSerializerOptions
+        {
+            IgnoreNullValues = true,
+            PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+        };
+
+        internal static Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings => new Newtonsoft.Json.JsonSerializerSettings
+        {
+            ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
+            NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+        };
+
         internal static void EnsureEDM()
         {
             var entityDataModelBuilder = new EntityDataModelBuilder(StringComparer.OrdinalIgnoreCase)
