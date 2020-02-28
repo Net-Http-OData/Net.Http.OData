@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net;
 using Net.Http.OData.Model;
-using Net.Http.OData.Query;
+using Net.Http.OData.Query.Expressions;
 using NorthwindModel;
 using Xunit;
 
-namespace Net.Http.OData.Tests.Query
+namespace Net.Http.OData.Tests.Query.Expressions
 {
     public class PropertyPathTests
     {

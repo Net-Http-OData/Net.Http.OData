@@ -12,6 +12,7 @@
 // -----------------------------------------------------------------------
 using System;
 using Net.Http.OData.Model;
+using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query
 {

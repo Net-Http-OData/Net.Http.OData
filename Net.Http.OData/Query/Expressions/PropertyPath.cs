@@ -13,7 +13,7 @@
 using System;
 using Net.Http.OData.Model;
 
-namespace Net.Http.OData.Query
+namespace Net.Http.OData.Query.Expressions
 {
     /// <summary>
     /// A class which represents a property path.

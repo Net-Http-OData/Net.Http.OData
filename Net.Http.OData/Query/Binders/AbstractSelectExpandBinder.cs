@@ -10,6 +10,8 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using Net.Http.OData.Query.Expressions;
+
 namespace Net.Http.OData.Query.Binders
 {
     /// <summary>

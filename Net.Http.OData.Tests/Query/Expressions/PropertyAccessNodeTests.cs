@@ -1,6 +1,5 @@
 ﻿using System;
 using Net.Http.OData.Model;
-using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
 using Xunit;
 
