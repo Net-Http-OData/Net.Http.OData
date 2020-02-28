@@ -45,7 +45,7 @@ namespace Net.Http.OData.Metadata
                 kvp =>
                 {
                     var setUri = new Uri(kvp.Key, UriKind.Relative);
-                    setUri = requestOptions.MetadataLevel == ODataMetadataLevel.None ? new Uri(requestOptions.DataServiceRoot, setUri) : setUri;
+                    setUri = requestOptions.MetadataLevel == ODataMetadataLevel.None ? new Uri(requestOptions.ServiceRootUri, setUri) : setUri;
 
                     return ServiceDocumentItem.EntitySet(kvp.Key, setUri);
                 });

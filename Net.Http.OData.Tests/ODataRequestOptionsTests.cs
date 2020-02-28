@@ -14,19 +14,19 @@ namespace Net.Http.OData.Tests
                 ODataMetadataLevel.Minimal,
                 ODataVersion.OData40);
 
-            Assert.Equal(new Uri("https://services.odata.org/OData"), odataRequestOptions.DataServiceRoot);
             Assert.Equal(ODataIsolationLevel.Snapshot, odataRequestOptions.IsolationLevel);
             Assert.Equal(ODataMetadataLevel.Minimal, odataRequestOptions.MetadataLevel);
+            Assert.Equal(new Uri("https://services.odata.org/OData"), odataRequestOptions.ServiceRootUri);
             Assert.Equal(ODataVersion.OData40, odataRequestOptions.Version);
         }
 
         [Fact]
-        public void Constructor_Throws_ArgumentNullException_For_Null_DataServiceRoot()
+        public void Constructor_Throws_ArgumentNullException_For_Null_ServiceRootUri()
         {
             var exception = Assert.Throws<ArgumentNullException>(
                 () => new ODataRequestOptions(null, ODataIsolationLevel.None, ODataMetadataLevel.None, ODataVersion.OData40));
 
-            Assert.Equal("dataServiceRoot", exception.ParamName);
+            Assert.Equal("serviceRootUri", exception.ParamName);
         }
 
         [Fact]
