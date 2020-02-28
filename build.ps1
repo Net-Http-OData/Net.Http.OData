@@ -7,7 +7,7 @@ if (Test-Path $testResults){
 }
 
 dotnet tool uninstall dotnet-reportgenerator-globaltool --global
-dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.0
+dotnet tool install --global dotnet-reportgenerator-globaltool
 
 dotnet clean
 dotnet build

@@ -23,7 +23,7 @@ variables:
 steps:
 - script: |
     dotnet tool uninstall dotnet-reportgenerator-globaltool --global
-    dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.0
+    dotnet tool install --global dotnet-reportgenerator-globaltool
   displayName: 'dotnet tool install dotnet-reportgenerator-globaltool'
 
 - script: dotnet build --configuration $(buildConfiguration)
