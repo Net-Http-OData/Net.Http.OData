@@ -6,13 +6,16 @@ if (Test-Path $testResults){
     Remove-Item -Path $testResults -Recurse
 }
 
+dotnet tool uninstall dotnet-reportgenerator-globaltool --global
+dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.0
+
 dotnet clean
 dotnet build
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\
 
 Set-Location Net.Http.OData.Tests
 
-dotnet reportgenerator "-reports:TestResults\coverage.cobertura.xml" "-targetdir:TestResults\Coverage" -reporttypes:HTML;
+reportgenerator "-reports:TestResults\coverage.cobertura.xml" "-targetdir:TestResults\Coverage" -reporttypes:HTML;
 
 Start-Process "TestResults\Coverage\index.htm"
 

@@ -21,20 +21,19 @@ variables:
   testWorkingDirectory: 'Net.Http.OData.Tests'
 
 steps:
+- script: |
+    dotnet tool uninstall dotnet-reportgenerator-globaltool --global
+    dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.0
+  displayName: 'dotnet tool install dotnet-reportgenerator-globaltool'
+
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
 - script: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\
   displayName: 'dotnet test'
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet cli report generator'
-  inputs:
-    command: 'custom'
-    custom: 'reportgenerator'
-    workingDirectory: $(testWorkingDirectory)
-    projects: '**/*Tests.csproj'
-    arguments: '"-reports:TestResults\coverage.cobertura.xml" "-targetdir:TestResults\Coverage" -reporttypes:HTML;'
+- script: reportgenerator "-reports:TestResults\coverage.cobertura.xml" "-targetdir:TestResults\Coverage" -reporttypes:HTML;
+  displayName: 'reportgenerator'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'publish code coverage'
