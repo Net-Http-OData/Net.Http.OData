@@ -15,34 +15,40 @@ namespace Net.Http.OData.Tests
         {
             ODataServiceOptions serviceOptions = ODataServiceOptions.Default;
 
-            Assert.Equal(26, serviceOptions.SupportedFilterFunctions.Count);
+            Assert.Equal(25, serviceOptions.SupportedFilterFunctions.Count);
 
-            Assert.Contains("cast", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("ceiling", serviceOptions.SupportedFilterFunctions);
+            // String functions
             Assert.Contains("concat", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("contains", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("day", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("endswith", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("floor", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("fractionalseconds", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("hour", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("indexof", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("isof", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("length", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("maxdatetime", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("mindatetime", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("minute", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("month", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("now", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("replace", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("round", serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("second", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("startswith", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("substring", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("tolower", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("toupper", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("trim", serviceOptions.SupportedFilterFunctions);
+
+            // Date functions
+            Assert.Contains("day", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("fractionalseconds", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("hour", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("maxdatetime", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("mindatetime", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("minute", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("month", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("now", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("second", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("year", serviceOptions.SupportedFilterFunctions);
+
+            // Math functions
+            Assert.Contains("ceiling", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("floor", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("round", serviceOptions.SupportedFilterFunctions);
+
+            // Type functions
+            Assert.Contains("cast", serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("isof", serviceOptions.SupportedFilterFunctions);
         }
 
         [Fact]

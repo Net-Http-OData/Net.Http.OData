@@ -33,32 +33,38 @@ namespace Net.Http.OData
 
             SupportedFilterFunctions = new[]
             {
-                "cast",
-                "isof",
-                "endswith",
-                "startswith",
+                // String functions
+                "concat",
                 "contains",
+                "endswith",
+                "indexof",
+                "length",
+                "startswith",
+                "substring",
                 "tolower",
                 "toupper",
                 "trim",
-                "length",
-                "indexof",
-                "replace",
-                "substring",
-                "concat",
-                "year",
-                "month",
+
+                // Date functions
                 "day",
-                "hour",
-                "minute",
-                "second",
                 "fractionalseconds",
-                "now",
-                "mindatetime",
+                "hour",
                 "maxdatetime",
-                "round",
+                "mindatetime",
+                "minute",
+                "month",
+                "now",
+                "second",
+                "year",
+
+                // Math functions
                 "ceiling",
                 "floor",
+                "round",
+
+                // Type functions
+                "cast",
+                "isof",
             };
 
             SupportedMetadataLevels = new[]
