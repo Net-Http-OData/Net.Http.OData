@@ -21,7 +21,7 @@ using Net.Http.OData.Model;
 namespace Net.Http.OData.Metadata
 {
     /// <summary>
-    /// Provides the Metadata XML document for the Entity Data Model.
+    /// Provides the Metadata XML document for the Entity Data Model which is exposed at https://server/odata/$metadata.
     /// </summary>
     public static class XmlMetadataProvider
     {

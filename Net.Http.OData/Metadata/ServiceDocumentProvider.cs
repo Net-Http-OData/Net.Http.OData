@@ -18,7 +18,7 @@ using Net.Http.OData.Model;
 namespace Net.Http.OData.Metadata
 {
     /// <summary>
-    /// Provides the service document for the Entity Data Model.
+    /// Provides the service document for the Entity Data Model which is exposed at https://server/odata/.
     /// </summary>
     public static class ServiceDocumentProvider
     {
