@@ -545,39 +545,6 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
-            public void ParseReplaceFunctionExpression()
-            {
-                QueryNode queryNode = FilterExpressionParser.Parse("replace(CompanyName, ' ', '') eq 'AlfredsFutterkiste'", EntityDataModel.Current.EntitySets["Customers"].EdmType);
-
-                Assert.NotNull(queryNode);
-                Assert.IsType<BinaryOperatorNode>(queryNode);
-
-                var node = (BinaryOperatorNode)queryNode;
-
-                Assert.IsType<FunctionCallNode>(node.Left);
-                var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("replace", nodeLeft.Name);
-                Assert.Equal(3, nodeLeft.Parameters.Count);
-                Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
-                Assert.Equal("CompanyName", ((PropertyAccessNode)nodeLeft.Parameters[0]).PropertyPath.Property.Name);
-                Assert.IsType<ConstantNode>(nodeLeft.Parameters[1]);
-                Assert.Equal("' '", ((ConstantNode)nodeLeft.Parameters[1]).LiteralText);
-                Assert.IsType<string>(((ConstantNode)nodeLeft.Parameters[1]).Value);
-                Assert.Equal(" ", ((ConstantNode)nodeLeft.Parameters[1]).Value);
-                Assert.IsType<ConstantNode>(nodeLeft.Parameters[2]);
-                Assert.Equal("''", ((ConstantNode)nodeLeft.Parameters[2]).LiteralText);
-                Assert.IsType<string>(((ConstantNode)nodeLeft.Parameters[2]).Value);
-                Assert.Equal("", ((ConstantNode)nodeLeft.Parameters[2]).Value);
-
-                Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
-
-                Assert.IsType<ConstantNode>(node.Right);
-                Assert.Equal("'AlfredsFutterkiste'", ((ConstantNode)node.Right).LiteralText);
-                Assert.IsType<string>(((ConstantNode)node.Right).Value);
-                Assert.Equal("AlfredsFutterkiste", ((ConstantNode)node.Right).Value);
-            }
-
-            [Fact]
             public void ParseRoundFunctionExpression()
             {
                 QueryNode queryNode = FilterExpressionParser.Parse("round(Freight) eq 32", EntityDataModel.Current.EntitySets["Orders"].EdmType);
