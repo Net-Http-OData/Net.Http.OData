@@ -54,8 +54,7 @@ namespace Net.Http.OData
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        public static bool operator !=(ODataVersion left, ODataVersion right)
-            => !(left == right);
+        public static bool operator !=(ODataVersion left, ODataVersion right) => !(left == right);
 
         public static bool operator <(ODataVersion a, ODataVersion b)
             => a != null && b != null && a._decimalVersion < b._decimalVersion;
@@ -64,7 +63,14 @@ namespace Net.Http.OData
             => a != null && b != null && a._decimalVersion <= b._decimalVersion;
 
         public static bool operator ==(ODataVersion left, ODataVersion right)
-            => left?.Equals(right) == true;
+        {
+            if (left is null)
+            {
+                return right is null;
+            }
+
+            return left.Equals(right);
+        }
 
         public static bool operator >(ODataVersion a, ODataVersion b)
             => a != null && b != null && a._decimalVersion > b._decimalVersion;
@@ -120,19 +126,39 @@ namespace Net.Http.OData
 
         /// <inheritdoc/>
         public int CompareTo(object obj)
-            => ReferenceEquals(this, obj) ? 0 : CompareTo(obj as ODataVersion);
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return 0;
+            }
+
+            return CompareTo(obj as ODataVersion);
+        }
 
         /// <inheritdoc/>
         public int CompareTo(ODataVersion other)
-            => other == null ? 1 : _decimalVersion.CompareTo(other._decimalVersion);
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+
+            return _decimalVersion.CompareTo(other._decimalVersion);
+        }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj)
-            => Equals(obj as ODataVersion);
+        public override bool Equals(object obj) => Equals(obj as ODataVersion);
 
         /// <inheritdoc/>
         public bool Equals(ODataVersion other)
-            => other != null && _version == other._version;
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return _version == other._version;
+        }
 
         /// <inheritdoc/>
         public override int GetHashCode() => _version.GetHashCode();
