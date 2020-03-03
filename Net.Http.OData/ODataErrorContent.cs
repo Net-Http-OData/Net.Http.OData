@@ -42,13 +42,5 @@ namespace Net.Http.OData
         /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
         public static ODataErrorContent Create(int code, string message, string target)
             => new ODataErrorContent { Error = new ODataError { Code = code.ToString(CultureInfo.InvariantCulture), Message = message, Target = target } };
-
-        /// <summary>
-        /// Creates a new <see cref="ODataErrorContent"/> from the specified <see cref="ODataException"/>.
-        /// </summary>
-        /// <param name="odataException">The ODataException to create the ODataErrorContent from.</param>
-        /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
-        public static ODataErrorContent Create(ODataException odataException)
-            => Create((int)odataException?.StatusCode, odataException?.Message, odataException?.Target);
     }
 }

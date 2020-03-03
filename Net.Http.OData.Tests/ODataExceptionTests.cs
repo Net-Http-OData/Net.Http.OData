@@ -1,13 +1,15 @@
-﻿using Xunit;
+﻿using System.Net;
+using Xunit;
 
 namespace Net.Http.OData.Tests
 {
-    public class ODataErrorContentTests
+    public class ODataExceptionTests
     {
         [Fact]
-        public void Create_Code_Message()
+        public void Create_ODataException_HttpStatusCode_Message()
         {
-            var odataErrorContent = ODataErrorContent.Create(404, "Not Found");
+            var odataException = new ODataException("Not Found", HttpStatusCode.NotFound);
+            var odataErrorContent = odataException.ToODataErrorContent();
 
             Assert.NotNull(odataErrorContent);
             Assert.NotNull(odataErrorContent.Error);
@@ -17,9 +19,10 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Create_Code_Message_Target()
+        public void Create_ODataException_HttpStatusCode_Message_Target()
         {
-            var odataErrorContent = ODataErrorContent.Create(404, "Not Found", "target");
+            var odataException = new ODataException("Not Found", HttpStatusCode.NotFound, "target");
+            var odataErrorContent = odataException.ToODataErrorContent();
 
             Assert.NotNull(odataErrorContent);
             Assert.NotNull(odataErrorContent.Error);

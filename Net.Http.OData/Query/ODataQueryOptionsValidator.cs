@@ -18,7 +18,7 @@ namespace Net.Http.OData.Query
     /// <summary>
     /// The entry point for resolving an <see cref="IODataQueryOptionsValidator"/>.
     /// </summary>
-    public sealed class ODataQueryOptionsValidator
+    public static class ODataQueryOptionsValidator
     {
         private static readonly Dictionary<ODataVersion, IODataQueryOptionsValidator> s_validators = new Dictionary<ODataVersion, IODataQueryOptionsValidator>
         {

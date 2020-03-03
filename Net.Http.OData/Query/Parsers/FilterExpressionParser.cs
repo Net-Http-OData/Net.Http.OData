@@ -27,7 +27,7 @@ namespace Net.Http.OData.Query.Parsers
             }
 
             var parserImpl = new FilterExpressionParserImpl(model);
-            QueryNode queryNode = parserImpl.Parse(new Lexer(filterValue));
+            QueryNode queryNode = parserImpl.ParseQueryNode(new Lexer(filterValue));
 
             return queryNode;
         }
@@ -42,7 +42,7 @@ namespace Net.Http.OData.Query.Parsers
 
             internal FilterExpressionParserImpl(EdmComplexType model) => _model = model;
 
-            internal QueryNode Parse(Lexer lexer)
+            internal QueryNode ParseQueryNode(Lexer lexer)
             {
                 while (lexer.MoveNext())
                 {
@@ -156,6 +156,11 @@ namespace Net.Http.OData.Query.Parsers
                             }
                             else
                             {
+                                if (binaryNode == null)
+                                {
+                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
+                                }
+
                                 binaryNode.Right = propertyAccessNode;
                             }
 
@@ -184,6 +189,11 @@ namespace Net.Http.OData.Query.Parsers
                             }
                             else
                             {
+                                if (binaryNode == null)
+                                {
+                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
+                                }
+
                                 binaryNode.Right = constantNode;
                             }
 
@@ -376,7 +386,7 @@ namespace Net.Http.OData.Query.Parsers
                 {
                     _nodeStack.Push(new BinaryOperatorNode(node, _nextBinaryOperatorKind, null));
                 }
-                else if (_groupingDepth < initialGroupingDepth)
+                else
                 {
                     var binaryNode = (BinaryOperatorNode)_nodeStack.Pop();
                     binaryNode.Right = node;

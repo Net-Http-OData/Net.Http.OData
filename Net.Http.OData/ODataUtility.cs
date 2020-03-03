@@ -73,7 +73,10 @@ namespace Net.Http.OData
         /// <param name="entitySet">The <see cref="EntitySet"/>.</param>
         /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
         /// <returns>A <see cref="string"/> containing the the @odata.context.</returns>
+#pragma warning disable S2326 // Unused type parameters should be removed
+
         public static string ODataContext<TEntityKey>(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet)
+#pragma warning restore S2326 // Unused type parameters should be removed
             => metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet).Append("/$entity").ToString() : default;
 
         /// <summary>

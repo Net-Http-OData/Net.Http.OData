@@ -36,7 +36,7 @@ namespace Net.Http.OData.Query
                 throw new ArgumentNullException(nameof(model));
             }
 
-            if (rawValue.IndexOf(',') > 0)
+            if (rawValue.IndexOf(',') > -1)
             {
                 Properties = rawValue.Slice(',', rawValue.IndexOf('=') + 1)
                     .Select(raw => new OrderByProperty(raw, model))

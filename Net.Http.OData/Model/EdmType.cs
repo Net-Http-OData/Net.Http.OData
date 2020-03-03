@@ -19,7 +19,9 @@ namespace Net.Http.OData.Model
     /// A class which represents a type in the Entity Data Model.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{FullName}: {ClrType}")]
+#pragma warning disable S4035 // Classes implementing "IEquatable<T>" should be sealed
     public abstract class EdmType : IEquatable<EdmType>
+#pragma warning restore S4035 // Classes implementing "IEquatable<T>" should be sealed
     {
         /// <summary>
         /// Initialises a new instance of the <see cref="EdmType"/> class.
