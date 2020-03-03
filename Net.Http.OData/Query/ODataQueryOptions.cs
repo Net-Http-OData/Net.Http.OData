@@ -25,6 +25,7 @@ namespace Net.Http.OData.Query
         private FilterQueryOption _filter;
         private FormatQueryOption _format;
         private OrderByQueryOption _orderBy;
+        private SearchQueryOption _search;
         private SelectExpandQueryOption _select;
         private SkipTokenQueryOption _skipToken;
 
@@ -53,7 +54,7 @@ namespace Net.Http.OData.Query
         public EntitySet EntitySet { get; }
 
         /// <summary>
-        /// Gets the expand query option.
+        /// Gets <see cref="SelectExpandQueryOption"/> which represents the $expand query option.
         /// </summary>
         public SelectExpandQueryOption Expand
         {
@@ -69,7 +70,7 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the filter query option.
+        /// Gets <see cref="FilterQueryOption"/> which represents the $filter query option.
         /// </summary>
         public FilterQueryOption Filter
         {
@@ -85,7 +86,7 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the format query option.
+        /// Gets <see cref="FormatQueryOption"/> which represents the $format query option.
         /// </summary>
         public FormatQueryOption Format
         {
@@ -101,7 +102,7 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the order by query option.
+        /// Gets <see cref="OrderByQueryOption"/> which represents the $orderby query option.
         /// </summary>
         public OrderByQueryOption OrderBy
         {
@@ -122,12 +123,23 @@ namespace Net.Http.OData.Query
         public ODataRawQueryOptions RawValues { get; }
 
         /// <summary>
-        /// Gets the search query option.
+        /// Gets <see cref="SearchQueryOption"/> which represents the $search query option.
         /// </summary>
-        public string Search => RawValues.Search?.SubstringAfter('=');
+        public SearchQueryOption Search
+        {
+            get
+            {
+                if (_search is null && RawValues.Search != null)
+                {
+                    _search = new SearchQueryOption(RawValues.Search);
+                }
+
+                return _search;
+            }
+        }
 
         /// <summary>
-        /// Gets the select query option.
+        /// Gets <see cref="SelectExpandQueryOption"/> which represents the $select query option.
         /// </summary>
         public SelectExpandQueryOption Select
         {
@@ -143,12 +155,12 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the skip query option.
+        /// Gets the integer value specified in the $skip query option.
         /// </summary>
         public int? Skip => ParseInt(RawValues.Skip);
 
         /// <summary>
-        /// Gets the skip token query option.
+        /// Gets <see cref="SkipTokenQueryOption"/> which represents the $skiptoken query option.
         /// </summary>
         public SkipTokenQueryOption SkipToken
         {
@@ -164,7 +176,7 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the top query option.
+        /// Gets the integer value specified in the $top query option.
         /// </summary>
         public int? Top => ParseInt(RawValues.Top);
 

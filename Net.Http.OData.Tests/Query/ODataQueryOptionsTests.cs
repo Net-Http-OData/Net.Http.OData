@@ -138,7 +138,11 @@ namespace Net.Http.OData.Tests.Query
             public void TheCountOptionShouldBeSet() => Assert.True(_queryOptions.Count);
 
             [Fact]
-            public void TheEntitySetShouldBeSet() => Assert.NotNull(_queryOptions.EntitySet);
+            public void TheEntitySetShouldBeSet()
+            {
+                Assert.NotNull(_queryOptions.EntitySet);
+                Assert.Equal("Products", _queryOptions.EntitySet.Name);
+            }
 
             [Fact]
             public void TheExpandOptionShouldBeSet() => Assert.NotNull(_queryOptions.Expand);
@@ -171,14 +175,13 @@ namespace Net.Http.OData.Tests.Query
             public void TheSameSelectOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Select, _queryOptions.Select);
 
             [Fact]
+            public void TheSameSearchOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Search, _queryOptions.Search);
+
+            [Fact]
             public void TheSameSkipTokenOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.SkipToken, _queryOptions.SkipToken);
 
             [Fact]
-            public void TheSearchPropertyShouldBeSet()
-            {
-                Assert.NotNull(_queryOptions.Search);
-                Assert.Equal("blue OR green", _queryOptions.Search);
-            }
+            public void TheSearchPropertyShouldBeSet() => Assert.NotNull(_queryOptions.Search);
 
             [Fact]
             public void TheSelectPropertyShouldBeSet() => Assert.NotNull(_queryOptions.Select);
@@ -208,76 +211,44 @@ namespace Net.Http.OData.Tests.Query
             }
 
             [Fact]
-            public void TheCountOptionShouldNotBeSet()
-            {
-                Assert.False(_queryOptions.Count);
-            }
+            public void TheCountOptionShouldNotBeSet() => Assert.False(_queryOptions.Count);
 
             [Fact]
             public void TheEntitySetShouldBeSet()
             {
                 Assert.NotNull(_queryOptions.EntitySet);
+                Assert.Equal("Products", _queryOptions.EntitySet.Name);
             }
 
             [Fact]
-            public void TheExpandOptionShouldNotBeSet()
-            {
-                Assert.Null(_queryOptions.Expand);
-            }
+            public void TheExpandOptionShouldNotBeSet() => Assert.Null(_queryOptions.Expand);
 
             [Fact]
-            public void TheFilterOptionShouldNotBeSet()
-            {
-                Assert.Null(_queryOptions.Filter);
-            }
+            public void TheFilterOptionShouldNotBeSet() => Assert.Null(_queryOptions.Filter);
 
             [Fact]
-            public void TheFormatOptionShouldNotBeSet()
-            {
-                Assert.Null(_queryOptions.Format);
-            }
+            public void TheFormatOptionShouldNotBeSet() => Assert.Null(_queryOptions.Format);
 
             [Fact]
-            public void TheOrderByPropertyShouldBeNotSet()
-            {
-                Assert.Null(_queryOptions.OrderBy);
-            }
+            public void TheOrderByPropertyShouldBeNotSet() => Assert.Null(_queryOptions.OrderBy);
 
             [Fact]
-            public void TheRawValuesPropertyShouldBeSet()
-            {
-                Assert.NotNull(_queryOptions.RawValues);
-            }
+            public void TheRawValuesPropertyShouldBeSet() => Assert.NotNull(_queryOptions.RawValues);
 
             [Fact]
-            public void TheSearchPropertyShouldNotBeSet()
-            {
-                Assert.Null(_queryOptions.Search);
-            }
+            public void TheSearchPropertyShouldNotBeSet() => Assert.Null(_queryOptions.Search);
 
             [Fact]
-            public void TheSelectPropertyShouldBeNotSet()
-            {
-                Assert.Null(_queryOptions.Select);
-            }
+            public void TheSelectPropertyShouldBeNotSet() => Assert.Null(_queryOptions.Select);
 
             [Fact]
-            public void TheSkipPropertyShouldBeNotSet()
-            {
-                Assert.Null(_queryOptions.Skip);
-            }
+            public void TheSkipPropertyShouldBeNotSet() => Assert.Null(_queryOptions.Skip);
 
             [Fact]
-            public void TheSkipTokenPropertyShouldBeNotSet()
-            {
-                Assert.Null(_queryOptions.SkipToken);
-            }
+            public void TheSkipTokenPropertyShouldBeNotSet() => Assert.Null(_queryOptions.SkipToken);
 
             [Fact]
-            public void TheTopPropertyShouldBeNotSet()
-            {
-                Assert.Null(_queryOptions.Top);
-            }
+            public void TheTopPropertyShouldBeNotSet() => Assert.Null(_queryOptions.Top);
         }
 
         /// <summary>
@@ -310,16 +281,10 @@ namespace Net.Http.OData.Tests.Query
             }
 
             [Fact]
-            public void TheFilterOptionShouldBeSet()
-            {
-                Assert.NotNull(_queryOptions.Filter);
-            }
+            public void TheFilterOptionShouldBeSet() => Assert.NotNull(_queryOptions.Filter);
 
             [Fact]
-            public void TheFilterOptionShouldHaveTheUnescapedRawValue()
-            {
-                Assert.Equal("$filter=Forename eq 'John'", _queryOptions.Filter.RawValue);
-            }
+            public void TheFilterOptionShouldHaveTheUnescapedRawValue() => Assert.Equal("$filter=Forename eq 'John'", _queryOptions.Filter.RawValue);
 
             [Fact]
             public void TheOrderByOptionShouldBeCorrect()
@@ -331,16 +296,10 @@ namespace Net.Http.OData.Tests.Query
             }
 
             [Fact]
-            public void TheOrderByOptionShouldBeSet()
-            {
-                Assert.NotNull(_queryOptions.OrderBy);
-            }
+            public void TheOrderByOptionShouldBeSet() => Assert.NotNull(_queryOptions.OrderBy);
 
             [Fact]
-            public void TheOrderByOptionShouldHaveTheUnescapedRawValue()
-            {
-                Assert.Equal("$orderby=Forename asc", _queryOptions.OrderBy.RawValue);
-            }
+            public void TheOrderByOptionShouldHaveTheUnescapedRawValue() => Assert.Equal("$orderby=Forename asc", _queryOptions.OrderBy.RawValue);
         }
 
         /// <summary>
@@ -361,16 +320,11 @@ namespace Net.Http.OData.Tests.Query
             }
 
             [Fact]
-            public void TheFilterOptionShouldBeSet()
-            {
-                Assert.NotNull(_queryOptions.Filter);
-            }
+            public void TheFilterOptionShouldBeSet() => Assert.NotNull(_queryOptions.Filter);
 
             [Fact]
             public void TheFilterOptionShouldHaveTheUnescapedRawValue()
-            {
-                Assert.Equal("$filter=Forename eq 'John' and ImageData eq 'TG9yZW0gaXBzdW0gZG9s+b3Igc2l0IGF='", _queryOptions.Filter.RawValue);
-            }
+                => Assert.Equal("$filter=Forename eq 'John' and ImageData eq 'TG9yZW0gaXBzdW0gZG9s+b3Igc2l0IGF='", _queryOptions.Filter.RawValue);
         }
     }
 }
