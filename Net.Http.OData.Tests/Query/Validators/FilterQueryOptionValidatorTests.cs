@@ -363,6 +363,65 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
         }
 
+        public class WhenTheFilterQueryOptionContainsTheDateFunctionAndItIsNotSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.None
+            };
+
+            public WhenTheFilterQueryOptionContainsTheDateFunctionAndItIsNotSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=date(Date) eq 2019-04-17",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
+
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function date", odataException.Message);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheDateFunctionAndItIsSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.Date,
+                AllowedLogicalOperators = AllowedLogicalOperators.Equal
+            };
+
+            public WhenTheFilterQueryOptionContainsTheDateFunctionAndItIsSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "date(Date) eq 2019-04-17",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void AnExceptionShouldNotBeThrown()
+            {
+                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
+            }
+        }
+
         public class WhenTheFilterQueryOptionContainsTheDayFunctionAndItIsNotSpecifiedInAllowedFunctions
         {
             private readonly ODataQueryOptions _queryOptions;

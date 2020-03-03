@@ -77,79 +77,84 @@ namespace Net.Http.OData.Query
         Trim = 512,
 
         /// <summary>
+        /// Specifies that the 'date' function is allowed in the $filter query option.
+        /// </summary>
+        Date = 1024,
+
+        /// <summary>
         /// Specifies that the 'day' function is allowed in the $filter query option.
         /// </summary>
-        Day = 1024,
+        Day = 2048,
 
         /// <summary>
         /// Specifies that the 'fractionalseconds' function is allowed in the $filter query option.
         /// </summary>
-        FractionalSeconds = 2048,
+        FractionalSeconds = 4096,
 
         /// <summary>
         /// Specifies that the 'hour' function is allowed in the $filter query option.
         /// </summary>
-        Hour = 4096,
+        Hour = 8192,
 
         /// <summary>
         /// Specifies that the 'maxdatetime' function is allowed in the $filter query option.
         /// </summary>
-        MaxDateTime = 8192,
+        MaxDateTime = 16384,
 
         /// <summary>
         /// Specifies that the 'mindatetime' function is allowed in the $filter query option.
         /// </summary>
-        MinDateTime = 16384,
+        MinDateTime = 32768,
 
         /// <summary>
         /// Specifies that the 'minute' function is allowed in the $filter query option.
         /// </summary>
-        Minute = 32768,
+        Minute = 65536,
 
         /// <summary>
         /// Specifies that the 'month' function is allowed in the $filter query option.
         /// </summary>
-        Month = 65536,
+        Month = 131072,
 
         /// <summary>
         /// Specifies that the 'now' function is allowed in the $filter query option.
         /// </summary>
-        Now = 131072,
+        Now = 262144,
 
         /// <summary>
         /// Specifies that the 'second' function is allowed in the $filter query option.
         /// </summary>
-        Second = 262144,
+        Second = 524288,
 
         /// <summary>
         /// Specifies that the 'year' function is allowed in the $filter query option.
         /// </summary>
-        Year = 524288,
+        Year = 1048576,
 
         /// <summary>
         /// Specifies that the 'ceiling' function is allowed in the $filter query option.
         /// </summary>
-        Ceiling = 1048576,
+        Ceiling = 2097152,
 
         /// <summary>
         /// Specifies that the 'floor' function is allowed in the $filter query option.
         /// </summary>
-        Floor = 2097152,
+        Floor = 4194304,
 
         /// <summary>
         /// Specifies that the 'round' function is allowed in the $filter query option.
         /// </summary>
-        Round = 4194304,
+        Round = 8388608,
 
         /// <summary>
         /// Specifies that the 'cast' function is allowed in the $filter query option.
         /// </summary>
-        Cast = 8388608,
+        Cast = 16777216,
 
         /// <summary>
         /// Specifies that the 'isof' function is allowed in the $filter query option.
         /// </summary>
-        IsOf = 16777216,
+        IsOf = 33554432,
 
         /// <summary>
         /// Specifies that all string functions are allowed in the $filter query option.
@@ -159,7 +164,7 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Specifies that all date/time functions are allowed in the $filter query option.
         /// </summary>
-        AllDateTimeFunctions = Day | FractionalSeconds | Hour | MaxDateTime | MinDateTime | Minute | Month | Now | Second | Year,
+        AllDateTimeFunctions = Date | Day | FractionalSeconds | Hour | MaxDateTime | MinDateTime | Minute | Month | Now | Second | Year,
 
         /// <summary>
         /// Specifies that all math functions are allowed in the $filter query option.

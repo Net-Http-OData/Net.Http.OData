@@ -15,7 +15,7 @@ namespace Net.Http.OData.Tests
         {
             ODataServiceOptions serviceOptions = ODataServiceOptions.Default;
 
-            Assert.Equal(25, serviceOptions.SupportedFilterFunctions.Count);
+            Assert.Equal(26, serviceOptions.SupportedFilterFunctions.Count);
 
             // String functions
             Assert.Contains("concat", serviceOptions.SupportedFilterFunctions);
@@ -30,6 +30,7 @@ namespace Net.Http.OData.Tests
             Assert.Contains("trim", serviceOptions.SupportedFilterFunctions);
 
             // Date functions
+            Assert.Contains("date", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("day", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("fractionalseconds", serviceOptions.SupportedFilterFunctions);
             Assert.Contains("hour", serviceOptions.SupportedFilterFunctions);

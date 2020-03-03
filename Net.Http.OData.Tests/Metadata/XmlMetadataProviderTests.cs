@@ -232,6 +232,7 @@ namespace Net.Http.OData.Tests.Metadata
             <String>tolower</String>
             <String>toupper</String>
             <String>trim</String>
+            <String>date</String>
             <String>day</String>
             <String>fractionalseconds</String>
             <String>hour</String>

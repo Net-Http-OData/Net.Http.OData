@@ -95,6 +95,12 @@ namespace Net.Http.OData.Query.Validators
 
             string rawFilterValue = queryOptions.RawValues.Filter;
 
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Date) != AllowedFunctions.Date
+                && rawFilterValue.Contains("date("))
+            {
+                throw new ODataException("Unsupported function date", HttpStatusCode.NotImplemented);
+            }
+
             if ((validationSettings.AllowedFunctions & AllowedFunctions.Day) != AllowedFunctions.Day
                 && rawFilterValue.Contains("day("))
             {

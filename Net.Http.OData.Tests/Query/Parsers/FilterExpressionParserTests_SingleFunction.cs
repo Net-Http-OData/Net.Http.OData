@@ -1,3 +1,4 @@
+using System;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
@@ -166,6 +167,31 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal("'Alfreds'", ((ConstantNode)node.Parameters[1]).LiteralText);
                 Assert.IsType<string>(((ConstantNode)node.Parameters[1]).Value);
                 Assert.Equal("Alfreds", ((ConstantNode)node.Parameters[1]).Value);
+            }
+
+            [Fact]
+            public void ParseDateFunctionExpression()
+            {
+                QueryNode queryNode = FilterExpressionParser.Parse("date(Date) eq 2019-04-17", EntityDataModel.Current.EntitySets["Orders"].EdmType);
+
+                Assert.NotNull(queryNode);
+                Assert.IsType<BinaryOperatorNode>(queryNode);
+
+                var node = (BinaryOperatorNode)queryNode;
+
+                Assert.IsType<FunctionCallNode>(node.Left);
+                var nodeLeft = (FunctionCallNode)node.Left;
+                Assert.Equal("date", nodeLeft.Name);
+                Assert.Equal(1, nodeLeft.Parameters.Count);
+                Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
+                Assert.Equal("Date", ((PropertyAccessNode)nodeLeft.Parameters[0]).PropertyPath.Property.Name);
+
+                Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
+
+                Assert.IsType<ConstantNode>(node.Right);
+                Assert.Equal("2019-04-17", ((ConstantNode)node.Right).LiteralText);
+                Assert.IsType<DateTime>(((ConstantNode)node.Right).Value);
+                Assert.Equal(new DateTime(2019, 4, 17), ((ConstantNode)node.Right).Value);
             }
 
             [Fact]

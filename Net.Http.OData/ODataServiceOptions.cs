@@ -46,6 +46,7 @@ namespace Net.Http.OData
                 "trim",
 
                 // Date functions
+                "date",
                 "day",
                 "fractionalseconds",
                 "hour",
