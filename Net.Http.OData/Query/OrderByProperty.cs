@@ -17,7 +17,7 @@ using Net.Http.OData.Query.Expressions;
 namespace Net.Http.OData.Query
 {
     /// <summary>
-    /// A class containing deserialised values from the $orderby query option.
+    /// A class representing an order by property expression in the $orderby query option.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{RawValue}")]
     public sealed class OrderByProperty

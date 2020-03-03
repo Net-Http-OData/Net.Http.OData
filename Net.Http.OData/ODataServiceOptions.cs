@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace Net.Http.OData
 {
     /// <summary>
-    /// The OData service options.
+    /// A class which represents the OData service options for an OData service.
     /// </summary>
     public sealed class ODataServiceOptions
     {
