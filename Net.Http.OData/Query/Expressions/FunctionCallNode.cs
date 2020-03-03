@@ -21,6 +21,8 @@ namespace Net.Http.OData.Query.Expressions
     [System.Diagnostics.DebuggerDisplay("{Name}")]
     public sealed class FunctionCallNode : QueryNode
     {
+        private readonly List<QueryNode> _parameters = new List<QueryNode>();
+
         /// <summary>
         /// Initialises a new instance of the <see cref="FunctionCallNode" /> class.
         /// </summary>
@@ -46,8 +48,8 @@ namespace Net.Http.OData.Query.Expressions
         /// <summary>
         /// Gets the parameters for the function call.
         /// </summary>
-        public IReadOnlyList<QueryNode> Parameters { get; } = new List<QueryNode>();
+        public IReadOnlyList<QueryNode> Parameters => _parameters;
 
-        internal void AddParameter(QueryNode queryNode) => ((IList<QueryNode>)Parameters).Add(queryNode);
+        internal void AddParameter(QueryNode queryNode) => _parameters.Add(queryNode);
     }
 }
