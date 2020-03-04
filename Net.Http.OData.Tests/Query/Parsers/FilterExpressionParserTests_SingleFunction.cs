@@ -807,6 +807,31 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
+            public void ParseTotalOffsetMinutesFunctionExpression()
+            {
+                QueryNode queryNode = FilterExpressionParser.Parse("totaloffsetminutes(Date) eq 321541354", EntityDataModel.Current.EntitySets["Orders"].EdmType);
+
+                Assert.NotNull(queryNode);
+                Assert.IsType<BinaryOperatorNode>(queryNode);
+
+                var node = (BinaryOperatorNode)queryNode;
+
+                Assert.IsType<FunctionCallNode>(node.Left);
+                var nodeLeft = (FunctionCallNode)node.Left;
+                Assert.Equal("totaloffsetminutes", nodeLeft.Name);
+                Assert.Equal(1, nodeLeft.Parameters.Count);
+                Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
+                Assert.Equal("Date", ((PropertyAccessNode)nodeLeft.Parameters[0]).PropertyPath.Property.Name);
+
+                Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
+
+                Assert.IsType<ConstantNode>(node.Right);
+                Assert.Equal("321541354", ((ConstantNode)node.Right).LiteralText);
+                Assert.IsType<int>(((ConstantNode)node.Right).Value);
+                Assert.Equal(321541354, ((ConstantNode)node.Right).Value);
+            }
+
+            [Fact]
             public void ParseToUpperFunctionExpression()
             {
                 QueryNode queryNode = FilterExpressionParser.Parse("toupper(CompanyName) eq 'ALFREDS FUTTERKISTE'", EntityDataModel.Current.EntitySets["Customers"].EdmType);

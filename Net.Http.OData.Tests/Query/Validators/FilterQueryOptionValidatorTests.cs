@@ -363,6 +363,65 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
         }
 
+        public class WhenTheFilterQueryOptionContainsTheTotalOffsetMinutesFunctionAndItIsNotSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.None
+            };
+
+            public WhenTheFilterQueryOptionContainsTheTotalOffsetMinutesFunctionAndItIsNotSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=totaloffsetminutes(Date) eq 321541354",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
+
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function totaloffsetminutes", odataException.Message);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheTotalOffsetMinutesFunctionAndItIsSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.TotalOffsetMinutes,
+                AllowedLogicalOperators = AllowedLogicalOperators.Equal
+            };
+
+            public WhenTheFilterQueryOptionContainsTheTotalOffsetMinutesFunctionAndItIsSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=totaloffsetminutes(Date) eq 321541354",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void AnExceptionShouldNotBeThrown()
+            {
+                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
+            }
+        }
+
         public class WhenTheFilterQueryOptionContainsTheDateFunctionAndItIsNotSpecifiedInAllowedFunctions
         {
             private readonly ODataQueryOptions _queryOptions;

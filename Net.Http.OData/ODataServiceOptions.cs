@@ -56,6 +56,7 @@ namespace Net.Http.OData
                 "month",
                 "now",
                 "second",
+                "totaloffsetminutes",
                 "year",
 
                 // Math functions

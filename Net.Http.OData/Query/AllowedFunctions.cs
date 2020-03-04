@@ -127,34 +127,39 @@ namespace Net.Http.OData.Query
         Second = 524288,
 
         /// <summary>
+        /// Specifies that the 'totaloffsetminutes' function is allowed in the $filter query option.
+        /// </summary>
+        TotalOffsetMinutes = 1048576,
+
+        /// <summary>
         /// Specifies that the 'year' function is allowed in the $filter query option.
         /// </summary>
-        Year = 1048576,
+        Year = 2097152,
 
         /// <summary>
         /// Specifies that the 'ceiling' function is allowed in the $filter query option.
         /// </summary>
-        Ceiling = 2097152,
+        Ceiling = 4194304,
 
         /// <summary>
         /// Specifies that the 'floor' function is allowed in the $filter query option.
         /// </summary>
-        Floor = 4194304,
+        Floor = 8388608,
 
         /// <summary>
         /// Specifies that the 'round' function is allowed in the $filter query option.
         /// </summary>
-        Round = 8388608,
+        Round = 16777216,
 
         /// <summary>
         /// Specifies that the 'cast' function is allowed in the $filter query option.
         /// </summary>
-        Cast = 16777216,
+        Cast = 33554432,
 
         /// <summary>
         /// Specifies that the 'isof' function is allowed in the $filter query option.
         /// </summary>
-        IsOf = 33554432,
+        IsOf = 67108864,
 
         /// <summary>
         /// Specifies that all string functions are allowed in the $filter query option.
@@ -164,7 +169,7 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Specifies that all date/time functions are allowed in the $filter query option.
         /// </summary>
-        AllDateTimeFunctions = Date | Day | FractionalSeconds | Hour | MaxDateTime | MinDateTime | Minute | Month | Now | Second | Year,
+        AllDateTimeFunctions = Date | Day | FractionalSeconds | Hour | MaxDateTime | MinDateTime | Minute | Month | Now | Second | TotalOffsetMinutes | Year,
 
         /// <summary>
         /// Specifies that all math functions are allowed in the $filter query option.

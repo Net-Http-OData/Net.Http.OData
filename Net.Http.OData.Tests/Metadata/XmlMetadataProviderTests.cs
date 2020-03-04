@@ -242,6 +242,7 @@ namespace Net.Http.OData.Tests.Metadata
             <String>month</String>
             <String>now</String>
             <String>second</String>
+            <String>totaloffsetminutes</String>
             <String>year</String>
             <String>ceiling</String>
             <String>floor</String>
