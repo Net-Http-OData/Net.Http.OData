@@ -38,7 +38,7 @@ namespace Net.Http.OData.Query.Parsers
             new TokenDefinition(TokenType.Double,               @"(\+|-)?(\d+(\.\d+)?(d|D)|\d+\.\d+(e|E)\d+)"),
             new TokenDefinition(TokenType.Single,               @"(\+|-)?\d+(\.\d+)?(f|F)"),
             new TokenDefinition(TokenType.Integer,              @"(\+|-)?\d+(l|L)?"),
-            new TokenDefinition(TokenType.FunctionName,         @"\w+(?=\()"),
+            new TokenDefinition(TokenType.FunctionName,         @"[a-z]+(?=\()"),
             new TokenDefinition(TokenType.Comma,                @",(?=\s?)"),
             new TokenDefinition(TokenType.Duration,             @"duration'(-)?P\d+DT\d{2}H\d{2}M\d{2}\.\d+S'"),
             new TokenDefinition(TokenType.Base64Binary,         @"binary'[a-zA-Z0-9\+/]*={0,2}'"),
