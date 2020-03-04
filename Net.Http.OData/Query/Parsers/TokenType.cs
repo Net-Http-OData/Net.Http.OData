@@ -39,6 +39,7 @@ namespace Net.Http.OData.Query.Parsers
         Decimal,
         Double,
         Duration,
+        EdmType,
         Enum,
         False,
         Guid,

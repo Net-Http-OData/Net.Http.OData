@@ -59,6 +59,11 @@ namespace Net.Http.OData.Query.Parsers
                     var durationTimeSpanValue = TimeSpan.Parse(durationText, CultureInfo.InvariantCulture);
                     return ConstantNode.Duration(token.Value, durationTimeSpanValue);
 
+                case TokenType.EdmType:
+                    string edmTypeName = token.Value;
+                    EdmType edmType = EdmType.GetEdmType(edmTypeName);
+                    return ConstantNode.EdmTypeNode(token.Value, edmType);
+
                 case TokenType.Enum:
                     int firstQuote = token.Value.IndexOf('\'');
                     string edmEnumTypeName = token.Value.Substring(0, firstQuote);

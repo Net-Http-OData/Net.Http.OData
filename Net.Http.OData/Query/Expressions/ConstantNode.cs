@@ -134,6 +134,14 @@ namespace Net.Http.OData.Query.Expressions
         internal static ConstantNode Duration(string literalText, TimeSpan value) => new ConstantNode(EdmPrimitiveType.Duration, literalText, value);
 
         /// <summary>
+        /// Gets a ConstantNode which represents a type in the entity data model.
+        /// </summary>
+        /// <param name="literalText">The literal text.</param>
+        /// <param name="edmType">The type in the entity data model.</param>
+        /// <returns>A ConstantNode representing a duration value.</returns>
+        internal static ConstantNode EdmTypeNode(string literalText, EdmType edmType) => new ConstantNode(edmType, literalText, edmType);
+
+        /// <summary>
         /// Gets a ConstantNode which represents a Guid value.
         /// </summary>
         /// <param name="literalText">The literal text.</param>

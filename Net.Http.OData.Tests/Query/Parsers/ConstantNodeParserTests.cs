@@ -228,6 +228,41 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
         }
 
+        public class Parse_EdmType
+        {
+            private readonly ConstantNode _node;
+
+            public Parse_EdmType()
+            {
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.EdmType, "Edm.String", 0));
+            }
+
+            [Fact]
+            public void TheEdmPrimitiveTypeIsSet()
+            {
+                Assert.Equal(EdmPrimitiveType.String, _node.EdmType);
+            }
+
+            [Fact]
+            public void TheKindIsQueryNodeKindConstant()
+            {
+                Assert.Equal(QueryNodeKind.Constant, _node.Kind);
+            }
+
+            [Fact]
+            public void TheLiteralTextPropertyIsSet()
+            {
+                Assert.Equal("Edm.String", _node.LiteralText);
+            }
+
+            [Fact]
+            public void TheValuePropertyIsSet()
+            {
+                Assert.IsType<EdmPrimitiveType>(_node.Value);
+                Assert.Equal(EdmPrimitiveType.String, _node.Value);
+            }
+        }
+
         public class Parse_Enum
         {
             private readonly ConstantNode _node;

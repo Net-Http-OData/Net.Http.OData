@@ -172,6 +172,7 @@ namespace Net.Http.OData.Query.Parsers
                         case TokenType.Decimal:
                         case TokenType.Double:
                         case TokenType.Duration:
+                        case TokenType.EdmType:
                         case TokenType.Enum:
                         case TokenType.False:
                         case TokenType.Guid:

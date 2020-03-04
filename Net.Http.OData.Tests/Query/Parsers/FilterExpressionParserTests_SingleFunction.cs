@@ -18,7 +18,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParseCastFunctionWithExpressionAndTypeExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("cast(Rating, 'Edm.Int64') eq 20", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("cast(Rating, Edm.Int64) eq 20", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -32,9 +32,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 Assert.Equal("Rating", ((PropertyAccessNode)nodeLeft.Parameters[0]).PropertyPath.Property.Name);
                 Assert.IsType<ConstantNode>(nodeLeft.Parameters[1]);
-                Assert.Equal("'Edm.Int64'", ((ConstantNode)nodeLeft.Parameters[1]).LiteralText);
-                Assert.IsType<string>(((ConstantNode)nodeLeft.Parameters[1]).Value);
-                Assert.Equal("Edm.Int64", ((ConstantNode)nodeLeft.Parameters[1]).Value);
+                var constantNode = (ConstantNode)nodeLeft.Parameters[1];
+                Assert.Equal("Edm.Int64", constantNode.LiteralText);
+                Assert.IsType<EdmPrimitiveType>(constantNode.Value);
+                Assert.Equal("Edm.Int64", ((EdmPrimitiveType)constantNode.Value).FullName);
 
                 Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
 
@@ -47,7 +48,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParseCastFunctionWithTypeOnlyExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("cast('Edm.Int64')", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("cast(Edm.Int64)", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<FunctionCallNode>(queryNode);
@@ -57,9 +58,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal("cast", node.Name);
                 Assert.Equal(1, node.Parameters.Count);
                 Assert.IsType<ConstantNode>(node.Parameters[0]);
-                Assert.Equal("'Edm.Int64'", ((ConstantNode)node.Parameters[0]).LiteralText);
-                Assert.IsType<string>(((ConstantNode)node.Parameters[0]).Value);
-                Assert.Equal("Edm.Int64", ((ConstantNode)node.Parameters[0]).Value);
+                var constantNode = (ConstantNode)node.Parameters[0];
+                Assert.Equal("Edm.Int64", constantNode.LiteralText);
+                Assert.IsType<EdmPrimitiveType>(constantNode.Value);
+                Assert.Equal("Edm.Int64", ((EdmPrimitiveType)constantNode.Value).FullName);
             }
 
             [Fact]
@@ -373,7 +375,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParseIsOfFunctionWithExpressionAndTypeExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("isof(ShipCountry, 'Edm.String')", EntityDataModel.Current.EntitySets["Orders"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("isof(ShipCountry, Edm.String)", EntityDataModel.Current.EntitySets["Orders"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<FunctionCallNode>(queryNode);
@@ -385,15 +387,16 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<PropertyAccessNode>(node.Parameters[0]);
                 Assert.Equal("ShipCountry", ((PropertyAccessNode)node.Parameters[0]).PropertyPath.Property.Name);
                 Assert.IsType<ConstantNode>(node.Parameters[1]);
-                Assert.Equal("'Edm.String'", ((ConstantNode)node.Parameters[1]).LiteralText);
-                Assert.IsType<string>(((ConstantNode)node.Parameters[1]).Value);
-                Assert.Equal("Edm.String", ((ConstantNode)node.Parameters[1]).Value);
+                var constantNode = (ConstantNode)node.Parameters[1];
+                Assert.Equal("Edm.String", constantNode.LiteralText);
+                Assert.IsType<EdmPrimitiveType>(constantNode.Value);
+                Assert.Equal("Edm.String", ((EdmPrimitiveType)constantNode.Value).FullName);
             }
 
             [Fact]
             public void ParseIsOfFunctionWithTypeOnlyExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("isof('NorthwindModel.Order')", EntityDataModel.Current.EntitySets["Orders"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("isof(NorthwindModel.Order)", EntityDataModel.Current.EntitySets["Orders"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<FunctionCallNode>(queryNode);
@@ -403,9 +406,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal("isof", node.Name);
                 Assert.Equal(1, node.Parameters.Count);
                 Assert.IsType<ConstantNode>(node.Parameters[0]);
-                Assert.Equal("'NorthwindModel.Order'", ((ConstantNode)node.Parameters[0]).LiteralText);
-                Assert.IsType<string>(((ConstantNode)node.Parameters[0]).Value);
-                Assert.Equal("NorthwindModel.Order", ((ConstantNode)node.Parameters[0]).Value);
+                var constantNode = (ConstantNode)node.Parameters[0];
+                Assert.Equal("NorthwindModel.Order", constantNode.LiteralText);
+                Assert.IsType<EdmComplexType>(constantNode.Value);
+                Assert.Equal("NorthwindModel.Order", ((EdmComplexType)constantNode.Value).FullName);
             }
 
             [Fact]
