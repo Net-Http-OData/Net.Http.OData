@@ -11,27 +11,26 @@ Net.Http.OData is a .NET Standard library which makes it easy to consume an ODat
 
 ## Installation
 
-Install the nuget package `Install-Package Net.Http.OData` or `dotnet add package Net.Http.OData`
+Install the nuget package `dotnet add package Net.Http.OData` or `Install-Package Net.Http.OData`
 
 ## Entity Data Model
 
-The Entity Data Model describes the entitites in the OData service, the classes are in the namespace `Net.Http.OData.Model`.
-
-See the [Entity Data Model](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Entity-Data-Model) page in the wiki.
+The Entity Data Model describes the entitites in the OData service, the classes are in the namespace `[Net.Http.OData.Model](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Net.Http.OData.Model)`.
 
 ## Query
 
-The Query classes describe an OData Query request, the classes are in the namespace `Net.Http.OData.Query`.
+The Query classes describe an OData Query request, the classes are in the namespace `[Net.Http.OData.Query](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Net.Http.OData.Query)`.
 
-* See the [Query](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Query) page in the wiki for details of the classes.
-* See the [Supported Query Syntax](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Supported-Query-Syntax) page in the wiki for details of the OData query syntax supported by the library.
-* See the [Parsing Query Options](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Parsing-Query-Options) page in the wiki for details of how to parse the `ODataQueryOptions` class.
+Also see:
+
+* [Parsing Query Options](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Parsing-Query-Options) for details of how to parse the `ODataQueryOptions` class.
+* [Supported Query Syntax](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Supported-Query-Syntax) for details of the OData query syntax supported by the library.
 
 ### Supported .NET Versions
 
 The NuGet Package contains binaries compiled against:
 
-* .NET Framework 4.5
 * .NET Standard 2.0
+* .NET Framework 4.5
 
 To find out more, head over to the [Wiki](https://github.com/Net-Http-OData/Net.Http.OData/wiki).
