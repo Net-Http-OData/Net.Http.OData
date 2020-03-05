@@ -13,7 +13,7 @@ namespace Net.Http.OData.Tests.Metadata
         {
             TestHelper.EnsureEDM();
 
-            var serviceOptions = new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion);
+            var serviceOptions = new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None });
 
             var expected = XDocument.Parse($@"<edmx:Edmx xmlns:edmx=""http://docs.oasis-open.org/odata/ns/edmx"" Version=""{serviceOptions.MaxVersion}"">
   <edmx:DataServices>
@@ -263,7 +263,7 @@ namespace Net.Http.OData.Tests.Metadata
 
         [Fact]
         public void Create_Throws_ArgumentNullException_For_Null_EntityDataModel()
-            => Assert.Throws<ArgumentNullException>(() => XmlMetadataProvider.Create(null, ODataServiceOptions.Default));
+            => Assert.Throws<ArgumentNullException>(() => XmlMetadataProvider.Create(null, new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None })));
 
         [Fact]
         public void Create_Throws_ArgumentNullException_For_Null_ODataServiceOptions()

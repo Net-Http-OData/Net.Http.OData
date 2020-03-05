@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 
 namespace Net.Http.OData
@@ -24,12 +25,15 @@ namespace Net.Http.OData
         /// </summary>
         /// <param name="minVersion">The minimum OData version supported by the service.</param>
         /// <param name="maxVersion">The maximum OData version supported by the service.</param>
+        /// <param name="supportedIsolationLevels">The OData-Isolation levels supported by the service.</param>
+        /// <exception cref="ArgumentNullException">Thrown if any constructor argument is null.</exception>
         public ODataServiceOptions(
             ODataVersion minVersion,
-            ODataVersion maxVersion)
+            ODataVersion maxVersion,
+            IReadOnlyCollection<ODataIsolationLevel> supportedIsolationLevels)
         {
-            MaxVersion = maxVersion;
-            MinVersion = minVersion;
+            MaxVersion = maxVersion ?? throw new ArgumentNullException(nameof(maxVersion));
+            MinVersion = minVersion ?? throw new ArgumentNullException(nameof(minVersion));
 
             SupportedFilterFunctions = new[]
             {
@@ -69,17 +73,14 @@ namespace Net.Http.OData
                 "isof",
             };
 
+            SupportedIsolationLevels = supportedIsolationLevels ?? throw new ArgumentNullException(nameof(supportedIsolationLevels));
+
             SupportedMetadataLevels = new[]
             {
                 ODataMetadataLevel.None,
                 ODataMetadataLevel.Minimal,
             };
         }
-
-        /// <summary>
-        /// Gets the default OData service options with the minimum and maximum versions as supported by the library.
-        /// </summary>
-        public static ODataServiceOptions Default { get; } = new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion);
 
         /// <summary>
         /// Gets the maximum OData version supported by the service.
@@ -97,7 +98,12 @@ namespace Net.Http.OData
         public IReadOnlyCollection<string> SupportedFilterFunctions { get; }
 
         /// <summary>
-        /// Gets the metadata levels supported by the service.
+        /// Gets the OData-Isolation levels supported by the service.
+        /// </summary>
+        public IReadOnlyCollection<ODataIsolationLevel> SupportedIsolationLevels { get; }
+
+        /// <summary>
+        /// Gets the odata.metadata levels supported by the service.
         /// </summary>
         public IReadOnlyCollection<ODataMetadataLevel> SupportedMetadataLevels { get; }
     }
