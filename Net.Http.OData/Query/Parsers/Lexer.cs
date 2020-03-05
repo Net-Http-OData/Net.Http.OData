@@ -44,7 +44,7 @@ namespace Net.Http.OData.Query.Parsers
             new TokenDefinition(TokenType.Base64Binary,         @"binary'[a-zA-Z0-9\+/]*={0,2}'"),
             new TokenDefinition(TokenType.Enum,                 @"\w+(\.\w+)+'\w+(\,\w+)*'"),
             new TokenDefinition(TokenType.EdmType,              @"([a-zA-Z]+\.)+[a-zA-Z0-9]+(?=\))"),
-            new TokenDefinition(TokenType.PropertyName,         @"[\w\/]+"),
+            new TokenDefinition(TokenType.PropertyName,         @"(\w+\/?)+"),
             new TokenDefinition(TokenType.String,               @"'(?:''|[\w\s-.~!$&()*+,;=@\\\/]*)*'"),
             new TokenDefinition(TokenType.Whitespace,           @"\s", ignore: true),
         };
