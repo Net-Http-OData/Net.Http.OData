@@ -31,21 +31,21 @@ namespace Net.Http.OData.Model
         /// <param name="propertyType">Type of the edm.</param>
         /// <param name="declaringType">Type of the declaring.</param>
         /// <param name="isNavigable">A lazy value which indicates whether the property is a navigation property.</param>
-        /// <exception cref="ArgumentNullException">Constructor argument not specified.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if any constructor argument is null.</exception>
         internal EdmProperty(PropertyInfo propertyInfo, EdmType propertyType, EdmComplexType declaringType, Lazy<bool> isNavigable)
         {
             ClrProperty = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
-            Name = propertyInfo.Name;
             PropertyType = propertyType ?? throw new ArgumentNullException(nameof(propertyType));
             DeclaringType = declaringType ?? throw new ArgumentNullException(nameof(declaringType));
-            _isNavigable = isNavigable;
+            _isNavigable = isNavigable ?? throw new ArgumentNullException(nameof(isNavigable));
 
+            Name = propertyInfo.Name;
             IsNullable = Nullable.GetUnderlyingType(propertyType.ClrType) != null
                 || ((propertyType.ClrType.IsClass || propertyType.ClrType.IsInterface) && propertyInfo.GetCustomAttribute<RequiredAttribute>() == null);
         }
 
         /// <summary>
-        /// Gets the CLR property.
+        /// Gets the underlying CLR <see cref="PropertyInfo"/> this property represents in the Entity Data Model represents.
         /// </summary>
         public PropertyInfo ClrProperty { get; }
 

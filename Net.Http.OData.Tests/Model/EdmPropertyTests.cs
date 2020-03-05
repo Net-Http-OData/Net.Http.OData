@@ -15,7 +15,7 @@ namespace Net.Http.OData.Tests.Model
 
             var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, new Lazy<bool>(() => true));
 
-            Assert.NotNull(edmProperty.ClrProperty);
+            Assert.Same(type.GetProperty("CompanyName"), edmProperty.ClrProperty);
             Assert.Same(edmComplexType, edmProperty.DeclaringType);
             Assert.True(edmProperty.IsNavigable);
             Assert.Equal("CompanyName", edmProperty.Name);
@@ -24,27 +24,19 @@ namespace Net.Http.OData.Tests.Model
 
         [Fact]
         public void Constructor_Throws_ArgumentNullException_For_Null_DeclaringType()
-        {
-            Assert.Throws<ArgumentNullException>(() => new EdmProperty(typeof(Customer).GetProperty("CompanyName"), EdmPrimitiveType.String, null, new Lazy<bool>(() => false)));
-        }
+            => Assert.Throws<ArgumentNullException>(() => new EdmProperty(typeof(Customer).GetProperty("CompanyName"), EdmPrimitiveType.String, null, new Lazy<bool>(() => false)));
+
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_For_Null_IsNavigable()
+            => Assert.Throws<ArgumentNullException>(() => new EdmProperty(typeof(Customer).GetProperty("CompanyName"), EdmPrimitiveType.String, new EdmComplexType(typeof(Customer), new EdmProperty[0]), null));
 
         [Fact]
         public void Constructor_Throws_ArgumentNullException_For_Null_PropertyInfo()
-        {
-            Type type = typeof(Customer);
-            var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
-
-            Assert.Throws<ArgumentNullException>(() => new EdmProperty(null, EdmPrimitiveType.String, edmComplexType, new Lazy<bool>(() => false)));
-        }
+            => Assert.Throws<ArgumentNullException>(() => new EdmProperty(null, EdmPrimitiveType.String, new EdmComplexType(typeof(Customer), new EdmProperty[0]), new Lazy<bool>(() => false)));
 
         [Fact]
         public void Constructor_Throws_ArgumentNullException_For_Null_PropertyType()
-        {
-            Type type = typeof(Customer);
-            var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
-
-            Assert.Throws<ArgumentNullException>(() => new EdmProperty(type.GetProperty("CompanyName"), null, edmComplexType, new Lazy<bool>(() => false)));
-        }
+            => Assert.Throws<ArgumentNullException>(() => new EdmProperty(typeof(Customer).GetProperty("CompanyName"), null, new EdmComplexType(typeof(Customer), new EdmProperty[0]), new Lazy<bool>(() => false)));
 
         [Fact]
         public void IsNullable_ReturnsFalse_ForClass_WithRequiredAttribute()
