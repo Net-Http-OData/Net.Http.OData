@@ -23,6 +23,10 @@ namespace Net.Http.OData.Tests.Model
             _entityDataModel = entityDataModelBuilder.BuildModel();
         }
 
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_For_Null_EntitySets()
+            => Assert.Throws<ArgumentNullException>(() => new EntityDataModel(null));
+
         [Theory]
         [InlineData("/odata/products")]
         [InlineData("/OData/Products")]
