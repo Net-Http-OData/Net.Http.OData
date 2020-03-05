@@ -59,10 +59,6 @@ namespace Net.Http.OData.Model
         /// </summary>
         public static EdmType Decimal { get; } = new EdmPrimitiveType(typeof(decimal), "Decimal");
 
-#pragma warning restore CA1720 // Identifier contains type name
-
-#pragma warning disable CA1720 // Identifier contains type name
-
         /// <summary>
         /// Gets the EdmType which represents a floating point number with 15 digits precision that can represent values with approximate range of ± 2.23e -308 through ± 1.79e +308.
         /// </summary>
@@ -82,27 +78,15 @@ namespace Net.Http.OData.Model
         /// </summary>
         public static EdmType Guid { get; } = new EdmPrimitiveType(typeof(Guid), "Guid");
 
-#pragma warning restore CA1720 // Identifier contains type name
-
-#pragma warning disable CA1720 // Identifier contains type name
-
         /// <summary>
         /// Gets the EdmType which represents a signed 16-bit integer value.
         /// </summary>
         public static EdmType Int16 { get; } = new EdmPrimitiveType(typeof(short), "Int16");
 
-#pragma warning restore CA1720 // Identifier contains type name
-
-#pragma warning disable CA1720 // Identifier contains type name
-
         /// <summary>
         /// Gets the EdmType which represents a signed 32-bit integer value.
         /// </summary>
         public static EdmType Int32 { get; } = new EdmPrimitiveType(typeof(int), "Int32");
-
-#pragma warning restore CA1720 // Identifier contains type name
-
-#pragma warning disable CA1720 // Identifier contains type name
 
         /// <summary>
         /// Gets the EdmType which represents a signed 64-bit integer value.
