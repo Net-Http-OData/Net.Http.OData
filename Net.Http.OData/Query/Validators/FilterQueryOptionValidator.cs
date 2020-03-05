@@ -168,29 +168,6 @@ namespace Net.Http.OData.Query.Validators
             }
         }
 
-        private static void ValidateTypeFunctions(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
-        {
-            if (validationSettings.AllowedFunctions == AllowedFunctions.AllFunctions
-                || validationSettings.AllowedFunctions == AllowedFunctions.AllTypeFunctions)
-            {
-                return;
-            }
-
-            string rawFilterValue = queryOptions.RawValues.Filter;
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.Cast) != AllowedFunctions.Cast
-                && rawFilterValue.Contains("cast("))
-            {
-                throw new ODataException("Unsupported function cast", HttpStatusCode.NotImplemented);
-            }
-
-            if ((validationSettings.AllowedFunctions & AllowedFunctions.IsOf) != AllowedFunctions.IsOf
-                && rawFilterValue.Contains("isof("))
-            {
-                throw new ODataException("Unsupported function isof", HttpStatusCode.NotImplemented);
-            }
-        }
-
         private static void ValidateLogicalOperators(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
         {
             if (validationSettings.AllowedLogicalOperators == AllowedLogicalOperators.All)
@@ -358,6 +335,29 @@ namespace Net.Http.OData.Query.Validators
                 && rawFilterValue.Contains("trim("))
             {
                 throw new ODataException("Unsupported function trim", HttpStatusCode.NotImplemented);
+            }
+        }
+
+        private static void ValidateTypeFunctions(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
+        {
+            if (validationSettings.AllowedFunctions == AllowedFunctions.AllFunctions
+                || validationSettings.AllowedFunctions == AllowedFunctions.AllTypeFunctions)
+            {
+                return;
+            }
+
+            string rawFilterValue = queryOptions.RawValues.Filter;
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Cast) != AllowedFunctions.Cast
+                && rawFilterValue.Contains("cast("))
+            {
+                throw new ODataException("Unsupported function cast", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.IsOf) != AllowedFunctions.IsOf
+                && rawFilterValue.Contains("isof("))
+            {
+                throw new ODataException("Unsupported function isof", HttpStatusCode.NotImplemented);
             }
         }
     }

@@ -172,10 +172,10 @@ namespace Net.Http.OData.Tests.Query
             public void TheSameOrderByOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.OrderBy, _queryOptions.OrderBy);
 
             [Fact]
-            public void TheSameSelectOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Select, _queryOptions.Select);
+            public void TheSameSearchOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Search, _queryOptions.Search);
 
             [Fact]
-            public void TheSameSearchOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Search, _queryOptions.Search);
+            public void TheSameSelectOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Select, _queryOptions.Select);
 
             [Fact]
             public void TheSameSkipTokenOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.SkipToken, _queryOptions.SkipToken);

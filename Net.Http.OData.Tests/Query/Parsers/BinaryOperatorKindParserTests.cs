@@ -8,6 +8,15 @@ namespace Net.Http.OData.Tests.Query.Parsers
     public class BinaryOperatorKindParserTests
     {
         [Fact]
+        public void ToBinaryOperatorKind_Throws_ODataException_For_UnsupportedOperatorKind()
+        {
+            ODataException odataException = Assert.Throws<ODataException>(() => "wibble".ToBinaryOperatorKind());
+
+            Assert.Equal(ExceptionMessage.InvalidOperator("wibble"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+        }
+
+        [Fact]
         public void ToBinaryOperatorKindReturnsAddForAdd()
         {
             Assert.Equal(BinaryOperatorKind.Add, "add".ToBinaryOperatorKind());
@@ -89,15 +98,6 @@ namespace Net.Http.OData.Tests.Query.Parsers
         public void ToBinaryOperatorKindReturnsSubtractForSub()
         {
             Assert.Equal(BinaryOperatorKind.Subtract, "sub".ToBinaryOperatorKind());
-        }
-
-        [Fact]
-        public void ToBinaryOperatorKind_Throws_ODataException_For_UnsupportedOperatorKind()
-        {
-            ODataException odataException = Assert.Throws<ODataException>(() => "wibble".ToBinaryOperatorKind());
-
-            Assert.Equal(ExceptionMessage.InvalidOperator("wibble"), odataException.Message);
-            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
     }
 }

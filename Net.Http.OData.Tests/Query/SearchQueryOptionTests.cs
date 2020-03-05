@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Net.Http.OData.Query;
+﻿using Net.Http.OData.Query;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query
