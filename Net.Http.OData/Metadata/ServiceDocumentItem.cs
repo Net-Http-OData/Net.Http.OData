@@ -21,9 +21,14 @@ namespace Net.Http.OData.Metadata
     {
         private ServiceDocumentItem(string kind, string name, Uri url)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("The name must be specified", nameof(name));
+            }
+
             Name = name;
             Kind = kind;
-            Url = url;
+            Url = url ?? throw new ArgumentNullException(nameof(url));
         }
 
         /// <summary>
