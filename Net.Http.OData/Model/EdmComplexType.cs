@@ -40,7 +40,7 @@ namespace Net.Http.OData.Model
         public EdmType BaseType { get; }
 
         /// <summary>
-        /// Gets the properties defined on the type.
+        /// Gets the <see cref="EdmProperty"/> instances representing the properties defined on this type.
         /// </summary>
         public IReadOnlyList<EdmProperty> Properties { get; }
 

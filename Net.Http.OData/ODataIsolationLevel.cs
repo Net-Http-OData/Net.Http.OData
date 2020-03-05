@@ -13,7 +13,7 @@
 namespace Net.Http.OData
 {
     /// <summary>
-    /// The OData isolation levels.
+    /// Specifies the isolation of the current request from external changes.
     /// </summary>
     public enum ODataIsolationLevel
     {
@@ -23,7 +23,7 @@ namespace Net.Http.OData
         None = 0,
 
         /// <summary>
-        /// Snapshot isolation level is specified in the request.
+        /// Snapshot isolation guarantees that all data returned for a request, including multiple requests within a batch or results retrieved across multiple pages, will be consistent as of a single point in time. Only data modifications made within the request (for example, by a data modification request within the same batch) are visible
         /// </summary>
         Snapshot = 1,
     }

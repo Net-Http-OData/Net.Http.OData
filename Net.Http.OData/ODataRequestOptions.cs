@@ -15,7 +15,7 @@ using System;
 namespace Net.Http.OData
 {
     /// <summary>
-    /// Contains OData options for the request.
+    /// Contains client specified OData options (or defaults if not specified) for a request.
     /// </summary>
     public sealed class ODataRequestOptions
     {
@@ -26,7 +26,7 @@ namespace Net.Http.OData
         /// <param name="isolationLevel">The OData-Isolation requested by the client, or None if not otherwise specified.</param>
         /// <param name="metadataLevel">The odata.metadata level specified in the ACCEPT header by the client, or Minimal if not otherwise specified.</param>
         /// <param name="version">The OData-Version requested by the client, or the latest supported by this library if not otherwise specified.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="serviceRootUri"/> or <paramref name="version"/> are null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if any constructor argument is null.</exception>
         public ODataRequestOptions(
             Uri serviceRootUri,
             ODataIsolationLevel isolationLevel,
