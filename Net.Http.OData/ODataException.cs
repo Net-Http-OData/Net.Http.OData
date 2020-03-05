@@ -103,6 +103,13 @@ namespace Net.Http.OData
         public static ODataException NotImplemented(string message) => new ODataException(message, HttpStatusCode.NotImplemented);
 
         /// <summary>
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.PreconditionFailed" />.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <returns>The ODataException.</returns>
+        public static ODataException PreconditionFailed(string message) => new ODataException(message, HttpStatusCode.PreconditionFailed);
+
+        /// <summary>
         /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.UnsupportedMediaType" />.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
