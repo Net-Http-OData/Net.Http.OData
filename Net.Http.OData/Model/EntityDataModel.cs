@@ -24,11 +24,8 @@ namespace Net.Http.OData.Model
             => EntitySets = entitySets ?? throw new System.ArgumentNullException(nameof(entitySets));
 
         /// <summary>
-        /// Gets the current Entity Data Model.
+        /// Gets the current Entity Data Model, the value will be null until <see cref="EntityDataModelBuilder.BuildModel" /> has been called.
         /// </summary>
-        /// <remarks>
-        /// Will be null until <see cref="EntityDataModelBuilder" />.BuildModel() has been called.
-        /// </remarks>
         public static EntityDataModel Current { get; internal set; }
 
         /// <summary>
