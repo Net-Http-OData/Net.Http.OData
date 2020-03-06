@@ -15,11 +15,11 @@ Install the nuget package `dotnet add package Net.Http.OData` or `Install-Packag
 
 ## Entity Data Model
 
-The Entity Data Model describes the entitites in the OData service, the classes are in the namespace `[Net.Http.OData.Model](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Net.Http.OData.Model)`.
+The Entity Data Model describes the entitites in the OData service, the classes are in the namespace [Net.Http.OData.Model](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Net.Http.OData.Model).
 
 ## Query
 
-The Query classes describe an OData Query request, the classes are in the namespace `[Net.Http.OData.Query](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Net.Http.OData.Query)`.
+The Query classes describe an OData Query request, the classes are in the namespace [Net.Http.OData.Query](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Net.Http.OData.Query).
 
 Also see:
 
