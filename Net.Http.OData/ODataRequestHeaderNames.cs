@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ODataHeaderNames.cs" company="Project Contributors">
+// <copyright file="ODataRequestHeaderNames.cs" company="Project Contributors">
 // Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +13,9 @@
 namespace Net.Http.OData
 {
     /// <summary>
-    /// The header names for OData HTTP Headers.
+    /// The header names for OData HTTP Request Headers.
     /// </summary>
-    public static class ODataHeaderNames
+    public static class ODataRequestHeaderNames
     {
         /// <summary>
         /// The OData isolation header.
@@ -26,10 +26,5 @@ namespace Net.Http.OData
         /// The OData max version header.
         /// </summary>
         public const string ODataMaxVersion = "OData-MaxVersion";
-
-        /// <summary>
-        /// The OData version header.
-        /// </summary>
-        public const string ODataVersion = "OData-Version";
     }
 }
