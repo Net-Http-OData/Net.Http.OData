@@ -83,6 +83,11 @@ namespace Net.Http.OData
         }
 
         /// <summary>
+        /// Gets or sets the current OData service options.
+        /// </summary>
+        public static ODataServiceOptions Current { get; set; }
+
+        /// <summary>
         /// Gets the maximum OData version supported by the service.
         /// </summary>
         public ODataVersion MaxVersion { get; }
