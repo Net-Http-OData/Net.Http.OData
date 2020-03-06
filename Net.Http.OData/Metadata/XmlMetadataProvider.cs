@@ -32,19 +32,19 @@ namespace Net.Http.OData.Metadata
         /// Creates an <see cref="XDocument"/> containing the Metadata XML document for the Entity Data Model.
         /// </summary>
         /// <param name="entityDataModel">The Entity Data Model to include the Metadata for.</param>
-        /// <param name="serviceOptions">The <see cref="ODataServiceOptions"/> for the service.</param>
+        /// <param name="odataServiceOptions">The <see cref="ODataServiceOptions"/> for the service.</param>
         /// <returns>An <see cref="XDocument"/> containing the Metadata XML document for the Entity Data Model.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entityDataModel"/> or <paramref name="serviceOptions"/> is null.</exception>
-        public static XDocument Create(EntityDataModel entityDataModel, ODataServiceOptions serviceOptions)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entityDataModel"/> or <paramref name="odataServiceOptions"/> is null.</exception>
+        public static XDocument Create(EntityDataModel entityDataModel, ODataServiceOptions odataServiceOptions)
         {
             if (entityDataModel is null)
             {
                 throw new ArgumentNullException(nameof(entityDataModel));
             }
 
-            if (serviceOptions is null)
+            if (odataServiceOptions is null)
             {
-                throw new ArgumentNullException(nameof(serviceOptions));
+                throw new ArgumentNullException(nameof(odataServiceOptions));
             }
 
             var document = new XDocument(
@@ -52,7 +52,7 @@ namespace Net.Http.OData.Metadata
                 new XElement(
                     s_edmxNs + "Edmx",
                     new XAttribute(XNamespace.Xmlns + "edmx", s_edmxNs),
-                    new XAttribute("Version", serviceOptions.MaxVersion),
+                    new XAttribute("Version", odataServiceOptions.MaxVersion),
                     new XElement(
                         s_edmxNs + "DataServices",
                         new XElement(
@@ -65,7 +65,7 @@ namespace Net.Http.OData.Metadata
                             GetFunctions(),
                             GetActions(),
                             GetEntityContainer(entityDataModel),
-                            GetAnnotations(entityDataModel, serviceOptions)))));
+                            GetAnnotations(entityDataModel, odataServiceOptions)))));
 
             return document;
         }
