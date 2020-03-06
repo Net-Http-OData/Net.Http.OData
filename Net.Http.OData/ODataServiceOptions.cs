@@ -26,11 +26,13 @@ namespace Net.Http.OData
         /// <param name="minVersion">The minimum OData version supported by the service.</param>
         /// <param name="maxVersion">The maximum OData version supported by the service.</param>
         /// <param name="supportedIsolationLevels">The OData-Isolation levels supported by the service.</param>
+        /// <param name="supportedMediaTypes">The media types supported by the service.</param>
         /// <exception cref="ArgumentNullException">Thrown if any constructor argument is null.</exception>
         public ODataServiceOptions(
             ODataVersion minVersion,
             ODataVersion maxVersion,
-            IReadOnlyCollection<ODataIsolationLevel> supportedIsolationLevels)
+            IReadOnlyCollection<ODataIsolationLevel> supportedIsolationLevels,
+            IReadOnlyCollection<string> supportedMediaTypes)
         {
             MaxVersion = maxVersion ?? throw new ArgumentNullException(nameof(maxVersion));
             MinVersion = minVersion ?? throw new ArgumentNullException(nameof(minVersion));
@@ -74,6 +76,7 @@ namespace Net.Http.OData
             };
 
             SupportedIsolationLevels = supportedIsolationLevels ?? throw new ArgumentNullException(nameof(supportedIsolationLevels));
+            SupportedMediaTypes = supportedMediaTypes ?? throw new ArgumentNullException(nameof(supportedMediaTypes));
 
             SupportedMetadataLevels = new[]
             {
@@ -106,6 +109,11 @@ namespace Net.Http.OData
         /// Gets the OData-Isolation levels supported by the service.
         /// </summary>
         public IReadOnlyCollection<ODataIsolationLevel> SupportedIsolationLevels { get; }
+
+        /// <summary>
+        /// Gets the media types supported by the service.
+        /// </summary>
+        public IReadOnlyCollection<string> SupportedMediaTypes { get; }
 
         /// <summary>
         /// Gets the odata.metadata levels supported by the service.

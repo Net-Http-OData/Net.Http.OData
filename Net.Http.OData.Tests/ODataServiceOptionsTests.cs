@@ -5,19 +5,23 @@ namespace Net.Http.OData.Tests
 {
     public class ODataServiceOptionsTests
     {
-        private readonly ODataServiceOptions _serviceOptions = new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None });
+        private readonly ODataServiceOptions _serviceOptions = new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None }, new[] { "application/json" });
 
         [Fact]
         public void Constructor_Throws_ArgumentNullException_ForNull_MaxVersion()
-            => Assert.Throws<ArgumentNullException>(() => new ODataServiceOptions(ODataVersion.MinVersion, null, new[] { ODataIsolationLevel.None }));
+            => Assert.Throws<ArgumentNullException>(() => new ODataServiceOptions(ODataVersion.MinVersion, null, new[] { ODataIsolationLevel.None }, new[] { "application/json" }));
 
         [Fact]
         public void Constructor_Throws_ArgumentNullException_ForNull_MinVersion()
-            => Assert.Throws<ArgumentNullException>(() => new ODataServiceOptions(null, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None }));
+            => Assert.Throws<ArgumentNullException>(() => new ODataServiceOptions(null, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None }, new[] { "application/json" }));
 
         [Fact]
         public void Constructor_Throws_ArgumentNullException_ForNull_SupportedIsolationLevels()
-            => Assert.Throws<ArgumentNullException>(() => new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, null));
+            => Assert.Throws<ArgumentNullException>(() => new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, null, new[] { "application/json" }));
+
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_ForNull_SupportedMediaTypes()
+            => Assert.Throws<ArgumentNullException>(() => new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None }, null));
 
         [Fact]
         public void MaxVersion_IsODataVersionMaxVersion() => Assert.Equal(ODataVersion.MaxVersion, _serviceOptions.MaxVersion);

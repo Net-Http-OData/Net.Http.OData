@@ -18,6 +18,13 @@ namespace Net.Http.OData.Tests
             NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
         };
 
+        internal static ODataServiceOptions ODataServiceOptions
+            => new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json", "text/plain" });
+
         internal static void EnsureEDM()
         {
             EntityDataModelBuilder entityDataModelBuilder = new EntityDataModelBuilder(StringComparer.OrdinalIgnoreCase)
