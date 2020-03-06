@@ -29,11 +29,10 @@ namespace Net.Http.OData.Model
         /// <summary>
         /// Initialises a new instance of the <see cref="EntityDataModelBuilder"/> class.
         /// </summary>
-        /// <param name="entitySetNameComparer">The equality comparer to use for the Entity Set name.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entitySetNameComparer"/> is null.</exception>
+        /// <param name="entitySetNameComparer">The equality comparer to use for the Entity Set name, or null to use the default string equality comparer.</param>
         public EntityDataModelBuilder(IEqualityComparer<string> entitySetNameComparer)
         {
-            _entitySets = new Dictionary<string, EntitySet>(entitySetNameComparer) ?? throw new ArgumentNullException(nameof(entitySetNameComparer));
+            _entitySets = new Dictionary<string, EntitySet>(entitySetNameComparer);
             _entityDataModel = new EntityDataModel(_entitySets);
         }
 
