@@ -29,11 +29,11 @@ namespace Net.Http.OData.Tests
             => Assert.Throws<ArgumentNullException>(() => new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None }, null));
 
         [Fact]
-        public void MaxVersion_IsODataVersionMaxVersion()
+        public void MaxVersion_IsODataVersion_IsSet()
             => Assert.Equal(ODataVersion.MaxVersion, _odataServiceOptions.MaxVersion);
 
         [Fact]
-        public void MinVersion_IsODataVersionMinVersion()
+        public void MinVersion_IsODataVersion_IsSet()
             => Assert.Equal(ODataVersion.MinVersion, _odataServiceOptions.MinVersion);
 
         [Fact]
@@ -85,6 +85,14 @@ namespace Net.Http.OData.Tests
             Assert.Contains(ODataIsolationLevel.None, _odataServiceOptions.SupportedIsolationLevels);
 
             Assert.DoesNotContain(ODataIsolationLevel.Snapshot, _odataServiceOptions.SupportedIsolationLevels);
+        }
+
+        [Fact]
+        public void SupportedMediaTypes_AreSet()
+        {
+            Assert.Equal(1, _odataServiceOptions.SupportedMediaTypes.Count);
+
+            Assert.Contains("application/json", _odataServiceOptions.SupportedMediaTypes);
         }
 
         [Fact]
@@ -166,7 +174,7 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Validate_Throws_ODataException_If_ODataMaxVersion_NotSupported()
+        public void Validate_Throws_ODataException_If_ODataMaxVersion_AboveMaxSupported()
         {
             var odataRequestOptions = new ODataRequestOptions(
                 new Uri("https://services.odata.org/OData"),
@@ -188,13 +196,57 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Validate_Throws_ODataException_If_ODataVersion_NotSupported()
+        public void Validate_Throws_ODataException_If_ODataMaxVersion_BelowMaxSupported()
         {
             var odataRequestOptions = new ODataRequestOptions(
                 new Uri("https://services.odata.org/OData"),
                 ODataIsolationLevel.None,
                 ODataMetadataLevel.Minimal,
-                ODataVersion.Parse("3.0"),
+                ODataVersion.OData40, // symantically this makes no sense but the scenario is needed for the test case.
+                ODataVersion.Parse("3.0"));
+
+            var odataServiceOptions = new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json" });
+
+            ODataException odataException = Assert.Throws<ODataException>(() => odataServiceOptions.Validate(odataRequestOptions));
+
+            Assert.Equal(ExceptionMessage.ODataMaxVersionNotSupported(odataRequestOptions.ODataMaxVersion, odataServiceOptions.MinVersion, odataServiceOptions.MaxVersion), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Validate_Throws_ODataException_If_ODataVersion_AboveMinSupported()
+        {
+            var odataRequestOptions = new ODataRequestOptions(
+                new Uri("https://services.odata.org/OData"),
+                ODataIsolationLevel.None,
+                ODataMetadataLevel.Minimal,
+                ODataVersion.Parse("5.0"), // symantically this makes no sense but the scenario is needed for the test case.
+                ODataVersion.OData40);
+
+            var odataServiceOptions = new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json" });
+
+            ODataException odataException = Assert.Throws<ODataException>(() => odataServiceOptions.Validate(odataRequestOptions));
+
+            Assert.Equal(ExceptionMessage.ODataVersionNotSupported(odataRequestOptions.ODataVersion, odataServiceOptions.MinVersion, odataServiceOptions.MaxVersion), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Validate_Throws_ODataException_If_ODataVersion_BelowMinSupported()
+        {
+            var odataRequestOptions = new ODataRequestOptions(
+                new Uri("https://services.odata.org/OData"),
+                ODataIsolationLevel.None,
+                ODataMetadataLevel.Minimal,
+                ODataVersion.Parse("3.0"), // symantically this makes no sense but the scenario is needed for the test case.
                 ODataVersion.OData40);
 
             var odataServiceOptions = new ODataServiceOptions(
