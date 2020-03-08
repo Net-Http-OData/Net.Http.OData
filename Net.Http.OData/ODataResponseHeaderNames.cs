@@ -18,8 +18,9 @@ namespace Net.Http.OData
     public static class ODataResponseHeaderNames
     {
         /// <summary>
-        /// The OData version header.
+        /// The OData version header which contains the OData version used to generate the response.
         /// </summary>
+        /// <remarks>OData services MUST include the OData-Version header on a response to specify the version of the protocol used to generate the response.</remarks>
         public const string ODataVersion = "OData-Version";
     }
 }

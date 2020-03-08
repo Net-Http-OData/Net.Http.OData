@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Net.Http.OData
@@ -29,6 +30,18 @@ namespace Net.Http.OData
 
         internal static string InvalidOrderByDirection(string orderByDirection, string propertyName)
             => $"The supplied order value '{orderByDirection}' for {propertyName} is invalid, valid options are 'asc' and 'desc'";
+
+        internal static string ODataIsolationLevelNotSupported(string isolationLevel)
+            => $"{ODataRequestHeaderNames.ODataIsolation} '{isolationLevel}' is not supported by this service.";
+
+        internal static string ODataMaxVersionNotSupported(ODataVersion odataMaxVersion, ODataVersion minVersion, ODataVersion maxVersion)
+            => $"The OData version '{odataMaxVersion}' specified in the {ODataRequestHeaderNames.ODataMaxVersion} header indicating the maximum acceptable version of the response must be a valid OData version supported by this service between version '{minVersion}' and '{maxVersion}'.";
+
+        internal static string ODataMetadataLevelNotSupported(string metadataLevel, IEnumerable<string> metadataLevels)
+            => $"odata.metadata '{metadataLevel}' is not supported by this service, the metadata levels supported by this service are '{string.Join(", ", metadataLevels)}'.";
+
+        internal static string ODataVersionNotSupported(ODataVersion odataVersion, ODataVersion minVersion, ODataVersion maxVersion)
+            => $"The OData version '{odataVersion}' specified in the {ODataRequestHeaderNames.ODataVersion} header indicating the version used to generate the request must be a valid OData version supported by this service between version '{minVersion}' and '{maxVersion}'.";
 
         internal static string PropertyNotNavigable(string propertyName, string propertyPath)
             => $"The property '{propertyName}' in the path '{propertyPath}' is not a navigable property.";

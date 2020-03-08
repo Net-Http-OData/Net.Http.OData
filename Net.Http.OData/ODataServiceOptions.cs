@@ -12,6 +12,7 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Net.Http.OData
 {
@@ -119,5 +120,42 @@ namespace Net.Http.OData
         /// Gets the odata.metadata levels supported by the service.
         /// </summary>
         public IReadOnlyCollection<ODataMetadataLevel> SupportedMetadataLevels { get; }
+
+        /// <summary>
+        /// Validates the specified <see cref="ODataRequestOptions"/> are acceptable to the service.
+        /// </summary>
+        /// <param name="odataRequestOptions">The <see cref="ODataRequestOptions"/> to validate.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="odataRequestOptions"/> is null.</exception>
+        /// <exception cref="ODataException">Thrown if the request is not acceptable.</exception>
+        public void Validate(ODataRequestOptions odataRequestOptions)
+        {
+            if (odataRequestOptions is null)
+            {
+                throw new ArgumentNullException(nameof(odataRequestOptions));
+            }
+
+            if (!SupportedIsolationLevels.Contains(odataRequestOptions.IsolationLevel))
+            {
+                throw ODataException.PreconditionFailed(ExceptionMessage.ODataIsolationLevelNotSupported(odataRequestOptions.IsolationLevel.ToString()));
+            }
+
+            if (!SupportedMetadataLevels.Contains(odataRequestOptions.MetadataLevel))
+            {
+                throw ODataException.BadRequest(
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                    ExceptionMessage.ODataMetadataLevelNotSupported(odataRequestOptions.MetadataLevel.ToString().ToLowerInvariant(), SupportedMetadataLevels.Select(x => x.ToString().ToLowerInvariant())));
+#pragma warning restore CA1308 // Normalize strings to uppercase
+            }
+
+            if (odataRequestOptions.ODataVersion < MinVersion || odataRequestOptions.ODataVersion > MaxVersion)
+            {
+                throw ODataException.BadRequest(ExceptionMessage.ODataVersionNotSupported(odataRequestOptions.ODataVersion, MinVersion, MaxVersion));
+            }
+
+            if (odataRequestOptions.ODataMaxVersion < MinVersion || odataRequestOptions.ODataMaxVersion > MaxVersion)
+            {
+                throw ODataException.BadRequest(ExceptionMessage.ODataMaxVersionNotSupported(odataRequestOptions.ODataMaxVersion, MinVersion, MaxVersion));
+            }
+        }
     }
 }

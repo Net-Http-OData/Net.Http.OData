@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Net;
 using Xunit;
 
 namespace Net.Http.OData.Tests
 {
     public class ODataServiceOptionsTests
     {
-        private readonly ODataServiceOptions _serviceOptions = new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None }, new[] { "application/json" });
+        private readonly ODataServiceOptions _odataServiceOptions = new ODataServiceOptions(
+            ODataVersion.MinVersion,
+            ODataVersion.MaxVersion,
+            new[] { ODataIsolationLevel.None },
+            new[] { "application/json" });
 
         [Fact]
         public void Constructor_Throws_ArgumentNullException_ForNull_MaxVersion()
@@ -24,71 +29,184 @@ namespace Net.Http.OData.Tests
             => Assert.Throws<ArgumentNullException>(() => new ODataServiceOptions(ODataVersion.MinVersion, ODataVersion.MaxVersion, new[] { ODataIsolationLevel.None }, null));
 
         [Fact]
-        public void MaxVersion_IsODataVersionMaxVersion() => Assert.Equal(ODataVersion.MaxVersion, _serviceOptions.MaxVersion);
+        public void MaxVersion_IsODataVersionMaxVersion()
+            => Assert.Equal(ODataVersion.MaxVersion, _odataServiceOptions.MaxVersion);
 
         [Fact]
-        public void MinVersion_IsODataVersionMinVersion() => Assert.Equal(ODataVersion.MinVersion, _serviceOptions.MinVersion);
+        public void MinVersion_IsODataVersionMinVersion()
+            => Assert.Equal(ODataVersion.MinVersion, _odataServiceOptions.MinVersion);
 
         [Fact]
         public void SupportedFilterFunctions_AreSet()
         {
-            Assert.Equal(27, _serviceOptions.SupportedFilterFunctions.Count);
+            Assert.Equal(27, _odataServiceOptions.SupportedFilterFunctions.Count);
 
             // String functions
-            Assert.Contains("concat", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("contains", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("endswith", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("indexof", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("length", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("startswith", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("substring", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("tolower", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("toupper", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("trim", _serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("concat", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("contains", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("endswith", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("indexof", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("length", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("startswith", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("substring", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("tolower", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("toupper", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("trim", _odataServiceOptions.SupportedFilterFunctions);
 
             // Date functions
-            Assert.Contains("date", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("day", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("fractionalseconds", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("hour", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("maxdatetime", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("mindatetime", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("minute", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("month", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("now", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("second", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("totaloffsetminutes", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("year", _serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("date", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("day", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("fractionalseconds", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("hour", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("maxdatetime", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("mindatetime", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("minute", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("month", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("now", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("second", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("totaloffsetminutes", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("year", _odataServiceOptions.SupportedFilterFunctions);
 
             // Math functions
-            Assert.Contains("ceiling", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("floor", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("round", _serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("ceiling", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("floor", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("round", _odataServiceOptions.SupportedFilterFunctions);
 
             // Type functions
-            Assert.Contains("cast", _serviceOptions.SupportedFilterFunctions);
-            Assert.Contains("isof", _serviceOptions.SupportedFilterFunctions);
+            Assert.Contains("cast", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains("isof", _odataServiceOptions.SupportedFilterFunctions);
         }
 
         [Fact]
         public void SupportedIsolationLevels_AreSet()
         {
-            Assert.Equal(1, _serviceOptions.SupportedIsolationLevels.Count);
+            Assert.Equal(1, _odataServiceOptions.SupportedIsolationLevels.Count);
 
-            Assert.Contains(ODataIsolationLevel.None, _serviceOptions.SupportedIsolationLevels);
+            Assert.Contains(ODataIsolationLevel.None, _odataServiceOptions.SupportedIsolationLevels);
 
-            Assert.DoesNotContain(ODataIsolationLevel.Snapshot, _serviceOptions.SupportedIsolationLevels);
+            Assert.DoesNotContain(ODataIsolationLevel.Snapshot, _odataServiceOptions.SupportedIsolationLevels);
         }
 
         [Fact]
         public void SupportedMetadataLevels_AreSet()
         {
-            Assert.Equal(2, _serviceOptions.SupportedMetadataLevels.Count);
+            Assert.Equal(2, _odataServiceOptions.SupportedMetadataLevels.Count);
 
-            Assert.Contains(ODataMetadataLevel.None, _serviceOptions.SupportedMetadataLevels);
-            Assert.Contains(ODataMetadataLevel.Minimal, _serviceOptions.SupportedMetadataLevels);
+            Assert.Contains(ODataMetadataLevel.None, _odataServiceOptions.SupportedMetadataLevels);
+            Assert.Contains(ODataMetadataLevel.Minimal, _odataServiceOptions.SupportedMetadataLevels);
 
-            Assert.DoesNotContain(ODataMetadataLevel.Full, _serviceOptions.SupportedMetadataLevels);
+            Assert.DoesNotContain(ODataMetadataLevel.Full, _odataServiceOptions.SupportedMetadataLevels);
+        }
+
+        [Fact]
+        public void Validate_DoesNotThrow_If_AllRequestOptions_Supported()
+        {
+            var odataRequestOptions = new ODataRequestOptions(
+                new Uri("https://services.odata.org/OData"),
+                ODataIsolationLevel.None,
+                ODataMetadataLevel.Minimal,
+                ODataVersion.OData40,
+                ODataVersion.OData40);
+
+            var odataServiceOptions = new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json" });
+
+            odataServiceOptions.Validate(odataRequestOptions);
+        }
+
+        [Fact]
+        public void Validate_Throws_ArgumentNullException_ForNullODataRequestOptions()
+            => Assert.Throws<ArgumentNullException>(() => _odataServiceOptions.Validate(null));
+
+        [Fact]
+        public void Validate_Throws_ODataException_If_IsolationLevel_NotSupported()
+        {
+            var odataRequestOptions = new ODataRequestOptions(
+                new Uri("https://services.odata.org/OData"),
+                ODataIsolationLevel.Snapshot,
+                ODataMetadataLevel.Minimal,
+                ODataVersion.OData40,
+                ODataVersion.OData40);
+
+            var odataServiceOptions = new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json" });
+
+            ODataException odataException = Assert.Throws<ODataException>(() => odataServiceOptions.Validate(odataRequestOptions));
+
+            Assert.Equal(ExceptionMessage.ODataIsolationLevelNotSupported("Snapshot"), odataException.Message);
+            Assert.Equal(HttpStatusCode.PreconditionFailed, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Validate_Throws_ODataException_If_MetadataLevel_NotSupported()
+        {
+            var odataRequestOptions = new ODataRequestOptions(
+                new Uri("https://services.odata.org/OData"),
+                ODataIsolationLevel.None,
+                ODataMetadataLevel.Full,
+                ODataVersion.OData40,
+                ODataVersion.OData40);
+
+            var odataServiceOptions = new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json" });
+
+            ODataException odataException = Assert.Throws<ODataException>(() => odataServiceOptions.Validate(odataRequestOptions));
+
+            Assert.Equal(ExceptionMessage.ODataMetadataLevelNotSupported("full", new[] { "none", "minimal" }), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Validate_Throws_ODataException_If_ODataMaxVersion_NotSupported()
+        {
+            var odataRequestOptions = new ODataRequestOptions(
+                new Uri("https://services.odata.org/OData"),
+                ODataIsolationLevel.None,
+                ODataMetadataLevel.Minimal,
+                ODataVersion.OData40,
+                ODataVersion.Parse("5.0"));
+
+            var odataServiceOptions = new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json" });
+
+            ODataException odataException = Assert.Throws<ODataException>(() => odataServiceOptions.Validate(odataRequestOptions));
+
+            Assert.Equal(ExceptionMessage.ODataMaxVersionNotSupported(odataRequestOptions.ODataMaxVersion, odataServiceOptions.MinVersion, odataServiceOptions.MaxVersion), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Validate_Throws_ODataException_If_ODataVersion_NotSupported()
+        {
+            var odataRequestOptions = new ODataRequestOptions(
+                new Uri("https://services.odata.org/OData"),
+                ODataIsolationLevel.None,
+                ODataMetadataLevel.Minimal,
+                ODataVersion.Parse("3.0"),
+                ODataVersion.OData40);
+
+            var odataServiceOptions = new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json" });
+
+            ODataException odataException = Assert.Throws<ODataException>(() => odataServiceOptions.Validate(odataRequestOptions));
+
+            Assert.Equal(ExceptionMessage.ODataVersionNotSupported(odataRequestOptions.ODataVersion, odataServiceOptions.MinVersion, odataServiceOptions.MaxVersion), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Net.Http.OData.Tests.Metadata
 
             List<ServiceDocumentItem> serviceDocumentItems = ServiceDocumentProvider.Create(
                 EntityDataModel.Current,
-                new ODataRequestOptions(new Uri("https://services.odata.org/OData"), ODataIsolationLevel.None, ODataMetadataLevel.Minimal, ODataVersion.OData40))
+                new ODataRequestOptions(new Uri("https://services.odata.org/OData"), ODataIsolationLevel.None, ODataMetadataLevel.Minimal, ODataVersion.OData40, ODataVersion.OData40))
                 .ToList();
 
             Assert.Equal(6, serviceDocumentItems.Count);
@@ -53,7 +53,7 @@ namespace Net.Http.OData.Tests.Metadata
 
             List<ServiceDocumentItem> serviceDocumentItems = ServiceDocumentProvider.Create(
                 EntityDataModel.Current,
-                new ODataRequestOptions(new Uri("https://services.odata.org/OData/"), ODataIsolationLevel.None, ODataMetadataLevel.None, ODataVersion.OData40))
+                new ODataRequestOptions(new Uri("https://services.odata.org/OData/"), ODataIsolationLevel.None, ODataMetadataLevel.None, ODataVersion.OData40, ODataVersion.OData40))
                 .ToList();
 
             Assert.Equal(6, serviceDocumentItems.Count);
@@ -87,7 +87,7 @@ namespace Net.Http.OData.Tests.Metadata
         public void Create_Throws_ArgumentNullException_For_Null_EntityDataModel()
             => Assert.Throws<ArgumentNullException>(() => ServiceDocumentProvider.Create(
                 null,
-                new ODataRequestOptions(new Uri("https://services.odata.org/OData"), ODataIsolationLevel.None, ODataMetadataLevel.Minimal, ODataVersion.OData40)));
+                new ODataRequestOptions(new Uri("https://services.odata.org/OData"), ODataIsolationLevel.None, ODataMetadataLevel.Minimal, ODataVersion.OData40, ODataVersion.OData40)));
 
         [Fact]
         public void Create_Throws_ArgumentNullException_For_Null_ODataRequestOptions()

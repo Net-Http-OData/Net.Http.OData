@@ -25,18 +25,21 @@ namespace Net.Http.OData
         /// <param name="serviceRootUri">The root URI of the OData Service.</param>
         /// <param name="isolationLevel">The OData-Isolation requested by the client, or None if not otherwise specified.</param>
         /// <param name="metadataLevel">The odata.metadata level specified in the ACCEPT header by the client, or Minimal if not otherwise specified.</param>
-        /// <param name="version">The OData-Version requested by the client, or the latest supported by this library if not otherwise specified.</param>
+        /// <param name="odataVersion">The OData-Version used by the client to generate the request, or the maximum supported by this library if not otherwise specified.</param>
+        /// <param name="odataMaxVersion">The OData-MaxVersion requested by the client for the server response, or the latest supported by this library if not otherwise specified.</param>
         /// <exception cref="ArgumentNullException">Thrown if any constructor argument is null.</exception>
         public ODataRequestOptions(
             Uri serviceRootUri,
             ODataIsolationLevel isolationLevel,
             ODataMetadataLevel metadataLevel,
-            ODataVersion version)
+            ODataVersion odataVersion,
+            ODataVersion odataMaxVersion)
         {
             ServiceRootUri = serviceRootUri ?? throw new ArgumentNullException(nameof(serviceRootUri));
             IsolationLevel = isolationLevel;
             MetadataLevel = metadataLevel;
-            Version = version ?? throw new ArgumentNullException(nameof(version));
+            ODataVersion = odataVersion ?? throw new ArgumentNullException(nameof(odataVersion));
+            ODataMaxVersion = odataMaxVersion ?? throw new ArgumentNullException(nameof(odataMaxVersion));
         }
 
         /// <summary>
@@ -50,13 +53,18 @@ namespace Net.Http.OData
         public ODataMetadataLevel MetadataLevel { get; }
 
         /// <summary>
+        /// Gets the OData-MaxVersion requested by the client for the server response, or the latest supported by this library if not otherwise specified.
+        /// </summary>
+        public ODataVersion ODataMaxVersion { get; }
+
+        /// <summary>
+        /// Gets the OData-Version used by the client to generate the request, or the maximum supported by this library if not otherwise specified.
+        /// </summary>
+        public ODataVersion ODataVersion { get; }
+
+        /// <summary>
         /// Gets the root URI of the OData Service.
         /// </summary>
         public Uri ServiceRootUri { get; }
-
-        /// <summary>
-        /// Gets the OData-Version requested by the client, or the latest supported by this library if not otherwise specified.
-        /// </summary>
-        public ODataVersion Version { get; }
     }
 }
