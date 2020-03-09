@@ -122,7 +122,30 @@ namespace Net.Http.OData
         public IReadOnlyCollection<ODataMetadataLevel> SupportedMetadataLevels { get; }
 
         /// <summary>
-        /// Validates the specified <see cref="ODataRequestOptions"/> are acceptable to the service.
+        /// Validates one or more of the specified media types are acceptable to this service.
+        /// </summary>
+        /// <param name="requestedMediaTypes">The media type(s) from the Accept header in the request.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="requestedMediaTypes"/> is null.</exception>
+        public void Validate(IEnumerable<string> requestedMediaTypes)
+        {
+            if (requestedMediaTypes is null)
+            {
+                throw new ArgumentNullException(nameof(requestedMediaTypes));
+            }
+
+            foreach (string mediaType in requestedMediaTypes)
+            {
+                if (SupportedMediaTypes.Contains(mediaType))
+                {
+                    return;
+                }
+            }
+
+            throw ODataException.UnsupportedMediaType(ExceptionMessage.MediaTypeNotSupported(SupportedMediaTypes, SupportedMetadataLevels, requestedMediaTypes));
+        }
+
+        /// <summary>
+        /// Validates the specified <see cref="ODataRequestOptions"/> are acceptable to this service.
         /// </summary>
         /// <param name="odataRequestOptions">The <see cref="ODataRequestOptions"/> to validate.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="odataRequestOptions"/> is null.</exception>

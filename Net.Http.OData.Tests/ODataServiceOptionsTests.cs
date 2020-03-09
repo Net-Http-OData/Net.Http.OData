@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using Xunit;
 
@@ -107,7 +108,7 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Validate_DoesNotThrow_If_AllRequestOptions_Supported()
+        public void Validate_ODataRequestOptions_DoesNotThrow_If_AllRequestOptions_Supported()
         {
             var odataRequestOptions = new ODataRequestOptions(
                 new Uri("https://services.odata.org/OData"),
@@ -126,11 +127,7 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Validate_Throws_ArgumentNullException_ForNullODataRequestOptions()
-            => Assert.Throws<ArgumentNullException>(() => _odataServiceOptions.Validate(null));
-
-        [Fact]
-        public void Validate_Throws_ODataException_If_IsolationLevel_NotSupported()
+        public void Validate_ODataRequestOptions_Throws_ODataException_If_IsolationLevel_NotSupported()
         {
             var odataRequestOptions = new ODataRequestOptions(
                 new Uri("https://services.odata.org/OData"),
@@ -152,7 +149,7 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Validate_Throws_ODataException_If_MetadataLevel_NotSupported()
+        public void Validate_ODataRequestOptions_Throws_ODataException_If_MetadataLevel_NotSupported()
         {
             var odataRequestOptions = new ODataRequestOptions(
                 new Uri("https://services.odata.org/OData"),
@@ -174,7 +171,7 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Validate_Throws_ODataException_If_ODataMaxVersion_AboveMaxSupported()
+        public void Validate_ODataRequestOptions_Throws_ODataException_If_ODataMaxVersion_AboveMaxSupported()
         {
             var odataRequestOptions = new ODataRequestOptions(
                 new Uri("https://services.odata.org/OData"),
@@ -196,7 +193,7 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Validate_Throws_ODataException_If_ODataMaxVersion_BelowMaxSupported()
+        public void Validate_ODataRequestOptions_Throws_ODataException_If_ODataMaxVersion_BelowMaxSupported()
         {
             var odataRequestOptions = new ODataRequestOptions(
                 new Uri("https://services.odata.org/OData"),
@@ -218,7 +215,7 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Validate_Throws_ODataException_If_ODataVersion_AboveMinSupported()
+        public void Validate_ODataRequestOptions_Throws_ODataException_If_ODataVersion_AboveMinSupported()
         {
             var odataRequestOptions = new ODataRequestOptions(
                 new Uri("https://services.odata.org/OData"),
@@ -240,7 +237,7 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void Validate_Throws_ODataException_If_ODataVersion_BelowMinSupported()
+        public void Validate_ODataRequestOptions_Throws_ODataException_If_ODataVersion_BelowMinSupported()
         {
             var odataRequestOptions = new ODataRequestOptions(
                 new Uri("https://services.odata.org/OData"),
@@ -260,5 +257,40 @@ namespace Net.Http.OData.Tests
             Assert.Equal(ExceptionMessage.ODataVersionNotSupported(odataRequestOptions.ODataVersion, odataServiceOptions.MinVersion, odataServiceOptions.MaxVersion), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
+
+        [Fact]
+        public void Validate_RequestedMediaTypes_DoesNotThrow_IfOneOrMoreMediaTypes_Supported()
+        {
+            var odataServiceOptions = new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json", "text/plain" });
+
+            odataServiceOptions.Validate(new[] { "application/json", "application/xml", "text/plain" });
+        }
+
+        [Fact]
+        public void Validate_RequestedMediaTypes_Throws_ODataException_IfNoMediaTypes_Supported()
+        {
+            var odataServiceOptions = new ODataServiceOptions(
+                ODataVersion.MinVersion,
+                ODataVersion.MaxVersion,
+                new[] { ODataIsolationLevel.None },
+                new[] { "application/json", "text/plain" });
+
+            ODataException odataException = Assert.Throws<ODataException>(() => odataServiceOptions.Validate(new[] { "application/xml" }));
+
+            Assert.Equal(ExceptionMessage.MediaTypeNotSupported(odataServiceOptions.SupportedMediaTypes, odataServiceOptions.SupportedMetadataLevels, new[] { "application/xml" }), odataException.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Validate_Throws_ArgumentNullException_ForNull_ODataRequestOptions()
+            => Assert.Throws<ArgumentNullException>(() => _odataServiceOptions.Validate(default(ODataRequestOptions)));
+
+        [Fact]
+        public void Validate_Throws_ArgumentNullException_ForNull_RequestedMediaTypes()
+            => Assert.Throws<ArgumentNullException>(() => _odataServiceOptions.Validate(default(IEnumerable<string>)));
     }
 }

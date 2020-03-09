@@ -31,6 +31,28 @@ namespace Net.Http.OData
         internal static string InvalidOrderByDirection(string orderByDirection, string propertyName)
             => $"The supplied order value '{orderByDirection}' for {propertyName} is invalid, valid options are 'asc' and 'desc'";
 
+        internal static string MediaTypeNotSupported(IEnumerable<string> supportedMediaTypes, IEnumerable<ODataMetadataLevel> supportedMetadataLevels, IEnumerable<string> requestedMediaTypes)
+        {
+            var allowedMediaTypes = new List<string>();
+
+            foreach (string mediaType in supportedMediaTypes)
+            {
+                if (mediaType != "text/plain")
+                {
+                    foreach (ODataMetadataLevel metadataLevel in supportedMetadataLevels)
+                    {
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                        allowedMediaTypes.Add(mediaType + ";odata.metadata=" + metadataLevel.ToString().ToLowerInvariant());
+#pragma warning restore CA1308 // Normalize strings to uppercase
+                    }
+                }
+
+                allowedMediaTypes.Add(mediaType);
+            }
+
+            return $"A supported MIME type could not be found that matches the acceptable MIME types for the request. The supported type(s) '{string.Join(", ", allowedMediaTypes)}' do not match any of the acceptable MIME types '{string.Join(",", requestedMediaTypes)}'.";
+        }
+
         internal static string ODataIsolationLevelNotSupported(string isolationLevel)
             => $"{ODataRequestHeaderNames.ODataIsolation} '{isolationLevel}' is not supported by this service.";
 
