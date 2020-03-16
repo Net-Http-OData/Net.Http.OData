@@ -29,7 +29,9 @@ namespace Net.Http.OData.Query
         internal FormatQueryOption(string rawValue)
             : base(rawValue)
         {
-            switch (rawValue.SubstringBefore(';'))
+            string format = rawValue.SubstringBefore(';');
+
+            switch (format)
             {
                 case "$format=json":
                 case "$format=application/json":
@@ -37,7 +39,7 @@ namespace Net.Http.OData.Query
                     break;
 
                 default:
-                    string value = rawValue.SubstringAfter('=');
+                    string value = format.SubstringAfter('=');
 
                     throw ODataException.UnsupportedMediaType(ExceptionMessage.QueryOptionValueNotSupported("$format", value, "'json, application/json'"));
             }

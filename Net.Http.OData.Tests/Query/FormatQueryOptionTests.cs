@@ -33,6 +33,15 @@ namespace Net.Http.OData.Tests.Query
             Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
         }
 
+        [Fact]
+        public void Constructor_Throws_ODataException_For_FormatXml_AndMetadataLevel()
+        {
+            ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=xml;odata.metadata=none"));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json, application/json'"), odataException.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
+        }
+
         public class WhenConstructedWithRawValueApplicationJson
         {
             private readonly FormatQueryOption _option;
