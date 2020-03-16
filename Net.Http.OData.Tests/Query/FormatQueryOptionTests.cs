@@ -11,7 +11,7 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=atom"));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "atom", "'json'"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "atom", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
         }
 
@@ -20,7 +20,7 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=text/vcard"));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "text/vcard", "'json'"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "text/vcard", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
         }
 
@@ -29,8 +29,48 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=xml"));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json'"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
+        }
+
+        public class WhenConstructedWithRawValueApplicationJson
+        {
+            private readonly FormatQueryOption _option;
+            private readonly string _rawValue;
+
+            public WhenConstructedWithRawValueApplicationJson()
+            {
+                _rawValue = "$format=application/json";
+                _option = new FormatQueryOption(_rawValue);
+            }
+
+            [Fact]
+            public void TheMediaTypeHeaderValueShouldBeApplicationJson()
+                => Assert.Equal("application/json", _option.MediaTypeHeaderValue.MediaType);
+
+            [Fact]
+            public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
+                => Assert.Equal(_rawValue, _option.RawValue);
+        }
+
+        public class WhenConstructedWithRawValueApplicationJsonAndMetadataLevel
+        {
+            private readonly FormatQueryOption _option;
+            private readonly string _rawValue;
+
+            public WhenConstructedWithRawValueApplicationJsonAndMetadataLevel()
+            {
+                _rawValue = "$format=application/json;odata.metadata=none";
+                _option = new FormatQueryOption(_rawValue);
+            }
+
+            [Fact]
+            public void TheMediaTypeHeaderValueShouldBeApplicationJson()
+                => Assert.Equal("application/json", _option.MediaTypeHeaderValue.MediaType);
+
+            [Fact]
+            public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
+                => Assert.Equal(_rawValue, _option.RawValue);
         }
 
         public class WhenConstructedWithRawValueJson
@@ -46,15 +86,11 @@ namespace Net.Http.OData.Tests.Query
 
             [Fact]
             public void TheMediaTypeHeaderValueShouldBeApplicationJson()
-            {
-                Assert.Equal("application/json", _option.MediaTypeHeaderValue.MediaType);
-            }
+                => Assert.Equal("application/json", _option.MediaTypeHeaderValue.MediaType);
 
             [Fact]
             public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
-            {
-                Assert.Equal(_rawValue, _option.RawValue);
-            }
+                => Assert.Equal(_rawValue, _option.RawValue);
         }
     }
 }

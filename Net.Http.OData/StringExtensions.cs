@@ -65,6 +65,9 @@ namespace Net.Http.OData
         /// <param name="separator">The character to separate based upon.</param>
         /// <returns>A string containing the begining of the string value before the first occurance of the specified character.</returns>
         internal static string SubstringBefore(this string value, char separator)
-            => value.Substring(0, value.IndexOf(separator));
+        {
+            int charPos = value.IndexOf(separator);
+            return charPos < 0 ? value : value.Substring(0, charPos);
+        }
     }
 }
