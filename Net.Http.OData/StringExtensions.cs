@@ -55,7 +55,7 @@ namespace Net.Http.OData
         internal static string SubstringAfter(this string value, char separator)
         {
             int charPos = value.IndexOf(separator) + 1;
-            return value.Substring(charPos, value.Length - charPos);
+            return charPos < 1 ? value : value.Substring(charPos, value.Length - charPos);
         }
 
         /// <summary>
