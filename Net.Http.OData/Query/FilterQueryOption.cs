@@ -28,7 +28,8 @@ namespace Net.Http.OData.Query
         /// <param name="rawValue">The raw request value.</param>
         /// <param name="model">The model.</param>
         internal FilterQueryOption(string rawValue, EdmComplexType model)
-            : base(rawValue) => Expression = FilterExpressionParser.Parse(rawValue, model);
+            : base(rawValue)
+             => Expression = FilterExpressionParser.Parse(rawValue, model);
 
         /// <summary>
         /// Gets the expression.
