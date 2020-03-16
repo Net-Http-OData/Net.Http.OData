@@ -47,7 +47,8 @@ namespace Net.Http.OData
         }
 
         /// <summary>
-        /// Returns the remainder of the string value after the first occurance of the specified character.
+        /// Returns the remainder of the string value after the first occurance of the specified character,
+        /// or the entire string value if the specified character does not exist within the string.
         /// </summary>
         /// <param name="value">The string value.</param>
         /// <param name="separator">The character to separate based upon.</param>
@@ -59,7 +60,8 @@ namespace Net.Http.OData
         }
 
         /// <summary>
-        /// Returns the begining of the string value before the first occurance of the specified character.
+        /// Returns the begining of the string value before the first occurance of the specified character,
+        /// or the entire string value if the specified character does not exist within the string.
         /// </summary>
         /// <param name="value">The string value.</param>
         /// <param name="separator">The character to separate based upon.</param>
