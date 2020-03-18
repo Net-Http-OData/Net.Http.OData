@@ -16,7 +16,7 @@ using Net.Http.OData.Model;
 namespace Net.Http.OData.Query
 {
     /// <summary>
-    /// An object which contains the query options in an OData query.
+    /// A class which contains the query options in an OData query.
     /// </summary>
     public sealed class ODataQueryOptions
     {
