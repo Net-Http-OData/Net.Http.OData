@@ -27,8 +27,8 @@ namespace Net.Http.OData.Query.Parsers
             switch (token.TokenType)
             {
                 case TokenType.Base64Binary:
-                    byte[] binary = Convert.FromBase64String(token.Value);
-                    return ConstantNode.Binary(token.Value, binary);
+                    byte[] binaryValue = Convert.FromBase64String(token.Value);
+                    return ConstantNode.Binary(token.Value, binaryValue);
 
                 case TokenType.Date:
                     var dateTimeValue = DateTime.ParseExact(token.Value, ODataDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
@@ -61,8 +61,7 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Duration(token.Value, durationTimeSpanValue);
 
                 case TokenType.EdmType:
-                    string edmTypeName = token.Value;
-                    EdmType edmType = EdmType.GetEdmType(edmTypeName);
+                    EdmType edmType = EdmType.GetEdmType(token.Value);
                     return ConstantNode.EdmTypeNode(token.Value, edmType);
 
                 case TokenType.Enum:
