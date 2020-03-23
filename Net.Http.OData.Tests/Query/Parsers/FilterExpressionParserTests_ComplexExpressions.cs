@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
@@ -64,9 +63,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal("ReleaseDate", ((PropertyAccessNode)nodeLeftRightLeft.Left).PropertyPath.Property.Name);
                 Assert.Equal(BinaryOperatorKind.GreaterThanOrEqual, nodeLeftRightLeft.OperatorKind);
                 Assert.IsType<ConstantNode<DateTimeOffset>>(nodeLeftRightLeft.Right);
-
-                // Since the request string doesn't contain a timezone offset, assume local
-                Assert.Equal(DateTimeOffset.Parse("2015-02-06T00:00:00", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal), ((ConstantNode<DateTimeOffset>)nodeLeftRightLeft.Right).Value);
+                Assert.Equal(DateTimeOffset.Parse("2015-02-06T00:00:00", ParserSettings.CultureInfo, ParserSettings.DateTimeStyles), ((ConstantNode<DateTimeOffset>)nodeLeftRightLeft.Right).Value);
 
                 Assert.Equal(BinaryOperatorKind.And, nodeLeftRight.OperatorKind);
 
@@ -77,9 +74,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal("ReleaseDate", ((PropertyAccessNode)nodeLeftRightRight.Left).PropertyPath.Property.Name);
                 Assert.Equal(BinaryOperatorKind.LessThanOrEqual, nodeLeftRightRight.OperatorKind);
                 Assert.IsType<ConstantNode<DateTimeOffset>>(nodeLeftRightRight.Right);
-
-                // Since the request string doesn't contain a timezone offset, assume local
-                Assert.Equal(DateTimeOffset.Parse("2015-02-06T23:59:59", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal), ((ConstantNode<DateTimeOffset>)nodeLeftRightRight.Right).Value);
+                Assert.Equal(DateTimeOffset.Parse("2015-02-06T23:59:59", ParserSettings.CultureInfo, ParserSettings.DateTimeStyles), ((ConstantNode<DateTimeOffset>)nodeLeftRightRight.Right).Value);
 
                 Assert.Equal(BinaryOperatorKind.And, node.OperatorKind);
 

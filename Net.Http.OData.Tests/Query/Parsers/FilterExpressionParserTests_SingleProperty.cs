@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
@@ -108,9 +107,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<ConstantNode<DateTimeOffset>>(node.Right);
                 var nodeRight = (ConstantNode<DateTimeOffset>)node.Right;
                 Assert.Equal("2013-06-18T09:30", nodeRight.LiteralText);
-
-                // Since the request string doesn't contain a timezone offset, assume local
-                Assert.Equal(DateTimeOffset.Parse("2013-06-18T09:30", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal), nodeRight.Value);
+                Assert.Equal(DateTimeOffset.Parse("2013-06-18T09:30", ParserSettings.CultureInfo, ParserSettings.DateTimeStyles), nodeRight.Value);
             }
 
             [Fact]
@@ -131,9 +128,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<ConstantNode<DateTimeOffset>>(node.Right);
                 var nodeRight = (ConstantNode<DateTimeOffset>)node.Right;
                 Assert.Equal("2013-06-18T09:30:54", nodeRight.LiteralText);
-
-                // Since the request string doesn't contain a timezone offset, assume local
-                Assert.Equal(DateTimeOffset.Parse("2013-06-18T09:30:54", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal), nodeRight.Value);
+                Assert.Equal(DateTimeOffset.Parse("2013-06-18T09:30:54", ParserSettings.CultureInfo, ParserSettings.DateTimeStyles), nodeRight.Value);
             }
 
             [Fact]
@@ -217,9 +212,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<ConstantNode<DateTimeOffset>>(node.Right);
                 var nodeRight = (ConstantNode<DateTimeOffset>)node.Right;
                 Assert.Equal("2013-06-18T09:30:20", nodeRight.LiteralText);
-
-                // Since the request string doesn't contain a timezone offset, assume local
-                Assert.Equal(DateTimeOffset.Parse("2013-06-18T09:30:20", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal), nodeRight.Value);
+                Assert.Equal(DateTimeOffset.Parse("2013-06-18T09:30:20", ParserSettings.CultureInfo, ParserSettings.DateTimeStyles), nodeRight.Value);
             }
 
             [Fact]
@@ -261,9 +254,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<ConstantNode<DateTimeOffset>>(node.Right);
                 var nodeRight = (ConstantNode<DateTimeOffset>)node.Right;
                 Assert.Equal("2017-02-28T16:34:18", nodeRight.LiteralText);
-
-                // Since the request string doesn't contain a timezone offset, assume local
-                Assert.Equal(DateTimeOffset.Parse("2017-02-28T16:34:18", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal), nodeRight.Value);
+                Assert.Equal(DateTimeOffset.Parse("2017-02-28T16:34:18", ParserSettings.CultureInfo, ParserSettings.DateTimeStyles), nodeRight.Value);
             }
 
             [Fact]

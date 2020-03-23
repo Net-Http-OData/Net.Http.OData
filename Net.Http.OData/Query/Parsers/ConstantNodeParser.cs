@@ -20,8 +20,6 @@ namespace Net.Http.OData.Query.Parsers
 {
     internal static class ConstantNodeParser
     {
-        private const string ODataDateFormat = "yyyy-MM-dd";
-
         internal static ConstantNode ParseConstantNode(Token token)
         {
             switch (token.TokenType)
@@ -31,23 +29,23 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Binary(token.Value, binaryValue);
 
                 case TokenType.Date:
-                    var dateTimeValue = DateTime.ParseExact(token.Value, ODataDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
+                    var dateTimeValue = DateTime.ParseExact(token.Value, ParserSettings.ODataDateFormat, ParserSettings.CultureInfo, DateTimeStyles.AssumeLocal);
                     return ConstantNode.Date(token.Value, dateTimeValue);
 
                 case TokenType.DateTimeOffset:
-                    var dateTimeOffsetValue = DateTimeOffset.Parse(token.Value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
+                    var dateTimeOffsetValue = DateTimeOffset.Parse(token.Value, ParserSettings.CultureInfo, ParserSettings.DateTimeStyles);
                     return ConstantNode.DateTimeOffset(token.Value, dateTimeOffsetValue);
 
                 case TokenType.Decimal:
                     string decimalText = token.Value.Substring(0, token.Value.Length - 1);
-                    decimal decimalValue = decimal.Parse(decimalText, CultureInfo.InvariantCulture);
+                    decimal decimalValue = decimal.Parse(decimalText, ParserSettings.CultureInfo);
                     return ConstantNode.Decimal(token.Value, decimalValue);
 
                 case TokenType.Double:
                     string doubleText = token.Value.EndsWith("d", StringComparison.OrdinalIgnoreCase)
                         ? token.Value.Substring(0, token.Value.Length - 1)
                         : token.Value;
-                    double doubleValue = double.Parse(doubleText, CultureInfo.InvariantCulture);
+                    double doubleValue = double.Parse(doubleText, ParserSettings.CultureInfo);
                     return ConstantNode.Double(token.Value, doubleValue);
 
                 case TokenType.Duration:
@@ -57,7 +55,7 @@ namespace Net.Http.OData.Query.Parsers
                         .Replace("H", ":")
                         .Replace("M", ":")
                         .Replace("S", string.Empty);
-                    var durationTimeSpanValue = TimeSpan.Parse(durationText, CultureInfo.InvariantCulture);
+                    var durationTimeSpanValue = TimeSpan.Parse(durationText, ParserSettings.CultureInfo);
                     return ConstantNode.Duration(token.Value, durationTimeSpanValue);
 
                 case TokenType.EdmType:
@@ -102,7 +100,7 @@ namespace Net.Http.OData.Query.Parsers
                     }
 
                     string int64Text = !is64BitSuffix ? integerText : integerText.Substring(0, integerText.Length - 1);
-                    long int64Value = long.Parse(int64Text, CultureInfo.InvariantCulture);
+                    long int64Value = long.Parse(int64Text, ParserSettings.CultureInfo);
                     return ConstantNode.Int64(token.Value, int64Value);
 
                 case TokenType.Null:
@@ -110,7 +108,7 @@ namespace Net.Http.OData.Query.Parsers
 
                 case TokenType.Single:
                     string singleText = token.Value.Substring(0, token.Value.Length - 1);
-                    float singleValue = float.Parse(singleText, CultureInfo.InvariantCulture);
+                    float singleValue = float.Parse(singleText, ParserSettings.CultureInfo);
                     return ConstantNode.Single(token.Value, singleValue);
 
                 case TokenType.String:
@@ -118,7 +116,7 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.String(token.Value, stringText);
 
                 case TokenType.TimeOfDay:
-                    var timeSpanTimeOfDayValue = TimeSpan.Parse(token.Value, CultureInfo.InvariantCulture);
+                    var timeSpanTimeOfDayValue = TimeSpan.Parse(token.Value, ParserSettings.CultureInfo);
                     return ConstantNode.Time(token.Value, timeSpanTimeOfDayValue);
 
                 case TokenType.True:
