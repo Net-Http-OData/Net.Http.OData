@@ -26,6 +26,11 @@ Also see:
 * [Parsing Query Options](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Parsing-Query-Options) for details of how to parse the `ODataQueryOptions` class.
 * [Supported Query Syntax](https://github.com/Net-Http-OData/Net.Http.OData/wiki/Supported-Query-Syntax) for details of the OData query syntax supported by the library.
 
+For further details regarding the OData 4.0 specification, see:
+* [Part 1 - Protocol](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html)
+* [Part 2 - URL Conventions](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html)
+* [Part 3 - Common Schema Definition Language (CSDL)](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html)
+
 ### Supported .NET Versions
 
 The NuGet Package contains binaries compiled against:
