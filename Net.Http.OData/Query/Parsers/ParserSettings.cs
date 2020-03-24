@@ -22,7 +22,7 @@ namespace Net.Http.OData.Query.Parsers
         internal const string ODataDateFormat = "yyyy-MM-dd";
 
         /// <summary>
-        /// Gets or sets the <see cref="System.Globalization.DateTimeStyles"/> to use for parsing <see cref="System.DateTimeOffset"/> if no timezone is specifed in the OData query (defaults to <see cref="DateTimeStyles.AssumeUniversal"/>).
+        /// Gets or sets the <see cref="System.Globalization.DateTimeStyles"/> to use for parsing <see cref="System.DateTimeOffset"/> if no timezone is specified in the OData query (defaults to <see cref="DateTimeStyles.AssumeUniversal"/>).
         /// </summary>
         /// <remarks>Note: prior to version 5.0.0 of this library, the behaviour was <see cref="DateTimeStyles.AssumeLocal"/>.</remarks>
         public static DateTimeStyles DateTimeStyles { get; set; } = DateTimeStyles.AssumeUniversal;
