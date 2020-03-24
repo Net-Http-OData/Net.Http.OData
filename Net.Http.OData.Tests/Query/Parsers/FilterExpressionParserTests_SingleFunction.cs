@@ -33,7 +33,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<ConstantNode<EdmType>>(nodeLeft.Parameters[1]);
                 var constantNode = (ConstantNode<EdmType>)nodeLeft.Parameters[1];
                 Assert.Equal("Edm.Int64", constantNode.LiteralText);
-                Assert.Equal(EdmPrimitiveType.Int64, constantNode.Value);
+                Assert.Same(EdmPrimitiveType.Int64, constantNode.Value);
 
                 Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
 
@@ -58,7 +58,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<ConstantNode<EdmType>>(node.Parameters[0]);
                 var constantNode = (ConstantNode<EdmType>)node.Parameters[0];
                 Assert.Equal("Edm.Int64", constantNode.LiteralText);
-                Assert.Equal(EdmPrimitiveType.Int64, constantNode.Value);
+                Assert.Same(EdmPrimitiveType.Int64, constantNode.Value);
             }
 
             [Fact]
@@ -401,7 +401,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<ConstantNode<EdmType>>(node.Parameters[1]);
                 var nodeParam1 = (ConstantNode<EdmType>)node.Parameters[1];
                 Assert.Equal("Edm.String", nodeParam1.LiteralText);
-                Assert.Equal(EdmPrimitiveType.String, nodeParam1.Value);
+                Assert.Same(EdmPrimitiveType.String, nodeParam1.Value);
             }
 
             [Fact]
