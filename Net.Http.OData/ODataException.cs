@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ODataException.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,20 +51,20 @@ namespace Net.Http.OData
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataException"/> class.
         /// </summary>
-        /// <param name="statusCode">The HTTP status code that describes the error.</param>
         /// <param name="message">The message that describes the error.</param>
-        public ODataException(HttpStatusCode statusCode, string message)
-            : this(statusCode, message, null)
+        /// <param name="statusCode">The HTTP status code that describes the error.</param>
+        public ODataException(string message, HttpStatusCode statusCode)
+            : this(message, statusCode, null)
         {
         }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataException" /> class.
         /// </summary>
-        /// <param name="statusCode">The HTTP status code that describes the error.</param>
         /// <param name="message">The message that describes the error.</param>
+        /// <param name="statusCode">The HTTP status code that describes the error.</param>
         /// <param name="target">The target of the exception.</param>
-        public ODataException(HttpStatusCode statusCode, string message, string target)
+        public ODataException(string message, HttpStatusCode statusCode, string target)
             : base(message)
         {
             StatusCode = statusCode;
@@ -89,10 +89,34 @@ namespace Net.Http.OData
         public string Target { get; set; }
 
         /// <summary>
-        /// sets the System.Runtime.Serialization.SerializationInfo with information about the exception.
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.BadRequest" />.
         /// </summary>
-        /// <param name="info">The System.Runtime.Serialization.SerializationInfo that holds the serialized object data about the exception being thrown.</param>
-        /// <param name="context">The System.Runtime.Serialization.StreamingContext that contains contextual information about the source or destination.</param>
+        /// <param name="message">The message that describes the error.</param>
+        /// <returns>The ODataException.</returns>
+        public static ODataException BadRequest(string message) => new ODataException(message, HttpStatusCode.BadRequest);
+
+        /// <summary>
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.NotImplemented" />.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <returns>The ODataException.</returns>
+        public static ODataException NotImplemented(string message) => new ODataException(message, HttpStatusCode.NotImplemented);
+
+        /// <summary>
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.PreconditionFailed" />.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <returns>The ODataException.</returns>
+        public static ODataException PreconditionFailed(string message) => new ODataException(message, HttpStatusCode.PreconditionFailed);
+
+        /// <summary>
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.UnsupportedMediaType" />.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <returns>The ODataException.</returns>
+        public static ODataException UnsupportedMediaType(string message) => new ODataException(message, HttpStatusCode.UnsupportedMediaType);
+
+        /// <inheritdoc/>
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info != null)
@@ -103,5 +127,12 @@ namespace Net.Http.OData
 
             base.GetObjectData(info, context);
         }
+
+        /// <summary>
+        /// Creates a new <see cref="ODataErrorContent"/> from this <see cref="ODataException"/>.
+        /// </summary>
+        /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
+        public ODataErrorContent ToODataErrorContent()
+            => ODataErrorContent.Create((int)StatusCode, Message, Target);
     }
 }

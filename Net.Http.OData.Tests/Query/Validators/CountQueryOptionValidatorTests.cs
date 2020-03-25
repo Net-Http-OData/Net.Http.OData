@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using System.Net.Http;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Validators;
@@ -23,18 +23,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=x"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$count=x",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithBadRequest()
+            public void An_ODataException_IsThrown_WithStatusBadRequest()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => CountQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The supplied value for OData query $count is invalid, valid options are 'true' and 'false'", exception.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+                Assert.Equal("The supplied value for OData query $count is invalid, valid options are 'true' and 'false'", odataException.Message);
             }
         }
 
@@ -52,18 +53,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=true"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$count=true",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => CountQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("The query option $count is not implemented by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("The query option $count is not implemented by this service", odataException.Message);
             }
         }
 
@@ -81,8 +83,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=true"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$count=true",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -106,8 +109,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$count=false"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$count=false",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]

@@ -1,38 +1,69 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
-- master
-- develop
+  branches:
+    include:
+      - master
+      - develop
+      - hotfix*
+  paths:
+    exclude:
+      - .editorconfig
+      - build.ps1
+      - README.md
+      - stylecop.json
 
+# Must be Windows due to the .NET 4.5 build target
 pool:
   vmImage: 'windows-latest'
 
 variables:
   buildConfiguration: 'Release'
   buildVersion: '0.0.0'
+  projectPath: '.\Net.Http.OData\Net.Http.OData.csproj'
+  testWorkingDirectory: 'Net.Http.OData.Tests'
 
 steps:
+- script: |
+    dotnet tool uninstall dotnet-reportgenerator-globaltool --global
+    dotnet tool install --global dotnet-reportgenerator-globaltool
+  displayName: 'dotnet tool install dotnet-reportgenerator-globaltool'
+
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
-- script: dotnet test
+- script: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\
   displayName: 'dotnet test'
+
+- script: reportgenerator "-reports:TestResults\coverage.cobertura.xml" "-targetdir:TestResults\Coverage" -reporttypes:HTML;
+  workingDirectory: $(testWorkingDirectory)
+  displayName: 'reportgenerator'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'publish code coverage'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)\$(testWorkingDirectory)\TestResults\coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)\$(testWorkingDirectory)\TestResults\Coverage'
 
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      $projVersion = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+      $projVersion = ([xml](Get-Content "$(projectPath)")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
 
       Write-Host "##vso[task.setvariable variable=buildVersion]$projVersion"
 
-- script: dotnet pack --no-build -p:PackageVersion="$(buildVersion)-beta$(Build.BuildId)"
+- script: dotnet pack --no-build -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion="$(buildVersion)-preview$(Build.BuildNumber)"
   displayName: 'dotnet pack (pre)'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-- script: dotnet pack --no-build -p:PackageVersion=$(buildVersion)
+- script: dotnet pack --no-build -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion=$(buildVersion)
   displayName: 'dotnet pack'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'NuGet.org (Net.Http.OData)'
+  condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual'))

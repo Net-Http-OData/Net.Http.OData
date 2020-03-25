@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="EdmTypeCache.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Net.Http.OData.Model
 {
@@ -48,12 +49,10 @@ namespace Net.Http.OData.Model
                 [typeof(sbyte?)] = EdmPrimitiveType.NullableSByte,
                 [typeof(float)] = EdmPrimitiveType.Single,
                 [typeof(float?)] = EdmPrimitiveType.NullableSingle,
-                ////[typeof(Stream)] = EdmPrimitiveType.Stream,
+                [typeof(Stream)] = EdmPrimitiveType.Stream,
                 [typeof(char)] = EdmPrimitiveType.String,
                 [typeof(char?)] = EdmPrimitiveType.String,
                 [typeof(string)] = EdmPrimitiveType.String,
-                ////[typeof(TimeSpan)] = EdmPrimitiveType.TimeOfDay,
-                ////[typeof(TimeSpan?)] = EdmPrimitiveType.NullableTimeOfDay
             });
     }
 }

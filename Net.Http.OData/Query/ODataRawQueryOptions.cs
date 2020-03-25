@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ODataRawQueryOptions.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,7 +11,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
-using System.Net;
 
 namespace Net.Http.OData.Query
 {
@@ -26,7 +25,8 @@ namespace Net.Http.OData.Query
         /// Initialises a new instance of the <see cref="ODataRawQueryOptions"/> class.
         /// </summary>
         /// <param name="rawQuery">The raw query.</param>
-        /// <exception cref="ArgumentNullException">Thrown if raw query is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawQuery"/> is null.</exception>
+        /// <exception cref="ODataException">Thrown if an error occurs parsing the <paramref name="rawQuery"/>.</exception>
         internal ODataRawQueryOptions(string rawQuery)
         {
             if (rawQuery is null)
@@ -40,12 +40,7 @@ namespace Net.Http.OData.Query
 
             if (_rawQuery.Length > 0)
             {
-                // Drop the ?
-                string query = _rawQuery.Substring(1, _rawQuery.Length - 1);
-
-                string[] queryOptions = query.Split(SplitCharacter.Ampersand, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string queryOption in queryOptions)
+                foreach (string queryOption in _rawQuery.Slice('&', _rawQuery.IndexOf('?') + 1))
                 {
                     // Decode the chunks to prevent splitting the query on an '&' which is actually part of a string value
                     string rawQueryOption = Uri.UnescapeDataString(queryOption);
@@ -54,7 +49,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$select=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $select cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$select"));
                         }
 
                         Select = rawQueryOption;
@@ -63,7 +58,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$filter=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $filter cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$filter"));
                         }
 
                         Filter = rawQueryOption;
@@ -72,7 +67,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$orderby=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $orderby cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$orderby"));
                         }
 
                         OrderBy = rawQueryOption;
@@ -81,7 +76,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$skip=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $skip cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skip"));
                         }
 
                         Skip = rawQueryOption;
@@ -90,7 +85,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$top=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $top cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$top"));
                         }
 
                         Top = rawQueryOption;
@@ -99,7 +94,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$count=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $count cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$count"));
                         }
 
                         Count = rawQueryOption;
@@ -108,7 +103,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$format=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $format cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$format"));
                         }
 
                         Format = rawQueryOption;
@@ -117,7 +112,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$expand=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $expand cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$expand"));
                         }
 
                         Expand = rawQueryOption;
@@ -126,7 +121,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$search=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $search cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$search"));
                         }
 
                         Search = rawQueryOption;
@@ -135,16 +130,16 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$skiptoken=", StringComparison.Ordinal))
                         {
-                            throw new ODataException(HttpStatusCode.BadRequest, "The OData query option $skiptoken cannot be empty");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skiptoken"));
                         }
 
                         SkipToken = rawQueryOption;
                     }
                     else if (rawQueryOption.StartsWith("$", StringComparison.Ordinal))
                     {
-                        string optionName = rawQueryOption.Substring(0, rawQueryOption.IndexOf('='));
+                        string optionName = rawQueryOption.SubstringBefore('=');
 
-                        throw new ODataException(HttpStatusCode.BadRequest, $"Unknown OData query option {optionName}");
+                        throw ODataException.BadRequest(ExceptionMessage.UnsupportedQueryOption(optionName));
                     }
                 }
             }
@@ -200,12 +195,7 @@ namespace Net.Http.OData.Query
         /// </summary>
         public string Top { get; }
 
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="string" /> that represents this instance.
-        /// </returns>
+        /// <inheritdoc/>
         public override string ToString() => _rawQuery;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
 using Net.Http.OData.Metadata;
 using Net.Http.OData.Model;
 using Xunit;
@@ -12,7 +13,9 @@ namespace Net.Http.OData.Tests.Metadata
         {
             TestHelper.EnsureEDM();
 
-            var expected = XDocument.Parse(@"<edmx:Edmx xmlns:edmx=""http://docs.oasis-open.org/odata/ns/edmx"" Version=""4.0"">
+            ODataServiceOptions serviceOptions = TestHelper.ODataServiceOptions;
+
+            var expected = XDocument.Parse($@"<edmx:Edmx xmlns:edmx=""http://docs.oasis-open.org/odata/ns/edmx"" Version=""{serviceOptions.MaxVersion}"">
   <edmx:DataServices>
     <Schema xmlns=""http://docs.oasis-open.org/odata/ns/edm"" Namespace=""NorthwindModel"">
       <EnumType Name=""AccessLevel"" UnderlyingType=""Edm.Int32"" IsFlags=""True"">
@@ -72,6 +75,7 @@ namespace Net.Http.OData.Tests.Metadata
         <Key>
           <PropertyRef Name=""OrderId"" />
         </Key>
+        <Property Name=""Date"" Type=""Edm.DateTimeOffset"" Nullable=""false"" />
         <Property Name=""Freight"" Type=""Edm.Decimal"" Nullable=""false"" />
         <Property Name=""OrderDetails"" Type=""Collection(NorthwindModel.OrderDetail)"" />
         <Property Name=""OrderId"" Type=""Edm.Int64"" Nullable=""false"" />
@@ -218,32 +222,33 @@ namespace Net.Http.OData.Tests.Metadata
         <Annotation Term=""Org.OData.Capabilities.V1.BatchContinueOnErrorSupported"" Bool=""false"" />
         <Annotation Term=""Org.OData.Capabilities.V1.FilterFunctions"">
           <Collection>
-            <String>cast</String>
-            <String>isof</String>
-            <String>endswith</String>
-            <String>startswith</String>
+            <String>concat</String>
             <String>contains</String>
+            <String>endswith</String>
+            <String>indexof</String>
+            <String>length</String>
+            <String>startswith</String>
+            <String>substring</String>
             <String>tolower</String>
             <String>toupper</String>
             <String>trim</String>
-            <String>length</String>
-            <String>indexof</String>
-            <String>replace</String>
-            <String>substring</String>
-            <String>concat</String>
-            <String>year</String>
-            <String>month</String>
+            <String>date</String>
             <String>day</String>
-            <String>hour</String>
-            <String>minute</String>
-            <String>second</String>
             <String>fractionalseconds</String>
-            <String>now</String>
-            <String>mindatetime</String>
+            <String>hour</String>
             <String>maxdatetime</String>
-            <String>round</String>
+            <String>mindatetime</String>
+            <String>minute</String>
+            <String>month</String>
+            <String>now</String>
+            <String>second</String>
+            <String>totaloffsetminutes</String>
+            <String>year</String>
             <String>ceiling</String>
             <String>floor</String>
+            <String>round</String>
+            <String>cast</String>
+            <String>isof</String>
           </Collection>
         </Annotation>
       </Annotations>
@@ -251,9 +256,17 @@ namespace Net.Http.OData.Tests.Metadata
   </edmx:DataServices>
 </edmx:Edmx>");
 
-            XDocument csdlDocument = MetadataProvider.Create(EntityDataModel.Current);
+            XDocument csdlDocument = XmlMetadataProvider.Create(EntityDataModel.Current, serviceOptions);
 
             Assert.Equal(expected.ToString(), csdlDocument.ToString());
         }
+
+        [Fact]
+        public void Create_Throws_ArgumentNullException_For_Null_EntityDataModel()
+            => Assert.Throws<ArgumentNullException>(() => XmlMetadataProvider.Create(null, TestHelper.ODataServiceOptions));
+
+        [Fact]
+        public void Create_Throws_ArgumentNullException_For_Null_ODataServiceOptions()
+            => Assert.Throws<ArgumentNullException>(() => XmlMetadataProvider.Create(EntityDataModel.Current, null));
     }
 }

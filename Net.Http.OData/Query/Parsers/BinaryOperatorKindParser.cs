@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="BinaryOperatorKindParser.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,7 +11,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System.Collections.Generic;
-using System.Net;
 using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query.Parsers
@@ -37,6 +36,8 @@ namespace Net.Http.OData.Query.Parsers
         };
 
         internal static BinaryOperatorKind ToBinaryOperatorKind(this string operatorType)
-            => s_operatorTypeMap.TryGetValue(operatorType, out BinaryOperatorKind binaryOperatorKind) ? binaryOperatorKind : throw new ODataException(HttpStatusCode.BadRequest, $"The operator '{operatorType}' is not a valid OData operator.");
+            => s_operatorTypeMap.TryGetValue(operatorType, out BinaryOperatorKind binaryOperatorKind)
+                ? binaryOperatorKind
+                : throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType));
     }
 }

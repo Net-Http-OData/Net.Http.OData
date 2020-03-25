@@ -8,18 +8,18 @@ namespace Net.Http.OData.Tests.Query.Parsers
     public class UnaryOperatorKindParserTests
     {
         [Fact]
-        public void ToUnaryOperatorKindReturnsNotForNot()
+        public void ToUnaryOperatorKind_Throws_ODataException_For_UnsupportedOperatorKind()
         {
-            Assert.Equal(UnaryOperatorKind.Not, "not".ToUnaryOperatorKind());
+            ODataException odataException = Assert.Throws<ODataException>(() => "wibble".ToUnaryOperatorKind());
+
+            Assert.Equal(ExceptionMessage.InvalidOperator("wibble"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
         [Fact]
-        public void ToUnaryOperatorKindThrowsArgumentExceptionForUnsupportedOperatorKind()
+        public void ToUnaryOperatorKindReturnsNotForNot()
         {
-            ODataException exception = Assert.Throws<ODataException>(() => "wibble".ToUnaryOperatorKind());
-
-            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-            Assert.Equal("The operator 'wibble' is not a valid OData operator.", exception.Message);
+            Assert.Equal(UnaryOperatorKind.Not, "not".ToUnaryOperatorKind());
         }
     }
 }

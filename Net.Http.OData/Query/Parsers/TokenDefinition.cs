@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="TokenDefinition.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace Net.Http.OData.Query.Parsers
 {
-    [System.Diagnostics.DebuggerDisplay("{tokenType}: {Regex}")]
+    [System.Diagnostics.DebuggerDisplay("{_tokenType}: {Regex}")]
     internal struct TokenDefinition
     {
         private readonly TokenType _tokenType;
@@ -35,6 +35,7 @@ namespace Net.Http.OData.Query.Parsers
 
         internal Regex Regex { get; }
 
-        internal Token CreateToken(Match match) => new Token(match.Value, _tokenType);
+        internal Token CreateToken(Match match, int position)
+            => new Token(_tokenType, match.Value, position);
     }
 }

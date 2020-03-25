@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="UnaryOperatorKindParser.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -10,7 +10,6 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
-using System.Net;
 using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query.Parsers
@@ -25,7 +24,7 @@ namespace Net.Http.OData.Query.Parsers
                     return UnaryOperatorKind.Not;
 
                 default:
-                    throw new ODataException(HttpStatusCode.BadRequest, $"The operator '{operatorType}' is not a valid OData operator.");
+                    throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType));
             }
         }
     }

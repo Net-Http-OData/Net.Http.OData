@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
@@ -11,21 +11,28 @@ namespace Net.Http.OData.Tests.Query
     public class ODataQueryOptionsTests
     {
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullHttpReuestMessage()
+        public void Constructor_Throws_ArgumentNullException_For_Null_EntitySet()
         {
             TestHelper.EnsureEDM();
 
-            Assert.Throws<ArgumentNullException>(
-                () => new ODataQueryOptions(null, EntityDataModel.Current.EntitySets["Products"]));
+            Assert.Throws<ArgumentNullException>(() => new ODataQueryOptions("", null, Mock.Of<IODataQueryOptionsValidator>()));
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullModel()
+        public void Constructor_Throws_ArgumentNullException_For_Null_Query()
         {
             TestHelper.EnsureEDM();
 
             Assert.Throws<ArgumentNullException>(
-                () => new ODataQueryOptions(new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products"), null));
+                () => new ODataQueryOptions(null, EntityDataModel.Current.EntitySets["Products"], Mock.Of<IODataQueryOptionsValidator>()));
+        }
+
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_For_Null_Validator()
+        {
+            TestHelper.EnsureEDM();
+
+            Assert.Throws<ArgumentNullException>(() => new ODataQueryOptions("", EntityDataModel.Current.EntitySets["Products"], null));
         }
 
         /// <summary>
@@ -36,25 +43,26 @@ namespace Net.Http.OData.Tests.Query
         {
             TestHelper.EnsureEDM();
 
-            var option = new ODataQueryOptions(
-                new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=LegacyId+eq+2139+and+CompanyName+eq+'Pool+Farm+%26+Primrose+Hill+Nursery'&$top=1"),
-                EntityDataModel.Current.EntitySets["Customers"]);
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=LegacyId+eq+2139+and+CompanyName+eq+'Pool+Farm+%26+Primrose+Hill+Nursery'&$top=1",
+                EntityDataModel.Current.EntitySets["Customers"],
+                Mock.Of<IODataQueryOptionsValidator>());
 
-            Assert.NotNull(option);
-            Assert.NotNull(option.Filter);
+            Assert.NotNull(queryOptions);
+            Assert.NotNull(queryOptions.Filter);
 
-            Assert.NotNull(option.Filter.Expression);
-            Assert.IsType<BinaryOperatorNode>(option.Filter.Expression);
+            Assert.NotNull(queryOptions.Filter.Expression);
+            Assert.IsType<BinaryOperatorNode>(queryOptions.Filter.Expression);
 
-            var node = (BinaryOperatorNode)option.Filter.Expression;
+            var node = (BinaryOperatorNode)queryOptions.Filter.Expression;
 
             Assert.IsType<BinaryOperatorNode>(node.Left);
             var nodeLeft = (BinaryOperatorNode)node.Left;
             Assert.IsType<PropertyAccessNode>(nodeLeft.Left);
             Assert.Equal("LegacyId", ((PropertyAccessNode)nodeLeft.Left).PropertyPath.Property.Name);
             Assert.Equal(BinaryOperatorKind.Equal, nodeLeft.OperatorKind);
-            Assert.IsType<ConstantNode>(nodeLeft.Right);
-            Assert.Equal(2139, ((ConstantNode)nodeLeft.Right).Value);
+            Assert.IsType<ConstantNode<int>>(nodeLeft.Right);
+            Assert.Equal(2139, ((ConstantNode<int>)nodeLeft.Right).Value);
 
             Assert.Equal(BinaryOperatorKind.And, node.OperatorKind);
 
@@ -63,8 +71,8 @@ namespace Net.Http.OData.Tests.Query
             Assert.IsType<PropertyAccessNode>(nodeRight.Left);
             Assert.Equal("CompanyName", ((PropertyAccessNode)nodeRight.Left).PropertyPath.Property.Name);
             Assert.Equal(BinaryOperatorKind.Equal, nodeRight.OperatorKind);
-            Assert.IsType<ConstantNode>(nodeRight.Right);
-            Assert.Equal("Pool Farm & Primrose Hill Nursery", ((ConstantNode)nodeRight.Right).Value);
+            Assert.IsType<ConstantNode<string>>(nodeRight.Right);
+            Assert.Equal("Pool Farm & Primrose Hill Nursery", ((ConstantNode<string>)nodeRight.Right).Value);
         }
 
         [Fact]
@@ -72,14 +80,15 @@ namespace Net.Http.OData.Tests.Query
         {
             TestHelper.EnsureEDM();
 
-            var option = new ODataQueryOptions(
-                new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$skip=A"),
-                EntityDataModel.Current.EntitySets["Customers"]);
+            var queryOptions = new ODataQueryOptions(
+                "?$skip=A",
+                EntityDataModel.Current.EntitySets["Customers"],
+                Mock.Of<IODataQueryOptionsValidator>());
 
-            ODataException exception = Assert.Throws<ODataException>(() => option.Skip);
+            ODataException odataException = Assert.Throws<ODataException>(() => queryOptions.Skip);
 
-            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-            Assert.Equal("The value for OData query $skip must be a non-negative numeric value", exception.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueMustBePositiveInteger("$skip"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
         }
 
         [Fact]
@@ -87,205 +96,159 @@ namespace Net.Http.OData.Tests.Query
         {
             TestHelper.EnsureEDM();
 
-            var option = new ODataQueryOptions(
-                new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$top=A"),
-                EntityDataModel.Current.EntitySets["Customers"]);
+            var queryOptions = new ODataQueryOptions(
+                "?$top=A",
+                EntityDataModel.Current.EntitySets["Customers"],
+                Mock.Of<IODataQueryOptionsValidator>());
 
-            ODataException exception = Assert.Throws<ODataException>(() => option.Top);
+            ODataException odataException = Assert.Throws<ODataException>(() => queryOptions.Top);
 
-            Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-            Assert.Equal("The value for OData query $top must be a non-negative numeric value", exception.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueMustBePositiveInteger("$top"), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Validate_Calls_IODataQueryOptionsValidator()
+        {
+            var mockODataQueryOptionsValidator = new Mock<IODataQueryOptionsValidator>();
+
+            ODataValidationSettings validationSettings = ODataValidationSettings.All;
+
+            var queryOptions = new ODataQueryOptions("?$top=1", EntityDataModel.Current.EntitySets["Customers"], mockODataQueryOptionsValidator.Object);
+            queryOptions.Validate(validationSettings);
+
+            mockODataQueryOptionsValidator.Verify(x => x.Validate(queryOptions, validationSettings), Times.Once());
         }
 
         public class WhenConstructedWithAllQueryOptions
         {
-            private readonly HttpRequestMessage _httpRequestMessage;
-            private readonly ODataQueryOptions _option;
+            private readonly ODataQueryOptions _queryOptions;
 
             public WhenConstructedWithAllQueryOptions()
             {
                 TestHelper.EnsureEDM();
 
-                _httpRequestMessage = new HttpRequestMessage(
-                    HttpMethod.Get,
-                    "http://services.odata.org/OData/Products?$count=true&$expand=Category&$filter=Name eq 'Milk'&$format=json&$orderby=Name&$search=blue OR green&$select=Name,Price&$skip=10&$skiptoken=5&$top=25");
-
-                _option = new ODataQueryOptions(_httpRequestMessage, EntityDataModel.Current.EntitySets["Products"]);
+                _queryOptions = new ODataQueryOptions(
+                    "?$count=true&$expand=Category&$filter=Name eq 'Milk'&$format=json&$orderby=Name&$search=blue OR green&$select=Name,Price&$skip=10&$skiptoken=5&$top=25",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void TheCountOptionShouldBeSet()
-            {
-                Assert.True(_option.Count);
-            }
+            public void TheCountOptionShouldBeSet() => Assert.True(_queryOptions.Count);
 
             [Fact]
             public void TheEntitySetShouldBeSet()
             {
-                Assert.NotNull(_option.EntitySet);
+                Assert.NotNull(_queryOptions.EntitySet);
+                Assert.Equal("Products", _queryOptions.EntitySet.Name);
             }
 
             [Fact]
-            public void TheExpandOptionShouldBeSet()
-            {
-                Assert.NotNull(_option.Expand);
-            }
+            public void TheExpandOptionShouldBeSet() => Assert.NotNull(_queryOptions.Expand);
 
             [Fact]
-            public void TheFilterOptionShouldBeSet()
-            {
-                Assert.NotNull(_option.Filter);
-            }
+            public void TheFilterOptionShouldBeSet() => Assert.NotNull(_queryOptions.Filter);
 
             [Fact]
-            public void TheFormatOptionShouldBeSet()
-            {
-                Assert.NotNull(_option.Format);
-            }
+            public void TheFormatOptionShouldBeSet() => Assert.NotNull(_queryOptions.Format);
 
             [Fact]
-            public void TheOrderByPropertyShouldBeSet()
-            {
-                Assert.NotNull(_option.OrderBy);
-            }
+            public void TheOrderByPropertyShouldBeSet() => Assert.NotNull(_queryOptions.OrderBy);
 
             [Fact]
-            public void TheRawValuesPropertyShouldBeSet()
-            {
-                Assert.NotNull(_option.RawValues);
-            }
+            public void TheRawValuesPropertyShouldBeSet() => Assert.NotNull(_queryOptions.RawValues);
 
             [Fact]
-            public void TheRequestPropertyShouldReturnTheRequestMessage()
-            {
-                Assert.Equal(_httpRequestMessage, _option.Request);
-            }
+            public void TheSameExpandOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Expand, _queryOptions.Expand);
 
             [Fact]
-            public void TheSearchPropertyShouldBeSet()
-            {
-                Assert.NotNull(_option.Search);
-                Assert.Equal("blue OR green", _option.Search);
-            }
+            public void TheSameFilterOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Filter, _queryOptions.Filter);
 
             [Fact]
-            public void TheSelectPropertyShouldBeSet()
-            {
-                Assert.NotNull(_option.Select);
-            }
+            public void TheSameFormatOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Format, _queryOptions.Format);
 
             [Fact]
-            public void TheSkipPropertyShouldBeSet()
-            {
-                Assert.NotNull(_option.Skip);
-            }
+            public void TheSameOrderByOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.OrderBy, _queryOptions.OrderBy);
 
             [Fact]
-            public void TheSkipTokenPropertyShouldBeSet()
-            {
-                Assert.NotNull(_option.SkipToken);
-            }
+            public void TheSameSearchOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Search, _queryOptions.Search);
 
             [Fact]
-            public void TheTopPropertyShouldBeSet()
-            {
-                Assert.NotNull(_option.Top);
-            }
+            public void TheSameSelectOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.Select, _queryOptions.Select);
+
+            [Fact]
+            public void TheSameSkipTokenOptionInstanceShouldBeReturnedEachTime() => Assert.Same(_queryOptions.SkipToken, _queryOptions.SkipToken);
+
+            [Fact]
+            public void TheSearchPropertyShouldBeSet() => Assert.NotNull(_queryOptions.Search);
+
+            [Fact]
+            public void TheSelectPropertyShouldBeSet() => Assert.NotNull(_queryOptions.Select);
+
+            [Fact]
+            public void TheSkipPropertyShouldBeSet() => Assert.NotNull(_queryOptions.Skip);
+
+            [Fact]
+            public void TheSkipTokenPropertyShouldBeSet() => Assert.NotNull(_queryOptions.SkipToken);
+
+            [Fact]
+            public void TheTopPropertyShouldBeSet() => Assert.NotNull(_queryOptions.Top);
         }
 
         public class WhenConstructedWithNoQueryOptions
         {
-            private readonly HttpRequestMessage _httpRequestMessage;
-            private readonly ODataQueryOptions _option;
+            private readonly ODataQueryOptions _queryOptions;
 
             public WhenConstructedWithNoQueryOptions()
             {
                 TestHelper.EnsureEDM();
 
-                _httpRequestMessage = new HttpRequestMessage(
-                    HttpMethod.Get,
-                    "http://services.odata.org/OData/Products");
-
-                _option = new ODataQueryOptions(_httpRequestMessage, EntityDataModel.Current.EntitySets["Products"]);
+                _queryOptions = new ODataQueryOptions(
+                    "",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void TheCountOptionShouldNotBeSet()
-            {
-                Assert.False(_option.Count);
-            }
+            public void TheCountOptionShouldNotBeSet() => Assert.False(_queryOptions.Count);
 
             [Fact]
             public void TheEntitySetShouldBeSet()
             {
-                Assert.NotNull(_option.EntitySet);
+                Assert.NotNull(_queryOptions.EntitySet);
+                Assert.Equal("Products", _queryOptions.EntitySet.Name);
             }
 
             [Fact]
-            public void TheExpandOptionShouldNotBeSet()
-            {
-                Assert.Null(_option.Expand);
-            }
+            public void TheExpandOptionShouldNotBeSet() => Assert.Null(_queryOptions.Expand);
 
             [Fact]
-            public void TheFilterOptionShouldNotBeSet()
-            {
-                Assert.Null(_option.Filter);
-            }
+            public void TheFilterOptionShouldNotBeSet() => Assert.Null(_queryOptions.Filter);
 
             [Fact]
-            public void TheFormatOptionShouldNotBeSet()
-            {
-                Assert.Null(_option.Format);
-            }
+            public void TheFormatOptionShouldNotBeSet() => Assert.Null(_queryOptions.Format);
 
             [Fact]
-            public void TheOrderByPropertyShouldBeNotSet()
-            {
-                Assert.Null(_option.OrderBy);
-            }
+            public void TheOrderByPropertyShouldBeNotSet() => Assert.Null(_queryOptions.OrderBy);
 
             [Fact]
-            public void TheRawValuesPropertyShouldBeSet()
-            {
-                Assert.NotNull(_option.RawValues);
-            }
+            public void TheRawValuesPropertyShouldBeSet() => Assert.NotNull(_queryOptions.RawValues);
 
             [Fact]
-            public void TheRequestPropertyShouldReturnTheRequestMessage()
-            {
-                Assert.Equal(_httpRequestMessage, _option.Request);
-            }
+            public void TheSearchPropertyShouldNotBeSet() => Assert.Null(_queryOptions.Search);
 
             [Fact]
-            public void TheSearchPropertyShouldNotBeSet()
-            {
-                Assert.Null(_option.Search);
-            }
+            public void TheSelectPropertyShouldBeNotSet() => Assert.Null(_queryOptions.Select);
 
             [Fact]
-            public void TheSelectPropertyShouldBeNotSet()
-            {
-                Assert.Null(_option.Select);
-            }
+            public void TheSkipPropertyShouldBeNotSet() => Assert.Null(_queryOptions.Skip);
 
             [Fact]
-            public void TheSkipPropertyShouldBeNotSet()
-            {
-                Assert.Null(_option.Skip);
-            }
+            public void TheSkipTokenPropertyShouldBeNotSet() => Assert.Null(_queryOptions.SkipToken);
 
             [Fact]
-            public void TheSkipTokenPropertyShouldBeNotSet()
-            {
-                Assert.Null(_option.SkipToken);
-            }
-
-            [Fact]
-            public void TheTopPropertyShouldBeNotSet()
-            {
-                Assert.Null(_option.Top);
-            }
+            public void TheTopPropertyShouldBeNotSet() => Assert.Null(_queryOptions.Top);
         }
 
         /// <summary>
@@ -293,64 +256,50 @@ namespace Net.Http.OData.Tests.Query
         /// </summary>
         public class WhenConstructedWithPlusSignsInsteadOfSpacesInTheUrl
         {
-            private readonly HttpRequestMessage _httpRequestMessage;
-            private readonly ODataQueryOptions _option;
+            private readonly ODataQueryOptions _queryOptions;
 
             public WhenConstructedWithPlusSignsInsteadOfSpacesInTheUrl()
             {
                 TestHelper.EnsureEDM();
 
-                _httpRequestMessage = new HttpRequestMessage(
-                    HttpMethod.Get,
-                    "http://services.odata.org/OData/Employees?$filter=Forename+eq+'John'&$orderby=Forename+asc");
-
-                _option = new ODataQueryOptions(_httpRequestMessage, EntityDataModel.Current.EntitySets["Employees"]);
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=Forename+eq+'John'&$orderby=Forename+asc",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
             public void TheFilterOptionExpressionShouldBeCorrect()
             {
-                Assert.IsType<BinaryOperatorNode>(_option.Filter.Expression);
+                Assert.IsType<BinaryOperatorNode>(_queryOptions.Filter.Expression);
 
-                var node = (BinaryOperatorNode)_option.Filter.Expression;
+                var node = (BinaryOperatorNode)_queryOptions.Filter.Expression;
 
                 Assert.IsType<PropertyAccessNode>(node.Left);
                 Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
-                Assert.IsType<ConstantNode>(node.Right);
+                Assert.IsType<ConstantNode<string>>(node.Right);
             }
 
             [Fact]
-            public void TheFilterOptionShouldBeSet()
-            {
-                Assert.NotNull(_option.Filter);
-            }
+            public void TheFilterOptionShouldBeSet() => Assert.NotNull(_queryOptions.Filter);
 
             [Fact]
-            public void TheFilterOptionShouldHaveTheUnescapedRawValue()
-            {
-                Assert.Equal("$filter=Forename eq 'John'", _option.Filter.RawValue);
-            }
+            public void TheFilterOptionShouldHaveTheUnescapedRawValue() => Assert.Equal("$filter=Forename eq 'John'", _queryOptions.Filter.RawValue);
 
             [Fact]
             public void TheOrderByOptionShouldBeCorrect()
             {
-                Assert.Equal(1, _option.OrderBy.Properties.Count);
-                Assert.Equal(OrderByDirection.Ascending, _option.OrderBy.Properties[0].Direction);
-                Assert.Equal("Forename", _option.OrderBy.Properties[0].PropertyPath.Property.Name);
-                Assert.Equal("Forename asc", _option.OrderBy.Properties[0].RawValue);
+                Assert.Equal(1, _queryOptions.OrderBy.Properties.Count);
+                Assert.Equal(OrderByDirection.Ascending, _queryOptions.OrderBy.Properties[0].Direction);
+                Assert.Equal("Forename", _queryOptions.OrderBy.Properties[0].PropertyPath.Property.Name);
+                Assert.Equal("Forename asc", _queryOptions.OrderBy.Properties[0].RawValue);
             }
 
             [Fact]
-            public void TheOrderByOptionShouldBeSet()
-            {
-                Assert.NotNull(_option.OrderBy);
-            }
+            public void TheOrderByOptionShouldBeSet() => Assert.NotNull(_queryOptions.OrderBy);
 
             [Fact]
-            public void TheOrderByOptionShouldHaveTheUnescapedRawValue()
-            {
-                Assert.Equal("$orderby=Forename asc", _option.OrderBy.RawValue);
-            }
+            public void TheOrderByOptionShouldHaveTheUnescapedRawValue() => Assert.Equal("$orderby=Forename asc", _queryOptions.OrderBy.RawValue);
         }
 
         /// <summary>
@@ -358,31 +307,24 @@ namespace Net.Http.OData.Tests.Query
         /// </summary>
         public class WhenConstructedWithUrlEncodedPlusSignsAndPlusSignsInsteadOfSpacesInTheUrl
         {
-            private readonly HttpRequestMessage _httpRequestMessage;
-            private readonly ODataQueryOptions _option;
+            private readonly ODataQueryOptions _queryOptions;
 
             public WhenConstructedWithUrlEncodedPlusSignsAndPlusSignsInsteadOfSpacesInTheUrl()
             {
                 TestHelper.EnsureEDM();
 
-                _httpRequestMessage = new HttpRequestMessage(
-                    HttpMethod.Get,
-                    "http://services.odata.org/OData/Employees?$filter=Forename+eq+'John'+and+ImageData+eq+'TG9yZW0gaXBzdW0gZG9s%2Bb3Igc2l0IGF%3D'");
-
-                _option = new ODataQueryOptions(_httpRequestMessage, EntityDataModel.Current.EntitySets["Employees"]);
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=Forename+eq+'John'+and+ImageData+eq+'TG9yZW0gaXBzdW0gZG9s%2Bb3Igc2l0IGF%3D'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void TheFilterOptionShouldBeSet()
-            {
-                Assert.NotNull(_option.Filter);
-            }
+            public void TheFilterOptionShouldBeSet() => Assert.NotNull(_queryOptions.Filter);
 
             [Fact]
             public void TheFilterOptionShouldHaveTheUnescapedRawValue()
-            {
-                Assert.Equal("$filter=Forename eq 'John' and ImageData eq 'TG9yZW0gaXBzdW0gZG9s+b3Igc2l0IGF='", _option.Filter.RawValue);
-            }
+                => Assert.Equal("$filter=Forename eq 'John' and ImageData eq 'TG9yZW0gaXBzdW0gZG9s+b3Igc2l0IGF='", _queryOptions.Filter.RawValue);
         }
     }
 }

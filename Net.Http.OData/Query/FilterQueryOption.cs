@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="FilterQueryOption.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,9 +29,7 @@ namespace Net.Http.OData.Query
         /// <param name="model">The model.</param>
         internal FilterQueryOption(string rawValue, EdmComplexType model)
             : base(rawValue)
-        {
-            Expression = FilterExpressionParser.Parse(rawValue, model);
-        }
+             => Expression = FilterExpressionParser.Parse(rawValue, model);
 
         /// <summary>
         /// Gets the expression.

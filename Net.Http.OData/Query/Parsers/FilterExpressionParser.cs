@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="FilterExpressionParser.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 
@@ -22,8 +21,13 @@ namespace Net.Http.OData.Query.Parsers
     {
         internal static QueryNode Parse(string filterValue, EdmComplexType model)
         {
+            if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             var parserImpl = new FilterExpressionParserImpl(model);
-            QueryNode queryNode = parserImpl.Parse(new Lexer(filterValue));
+            QueryNode queryNode = parserImpl.ParseQueryNode(new Lexer(filterValue));
 
             return queryNode;
         }
@@ -36,12 +40,9 @@ namespace Net.Http.OData.Query.Parsers
             private int _groupingDepth;
             private BinaryOperatorKind _nextBinaryOperatorKind = BinaryOperatorKind.None;
 
-            internal FilterExpressionParserImpl(EdmComplexType model)
-            {
-                _model = model;
-            }
+            internal FilterExpressionParserImpl(EdmComplexType model) => _model = model;
 
-            internal QueryNode Parse(Lexer lexer)
+            internal QueryNode ParseQueryNode(Lexer lexer)
             {
                 while (lexer.MoveNext())
                 {
@@ -70,14 +71,14 @@ namespace Net.Http.OData.Query.Parsers
 
                 if (_groupingDepth != 0 || _nodeStack.Count != 1)
                 {
-                    throw new ODataException(HttpStatusCode.BadRequest, "Unable to parse the specified $filter system query option, an extra opening or missing closing parenthesis may be present");
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter("an extra opening or missing closing parenthesis may be present"));
                 }
 
                 QueryNode node = _nodeStack.Pop();
 
-                if (node is BinaryOperatorNode binaryNode && (binaryNode.Left is null || binaryNode.Right is null))
+                if (node is BinaryOperatorNode binaryNode && binaryNode.Right is null)
                 {
-                    throw new ODataException(HttpStatusCode.BadRequest, $"Unable to parse the specified $filter system query option, the binary operator {binaryNode.OperatorKind.ToString()} has no {(binaryNode.Left is null ? "left" : "right")} node");
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the binary operator {binaryNode.OperatorKind.ToString()} has no right node"));
                 }
 
                 return node;
@@ -100,7 +101,7 @@ namespace Net.Http.OData.Query.Parsers
                             if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
                                 // All OData functions have at least 1 or 2 parameters
-                                throw new ODataException(HttpStatusCode.BadRequest, $"Unable to parse the specified $filter system query option, the function {node?.Name} has no parameters");
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has no parameters specified", token.Position));
                             }
 
                             _groupingDepth++;
@@ -110,7 +111,7 @@ namespace Net.Http.OData.Query.Parsers
                         case TokenType.CloseParentheses:
                             if (_groupingDepth == 0)
                             {
-                                throw new ODataException(HttpStatusCode.BadRequest, "Unable to parse the specified $filter system query option, closing parenthesis not expected");
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the closing parenthesis not expected", token.Position));
                             }
 
                             _groupingDepth--;
@@ -147,7 +148,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.PropertyName:
-                            var propertyAccessNode = new PropertyAccessNode(PropertyPathSegment.For(token.Value, _model));
+                            var propertyAccessNode = new PropertyAccessNode(PropertyPath.For(token.Value, _model));
 
                             if (stack.Count > 0)
                             {
@@ -155,16 +156,23 @@ namespace Net.Http.OData.Query.Parsers
                             }
                             else
                             {
+                                if (binaryNode == null)
+                                {
+                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
+                                }
+
                                 binaryNode.Right = propertyAccessNode;
                             }
 
                             break;
 
+                        case TokenType.Base64Binary:
                         case TokenType.Date:
                         case TokenType.DateTimeOffset:
                         case TokenType.Decimal:
                         case TokenType.Double:
                         case TokenType.Duration:
+                        case TokenType.EdmType:
                         case TokenType.Enum:
                         case TokenType.False:
                         case TokenType.Guid:
@@ -182,6 +190,11 @@ namespace Net.Http.OData.Query.Parsers
                             }
                             else
                             {
+                                if (binaryNode == null)
+                                {
+                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
+                                }
+
                                 binaryNode.Right = constantNode;
                             }
 
@@ -191,7 +204,7 @@ namespace Net.Http.OData.Query.Parsers
                             if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
                                 // If there is a comma in a function call, there should be another parameter followed by a closing comma
-                                throw new ODataException(HttpStatusCode.BadRequest, $"Unable to parse the specified $filter system query option, the function {node?.Name} has a missing parameter or extra comma");
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has a missing parameter or extra comma", token.Position));
                             }
 
                             break;
@@ -252,7 +265,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.PropertyName:
-                            var propertyAccessNode = new PropertyAccessNode(PropertyPathSegment.For(token.Value, _model));
+                            var propertyAccessNode = new PropertyAccessNode(PropertyPath.For(token.Value, _model));
 
                             if (leftNode is null)
                             {
@@ -265,6 +278,7 @@ namespace Net.Http.OData.Query.Parsers
 
                             break;
 
+                        case TokenType.Base64Binary:
                         case TokenType.Date:
                         case TokenType.DateTimeOffset:
                         case TokenType.Decimal:
@@ -295,7 +309,7 @@ namespace Net.Http.OData.Query.Parsers
             {
                 if (_tokens.Count == 0)
                 {
-                    throw new ODataException(HttpStatusCode.BadRequest, "Unable to parse the specified $filter system query option, an incomplete filter has been specified");
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"));
                 }
 
                 QueryNode node;
@@ -373,7 +387,7 @@ namespace Net.Http.OData.Query.Parsers
                 {
                     _nodeStack.Push(new BinaryOperatorNode(node, _nextBinaryOperatorKind, null));
                 }
-                else if (_groupingDepth < initialGroupingDepth)
+                else
                 {
                     var binaryNode = (BinaryOperatorNode)_nodeStack.Pop();
                     binaryNode.Right = node;

@@ -1,11 +1,17 @@
-﻿using Net.Http.OData.Model;
+﻿using System;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query;
+using Net.Http.OData.Query.Expressions;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query
 {
     public class SelectExpandQueryOptionTests
     {
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_For_NullModel()
+            => Assert.Throws<ArgumentNullException>(() => new SelectExpandQueryOption("$select=*", null));
+
         public class WhenConstructedWithExpandSingleValue
         {
             private readonly SelectExpandQueryOption _option;
@@ -121,17 +127,17 @@ namespace Net.Http.OData.Tests.Query
             {
                 Assert.Equal(1, _option.PropertyPaths.Count);
 
-                PropertyPathSegment propertyPathSegment = _option.PropertyPaths[0];
+                PropertyPath propertyPath = _option.PropertyPaths[0];
 
-                Assert.Equal("Category", propertyPathSegment.Property.Name);
-                Assert.Equal("Product", propertyPathSegment.Property.DeclaringType.Name);
-                Assert.NotNull(propertyPathSegment.Next);
+                Assert.Equal("Category", propertyPath.Property.Name);
+                Assert.Equal("Product", propertyPath.Property.DeclaringType.Name);
+                Assert.NotNull(propertyPath.Next);
 
-                propertyPathSegment = propertyPathSegment.Next;
+                propertyPath = propertyPath.Next;
 
-                Assert.Equal("Name", propertyPathSegment.Property.Name);
-                Assert.Equal("Category", propertyPathSegment.Property.DeclaringType.Name);
-                Assert.Null(propertyPathSegment.Next);
+                Assert.Equal("Name", propertyPath.Property.Name);
+                Assert.Equal("Category", propertyPath.Property.DeclaringType.Name);
+                Assert.Null(propertyPath.Next);
             }
 
             [Fact]
@@ -163,6 +169,46 @@ namespace Net.Http.OData.Tests.Query
                 Assert.All(_option.PropertyPaths, p => Assert.Null(p.Next));
 
                 Assert.Equal("Name", _option.PropertyPaths[0].Property.Name);
+            }
+
+            [Fact]
+            public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
+            {
+                Assert.Equal(_rawValue, _option.RawValue);
+            }
+        }
+
+        public class WhenConstructedWithSelectStarAndPropertyPathValue
+        {
+            private readonly EdmComplexType _model;
+            private readonly SelectExpandQueryOption _option;
+            private readonly string _rawValue;
+
+            public WhenConstructedWithSelectStarAndPropertyPathValue()
+            {
+                TestHelper.EnsureEDM();
+
+                _model = EntityDataModel.Current.EntitySets["Products"].EdmType;
+                _rawValue = "$select=*,Category/Name";
+                _option = new SelectExpandQueryOption(_rawValue, _model);
+            }
+
+            [Fact]
+            public void ThePropertiesShouldContainAllProperties()
+            {
+                Assert.Equal(9, _option.PropertyPaths.Count);
+
+                Assert.Equal("Colour", _option.PropertyPaths[0].Property.Name);
+                Assert.Equal("Deleted", _option.PropertyPaths[1].Property.Name);
+                Assert.Equal("Description", _option.PropertyPaths[2].Property.Name);
+                Assert.Equal("Name", _option.PropertyPaths[3].Property.Name);
+                Assert.Equal("Price", _option.PropertyPaths[4].Property.Name);
+                Assert.Equal("ProductId", _option.PropertyPaths[5].Property.Name);
+                Assert.Equal("Rating", _option.PropertyPaths[6].Property.Name);
+                Assert.Equal("ReleaseDate", _option.PropertyPaths[7].Property.Name);
+
+                Assert.Equal("Category", _option.PropertyPaths[8].Property.Name);
+                Assert.Equal("Name", _option.PropertyPaths[8].Next.Property.Name);
             }
 
             [Fact]

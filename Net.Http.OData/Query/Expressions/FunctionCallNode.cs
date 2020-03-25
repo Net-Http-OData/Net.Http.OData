@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="FunctionCallNode.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 
 namespace Net.Http.OData.Query.Expressions
@@ -20,18 +21,23 @@ namespace Net.Http.OData.Query.Expressions
     [System.Diagnostics.DebuggerDisplay("{Name}")]
     public sealed class FunctionCallNode : QueryNode
     {
+        private readonly List<QueryNode> _parameters = new List<QueryNode>();
+
         /// <summary>
         /// Initialises a new instance of the <see cref="FunctionCallNode" /> class.
         /// </summary>
         /// <param name="name">The name of the function.</param>
         internal FunctionCallNode(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("The name of the function must be specified.", nameof(name));
+            }
+
             Name = name;
         }
 
-        /// <summary>
-        /// Gets the kind of query node.
-        /// </summary>
+        /// <inheritdoc/>
         public override QueryNodeKind Kind { get; } = QueryNodeKind.FunctionCall;
 
         /// <summary>
@@ -42,8 +48,8 @@ namespace Net.Http.OData.Query.Expressions
         /// <summary>
         /// Gets the parameters for the function call.
         /// </summary>
-        public IReadOnlyList<QueryNode> Parameters { get; } = new List<QueryNode>();
+        public IReadOnlyList<QueryNode> Parameters => _parameters;
 
-        internal void AddParameter(QueryNode queryNode) => ((IList<QueryNode>)Parameters).Add(queryNode);
+        internal void AddParameter(QueryNode queryNode) => _parameters.Add(queryNode);
     }
 }

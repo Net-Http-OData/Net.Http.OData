@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="FormatQueryOption.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,9 +20,7 @@ namespace Net.Http.OData.Query
     [System.Diagnostics.DebuggerDisplay("{RawValue}")]
     public sealed class FormatQueryOption : QueryOption
     {
-        private static readonly MediaTypeHeaderValue s_atomXml = new MediaTypeHeaderValue("application/atom+xml");
         private static readonly MediaTypeHeaderValue s_json = new MediaTypeHeaderValue("application/json");
-        private static readonly MediaTypeHeaderValue s_xml = new MediaTypeHeaderValue("application/xml");
 
         /// <summary>
         /// Initialises a new instance of the <see cref="FormatQueryOption"/> class.
@@ -31,26 +29,19 @@ namespace Net.Http.OData.Query
         internal FormatQueryOption(string rawValue)
             : base(rawValue)
         {
-            int equals = rawValue.IndexOf('=') + 1;
-            string value = rawValue.Substring(equals, rawValue.Length - equals);
+            string format = rawValue.SubstringBefore(';');
 
-            switch (value)
+            switch (format)
             {
-                case "atom":
-                    MediaTypeHeaderValue = s_atomXml;
-                    break;
-
-                case "json":
+                case "$format=json":
+                case "$format=application/json":
                     MediaTypeHeaderValue = s_json;
                     break;
 
-                case "xml":
-                    MediaTypeHeaderValue = s_xml;
-                    break;
-
                 default:
-                    MediaTypeHeaderValue = new MediaTypeHeaderValue(value);
-                    break;
+                    string value = format.SubstringAfter('=');
+
+                    throw ODataException.UnsupportedMediaType(ExceptionMessage.QueryOptionValueNotSupported("$format", value, "'json, application/json'"));
             }
         }
 

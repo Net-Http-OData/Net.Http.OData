@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="EdmCollectionType.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,20 +15,18 @@ using System;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// Represents a collection type in the Entity Data Model.
+    /// A class which represents a collection type in the Entity Data Model.
     /// </summary>
     /// <seealso cref="EdmType"/>
     [System.Diagnostics.DebuggerDisplay("{FullName}: {ClrType}")]
     public sealed class EdmCollectionType : EdmType
     {
         internal EdmCollectionType(Type clrType, EdmType containedType)
-            : base("Collection", $"Collection({containedType?.FullName})", clrType)
-        {
-            ContainedType = containedType ?? throw new ArgumentNullException(nameof(containedType));
-        }
+            : base(clrType, "Collection", $"Collection({containedType?.FullName})")
+            => ContainedType = containedType ?? throw new ArgumentNullException(nameof(containedType));
 
         /// <summary>
-        /// Gets the <see cref="EdmType"/> type contained in the collection.
+        /// Gets the <see cref="EdmType"/> contained in the collection.
         /// </summary>
         public EdmType ContainedType { get; }
     }

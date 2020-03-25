@@ -128,6 +128,146 @@ namespace Net.Http.OData.Tests.Model
         }
 
         [Fact]
+        public void NullableBoolean()
+        {
+            Assert.Equal(typeof(bool?), EdmPrimitiveType.NullableBoolean.ClrType);
+            Assert.Equal("Edm.Boolean", EdmPrimitiveType.NullableBoolean.FullName);
+            Assert.Equal("Boolean", EdmPrimitiveType.NullableBoolean.Name);
+            Assert.Same(EdmPrimitiveType.NullableBoolean, EdmPrimitiveType.NullableBoolean);
+            Assert.Equal(EdmPrimitiveType.NullableBoolean.ToString(), EdmPrimitiveType.NullableBoolean.FullName);
+        }
+
+        [Fact]
+        public void NullableByte()
+        {
+            Assert.Equal(typeof(byte?), EdmPrimitiveType.NullableByte.ClrType);
+            Assert.Equal("Edm.Byte", EdmPrimitiveType.NullableByte.FullName);
+            Assert.Equal("Byte", EdmPrimitiveType.NullableByte.Name);
+            Assert.Same(EdmPrimitiveType.NullableByte, EdmPrimitiveType.NullableByte);
+            Assert.Equal(EdmPrimitiveType.NullableByte.ToString(), EdmPrimitiveType.NullableByte.FullName);
+        }
+
+        [Fact]
+        public void NullableDate()
+        {
+            Assert.Equal(typeof(DateTime?), EdmPrimitiveType.NullableDate.ClrType);
+            Assert.Equal("Edm.Date", EdmPrimitiveType.NullableDate.FullName);
+            Assert.Equal("Date", EdmPrimitiveType.NullableDate.Name);
+            Assert.Same(EdmPrimitiveType.NullableDate, EdmPrimitiveType.NullableDate);
+            Assert.Equal(EdmPrimitiveType.NullableDate.ToString(), EdmPrimitiveType.NullableDate.FullName);
+        }
+
+        [Fact]
+        public void NullableDateTimeOffset()
+        {
+            Assert.Equal(typeof(DateTimeOffset?), EdmPrimitiveType.NullableDateTimeOffset.ClrType);
+            Assert.Equal("Edm.DateTimeOffset", EdmPrimitiveType.NullableDateTimeOffset.FullName);
+            Assert.Equal("DateTimeOffset", EdmPrimitiveType.NullableDateTimeOffset.Name);
+            Assert.Same(EdmPrimitiveType.NullableDateTimeOffset, EdmPrimitiveType.NullableDateTimeOffset);
+            Assert.Equal(EdmPrimitiveType.NullableDateTimeOffset.ToString(), EdmPrimitiveType.NullableDateTimeOffset.FullName);
+        }
+
+        [Fact]
+        public void NullableDecimal()
+        {
+            Assert.Equal(typeof(decimal?), EdmPrimitiveType.NullableDecimal.ClrType);
+            Assert.Equal("Edm.Decimal", EdmPrimitiveType.NullableDecimal.FullName);
+            Assert.Equal("Decimal", EdmPrimitiveType.NullableDecimal.Name);
+            Assert.Same(EdmPrimitiveType.NullableDecimal, EdmPrimitiveType.NullableDecimal);
+            Assert.Equal(EdmPrimitiveType.NullableDecimal.ToString(), EdmPrimitiveType.NullableDecimal.FullName);
+        }
+
+        [Fact]
+        public void NullableDouble()
+        {
+            Assert.Equal(typeof(double?), EdmPrimitiveType.NullableDouble.ClrType);
+            Assert.Equal("Edm.Double", EdmPrimitiveType.NullableDouble.FullName);
+            Assert.Equal("Double", EdmPrimitiveType.NullableDouble.Name);
+            Assert.Same(EdmPrimitiveType.NullableDouble, EdmPrimitiveType.NullableDouble);
+            Assert.Equal(EdmPrimitiveType.NullableDouble.ToString(), EdmPrimitiveType.NullableDouble.FullName);
+        }
+
+        [Fact]
+        public void NullableDuration()
+        {
+            Assert.Equal(typeof(TimeSpan?), EdmPrimitiveType.NullableDuration.ClrType);
+            Assert.Equal("Edm.Duration", EdmPrimitiveType.NullableDuration.FullName);
+            Assert.Equal("Duration", EdmPrimitiveType.NullableDuration.Name);
+            Assert.Same(EdmPrimitiveType.NullableDuration, EdmPrimitiveType.NullableDuration);
+            Assert.Equal(EdmPrimitiveType.NullableDuration.ToString(), EdmPrimitiveType.NullableDuration.FullName);
+        }
+
+        [Fact]
+        public void NullableGuid()
+        {
+            Assert.Equal(typeof(Guid?), EdmPrimitiveType.NullableGuid.ClrType);
+            Assert.Equal("Edm.Guid", EdmPrimitiveType.NullableGuid.FullName);
+            Assert.Equal("Guid", EdmPrimitiveType.NullableGuid.Name);
+            Assert.Same(EdmPrimitiveType.NullableGuid, EdmPrimitiveType.NullableGuid);
+            Assert.Equal(EdmPrimitiveType.NullableGuid.ToString(), EdmPrimitiveType.NullableGuid.FullName);
+        }
+
+        [Fact]
+        public void NullableInt16()
+        {
+            Assert.Equal(typeof(short?), EdmPrimitiveType.NullableInt16.ClrType);
+            Assert.Equal("Edm.Int16", EdmPrimitiveType.NullableInt16.FullName);
+            Assert.Equal("Int16", EdmPrimitiveType.NullableInt16.Name);
+            Assert.Same(EdmPrimitiveType.NullableInt16, EdmPrimitiveType.NullableInt16);
+            Assert.Equal(EdmPrimitiveType.NullableInt16.ToString(), EdmPrimitiveType.NullableInt16.FullName);
+        }
+
+        [Fact]
+        public void NullableInt32()
+        {
+            Assert.Equal(typeof(int?), EdmPrimitiveType.NullableInt32.ClrType);
+            Assert.Equal("Edm.Int32", EdmPrimitiveType.NullableInt32.FullName);
+            Assert.Equal("Int32", EdmPrimitiveType.NullableInt32.Name);
+            Assert.Same(EdmPrimitiveType.NullableInt32, EdmPrimitiveType.NullableInt32);
+            Assert.Equal(EdmPrimitiveType.NullableInt32.ToString(), EdmPrimitiveType.NullableInt32.FullName);
+        }
+
+        [Fact]
+        public void NullableInt64()
+        {
+            Assert.Equal(typeof(long?), EdmPrimitiveType.NullableInt64.ClrType);
+            Assert.Equal("Edm.Int64", EdmPrimitiveType.NullableInt64.FullName);
+            Assert.Equal("Int64", EdmPrimitiveType.NullableInt64.Name);
+            Assert.Same(EdmPrimitiveType.NullableInt64, EdmPrimitiveType.NullableInt64);
+            Assert.Equal(EdmPrimitiveType.NullableInt64.ToString(), EdmPrimitiveType.NullableInt64.FullName);
+        }
+
+        [Fact]
+        public void NullableSByte()
+        {
+            Assert.Equal(typeof(sbyte?), EdmPrimitiveType.NullableSByte.ClrType);
+            Assert.Equal("Edm.SByte", EdmPrimitiveType.NullableSByte.FullName);
+            Assert.Equal("SByte", EdmPrimitiveType.NullableSByte.Name);
+            Assert.Same(EdmPrimitiveType.NullableSByte, EdmPrimitiveType.NullableSByte);
+            Assert.Equal(EdmPrimitiveType.NullableSByte.ToString(), EdmPrimitiveType.NullableSByte.FullName);
+        }
+
+        [Fact]
+        public void NullableSingle()
+        {
+            Assert.Equal(typeof(float?), EdmPrimitiveType.NullableSingle.ClrType);
+            Assert.Equal("Edm.Single", EdmPrimitiveType.NullableSingle.FullName);
+            Assert.Equal("Single", EdmPrimitiveType.NullableSingle.Name);
+            Assert.Same(EdmPrimitiveType.NullableSingle, EdmPrimitiveType.NullableSingle);
+            Assert.Equal(EdmPrimitiveType.NullableSingle.ToString(), EdmPrimitiveType.NullableSingle.FullName);
+        }
+
+        [Fact]
+        public void NullableTimeOfDay()
+        {
+            Assert.Equal(typeof(TimeSpan?), EdmPrimitiveType.NullableTimeOfDay.ClrType);
+            Assert.Equal("Edm.TimeOfDay", EdmPrimitiveType.NullableTimeOfDay.FullName);
+            Assert.Equal("TimeOfDay", EdmPrimitiveType.NullableTimeOfDay.Name);
+            Assert.Same(EdmPrimitiveType.NullableTimeOfDay, EdmPrimitiveType.NullableTimeOfDay);
+            Assert.Equal(EdmPrimitiveType.NullableTimeOfDay.ToString(), EdmPrimitiveType.NullableTimeOfDay.FullName);
+        }
+
+        [Fact]
         public void SByte()
         {
             Assert.Equal(typeof(sbyte), EdmPrimitiveType.SByte.ClrType);

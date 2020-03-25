@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="UnaryOperatorNode.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -10,6 +10,8 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
+
 namespace Net.Http.OData.Query.Expressions
 {
     /// <summary>
@@ -25,13 +27,11 @@ namespace Net.Http.OData.Query.Expressions
         /// <param name="operatorKind">Kind of the operator.</param>
         internal UnaryOperatorNode(QueryNode operand, UnaryOperatorKind operatorKind)
         {
-            Operand = operand;
+            Operand = operand ?? throw new ArgumentNullException(nameof(operand));
             OperatorKind = operatorKind;
         }
 
-        /// <summary>
-        /// Gets the kind of query node.
-        /// </summary>
+        /// <inheritdoc/>
         public override QueryNodeKind Kind { get; } = QueryNodeKind.UnaryOperator;
 
         /// <summary>

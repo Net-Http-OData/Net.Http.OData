@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="Lexer.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,7 +11,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
-using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Net.Http.OData.Query.Parsers
 {
@@ -38,11 +38,13 @@ namespace Net.Http.OData.Query.Parsers
             new TokenDefinition(TokenType.Double,               @"(\+|-)?(\d+(\.\d+)?(d|D)|\d+\.\d+(e|E)\d+)"),
             new TokenDefinition(TokenType.Single,               @"(\+|-)?\d+(\.\d+)?(f|F)"),
             new TokenDefinition(TokenType.Integer,              @"(\+|-)?\d+(l|L)?"),
-            new TokenDefinition(TokenType.FunctionName,         @"\w+(?=\()"),
+            new TokenDefinition(TokenType.FunctionName,         @"[a-z]+(?=\()"),
             new TokenDefinition(TokenType.Comma,                @",(?=\s?)"),
             new TokenDefinition(TokenType.Duration,             @"duration'(-)?P\d+DT\d{2}H\d{2}M\d{2}\.\d+S'"),
+            new TokenDefinition(TokenType.Base64Binary,         @"binary'[a-zA-Z0-9\+/]*={0,2}'"),
             new TokenDefinition(TokenType.Enum,                 @"\w+(\.\w+)+'\w+(\,\w+)*'"),
-            new TokenDefinition(TokenType.PropertyName,         @"[\w\/]+"),
+            new TokenDefinition(TokenType.EdmType,              @"([a-zA-Z]+\.)+[a-zA-Z0-9]+(?=\))"),
+            new TokenDefinition(TokenType.PropertyName,         @"(\w+\/?)+"),
             new TokenDefinition(TokenType.String,               @"'(?:''|[\w\s-.~!$&()*+,;=@\\\/]*)*'"),
             new TokenDefinition(TokenType.Whitespace,           @"\s", ignore: true),
         };
@@ -70,7 +72,7 @@ namespace Net.Http.OData.Query.Parsers
             {
                 TokenDefinition tokenDefinition = s_tokenDefinitions[i];
 
-                System.Text.RegularExpressions.Match match = tokenDefinition.Regex.Match(_content, _position);
+                Match match = tokenDefinition.Regex.Match(_content, _position);
 
                 if (match.Success)
                 {
@@ -81,7 +83,7 @@ namespace Net.Http.OData.Query.Parsers
                         continue;
                     }
 
-                    Current = tokenDefinition.CreateToken(match);
+                    Current = tokenDefinition.CreateToken(match, _position);
                     _position += match.Length;
 
                     return true;
@@ -90,7 +92,7 @@ namespace Net.Http.OData.Query.Parsers
 
             if (_content.Length != _position)
             {
-                throw new ODataException(HttpStatusCode.BadRequest, "Unable to parse the specified $filter system query option");
+                throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
             }
 
             return false;

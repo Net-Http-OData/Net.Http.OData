@@ -1,5 +1,5 @@
+using System;
 using Net.Http.OData.Model;
-using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
 using Xunit;
 
@@ -7,6 +7,10 @@ namespace Net.Http.OData.Tests.Query.Expressions
 {
     public class UnaryOperatorNodeTests
     {
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_ForNullPropertyPath()
+            => Assert.Throws<ArgumentNullException>(() => new UnaryOperatorNode(null, UnaryOperatorKind.Not));
+
         public class WhenConstructed
         {
             private readonly UnaryOperatorNode _node;
@@ -19,7 +23,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
                 EdmComplexType model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-                _operand = new PropertyAccessNode(new PropertyPathSegment(model.GetProperty("CompanyName")));
+                _operand = new PropertyAccessNode(PropertyPath.For(model.GetProperty("CompanyName")));
                 _node = new UnaryOperatorNode(_operand, _unaryOperatorKind);
             }
 

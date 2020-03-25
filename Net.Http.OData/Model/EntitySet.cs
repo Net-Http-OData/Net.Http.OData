@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="EntitySet.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,8 +15,9 @@ using System;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// Represents an Entity Set in the Entity Data Model.
+    /// A class which represents an Entity Set in the Entity Data Model.
     /// </summary>
+    [System.Diagnostics.DebuggerDisplay("{Name} - {EdmType.FullName}")]
     public sealed class EntitySet
     {
         internal EntitySet(string name, EdmComplexType edmType, EdmProperty entityKey, Capabilities capabilities)
@@ -43,7 +44,7 @@ namespace Net.Http.OData.Model
         public EdmComplexType EdmType { get; }
 
         /// <summary>
-        /// Gets the entity key property.
+        /// Gets the <see cref="EdmProperty"/> which is the entity key.
         /// </summary>
         public EdmProperty EntityKey { get; }
 

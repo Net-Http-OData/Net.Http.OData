@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="AbstractOrderByBinder.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ namespace Net.Http.OData.Query.Binders
     /// <summary>
     /// A base class for binding the $orderby query option.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public abstract class AbstractOrderByBinder
     {
         /// <summary>
@@ -30,9 +31,7 @@ namespace Net.Http.OData.Query.Binders
 
             for (int i = 0; i < orderByQueryOption.Properties.Count; i++)
             {
-                OrderByProperty property = orderByQueryOption.Properties[i];
-
-                Bind(property);
+                Bind(orderByQueryOption.Properties[i]);
             }
         }
 

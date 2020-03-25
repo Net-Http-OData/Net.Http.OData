@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using System.Net.Http;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Validators;
@@ -23,18 +23,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$search=blue OR green"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$search=blue OR green",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => SearchQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("The query option $search is not implemented by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("The query option $search is not implemented by this service", odataException.Message);
             }
         }
 
@@ -52,8 +53,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$search=blue OR green"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$search=blue OR green",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]

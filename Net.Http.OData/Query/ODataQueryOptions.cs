@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ODataQueryOptions.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,35 +11,36 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
-using System.Net;
-using System.Net.Http;
 using Net.Http.OData.Model;
 
 namespace Net.Http.OData.Query
 {
     /// <summary>
-    /// An object which contains the query options in an OData query.
+    /// A class which contains the query options in an OData query.
     /// </summary>
     public sealed class ODataQueryOptions
     {
+        private readonly IODataQueryOptionsValidator _validator;
         private SelectExpandQueryOption _expand;
         private FilterQueryOption _filter;
         private FormatQueryOption _format;
         private OrderByQueryOption _orderBy;
+        private SearchQueryOption _search;
         private SelectExpandQueryOption _select;
         private SkipTokenQueryOption _skipToken;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ODataQueryOptions" /> class.
         /// </summary>
-        /// <param name="request">The current http request message.</param>
+        /// <param name="query">The query fom the request URI.</param>
         /// <param name="entitySet">The Entity Set to apply the OData query against.</param>
-        /// <exception cref="ArgumentNullException">Thrown if the request or model are null.</exception>
-        public ODataQueryOptions(HttpRequestMessage request, EntitySet entitySet)
+        /// <param name="validator">The query options validator to use.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="query"/>, <paramref name="entitySet"/> or <paramref name="validator"/> are null.</exception>
+        public ODataQueryOptions(string query, EntitySet entitySet, IODataQueryOptionsValidator validator)
         {
-            Request = request ?? throw new ArgumentNullException(nameof(request));
             EntitySet = entitySet ?? throw new ArgumentNullException(nameof(entitySet));
-            RawValues = new ODataRawQueryOptions(request.RequestUri.Query);
+            RawValues = new ODataRawQueryOptions(query ?? throw new ArgumentNullException(nameof(query)));
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace Net.Http.OData.Query
         public EntitySet EntitySet { get; }
 
         /// <summary>
-        /// Gets the expand query option.
+        /// Gets <see cref="SelectExpandQueryOption"/> which represents the $expand query option.
         /// </summary>
         public SelectExpandQueryOption Expand
         {
@@ -69,7 +70,7 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the filter query option.
+        /// Gets <see cref="FilterQueryOption"/> which represents the $filter query option.
         /// </summary>
         public FilterQueryOption Filter
         {
@@ -85,7 +86,7 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the format query option.
+        /// Gets <see cref="FormatQueryOption"/> which represents the $format query option.
         /// </summary>
         public FormatQueryOption Format
         {
@@ -101,7 +102,7 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the order by query option.
+        /// Gets <see cref="OrderByQueryOption"/> which represents the $orderby query option.
         /// </summary>
         public OrderByQueryOption OrderBy
         {
@@ -122,17 +123,23 @@ namespace Net.Http.OData.Query
         public ODataRawQueryOptions RawValues { get; }
 
         /// <summary>
-        /// Gets the request message associated with this OData query.
+        /// Gets <see cref="SearchQueryOption"/> which represents the $search query option.
         /// </summary>
-        public HttpRequestMessage Request { get; }
+        public SearchQueryOption Search
+        {
+            get
+            {
+                if (_search is null && RawValues.Search != null)
+                {
+                    _search = new SearchQueryOption(RawValues.Search);
+                }
+
+                return _search;
+            }
+        }
 
         /// <summary>
-        /// Gets the search query option.
-        /// </summary>
-        public string Search => RawValues.Search?.Substring(RawValues.Search.IndexOf('=') + 1);
-
-        /// <summary>
-        /// Gets the select query option.
+        /// Gets <see cref="SelectExpandQueryOption"/> which represents the $select query option.
         /// </summary>
         public SelectExpandQueryOption Select
         {
@@ -148,12 +155,12 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the skip query option.
+        /// Gets the integer value specified in the $skip query option.
         /// </summary>
         public int? Skip => ParseInt(RawValues.Skip);
 
         /// <summary>
-        /// Gets the skip token query option.
+        /// Gets <see cref="SkipTokenQueryOption"/> which represents the $skiptoken query option.
         /// </summary>
         public SkipTokenQueryOption SkipToken
         {
@@ -169,9 +176,15 @@ namespace Net.Http.OData.Query
         }
 
         /// <summary>
-        /// Gets the top query option.
+        /// Gets the integer value specified in the $top query option.
         /// </summary>
         public int? Top => ParseInt(RawValues.Top);
+
+        /// <summary>
+        /// Validates this instance using the specified validation settings.
+        /// </summary>
+        /// <param name="validationSettings">The validation settings to configure the validation.</param>
+        public void Validate(ODataValidationSettings validationSettings) => _validator.Validate(this, validationSettings);
 
         private static int? ParseInt(string rawValue)
         {
@@ -180,17 +193,16 @@ namespace Net.Http.OData.Query
                 return null;
             }
 
-            int equals = rawValue.IndexOf('=') + 1;
-            string value = rawValue.Substring(equals, rawValue.Length - equals);
+            string value = rawValue.SubstringAfter('=');
 
             if (int.TryParse(value, out int integer))
             {
                 return integer;
             }
 
-            string queryOption = rawValue.Substring(0, equals - 1);
+            string queryOption = rawValue.SubstringBefore('=');
 
-            throw new ODataException(HttpStatusCode.BadRequest, $"The value for OData query {queryOption} must be a non-negative numeric value");
+            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueMustBePositiveInteger(queryOption));
         }
     }
 }

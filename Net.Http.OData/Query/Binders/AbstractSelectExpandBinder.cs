@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="AbstractSelectExpandBinder.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -10,11 +10,14 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using Net.Http.OData.Query.Expressions;
+
 namespace Net.Http.OData.Query.Binders
 {
     /// <summary>
     /// A base class for binding the $select and $expand query options.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public abstract class AbstractSelectExpandBinder
     {
         /// <summary>
@@ -30,16 +33,14 @@ namespace Net.Http.OData.Query.Binders
 
             for (int i = 0; i < selectExpandQueryOption.PropertyPaths.Count; i++)
             {
-                PropertyPathSegment propertyPath = selectExpandQueryOption.PropertyPaths[i];
-
-                Bind(propertyPath);
+                Bind(selectExpandQueryOption.PropertyPaths[i]);
             }
         }
 
         /// <summary>
-        /// Binds the specified <see cref="PropertyPathSegment"/>.
+        /// Binds the specified <see cref="PropertyPath"/>.
         /// </summary>
-        /// <param name="propertyPath">The <see cref="PropertyPathSegment"/> to bind.</param>
-        protected abstract void Bind(PropertyPathSegment propertyPath);
+        /// <param name="propertyPath">The <see cref="PropertyPath"/> to bind.</param>
+        protected abstract void Bind(PropertyPath propertyPath);
     }
 }

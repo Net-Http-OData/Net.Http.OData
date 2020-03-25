@@ -22,7 +22,7 @@ namespace Net.Http.OData.Tests.Model
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullMembers()
+        public void Constructor_Throws_ArgumentNullException_For_Null_Members()
         {
             Type type = typeof(AccessLevel);
 

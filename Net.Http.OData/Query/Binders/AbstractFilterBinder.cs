@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="AbstractFilterBinder.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,7 +11,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
-using System.Net;
 using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query.Binders
@@ -19,6 +18,7 @@ namespace Net.Http.OData.Query.Binders
     /// <summary>
     /// A base class for binding the $filter query option.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public abstract class AbstractFilterBinder
     {
         /// <summary>
@@ -51,6 +51,7 @@ namespace Net.Http.OData.Query.Binders
         /// Binds the specified <see cref="QueryNode"/>.
         /// </summary>
         /// <param name="queryNode">The <see cref="QueryNode"/> to bind.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="queryNode"/> is null.</exception>
         /// <exception cref="NotSupportedException">Thrown if the <see cref="QueryNodeKind"/> is not supported.</exception>
         protected void Bind(QueryNode queryNode)
         {
@@ -82,7 +83,7 @@ namespace Net.Http.OData.Query.Binders
                     break;
 
                 default:
-                    throw new ODataException(HttpStatusCode.NotImplemented, $"Query nodes of type '{queryNode.Kind.ToString()}' are not supported.");
+                    throw new NotSupportedException(ExceptionMessage.QueryNodeKindNotSupported(queryNode.Kind.ToString()));
             }
         }
 

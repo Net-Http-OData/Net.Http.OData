@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using System.Net.Http;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Validators;
@@ -23,18 +23,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=50"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$top=50",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => TopQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("The query option $top is not implemented by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("The query option $top is not implemented by this service", odataException.Message);
             }
         }
 
@@ -53,8 +54,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=50"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$top=50",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -78,18 +80,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=-1"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$top=-1",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithBadRequest()
+            public void An_ODataException_IsThrown_WithStatusBadRequest()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => TopQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 0 allowed by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+                Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 0 allowed by this service", odataException.Message);
             }
         }
 
@@ -108,8 +111,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=25"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$top=25",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -133,8 +137,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -159,18 +164,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$top=150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$top=150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithBadRequest()
+            public void An_ODataException_IsThrown_WithStatusBadRequest()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => TopQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.BadRequest, exception.StatusCode);
-                Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 100 allowed by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+                Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 100 allowed by this service", odataException.Message);
             }
         }
     }

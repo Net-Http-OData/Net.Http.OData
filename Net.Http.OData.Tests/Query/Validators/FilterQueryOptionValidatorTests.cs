@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using System.Net.Http;
+using Moq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Validators;
@@ -25,18 +25,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price add 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price add 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator add", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator add", odataException.Message);
             }
         }
 
@@ -56,8 +57,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price add 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price add 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -82,18 +84,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Forename eq 'John' and Surname eq 'Smith'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=Forename eq 'John' and Surname eq 'Smith'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator and", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator and", odataException.Message);
             }
         }
 
@@ -112,8 +115,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Forename eq 'John' and Surname eq 'Smith'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=Forename eq 'John' and Surname eq 'Smith'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -138,18 +142,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=cast(Price, 'Edm.Int64') eq 20"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=cast(Price, 'Edm.Int64') eq 20",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function cast", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function cast", odataException.Message);
             }
         }
 
@@ -169,8 +174,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=cast(Price, 'Edm.Int64') eq 20"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=cast(Price, 'Edm.Int64') eq 20",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -195,18 +201,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Orders?$filter=ceiling(Freight) eq 32"),
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    "?$filter=ceiling(Freight) eq 32",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function ceiling", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function ceiling", odataException.Message);
             }
         }
 
@@ -226,8 +233,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Orders?$filter=ceiling(Freight) eq 32"),
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    "?$filter=ceiling(Freight) eq 32",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -252,18 +260,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=concat(concat(City, ', '), Country) eq 'Berlin, Germany'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=concat(concat(City, ', '), Country) eq 'Berlin, Germany'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function concat", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function concat", odataException.Message);
             }
         }
 
@@ -283,8 +292,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=concat(concat(City, ', '), Country) eq 'Berlin, Germany'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=concat(concat(City, ', '), Country) eq 'Berlin, Germany'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -309,18 +319,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=contains(CompanyName,'Alfreds')"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=contains(CompanyName,'Alfreds')",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function contains", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function contains", odataException.Message);
             }
         }
 
@@ -340,8 +351,68 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=contains(CompanyName,'Alfreds')"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=contains(CompanyName,'Alfreds')",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void AnExceptionShouldNotBeThrown()
+            {
+                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheDateFunctionAndItIsNotSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.None
+            };
+
+            public WhenTheFilterQueryOptionContainsTheDateFunctionAndItIsNotSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=date(Date) eq 2019-04-17",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
+
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function date", odataException.Message);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheDateFunctionAndItIsSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.Date,
+                AllowedLogicalOperators = AllowedLogicalOperators.Equal
+            };
+
+            public WhenTheFilterQueryOptionContainsTheDateFunctionAndItIsSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "date(Date) eq 2019-04-17",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -366,18 +437,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=day(BirthDate) eq 8"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=day(BirthDate) eq 8",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function day", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function day", odataException.Message);
             }
         }
 
@@ -397,8 +469,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=day(BirthDate) eq 8"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=day(BirthDate) eq 8",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -424,18 +497,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price div 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price div 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator div", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator div", odataException.Message);
             }
         }
 
@@ -455,8 +529,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price div 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price div 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -481,18 +556,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=endswith(Surname, 'yes') eq true"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=endswith(Surname, 'yes') eq true",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function endswith", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function endswith", odataException.Message);
             }
         }
 
@@ -512,8 +588,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=endswith(Surname, 'yes') eq true"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=endswith(Surname, 'yes') eq true",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -538,18 +615,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Forename eq 'John'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=Forename eq 'John'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator eq", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator eq", odataException.Message);
             }
         }
 
@@ -568,8 +646,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Forename eq 'John'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=Forename eq 'John'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -594,18 +673,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Orders?$filter=floor(Freight) eq 32"),
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    "?$filter=floor(Freight) eq 32",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function floor", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function floor", odataException.Message);
             }
         }
 
@@ -625,8 +705,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Orders?$filter=floor(Freight) eq 32"),
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    "?$filter=floor(Freight) eq 32",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -651,18 +732,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=fractionalseconds(BirthDate) lt 0.1m"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=fractionalseconds(BirthDate) lt 0.1m",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function fractionalseconds", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function fractionalseconds", odataException.Message);
             }
         }
 
@@ -682,8 +764,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=fractionalseconds(BirthDate) lt 0.1m"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=fractionalseconds(BirthDate) lt 0.1m",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -708,18 +791,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price gt 35"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price gt 35",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator gt", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator gt", odataException.Message);
             }
         }
 
@@ -738,8 +822,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price gt 35"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price gt 35",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -764,18 +849,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price ge 35"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price ge 35",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator ge", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator ge", odataException.Message);
             }
         }
 
@@ -794,8 +880,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price ge 35"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price ge 35",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -820,18 +907,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=AccessLevel has NorthwindModel.AccessLevel'Write'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=AccessLevel has NorthwindModel.AccessLevel'Write'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator has", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator has", odataException.Message);
             }
         }
 
@@ -850,8 +938,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=AccessLevel has NorthwindModel.AccessLevel'Write'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=AccessLevel has NorthwindModel.AccessLevel'Write'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -876,18 +965,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=hour(BirthDate) eq 8"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=hour(BirthDate) eq 8",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function hour", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function hour", odataException.Message);
             }
         }
 
@@ -907,8 +997,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=hour(BirthDate) eq 8"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=hour(BirthDate) eq 8",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -933,18 +1024,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=indexof(Surname, 'Hayes') eq 1"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=indexof(Surname, 'Hayes') eq 1",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function indexof", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function indexof", odataException.Message);
             }
         }
 
@@ -964,8 +1056,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=indexof(Surname, 'Hayes') eq 1"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=indexof(Surname, 'Hayes') eq 1",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -990,18 +1083,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=isof(Price, 'Edm.Int64')"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=isof(Price, 'Edm.Int64')",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function isof", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function isof", odataException.Message);
             }
         }
 
@@ -1021,8 +1115,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=isof(Price, 'Edm.Int64')"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=isof(Price, 'Edm.Int64')",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1047,18 +1142,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=length(CompanyName) eq 19"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=length(CompanyName) eq 19",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function length", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function length", odataException.Message);
             }
         }
 
@@ -1078,8 +1174,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=length(CompanyName) eq 19"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=length(CompanyName) eq 19",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1104,18 +1201,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price lt 35"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price lt 35",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator lt", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator lt", odataException.Message);
             }
         }
 
@@ -1134,8 +1232,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price lt 35"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price lt 35",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1160,18 +1259,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price le 35"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price le 35",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator le", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator le", odataException.Message);
             }
         }
 
@@ -1190,8 +1290,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price le 35"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price le 35",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1216,18 +1317,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=ReleaseDate eq maxdatetime()"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=ReleaseDate eq maxdatetime()",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function maxdatetime", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function maxdatetime", odataException.Message);
             }
         }
 
@@ -1247,8 +1349,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=ReleaseDate eq maxdatetime()"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=ReleaseDate eq maxdatetime()",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1273,18 +1376,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=ReleaseDate eq mindatetime()"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=ReleaseDate eq mindatetime()",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function mindatetime", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function mindatetime", odataException.Message);
             }
         }
 
@@ -1304,8 +1408,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=ReleaseDate eq mindatetime()"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=ReleaseDate eq mindatetime()",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1330,18 +1435,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=minute(BirthDate) eq 8"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=minute(BirthDate) eq 8",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function minute", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function minute", odataException.Message);
             }
         }
 
@@ -1361,8 +1467,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=minute(BirthDate) eq 8"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=minute(BirthDate) eq 8",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1388,18 +1495,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price mod 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price mod 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator mod", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator mod", odataException.Message);
             }
         }
 
@@ -1419,8 +1527,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price mod 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price mod 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1445,18 +1554,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=month(BirthDate) eq 5"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=month(BirthDate) eq 5",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function month", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function month", odataException.Message);
             }
         }
 
@@ -1476,8 +1586,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=month(BirthDate) eq 5"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=month(BirthDate) eq 5",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1503,18 +1614,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price mul 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price mul 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator mul", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator mul", odataException.Message);
             }
         }
 
@@ -1534,8 +1646,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price mul 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price mul 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1560,18 +1673,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Forename ne 'John'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=Forename ne 'John'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator ne", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator ne", odataException.Message);
             }
         }
 
@@ -1590,8 +1704,69 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Forename ne 'John'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=Forename ne 'John'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void AnExceptionShouldNotBeThrown()
+            {
+                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheNotOperatorNotItIsNotSpecifiedInAllowedLogicalOperators
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.EndsWith,
+                AllowedLogicalOperators = AllowedLogicalOperators.None
+            };
+
+            public WhenTheFilterQueryOptionContainsTheNotOperatorNotItIsNotSpecifiedInAllowedLogicalOperators()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=not endswith(Description, 'ilk')",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
+
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator not", odataException.Message);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheNotOperatorNotItIsSpecifiedInAllowedLogicalOperators
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.EndsWith,
+                AllowedLogicalOperators = AllowedLogicalOperators.Not
+            };
+
+            public WhenTheFilterQueryOptionContainsTheNotOperatorNotItIsSpecifiedInAllowedLogicalOperators()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=not endswith(Description, 'ilk')",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1617,18 +1792,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=ReleaseDate eq now()"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=ReleaseDate eq now()",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function now", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function now", odataException.Message);
             }
         }
 
@@ -1648,8 +1824,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=ReleaseDate ge now()"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=ReleaseDate ge now()",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1674,18 +1851,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Forename eq 'John' or Surname eq 'Smith'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=Forename eq 'John' or Surname eq 'Smith'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator or", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator or", odataException.Message);
             }
         }
 
@@ -1704,65 +1882,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Forename eq 'John' or Surname eq 'Smith'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
-            }
-
-            [Fact]
-            public void AnExceptionShouldNotBeThrown()
-            {
-                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
-            }
-        }
-
-        public class WhenTheFilterQueryOptionContainsTheReplaceFunctionAndItIsNotSpecifiedInAllowedFunctions
-        {
-            private readonly ODataQueryOptions _queryOptions;
-
-            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
-            {
-                AllowedQueryOptions = AllowedQueryOptions.Filter,
-                AllowedFunctions = AllowedFunctions.None
-            };
-
-            public WhenTheFilterQueryOptionContainsTheReplaceFunctionAndItIsNotSpecifiedInAllowedFunctions()
-            {
-                TestHelper.EnsureEDM();
-
-                _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=replace(CompanyName, ' ', '') eq 'AlfredsFutterkiste'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
-            }
-
-            [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
-            {
-                ODataException exception = Assert.Throws<ODataException>(
-                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
-
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function replace", exception.Message);
-            }
-        }
-
-        public class WhenTheFilterQueryOptionContainsTheReplaceFunctionAndItIsSpecifiedInAllowedFunctions
-        {
-            private readonly ODataQueryOptions _queryOptions;
-
-            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
-            {
-                AllowedQueryOptions = AllowedQueryOptions.Filter,
-                AllowedFunctions = AllowedFunctions.Replace,
-                AllowedLogicalOperators = AllowedLogicalOperators.Equal
-            };
-
-            public WhenTheFilterQueryOptionContainsTheReplaceFunctionAndItIsSpecifiedInAllowedFunctions()
-            {
-                TestHelper.EnsureEDM();
-
-                _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=replace(CompanyName, ' ', '') eq 'AlfredsFutterkiste'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=Forename eq 'John' or Surname eq 'Smith'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1787,18 +1909,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Orders?$filter=round(Freight) eq 32"),
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    "?$filter=round(Freight) eq 32",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function round", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function round", odataException.Message);
             }
         }
 
@@ -1818,8 +1941,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Orders?$filter=round(Freight) eq 32"),
-                    EntityDataModel.Current.EntitySets["Orders"]);
+                    "?$filter=round(Freight) eq 32",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1844,18 +1968,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=second(BirthDate) eq 8"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=second(BirthDate) eq 8",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function second", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function second", odataException.Message);
             }
         }
 
@@ -1875,8 +2000,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=second(BirthDate) eq 8"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=second(BirthDate) eq 8",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1901,18 +2027,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=startswith(Surname, 'Hay') eq true"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=startswith(Surname, 'Hay') eq true",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function startswith", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function startswith", odataException.Message);
             }
         }
 
@@ -1932,8 +2059,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=startswith(Surname, 'Hay') eq true"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=startswith(Surname, 'Hay') eq true",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -1958,18 +2086,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=substring(CompanyName, 1) eq 'lfreds Futterkiste'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=substring(CompanyName, 1) eq 'lfreds Futterkiste'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function substring", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function substring", odataException.Message);
             }
         }
 
@@ -1989,8 +2118,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=substring(CompanyName, 1) eq 'lfreds Futterkiste'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=substring(CompanyName, 1) eq 'lfreds Futterkiste'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2016,18 +2146,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price sub 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price sub 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported operator sub", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator sub", odataException.Message);
             }
         }
 
@@ -2047,8 +2178,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Products?$filter=Price sub 100 eq 150"),
-                    EntityDataModel.Current.EntitySets["Products"]);
+                    "?$filter=Price sub 100 eq 150",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2073,18 +2205,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=tolower(CompanyName) eq 'alfreds futterkiste'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=tolower(CompanyName) eq 'alfreds futterkiste'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function tolower", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function tolower", odataException.Message);
             }
         }
 
@@ -2104,8 +2237,68 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=tolower(CompanyName) eq 'alfreds futterkiste'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=tolower(CompanyName) eq 'alfreds futterkiste'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void AnExceptionShouldNotBeThrown()
+            {
+                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheTotalOffsetMinutesFunctionAndItIsNotSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.None
+            };
+
+            public WhenTheFilterQueryOptionContainsTheTotalOffsetMinutesFunctionAndItIsNotSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=totaloffsetminutes(Date) eq 321541354",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
+
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function totaloffsetminutes", odataException.Message);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheTotalOffsetMinutesFunctionAndItIsSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.TotalOffsetMinutes,
+                AllowedLogicalOperators = AllowedLogicalOperators.Equal
+            };
+
+            public WhenTheFilterQueryOptionContainsTheTotalOffsetMinutesFunctionAndItIsSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=totaloffsetminutes(Date) eq 321541354",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2130,18 +2323,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=toupper(CompanyName) eq 'ALFREDS FUTTERKISTE'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=toupper(CompanyName) eq 'ALFREDS FUTTERKISTE'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function toupper", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function toupper", odataException.Message);
             }
         }
 
@@ -2161,8 +2355,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=toupper(CompanyName) eq 'ALFREDS FUTTERKISTE'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=toupper(CompanyName) eq 'ALFREDS FUTTERKISTE'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2187,18 +2382,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=trim(CompanyName) eq 'Alfreds Futterkiste'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=trim(CompanyName) eq 'Alfreds Futterkiste'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function trim", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function trim", odataException.Message);
             }
         }
 
@@ -2218,8 +2414,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Customers?$filter=trim(CompanyName) eq 'Alfreds Futterkiste'"),
-                    EntityDataModel.Current.EntitySets["Customers"]);
+                    "?$filter=trim(CompanyName) eq 'Alfreds Futterkiste'",
+                    EntityDataModel.Current.EntitySets["Customers"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2244,18 +2441,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=year(BirthDate) eq 1971"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=year(BirthDate) eq 1971",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("Unsupported function year", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function year", odataException.Message);
             }
         }
 
@@ -2275,8 +2473,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=year(BirthDate) eq 1971"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=year(BirthDate) eq 1971",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
@@ -2300,18 +2499,19 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Surname eq 'Smith'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=Surname eq 'Smith'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]
-            public void AnHttpResponseExceptionExceptionIsThrownWithNotImplemented()
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
             {
-                ODataException exception = Assert.Throws<ODataException>(
+                ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
 
-                Assert.Equal(HttpStatusCode.NotImplemented, exception.StatusCode);
-                Assert.Equal("The query option $filter is not implemented by this service", exception.Message);
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("The query option $filter is not implemented by this service", odataException.Message);
             }
         }
 
@@ -2330,8 +2530,9 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    new HttpRequestMessage(HttpMethod.Get, "http://services.odata.org/OData/Employees?$filter=Surname eq 'Smith'"),
-                    EntityDataModel.Current.EntitySets["Employees"]);
+                    "?$filter=Surname eq 'Smith'",
+                    EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
             }
 
             [Fact]

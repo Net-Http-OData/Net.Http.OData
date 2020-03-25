@@ -1,4 +1,5 @@
-﻿using Net.Http.OData.Model;
+﻿using System;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Xunit;
 
@@ -6,6 +7,10 @@ namespace Net.Http.OData.Tests.Query
 {
     public class FilterQueryOptionTests
     {
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_ForNullModel()
+            => Assert.Throws<ArgumentNullException>(() => new FilterQueryOption("$filter=CompanyName eq 'Alfreds Futterkiste'", null));
+
         public class WhenConstructedWithAValidValue
         {
             private readonly FilterQueryOption _option;

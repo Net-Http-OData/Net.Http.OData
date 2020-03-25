@@ -1,5 +1,5 @@
-﻿using Net.Http.OData.Model;
-using Net.Http.OData.Query;
+﻿using System;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Xunit;
 
@@ -7,6 +7,10 @@ namespace Net.Http.OData.Tests.Query.Expressions
 {
     public class BinaryOperatorNodeTests
     {
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_ForNullLeftNode()
+            => Assert.Throws<ArgumentNullException>(() => new BinaryOperatorNode(null, BinaryOperatorKind.Equal, ConstantNode.False));
+
         public class WhenConstructed
         {
             private readonly BinaryOperatorKind _binaryOperatorKind = BinaryOperatorKind.Equal;
@@ -20,7 +24,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
                 EdmComplexType model = EntityDataModel.Current.EntitySets["Customers"].EdmType;
 
-                _left = new PropertyAccessNode(new PropertyPathSegment(model.GetProperty("CompanyName")));
+                _left = new PropertyAccessNode(PropertyPath.For(model.GetProperty("CompanyName")));
                 _node = new BinaryOperatorNode(_left, _binaryOperatorKind, _right);
             }
 

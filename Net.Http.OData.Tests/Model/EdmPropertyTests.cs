@@ -13,8 +13,9 @@ namespace Net.Http.OData.Tests.Model
             Type type = typeof(Customer);
             var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
 
-            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, (_) => true);
+            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, new Lazy<bool>(() => true));
 
+            Assert.Same(type.GetProperty("CompanyName"), edmProperty.ClrProperty);
             Assert.Same(edmComplexType, edmProperty.DeclaringType);
             Assert.True(edmProperty.IsNavigable);
             Assert.Equal("CompanyName", edmProperty.Name);
@@ -22,35 +23,27 @@ namespace Net.Http.OData.Tests.Model
         }
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullDeclaringType()
-        {
-            Assert.Throws<ArgumentNullException>(() => new EdmProperty(typeof(Customer).GetProperty("CompanyName"), EdmPrimitiveType.String, null, (_) => false));
-        }
+        public void Constructor_Throws_ArgumentNullException_For_Null_DeclaringType()
+            => Assert.Throws<ArgumentNullException>(() => new EdmProperty(typeof(Customer).GetProperty("CompanyName"), EdmPrimitiveType.String, null, new Lazy<bool>(() => false)));
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullPropertyInfo()
-        {
-            Type type = typeof(Customer);
-            var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
-
-            Assert.Throws<ArgumentNullException>(() => new EdmProperty(null, EdmPrimitiveType.String, edmComplexType, (_) => false));
-        }
+        public void Constructor_Throws_ArgumentNullException_For_Null_IsNavigable()
+            => Assert.Throws<ArgumentNullException>(() => new EdmProperty(typeof(Customer).GetProperty("CompanyName"), EdmPrimitiveType.String, new EdmComplexType(typeof(Customer), new EdmProperty[0]), null));
 
         [Fact]
-        public void Constructor_ThrowsArgumentNullException_ForNullPropertyType()
-        {
-            Type type = typeof(Customer);
-            var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
+        public void Constructor_Throws_ArgumentNullException_For_Null_PropertyInfo()
+            => Assert.Throws<ArgumentNullException>(() => new EdmProperty(null, EdmPrimitiveType.String, new EdmComplexType(typeof(Customer), new EdmProperty[0]), new Lazy<bool>(() => false)));
 
-            Assert.Throws<ArgumentNullException>(() => new EdmProperty(type.GetProperty("CompanyName"), null, edmComplexType, (_) => false));
-        }
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_For_Null_PropertyType()
+            => Assert.Throws<ArgumentNullException>(() => new EdmProperty(typeof(Customer).GetProperty("CompanyName"), null, new EdmComplexType(typeof(Customer), new EdmProperty[0]), new Lazy<bool>(() => false)));
 
         [Fact]
         public void IsNullable_ReturnsFalse_ForClass_WithRequiredAttribute()
         {
             Type type = typeof(Employee);
             EdmTypeCache.Map.TryGetValue(typeof(string), out EdmType edmType);
-            var edmProperty = new EdmProperty(type.GetProperty("Forename"), edmType, new EdmComplexType(type, new EdmProperty[0]), (_) => false);
+            var edmProperty = new EdmProperty(type.GetProperty("Forename"), edmType, new EdmComplexType(type, new EdmProperty[0]), new Lazy<bool>(() => false));
 
             Assert.False(edmProperty.IsNullable);
         }
@@ -60,7 +53,7 @@ namespace Net.Http.OData.Tests.Model
         {
             Type type = typeof(Customer);
             EdmTypeCache.Map.TryGetValue(typeof(int), out EdmType edmType);
-            var edmProperty = new EdmProperty(type.GetProperty("LegacyId"), edmType, new EdmComplexType(type, new EdmProperty[0]), (_) => false);
+            var edmProperty = new EdmProperty(type.GetProperty("LegacyId"), edmType, new EdmComplexType(type, new EdmProperty[0]), new Lazy<bool>(() => false));
 
             Assert.False(edmProperty.IsNullable);
         }
@@ -70,7 +63,7 @@ namespace Net.Http.OData.Tests.Model
         {
             Type type = typeof(Customer);
             EdmTypeCache.Map.TryGetValue(typeof(string), out EdmType edmType);
-            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), edmType, new EdmComplexType(type, new EdmProperty[0]), (_) => false);
+            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), edmType, new EdmComplexType(type, new EdmProperty[0]), new Lazy<bool>(() => false));
 
             Assert.True(edmProperty.IsNullable);
         }
@@ -80,7 +73,7 @@ namespace Net.Http.OData.Tests.Model
         {
             Type type = typeof(Order);
             EdmTypeCache.Map.TryGetValue(typeof(OrderDetail), out EdmType edmType);
-            var edmProperty = new EdmProperty(type.GetProperty("OrderDetails"), new EdmCollectionType(type, edmType), new EdmComplexType(typeof(Customer), new EdmProperty[0]), (_) => false);
+            var edmProperty = new EdmProperty(type.GetProperty("OrderDetails"), new EdmCollectionType(type, edmType), new EdmComplexType(typeof(Customer), new EdmProperty[0]), new Lazy<bool>(() => false));
 
             Assert.True(edmProperty.IsNullable);
         }
@@ -90,7 +83,7 @@ namespace Net.Http.OData.Tests.Model
         {
             Type type = typeof(Employee);
             EdmTypeCache.Map.TryGetValue(typeof(int?), out EdmType edmType);
-            var edmProperty = new EdmProperty(type.GetProperty("LeavingDate"), edmType, new EdmComplexType(type, new EdmProperty[0]), (_) => false);
+            var edmProperty = new EdmProperty(type.GetProperty("LeavingDate"), edmType, new EdmComplexType(type, new EdmProperty[0]), new Lazy<bool>(() => false));
 
             Assert.True(edmProperty.IsNullable);
         }
@@ -101,7 +94,7 @@ namespace Net.Http.OData.Tests.Model
             Type type = typeof(Customer);
             var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
 
-            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, (_) => false);
+            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, new Lazy<bool>(() => false));
 
             Assert.Equal(edmProperty.ToString(), edmProperty.Name);
         }

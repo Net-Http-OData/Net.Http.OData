@@ -1,4 +1,5 @@
-﻿using Net.Http.OData.Model;
+﻿using System;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Xunit;
 
@@ -6,6 +7,10 @@ namespace Net.Http.OData.Tests.Query
 {
     public class OrderByQueryOptionTests
     {
+        [Fact]
+        public void Constructor_Throws_ArgumentNullException_For_NullModel()
+            => Assert.Throws<ArgumentNullException>(() => new OrderByQueryOption("$orderby=Name", null));
+
         public class WhenConstructedWithASingleValue
         {
             private readonly OrderByQueryOption _option;

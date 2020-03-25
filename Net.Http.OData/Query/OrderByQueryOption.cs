@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="OrderByQueryOption.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Net.Http.OData.Model;
@@ -30,18 +31,22 @@ namespace Net.Http.OData.Query
         internal OrderByQueryOption(string rawValue, EdmComplexType model)
             : base(rawValue)
         {
-            int equals = rawValue.IndexOf('=') + 1;
-            string properties = rawValue.Substring(equals, rawValue.Length - equals);
-
-            if (properties.IndexOf(',') > 0)
+            if (model is null)
             {
-                Properties = properties.Split(SplitCharacter.Comma)
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            if (rawValue.IndexOf(',') > -1)
+            {
+                Properties = rawValue.Slice(',', rawValue.IndexOf('=') + 1)
                     .Select(raw => new OrderByProperty(raw, model))
                     .ToArray();
             }
             else
             {
-                Properties = new[] { new OrderByProperty(properties, model) };
+                string property = rawValue.SubstringAfter('=');
+
+                Properties = new[] { new OrderByProperty(property, model) };
             }
         }
 

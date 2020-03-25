@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="AllowedLogicalOperators.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // -----------------------------------------------------------------------
 using System;
 
-namespace Net.Http.OData.Query.Validators
+namespace Net.Http.OData.Query
 {
     /// <summary>
     /// An enumeration which represents the logical operators allowed in the $filter query option of an OData query.
@@ -71,8 +71,13 @@ namespace Net.Http.OData.Query.Validators
         Has = 256,
 
         /// <summary>
+        /// Specifies that the 'not' logical operator is allowed in the $filter query option.
+        /// </summary>
+        Not = 512,
+
+        /// <summary>
         /// Specifies that all logical operators are allowed in the $filter query option.
         /// </summary>
-        All = Equal | NotEqual | GreaterThan | GreaterThanOrEqual | LessThan | LessThanOrEqual | And | Or | Has,
+        All = Equal | NotEqual | GreaterThan | GreaterThanOrEqual | LessThan | LessThanOrEqual | And | Or | Has | Not,
     }
 }

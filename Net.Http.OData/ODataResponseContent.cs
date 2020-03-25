@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ODataResponseContent.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -10,73 +10,47 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
-using System;
-
-namespace Net.Http.WebApi.OData
+namespace Net.Http.OData
 {
     /// <summary>
-    /// A class which is used to return OData content.
+    /// A class which is used to return the OData content to an OData request.
     /// </summary>
+    /// <remarks>
+    /// <![CDATA[http://docs.oasis-open.org/odata/odata-json-format/v4.0/errata03/os/odata-json-format-v4.0-errata03-os-complete.html#_Toc453766627]]>
+    /// </remarks>
     public sealed class ODataResponseContent
     {
         /// <summary>
-        /// Initialises a new instance of the <see cref="ODataResponseContent"/> class.
-        /// </summary>
-        /// <param name="context">The URI to the metadata.</param>
-        /// <param name="value">The value to be returned.</param>
-        public ODataResponseContent(Uri context, object value)
-            : this(context, value, null, null)
-        {
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ODataResponseContent"/> class.
-        /// </summary>
-        /// <param name="context">The URI to the metadata.</param>
-        /// <param name="value">The value to be returned.</param>
-        /// <param name="count">The total result count.</param>
-        public ODataResponseContent(Uri context, object value, int? count)
-            : this(context, value, count, null)
-        {
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ODataResponseContent"/> class.
-        /// </summary>
-        /// <param name="context">The URI to the metadata.</param>
-        /// <param name="value">The value to be returned.</param>
-        /// <param name="count">The total result count.</param>
-        /// <param name="nextLink">The URI to the next results in a paged response.</param>
-        public ODataResponseContent(Uri context, object value, int? count, Uri nextLink)
-        {
-            Context = context;
-            Value = value;
-            Count = count;
-            NextLink = nextLink;
-        }
-
-        /// <summary>
-        /// Gets the URI to the metadata.
+        /// Gets or sets the context URI for the payload, unless 'odata.metadata=none' is specified in the request.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.context", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
-        public Uri Context { get; }
+#if NETSTANDARD2_0
+        [System.Text.Json.Serialization.JsonPropertyName("@odata.context")]
+#endif
+        public string Context { get; set; }
 
         /// <summary>
-        /// Gets the total result count.
+        /// Gets or sets the total count of members in the collection represented by the request when '$count=true' is specified.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.count", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 1)]
-        public int? Count { get; }
+#if NETSTANDARD2_0
+        [System.Text.Json.Serialization.JsonPropertyName("@odata.count")]
+#endif
+        public long? Count { get; set; }
 
         /// <summary>
-        /// Gets the URI to the next results in a paged response.
+        /// Gets or sets the URL that allows retrieving the next subset of the requested collection, its presence indicates that a response is only a subset of the requested collection.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("@odata.nextLink", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 2)]
-        public Uri NextLink { get; }
+#if NETSTANDARD2_0
+        [System.Text.Json.Serialization.JsonPropertyName("@odata.nextLink")]
+#endif
+        public string NextLink { get; set; }
 
         /// <summary>
-        /// Gets the value to be returned.
+        /// Gets or sets the payload containing the result of the OData request.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("value", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 3)]
-        public object Value { get; }
+        [Newtonsoft.Json.JsonProperty(NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 3)]
+        public object Value { get; set; }
     }
 }

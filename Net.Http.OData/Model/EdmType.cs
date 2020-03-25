@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="EdmType.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,23 +11,37 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
+using System.Linq;
 
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// Represents a type in the Entity Data Model.
+    /// A class which represents a type in the Entity Data Model.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{FullName}: {ClrType}")]
+#pragma warning disable S4035 // Classes implementing "IEquatable<T>" should be sealed
     public abstract class EdmType : IEquatable<EdmType>
+#pragma warning restore S4035 // Classes implementing "IEquatable<T>" should be sealed
     {
         /// <summary>
         /// Initialises a new instance of the <see cref="EdmType"/> class.
         /// </summary>
-        /// <param name="name">The name of the type.</param>
-        /// <param name="fullName">The full name of the type.</param>
-        /// <param name="clrType">The CLR type.</param>
-        protected EdmType(string name, string fullName, Type clrType)
+        /// <param name="clrType">The underlying CLR <see cref="Type"/> this type in the Entity Data Model represents.</param>
+        protected EdmType(Type clrType)
+            : this(clrType, clrType?.Name, clrType?.FullName)
         {
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="EdmType"/> class.
+        /// </summary>
+        /// <param name="clrType">The underlying CLR <see cref="Type"/> this type in the Entity Data Model represents.</param>
+        /// <param name="name">The name of the Entity Data Model Type.</param>
+        /// <param name="fullName">The full name of the Entity Data Model Type.</param>
+        protected EdmType(Type clrType, string name, string fullName)
+        {
+            ClrType = clrType ?? throw new ArgumentNullException(nameof(clrType));
+
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("Name must be specified", nameof(name));
@@ -40,65 +54,35 @@ namespace Net.Http.OData.Model
 
             Name = name;
             FullName = fullName;
-            ClrType = clrType ?? throw new ArgumentNullException(nameof(clrType));
         }
 
         /// <summary>
-        /// Gets the CLR type.
+        /// Gets the underlying CLR <see cref="Type"/> this type in the Entity Data Model represents.
         /// </summary>
         public Type ClrType { get; }
 
         /// <summary>
-        /// Gets the full name.
+        /// Gets the full name of the Entity Data Model Type.
         /// </summary>
         public string FullName { get; }
 
         /// <summary>
-        /// Gets the name.
+        /// Gets the name of the Entity Data Model Type.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Gets the type with the specified name in the Entity Data Model.
+        /// Gets the <see cref="EdmType"/> for the specified CLR <see cref="Type"/> in the Entity Data Model.
         /// </summary>
-        /// <param name="edmTypeName">Name of the type in the Entity Data Model.</param>
-        /// <returns>The EdmType with the specified name, if found; otherwise, null.</returns>
-        public static EdmType GetEdmType(string edmTypeName)
-        {
-            foreach (EdmType edmType in EdmTypeCache.Map.Values)
-            {
-                if (edmType.FullName.Equals(edmTypeName, StringComparison.Ordinal))
-                {
-                    return edmType;
-                }
-            }
+        /// <param name="clrType">The CLR <see cref="Type"/> to find in the Entity Data Model.</param>
+        /// <returns>The <see cref="EdmType"/> for the specified CLR <see cref="Type"/>, if found; otherwise, null.</returns>
+        public static EdmType GetEdmType(Type clrType)
+            => EdmTypeCache.Map.TryGetValue(clrType, out EdmType edmType) ? edmType : default;
 
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the type for the specified CLR type in the Entity Data Model.
-        /// </summary>
-        /// <param name="clrType">The CLR type to find in the Entity Data Model.</param>
-        /// <returns>The EdmType for the specified CLR type, if found; otherwise, null.</returns>
-        public static EdmType GetEdmType(Type clrType) => EdmTypeCache.Map.TryGetValue(clrType, out EdmType edmType) ? edmType : default;
-
-        /// <summary>
-        /// Determines whether the specified <see cref="object" />, is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
+        /// <inheritdoc/>
         public override bool Equals(object obj) => Equals(obj as EdmType);
 
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare with this object.</param>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
-        /// </returns>
+        /// <inheritdoc/>
         public bool Equals(EdmType other)
         {
             if (other is null)
@@ -114,20 +98,23 @@ namespace Net.Http.OData.Model
             return ClrType.Equals(other.ClrType);
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-        /// </returns>
+        /// <inheritdoc/>
         public override int GetHashCode() => ClrType.GetHashCode();
 
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="string" /> that represents this instance.
-        /// </returns>
+        /// <inheritdoc/>
         public override string ToString() => FullName;
+
+        /// <summary>
+        /// Gets the type with the specified name in the Entity Data Model.
+        /// </summary>
+        /// <param name="edmTypeName">Name of the type in the Entity Data Model.</param>
+        /// <returns>The EdmType with the specified name, if found; otherwise, null.</returns>
+        /// <remarks>
+        /// This method must not become public, there are multiple System.Types mapped to the same EdmType name.
+        /// Since the duplicate types are due to needing to map 'int' and 'int?' to 'Edm.Int32' for example, ignore nullables when using this method.
+        /// At present, this method is used by ConstantNodeParser to resolve Enums and EdmTypes.
+        /// </remarks>
+        internal static EdmType GetEdmType(string edmTypeName)
+            => EdmTypeCache.Map.Values.FirstOrDefault(t => t.FullName.Equals(edmTypeName, StringComparison.Ordinal) && Nullable.GetUnderlyingType(t.ClrType) == null);
     }
 }

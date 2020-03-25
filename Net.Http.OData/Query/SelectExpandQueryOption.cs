@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="SelectExpandQueryOption.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -10,9 +10,11 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Net.Http.OData.Model;
+using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query
 {
@@ -27,38 +29,42 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="rawValue">The raw request value.</param>
         /// <param name="model">The model.</param>
-        public SelectExpandQueryOption(string rawValue, EdmComplexType model)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawValue"/> is null.</exception>
+        internal SelectExpandQueryOption(string rawValue, EdmComplexType model)
             : base(rawValue)
         {
             if (model is null)
             {
-                throw new System.ArgumentNullException(nameof(model));
+                throw new ArgumentNullException(nameof(model));
             }
 
-            if (rawValue == "$select=*")
-            {
-                PropertyPaths = model.Properties.Where(p => !p.IsNavigable).Select(p => new PropertyPathSegment(p)).ToList();
-            }
-            else if (rawValue == "$expand=*")
-            {
-                PropertyPaths = model.Properties.Where(p => p.IsNavigable).Select(p => new PropertyPathSegment(p)).ToList();
-            }
-            else
-            {
-                int equals = rawValue.IndexOf('=') + 1;
+            var propertyPaths = new List<PropertyPath>();
 
-                var properties = rawValue.Substring(equals, rawValue.Length - equals)
-                    .Split(SplitCharacter.Comma)
-                    .Select(p => PropertyPathSegment.For(p, model))
-                    .ToList();
-
-                PropertyPaths = properties;
+            foreach (string propertyPathName in rawValue.Slice(',', rawValue.IndexOf('=') + 1))
+            {
+                if (propertyPathName == "*")
+                {
+                    if (rawValue.StartsWith("$select", StringComparison.Ordinal))
+                    {
+                        propertyPaths.AddRange(model.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For));
+                    }
+                    else if (rawValue.StartsWith("$expand", StringComparison.Ordinal))
+                    {
+                        propertyPaths.AddRange(model.Properties.Where(p => p.IsNavigable).Select(PropertyPath.For));
+                    }
+                }
+                else
+                {
+                    propertyPaths.Add(PropertyPath.For(propertyPathName, model));
+                }
             }
+
+            PropertyPaths = propertyPaths;
         }
 
         /// <summary>
         /// Gets the property paths specified in the query.
         /// </summary>
-        public IReadOnlyList<PropertyPathSegment> PropertyPaths { get; }
+        public IReadOnlyList<PropertyPath> PropertyPaths { get; }
     }
 }

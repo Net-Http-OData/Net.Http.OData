@@ -1,32 +1,85 @@
-﻿using Net.Http.OData.Query;
+﻿using System.Net;
+using Net.Http.OData.Query;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query
 {
     public class FormatQueryOptionTests
     {
-        public class WhenConstructedWithRawValueAtom
+        [Fact]
+        public void Constructor_Throws_ODataException_For_FormatAtom()
+        {
+            ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=atom"));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "atom", "'json, application/json'"), odataException.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Constructor_Throws_ODataException_For_FormatTextVCard()
+        {
+            ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=text/vcard"));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "text/vcard", "'json, application/json'"), odataException.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Constructor_Throws_ODataException_For_FormatXml()
+        {
+            ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=xml"));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json, application/json'"), odataException.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
+        }
+
+        [Fact]
+        public void Constructor_Throws_ODataException_For_FormatXml_AndMetadataLevel()
+        {
+            ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=xml;odata.metadata=none"));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json, application/json'"), odataException.Message);
+            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
+        }
+
+        public class WhenConstructedWithRawValueApplicationJson
         {
             private readonly FormatQueryOption _option;
             private readonly string _rawValue;
 
-            public WhenConstructedWithRawValueAtom()
+            public WhenConstructedWithRawValueApplicationJson()
             {
-                _rawValue = "format=atom";
+                _rawValue = "$format=application/json";
                 _option = new FormatQueryOption(_rawValue);
             }
 
             [Fact]
-            public void TheMediaTypeHeaderValueShouldBeApplicationAtomXml()
-            {
-                Assert.Equal("application/atom+xml", _option.MediaTypeHeaderValue.MediaType);
-            }
+            public void TheMediaTypeHeaderValueShouldBeApplicationJson()
+                => Assert.Equal("application/json", _option.MediaTypeHeaderValue.MediaType);
 
             [Fact]
             public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
+                => Assert.Equal(_rawValue, _option.RawValue);
+        }
+
+        public class WhenConstructedWithRawValueApplicationJsonAndMetadataLevel
+        {
+            private readonly FormatQueryOption _option;
+            private readonly string _rawValue;
+
+            public WhenConstructedWithRawValueApplicationJsonAndMetadataLevel()
             {
-                Assert.Equal(_rawValue, _option.RawValue);
+                _rawValue = "$format=application/json;odata.metadata=none";
+                _option = new FormatQueryOption(_rawValue);
             }
+
+            [Fact]
+            public void TheMediaTypeHeaderValueShouldBeApplicationJson()
+                => Assert.Equal("application/json", _option.MediaTypeHeaderValue.MediaType);
+
+            [Fact]
+            public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
+                => Assert.Equal(_rawValue, _option.RawValue);
         }
 
         public class WhenConstructedWithRawValueJson
@@ -36,69 +89,17 @@ namespace Net.Http.OData.Tests.Query
 
             public WhenConstructedWithRawValueJson()
             {
-                _rawValue = "format=json";
+                _rawValue = "$format=json";
                 _option = new FormatQueryOption(_rawValue);
             }
 
             [Fact]
             public void TheMediaTypeHeaderValueShouldBeApplicationJson()
-            {
-                Assert.Equal("application/json", _option.MediaTypeHeaderValue.MediaType);
-            }
+                => Assert.Equal("application/json", _option.MediaTypeHeaderValue.MediaType);
 
             [Fact]
             public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
-            {
-                Assert.Equal(_rawValue, _option.RawValue);
-            }
-        }
-
-        public class WhenConstructedWithRawValueVCard
-        {
-            private readonly FormatQueryOption _option;
-            private readonly string _rawValue;
-
-            public WhenConstructedWithRawValueVCard()
-            {
-                _rawValue = "format=text/vcard";
-                _option = new FormatQueryOption(_rawValue);
-            }
-
-            [Fact]
-            public void TheMediaTypeHeaderValueShouldBeTextVCard()
-            {
-                Assert.Equal("text/vcard", _option.MediaTypeHeaderValue.MediaType);
-            }
-
-            [Fact]
-            public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
-            {
-                Assert.Equal(_rawValue, _option.RawValue);
-            }
-        }
-
-        public class WhenConstructedWithRawValueXml
-        {
-            private readonly FormatQueryOption _option;
-            private readonly string _rawValue;
-
-            public WhenConstructedWithRawValueXml()
-            {
-                _rawValue = "format=xml";
-                _option = new FormatQueryOption(_rawValue);
-            }
-
-            [Fact]
-            public void TheMediaTypeHeaderValueShouldBeApplicationXml()
-            {
-                Assert.Equal("application/xml", _option.MediaTypeHeaderValue.MediaType);
-            }
-
-            [Fact]
-            public void TheRawValueShouldEqualTheValuePassedToTheConstructor()
-            {
-                Assert.Equal(_rawValue, _option.RawValue);
-            }
+                => Assert.Equal(_rawValue, _option.RawValue);
         }
     }
 }

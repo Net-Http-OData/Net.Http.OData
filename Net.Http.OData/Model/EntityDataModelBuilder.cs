@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="EntityDataModelBuilder.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ using System.Reflection;
 namespace Net.Http.OData.Model
 {
     /// <summary>
-    /// A class which builds the <see cref="EntityDataModel"/>.
+    /// The class used to build the <see cref="EntityDataModel"/> using a fluent API, it should be used once at application startup.
     /// </summary>
     public sealed class EntityDataModelBuilder
     {
@@ -29,10 +29,10 @@ namespace Net.Http.OData.Model
         /// <summary>
         /// Initialises a new instance of the <see cref="EntityDataModelBuilder"/> class.
         /// </summary>
-        /// <param name="entitySetNameComparer">The equality comparer to use for the Entity Set name.</param>
+        /// <param name="entitySetNameComparer">The equality comparer to use for the Entity Set name, or null to use the default string equality comparer.</param>
         public EntityDataModelBuilder(IEqualityComparer<string> entitySetNameComparer)
         {
-            _entitySets = new Dictionary<string, EntitySet>(entitySetNameComparer) ?? throw new ArgumentNullException(nameof(entitySetNameComparer));
+            _entitySets = new Dictionary<string, EntitySet>(entitySetNameComparer);
             _entityDataModel = new EntityDataModel(_entitySets);
         }
 
@@ -48,7 +48,8 @@ namespace Net.Http.OData.Model
         /// <typeparam name="T">The type exposed by the collection.</typeparam>
         /// <param name="entitySetName">Name of the Entity Set.</param>
         /// <param name="entityKeyExpression">The Entity Key expression.</param>
-        public void RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression)
+        /// <returns>This entity data model builder.</returns>
+        public EntityDataModelBuilder RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression)
             => RegisterEntitySet(entitySetName, entityKeyExpression, Capabilities.None);
 
         /// <summary>
@@ -58,7 +59,9 @@ namespace Net.Http.OData.Model
         /// <param name="entitySetName">Name of the Entity Set.</param>
         /// <param name="entityKeyExpression">The Entity Key expression.</param>
         /// <param name="capabilities">The capabilities of the Entity Set.</param>
-        public void RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression, Capabilities capabilities)
+        /// <returns>This entity data model builder.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entityKeyExpression"/> is null.</exception>
+        public EntityDataModelBuilder RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression, Capabilities capabilities)
         {
             if (entityKeyExpression is null)
             {
@@ -72,15 +75,19 @@ namespace Net.Http.OData.Model
             var entitySet = new EntitySet(entitySetName, edmType, entityKey, capabilities);
 
             _entitySets.Add(entitySet.Name, entitySet);
+
+            return this;
         }
 
         private EdmType EdmTypeResolver(Type clrType)
         {
             if (clrType.IsEnum)
             {
-                var members = new List<EdmEnumMember>();
+                Array enumValues = Enum.GetValues(clrType);
 
-                foreach (object value in Enum.GetValues(clrType))
+                var members = new List<EdmEnumMember>(enumValues.Length);
+
+                foreach (object value in enumValues)
                 {
                     members.Add(new EdmEnumMember(value.ToString(), (int)value));
                 }
@@ -109,11 +116,20 @@ namespace Net.Http.OData.Model
             PropertyInfo[] clrTypeProperties = clrType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
             var edmProperties = new List<EdmProperty>(clrTypeProperties.Length);
-            var edmComplexType = (EdmComplexType)EdmTypeCache.Map.GetOrAdd(clrType, t => new EdmComplexType(t, baseEdmType, edmProperties.AsReadOnly()));
+            var edmComplexType = (EdmComplexType)EdmTypeCache.Map.GetOrAdd(clrType, t => new EdmComplexType(t, edmProperties.AsReadOnly(), baseEdmType));
 
             edmProperties.AddRange(clrTypeProperties
                 .OrderBy(p => p.Name)
-                .Select(p => new EdmProperty(p, EdmTypeCache.Map.GetOrAdd(p.PropertyType, EdmTypeResolver), edmComplexType, _entityDataModel.IsEntitySet)));
+                .Select(p =>
+                {
+                    EdmType propertyEdmType = EdmTypeCache.Map.GetOrAdd(p.PropertyType, EdmTypeResolver);
+
+                    return new EdmProperty(
+                        p,
+                        propertyEdmType,
+                        edmComplexType,
+                        new Lazy<bool>(() => _entityDataModel.IsEntitySet((propertyEdmType as EdmCollectionType)?.ContainedType ?? propertyEdmType)));
+                }));
 
             return edmComplexType;
         }

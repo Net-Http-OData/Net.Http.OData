@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="OrderByProperty.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,13 +11,13 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
-using System.Net;
 using Net.Http.OData.Model;
+using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query
 {
     /// <summary>
-    /// A class containing deserialised values from the $orderby query option.
+    /// A class representing an order by property expression in the $orderby query option.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{RawValue}")]
     public sealed class OrderByProperty
@@ -27,39 +27,36 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="rawValue">The raw value.</param>
         /// <param name="model">The model.</param>
-        /// <exception cref="ArgumentNullException">Thrown if raw value or model are null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If supplied, the direction should be either 'asc' or 'desc'.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawValue"/> or <paramref name="model"/> are null.</exception>
+        /// <exception cref="ODataException">Thrown if there is an error parsing the <paramref name="rawValue"/>.</exception>
         internal OrderByProperty(string rawValue, EdmComplexType model)
         {
+            RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
+
             if (model is null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
 
-            RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
-
-            int space = rawValue.IndexOf(' ');
-
-            if (space == -1)
+            if (rawValue.IndexOf(' ') == -1)
             {
-                PropertyPath = PropertyPathSegment.For(rawValue, model);
+                PropertyPath = PropertyPath.For(rawValue, model);
             }
             else
             {
-                PropertyPath = PropertyPathSegment.For(rawValue.Substring(0, space), model);
+                PropertyPath = PropertyPath.For(rawValue.SubstringBefore(' '), model);
 
-                switch (rawValue.Substring(space + 1, rawValue.Length - (space + 1)))
+                if (rawValue.EndsWith(" asc", StringComparison.Ordinal))
                 {
-                    case "asc":
-                        Direction = OrderByDirection.Ascending;
-                        break;
-
-                    case "desc":
-                        Direction = OrderByDirection.Descending;
-                        break;
-
-                    default:
-                        throw new ODataException(HttpStatusCode.BadRequest, $"The supplied order value for {PropertyPath.Property.Name} is invalid, valid options are 'asc' and 'desc'");
+                    Direction = OrderByDirection.Ascending;
+                }
+                else if (rawValue.EndsWith(" desc", StringComparison.Ordinal))
+                {
+                    Direction = OrderByDirection.Descending;
+                }
+                else
+                {
+                    throw ODataException.BadRequest(ExceptionMessage.InvalidOrderByDirection(rawValue.SubstringAfter(' '), PropertyPath.Property.Name));
                 }
             }
         }
@@ -72,7 +69,7 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Gets the property path to order by.
         /// </summary>
-        public PropertyPathSegment PropertyPath { get; }
+        public PropertyPath PropertyPath { get; }
 
         /// <summary>
         /// Gets the raw request value.

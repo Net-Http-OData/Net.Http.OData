@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ODataValidationSettings.cs" company="Project Contributors">
-// Copyright 2012 - 2020 Project Contributors
+// Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // -----------------------------------------------------------------------
 using System;
 
-namespace Net.Http.OData.Query.Validators
+namespace Net.Http.OData.Query
 {
     /// <summary>
     /// A class which defines the validation settings to use when validating values in <see cref="ODataQueryOptions"/>.
@@ -73,62 +73,26 @@ namespace Net.Http.OData.Query.Validators
         /// </remarks>
         public int MaxTop { get; set; }
 
-        /// <summary>
-        /// Checks whether two separate ODataValidationSettings instances are not equal.
-        /// </summary>
-        /// <param name="settings1">The validation settings to check.</param>
-        /// <param name="settings2">The validation settings to check against.</param>
-        /// <returns><c>true</c> if the instances are not considered equal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(ODataValidationSettings settings1, ODataValidationSettings settings2)
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+        public static bool operator !=(ODataValidationSettings left, ODataValidationSettings right) => !(left == right);
+
+        public static bool operator ==(ODataValidationSettings left, ODataValidationSettings right)
         {
-            if (settings1 != null && settings2 != null)
+            if (left is null)
             {
-                return !settings1.Equals(settings2);
+                return right is null;
             }
 
-            return true;
+            return left.Equals(right);
         }
 
-        /// <summary>
-        /// Checks whether two separate ODataValidationSettings instances are equal.
-        /// </summary>
-        /// <param name="settings1">The validation settings to check.</param>
-        /// <param name="settings2">The validation settings to check against.</param>
-        /// <returns><c>true</c> if the instances are considered equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(ODataValidationSettings settings1, ODataValidationSettings settings2)
-        {
-            if (settings1 != null && settings2 != null)
-            {
-                return settings1.Equals(settings2);
-            }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
-            return false;
-        }
+        /// <inheritdoc/>
+        public override bool Equals(object obj) => Equals(obj as ODataValidationSettings);
 
-        /// <summary>
-        /// Determines whether the specified <see cref="object" /> is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is ODataValidationSettings other))
-            {
-                return false;
-            }
-
-            return Equals(other);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="ODataValidationSettings" /> is equal to this instance.
-        /// </summary>
-        /// <param name="other">The <see cref="ODataValidationSettings"/> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="ODataValidationSettings" /> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
+        /// <inheritdoc/>
         public bool Equals(ODataValidationSettings other)
         {
             if (other is null)
@@ -143,12 +107,7 @@ namespace Net.Http.OData.Query.Validators
                 && other.MaxTop == MaxTop;
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-        /// </returns>
+        /// <inheritdoc/>
         public override int GetHashCode()
             => AllowedArithmeticOperators.GetHashCode()
             ^ AllowedFunctions.GetHashCode()
