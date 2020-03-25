@@ -33,7 +33,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public ByteValue() => _node = ConstantNode.Byte("", 254);
 
             [Fact]
-            public void TheEdmPrimitiveTypeIsSet() => Assert.Equal(EdmPrimitiveType.Byte, _node.EdmType);
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.Byte, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
@@ -55,7 +55,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public FalseValue() => _node = ConstantNode.False;
 
             [Fact]
-            public void TheEdmPrimitiveTypeIsSet() => Assert.Equal(EdmPrimitiveType.Boolean, _node.EdmType);
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.Boolean, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
@@ -77,7 +77,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public Int16Value() => _node = ConstantNode.Int16("16", 16);
 
             [Fact]
-            public void TheEdmPrimitiveTypeIsSet() => Assert.Equal(EdmPrimitiveType.Int16, _node.EdmType);
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.Int16, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
@@ -99,7 +99,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public Int32ZeroValue() => _node = ConstantNode.Int32Zero;
 
             [Fact]
-            public void TheEdmPrimitiveTypeIsSet() => Assert.Equal(EdmPrimitiveType.Int32, _node.EdmType);
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.Int32, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
@@ -121,7 +121,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public Int64ZeroValue() => _node = ConstantNode.Int64Zero;
 
             [Fact]
-            public void TheEdmPrimitiveTypeIsSet() => Assert.Equal(EdmPrimitiveType.Int64, _node.EdmType);
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.Int64, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
@@ -165,7 +165,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public SByteValue() => _node = ConstantNode.SByte("", -24);
 
             [Fact]
-            public void TheEdmPrimitiveTypeIsSet() => Assert.Equal(EdmPrimitiveType.SByte, _node.EdmType);
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.SByte, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
@@ -187,7 +187,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public TrueValue() => _node = ConstantNode.True;
 
             [Fact]
-            public void TheEdmPrimitiveTypeIsSet() => Assert.Equal(EdmPrimitiveType.Boolean, _node.EdmType);
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.Boolean, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);

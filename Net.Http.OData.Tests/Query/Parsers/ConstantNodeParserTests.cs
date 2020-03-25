@@ -52,7 +52,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.Binary, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.Binary, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -80,7 +80,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.Date, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.Date, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -108,7 +108,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.DateTimeOffset, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.DateTimeOffset, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -136,7 +136,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.Decimal, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.Decimal, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -164,7 +164,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.Double, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.Double, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -192,7 +192,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.Duration, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.Duration, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -220,7 +220,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.String, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.String, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -232,7 +232,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheValuePropertyIsSet()
-                => Assert.Equal(EdmPrimitiveType.String, _node.Value);
+                => Assert.Same(EdmPrimitiveType.String, _node.Value);
 
             [Fact]
             public void TheValuePropertyReturnsTheSameAsTheBaseValue()
@@ -280,7 +280,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.Guid, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.Guid, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -308,7 +308,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.Int32, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.Int32, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -336,7 +336,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.Int64, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.Int64, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -364,7 +364,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.Single, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.Single, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -392,7 +392,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.String, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.String, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()
@@ -420,7 +420,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
-                => Assert.Equal(EdmPrimitiveType.TimeOfDay, _node.EdmType);
+                => Assert.Same(EdmPrimitiveType.TimeOfDay, _node.EdmType);
 
             [Fact]
             public void TheKindIsQueryNodeKindConstant()

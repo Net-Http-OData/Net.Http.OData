@@ -110,10 +110,11 @@ namespace Net.Http.OData.Model
         /// <param name="edmTypeName">Name of the type in the Entity Data Model.</param>
         /// <returns>The EdmType with the specified name, if found; otherwise, null.</returns>
         /// <remarks>
-        /// This method shouldn't be public, there are multiple System.Types mapped to the same EdmType name.
-        /// At present, this method is only used to resolve Enums.
+        /// This method must not become public, there are multiple System.Types mapped to the same EdmType name.
+        /// Since the duplicate types are due to needing to map 'int' and 'int?' to 'Edm.Int32' for example, ignore nullables when using this method.
+        /// At present, this method is used by ConstantNodeParser to resolve Enums and EdmTypes.
         /// </remarks>
         internal static EdmType GetEdmType(string edmTypeName)
-            => EdmTypeCache.Map.Values.FirstOrDefault(t => t.FullName.Equals(edmTypeName, StringComparison.Ordinal));
+            => EdmTypeCache.Map.Values.FirstOrDefault(t => t.FullName.Equals(edmTypeName, StringComparison.Ordinal) && Nullable.GetUnderlyingType(t.ClrType) == null);
     }
 }
