@@ -3,9 +3,10 @@ Net.Http.OData
 
 |Service|Status|
 |-------|------|
-||[![NuGet version](https://badge.fury.io/nu/Net.Http.OData.svg)](http://badge.fury.io/nu/Net.Http.OData)|
+||![Nuget](https://img.shields.io/nuget/dt/Net.Http.OData) ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Net.Http.OData) ![Nuget](https://img.shields.io/nuget/v/Net.Http.OData)|
 |/develop|[![Build Status](https://dev.azure.com/trevorpilley/Net.Http.OData/_apis/build/status/Net-Http-OData.Net.Http.OData?branchName=develop)](https://dev.azure.com/trevorpilley/Net.Http.OData/_build/latest?definitionId=37&branchName=develop)|
 |/master|[![Build Status](https://dev.azure.com/trevorpilley/Net.Http.OData/_apis/build/status/Net-Http-OData.Net.Http.OData?branchName=master)](https://dev.azure.com/trevorpilley/Net.Http.OData/_build/latest?definitionId=37&branchName=master)|
+||![GitHub last commit](https://img.shields.io/github/last-commit/Net-Http-OData/Net.Http.OData) ![GitHub Release Date](https://img.shields.io/github/release-date/Net-Http-OData/Net.Http.OData)|
 
 Net.Http.OData is a .NET Standard library which makes it easy to consume an OData 4.0 Query.
 
