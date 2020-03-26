@@ -1,7 +1,7 @@
 Net.Http.OData
 ==============
 
-|![Nuget](https://img.shields.io/nuget/dt/Net.Http.OData)
+![Nuget](https://img.shields.io/nuget/dt/Net.Http.OData)
 
 |Branch|Status|
 |-------|------|
