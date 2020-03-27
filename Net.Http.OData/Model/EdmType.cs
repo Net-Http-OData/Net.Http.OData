@@ -38,6 +38,7 @@ namespace Net.Http.OData.Model
         /// <param name="clrType">The underlying CLR <see cref="Type"/> this type in the Entity Data Model represents.</param>
         /// <param name="name">The name of the Entity Data Model Type.</param>
         /// <param name="fullName">The full name of the Entity Data Model Type.</param>
+        /// <exception cref="ArgumentException">Thrown if name or fullname are not specified.</exception>
         protected EdmType(Type clrType, string name, string fullName)
         {
             ClrType = clrType ?? throw new ArgumentNullException(nameof(clrType));

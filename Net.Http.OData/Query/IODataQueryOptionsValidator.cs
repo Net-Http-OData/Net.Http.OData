@@ -22,6 +22,7 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="queryOptions">The query options to validate.</param>
         /// <param name="validationSettings">The validation settings to configure the validation.</param>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="queryOptions"/> or <paramref name="validationSettings"/> are null.</exception>
         void Validate(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings);
     }
 }

@@ -34,10 +34,11 @@ namespace Net.Http.OData.Model
         public IReadOnlyDictionary<string, EntitySet> EntitySets { get; }
 
         /// <summary>
-        /// Gets the <see cref="EntitySet"/> for the path segment of a URI.
+        /// Gets the <see cref="EntitySet"/> for the specified path segment of a URI.
         /// </summary>
         /// <param name="path">The path segment of a URI.</param>
-        /// <returns>The <see cref="EntitySet"/>.</returns>
+        /// <returns>The <see cref="EntitySet"/> for the specified path segment of a URI.</returns>
+        /// <exception cref="ODataException">The Entity Data Model does not contain an entity set based upon the specified path.</exception>
         public EntitySet EntitySetForPath(string path)
         {
             string entitySetName = ODataUtility.ResolveEntitySetName(path);

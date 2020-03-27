@@ -23,11 +23,7 @@ namespace Net.Http.OData.Query
     /// </remarks>
     internal sealed class ODataQueryOptionsValidator40 : IODataQueryOptionsValidator
     {
-        /// <summary>
-        /// Validates the specified query options using the specified validation settings.
-        /// </summary>
-        /// <param name="queryOptions">The query options to validate.</param>
-        /// <param name="validationSettings">The validation settings to configure the validation.</param>
+        /// <inheritdoc/>
         public void Validate(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
         {
             if (queryOptions is null)

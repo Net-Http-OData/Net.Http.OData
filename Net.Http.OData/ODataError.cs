@@ -13,22 +13,23 @@
 namespace Net.Http.OData
 {
     /// <summary>
-    /// A class representing the OData details of an error.
+    /// A class representing the details of an OData error.
     /// </summary>
     public sealed class ODataError
     {
         /// <summary>
-        /// Gets or sets the error code.
+        /// Gets or sets a service-defined error code.
         /// </summary>
+        /// <remarks>This code serves as a sub-status for the HTTP error code specified in the response.</remarks>
         public string Code { get; set; }
 
         /// <summary>
-        /// Gets or sets the error message.
+        /// Gets or sets a human-readable, language-dependent representation of the error.
         /// </summary>
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or sets the error target.
+        /// Gets or sets the target of the particular error (for example, the name of the property in error).
         /// </summary>
         public string Target { get; set; }
     }

@@ -126,6 +126,7 @@ namespace Net.Http.OData
         /// </summary>
         /// <param name="requestedMediaTypes">The media type(s) from the Accept header in the request.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="requestedMediaTypes"/> is null.</exception>
+        /// <exception cref="ODataException">Thrown if none of the specified media types are supported by this service.</exception>
         public void Validate(IEnumerable<string> requestedMediaTypes)
         {
             if (requestedMediaTypes is null)

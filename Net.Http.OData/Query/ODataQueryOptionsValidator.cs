@@ -30,6 +30,8 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="odataVersion">The <see cref="ODataVersion"/> to validate.</param>
         /// <returns>The <see cref="IODataQueryOptionsValidator"/> for the specified <see cref="ODataVersion"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="odataVersion"/> is null.</exception>
+        /// <exception cref="NotSupportedException">Thrown if <paramref name="odataVersion"/> is not supported.</exception>
         public static IODataQueryOptionsValidator GetValidator(ODataVersion odataVersion)
         {
             if (odataVersion is null)
