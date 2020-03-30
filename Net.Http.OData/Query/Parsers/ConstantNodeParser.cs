@@ -29,12 +29,20 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Binary(token.Value, binaryValue);
 
                 case TokenType.Date:
-                    var dateTimeValue = DateTime.ParseExact(token.Value, ParserSettings.ODataDateFormat, ParserSettings.CultureInfo, DateTimeStyles.AssumeLocal);
-                    return ConstantNode.Date(token.Value, dateTimeValue);
+                    if (DateTime.TryParseExact(token.Value, ParserSettings.ODataDateFormat, ParserSettings.CultureInfo, DateTimeStyles.AssumeLocal, out DateTime dateTimeValue))
+                    {
+                        return ConstantNode.Date(token.Value, dateTimeValue);
+                    }
+
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseDate);
 
                 case TokenType.DateTimeOffset:
-                    var dateTimeOffsetValue = DateTimeOffset.Parse(token.Value, ParserSettings.CultureInfo, ParserSettings.DateTimeStyles);
-                    return ConstantNode.DateTimeOffset(token.Value, dateTimeOffsetValue);
+                    if (DateTimeOffset.TryParse(token.Value, ParserSettings.CultureInfo, ParserSettings.DateTimeStyles, out DateTimeOffset dateTimeOffsetValue))
+                    {
+                        return ConstantNode.DateTimeOffset(token.Value, dateTimeOffsetValue);
+                    }
+
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseDateTimeOffset);
 
                 case TokenType.Decimal:
                     string decimalText = token.Value.Substring(0, token.Value.Length - 1);

@@ -19,6 +19,10 @@ namespace Net.Http.OData
     {
         internal static string GenericUnableToParseFilter { get; } = "Unable to parse the $filter OData query option.";
 
+        internal static string UnableToParseDate { get; } = "Unable to parse the specified Date.";
+
+        internal static string UnableToParseDateTimeOffset { get; } = "Unable to parse the specified DateTimeOffset.";
+
         internal static string EdmTypeDoesNotContainProperty(string edmType, string propertyName)
             => $"The type '{edmType}' does not contain a property named '{propertyName}'.";
 
