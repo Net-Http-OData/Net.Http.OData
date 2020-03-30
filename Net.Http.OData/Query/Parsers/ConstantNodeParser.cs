@@ -42,26 +42,7 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Decimal(token.Value, decimalValue);
 
                 case TokenType.Double:
-                    if (token.Value == "NaN")
-                    {
-                        return ConstantNode.NaN;
-                    }
-
-                    if (token.Value == "INF")
-                    {
-                        return ConstantNode.PositiveInfinity;
-                    }
-
-                    if (token.Value == "-INF")
-                    {
-                        return ConstantNode.NegativeInfinity;
-                    }
-
-                    string doubleText = token.Value.EndsWith("d", StringComparison.OrdinalIgnoreCase)
-                        ? token.Value.Substring(0, token.Value.Length - 1)
-                        : token.Value;
-                    double doubleValue = double.Parse(doubleText, ParserSettings.CultureInfo);
-                    return ConstantNode.Double(token.Value, doubleValue);
+                    return ParseDouble(token);
 
                 case TokenType.Duration:
                     string durationText = token.Value.Substring(9, token.Value.Length - 10)
@@ -95,28 +76,7 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Guid(token.Value, guidValue);
 
                 case TokenType.Integer:
-                    string integerText = token.Value;
-
-                    if (integerText == "0")
-                    {
-                        return ConstantNode.Int32Zero;
-                    }
-
-                    if (integerText == "0l" || integerText == "0L")
-                    {
-                        return ConstantNode.Int64Zero;
-                    }
-
-                    bool is64BitSuffix = integerText.EndsWith("l", StringComparison.OrdinalIgnoreCase);
-
-                    if (!is64BitSuffix && int.TryParse(integerText, out int int32Value))
-                    {
-                        return ConstantNode.Int32(token.Value, int32Value);
-                    }
-
-                    string int64Text = !is64BitSuffix ? integerText : integerText.Substring(0, integerText.Length - 1);
-                    long int64Value = long.Parse(int64Text, ParserSettings.CultureInfo);
-                    return ConstantNode.Int64(token.Value, int64Value);
+                    return ParseInteger(token);
 
                 case TokenType.Null:
                     return ConstantNode.Null;
@@ -139,6 +99,54 @@ namespace Net.Http.OData.Query.Parsers
 
                 default:
                     throw new NotSupportedException(token.TokenType.ToString());
+            }
+        }
+
+        private static ConstantNode ParseDouble(Token token)
+        {
+            switch (token.Value)
+            {
+                case "NaN":
+                    return ConstantNode.NaN;
+
+                case "INF":
+                    return ConstantNode.PositiveInfinity;
+
+                case "-INF":
+                    return ConstantNode.NegativeInfinity;
+
+                default:
+                    string doubleText = token.Value.EndsWith("d", StringComparison.OrdinalIgnoreCase)
+                        ? token.Value.Substring(0, token.Value.Length - 1)
+                        : token.Value;
+                    double doubleValue = double.Parse(doubleText, ParserSettings.CultureInfo);
+                    return ConstantNode.Double(token.Value, doubleValue);
+            }
+        }
+
+        private static ConstantNode ParseInteger(Token token)
+        {
+            switch (token.Value)
+            {
+                case "0":
+                    return ConstantNode.Int32Zero;
+
+                case "0l":
+                case "0L":
+                    return ConstantNode.Int64Zero;
+
+                default:
+                    string integerText = token.Value;
+                    bool is64BitSuffix = integerText.EndsWith("l", StringComparison.OrdinalIgnoreCase);
+
+                    if (!is64BitSuffix && int.TryParse(integerText, out int int32Value))
+                    {
+                        return ConstantNode.Int32(token.Value, int32Value);
+                    }
+
+                    string int64Text = !is64BitSuffix ? integerText : integerText.Substring(0, integerText.Length - 1);
+                    long int64Value = long.Parse(int64Text, ParserSettings.CultureInfo);
+                    return ConstantNode.Int64(token.Value, int64Value);
             }
         }
     }
