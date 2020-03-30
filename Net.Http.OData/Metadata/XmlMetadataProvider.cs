@@ -173,7 +173,9 @@ namespace Net.Http.OData.Metadata
                                 new XElement(
                                     s_edmNs + "PropertyValue",
                                     new XAttribute("Property", "Insertable"),
-                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Insertable) == Capabilities.Insertable).ToString(CultureInfo.InvariantCulture))))),
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Insertable) == Capabilities.Insertable).ToString(CultureInfo.InvariantCulture).ToLowerInvariant())))),
+#pragma warning restore CA1308 // Normalize strings to uppercase
                         new XElement(
                             s_edmNs + "Annotation",
                             new XAttribute("Term", "Org.OData.Capabilities.V1.UpdateRestrictions"),
@@ -182,7 +184,9 @@ namespace Net.Http.OData.Metadata
                                 new XElement(
                                     s_edmNs + "PropertyValue",
                                     new XAttribute("Property", "Updatable"),
-                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Updatable) == Capabilities.Updatable).ToString(CultureInfo.InvariantCulture))))),
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Updatable) == Capabilities.Updatable).ToString(CultureInfo.InvariantCulture).ToLowerInvariant())))),
+#pragma warning restore CA1308 // Normalize strings to uppercase
                         new XElement(
                             s_edmNs + "Annotation",
                             new XAttribute("Term", "Org.OData.Capabilities.V1.DeleteRestrictions"),
@@ -191,7 +195,9 @@ namespace Net.Http.OData.Metadata
                                 new XElement(
                                     s_edmNs + "PropertyValue",
                                     new XAttribute("Property", "Deletable"),
-                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Deletable) == Capabilities.Deletable).ToString(CultureInfo.InvariantCulture))))))));
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Deletable) == Capabilities.Deletable).ToString(CultureInfo.InvariantCulture).ToLowerInvariant())))))));
+#pragma warning restore CA1308 // Normalize strings to uppercase
 
             return entityContainer;
         }
@@ -240,7 +246,9 @@ namespace Net.Http.OData.Metadata
                     s_edmNs + "EnumType",
                     new XAttribute("Name", t.Name),
                     new XAttribute("UnderlyingType", EdmType.GetEdmType(Enum.GetUnderlyingType(t.ClrType)).FullName),
-                    new XAttribute("IsFlags", (t.ClrType.GetCustomAttribute<FlagsAttribute>() != null).ToString(CultureInfo.InvariantCulture)),
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                    new XAttribute("IsFlags", (t.ClrType.GetCustomAttribute<FlagsAttribute>() != null).ToString(CultureInfo.InvariantCulture).ToLowerInvariant()),
+#pragma warning restore CA1308 // Normalize strings to uppercase
                     t.Members.Select(m => new XElement(
                         s_edmNs + "Member",
                         new XAttribute("Name", m.Name),
