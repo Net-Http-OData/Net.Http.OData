@@ -42,6 +42,21 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Decimal(token.Value, decimalValue);
 
                 case TokenType.Double:
+                    if (token.Value == "NaN")
+                    {
+                        return ConstantNode.NaN;
+                    }
+
+                    if (token.Value == "INF")
+                    {
+                        return ConstantNode.PositiveInfinity;
+                    }
+
+                    if (token.Value == "-INF")
+                    {
+                        return ConstantNode.NegativeInfinity;
+                    }
+
                     string doubleText = token.Value.EndsWith("d", StringComparison.OrdinalIgnoreCase)
                         ? token.Value.Substring(0, token.Value.Length - 1)
                         : token.Value;

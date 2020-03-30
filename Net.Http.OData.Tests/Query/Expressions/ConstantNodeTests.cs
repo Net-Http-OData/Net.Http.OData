@@ -19,8 +19,20 @@ namespace Net.Http.OData.Tests.Query.Expressions
             => Assert.Same(ConstantNode.Int64Zero, ConstantNode.Int64Zero);
 
         [Fact]
+        public void NaNValueIsSingleton()
+            => Assert.Same(ConstantNode.NaN, ConstantNode.NaN);
+
+        [Fact]
+        public void NegativeInfinityValueIsSingleton()
+            => Assert.Same(ConstantNode.NegativeInfinity, ConstantNode.NegativeInfinity);
+
+        [Fact]
         public void NullValueIsSingleton()
             => Assert.Same(ConstantNode.Null, ConstantNode.Null);
+
+        [Fact]
+        public void PositiveInfinityValueIsSingleton()
+            => Assert.Same(ConstantNode.PositiveInfinity, ConstantNode.PositiveInfinity);
 
         [Fact]
         public void TrueValueIsSingleton()
@@ -136,6 +148,50 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public void TheValuePropertyReturnsTheSameAsTheBaseValue() => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);
         }
 
+        public class NaNValue
+        {
+            private readonly ConstantNode<double> _node;
+
+            public NaNValue() => _node = ConstantNode.NaN;
+
+            [Fact]
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.Double, _node.EdmType);
+
+            [Fact]
+            public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
+
+            [Fact]
+            public void TheLiteralTextPropertyIsSet() => Assert.Equal("NaN", _node.LiteralText);
+
+            [Fact]
+            public void TheValuePropertyIsSet() => Assert.Equal(double.NaN, _node.Value);
+
+            [Fact]
+            public void TheValuePropertyReturnsTheSameAsTheBaseValue() => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);
+        }
+
+        public class NegativeInfinityValue
+        {
+            private readonly ConstantNode<double> _node;
+
+            public NegativeInfinityValue() => _node = ConstantNode.NegativeInfinity;
+
+            [Fact]
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.Double, _node.EdmType);
+
+            [Fact]
+            public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
+
+            [Fact]
+            public void TheLiteralTextPropertyIsSet() => Assert.Equal("-INF", _node.LiteralText);
+
+            [Fact]
+            public void TheValuePropertyIsSet() => Assert.Equal(double.NegativeInfinity, _node.Value);
+
+            [Fact]
+            public void TheValuePropertyReturnsTheSameAsTheBaseValue() => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);
+        }
+
         public class NullValue
         {
             private readonly ConstantNode<object> _node;
@@ -153,6 +209,28 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
             [Fact]
             public void TheValuePropertyIsSet() => Assert.Null(_node.Value);
+
+            [Fact]
+            public void TheValuePropertyReturnsTheSameAsTheBaseValue() => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);
+        }
+
+        public class PositiveInfinityValue
+        {
+            private readonly ConstantNode<double> _node;
+
+            public PositiveInfinityValue() => _node = ConstantNode.PositiveInfinity;
+
+            [Fact]
+            public void TheEdmPrimitiveTypeIsSet() => Assert.Same(EdmPrimitiveType.Double, _node.EdmType);
+
+            [Fact]
+            public void TheKindIsQueryNodeKindConstant() => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
+
+            [Fact]
+            public void TheLiteralTextPropertyIsSet() => Assert.Equal("INF", _node.LiteralText);
+
+            [Fact]
+            public void TheValuePropertyIsSet() => Assert.Equal(double.PositiveInfinity, _node.Value);
 
             [Fact]
             public void TheValuePropertyReturnsTheSameAsTheBaseValue() => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);

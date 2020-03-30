@@ -14,6 +14,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
             => Assert.Equal(ConstantNode.False, ConstantNodeParser.ParseConstantNode(new Token(TokenType.False, "false", 0)));
 
         [Fact]
+        public void Parse_Inf_Returns_ConstantNodeNaN()
+            => Assert.Equal(ConstantNode.PositiveInfinity, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "INF", 0)));
+
+        [Fact]
         public void Parse_Int32_Zero_Returns_ConstantNodeInt32Zero()
             => Assert.Equal(ConstantNode.Int32Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0", 0)));
 
@@ -23,6 +27,14 @@ namespace Net.Http.OData.Tests.Query.Parsers
             Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0l", 0)));
             Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0L", 0)));
         }
+
+        [Fact]
+        public void Parse_Nan_Returns_ConstantNodeNaN()
+            => Assert.Equal(ConstantNode.NaN, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "NaN", 0)));
+
+        [Fact]
+        public void Parse_NegativeInf_Returns_ConstantNodeNaN()
+            => Assert.Equal(ConstantNode.NegativeInfinity, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "-INF", 0)));
 
         [Fact]
         public void Parse_Null_Returns_ConstantNodeNull()

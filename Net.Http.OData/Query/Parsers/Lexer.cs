@@ -35,7 +35,7 @@ namespace Net.Http.OData.Query.Parsers
             new TokenDefinition(TokenType.TimeOfDay,            @"\d{2}:\d{2}(:\d{2}(\.\d{1,12})?)?"),
             new TokenDefinition(TokenType.Guid,                 @"[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}"),
             new TokenDefinition(TokenType.Decimal,              @"(\+|-)?(\d+(\.\d+)?|(\.\d+))(m|M)"),
-            new TokenDefinition(TokenType.Double,               @"(\+|-)?(\d+(\.\d+)?(d|D)|\d+\.\d+(e|E)\d+)"),
+            new TokenDefinition(TokenType.Double,               @"(NaN|INF|-INF|(\+|-)?(\d+(\.\d+)?(d|D)|\d+\.\d+(e|E)\d+))"),
             new TokenDefinition(TokenType.Single,               @"(\+|-)?\d+(\.\d+)?(f|F)"),
             new TokenDefinition(TokenType.Integer,              @"(\+|-)?\d+(l|L)?"),
             new TokenDefinition(TokenType.FunctionName,         @"[a-z]+(?=\()"),
