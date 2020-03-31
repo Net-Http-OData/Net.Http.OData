@@ -191,6 +191,34 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);
         }
 
+        public class Parse_Decimal_WithoutMSuffix
+        {
+            private readonly ConstantNode<decimal> _node;
+
+            public Parse_Decimal_WithoutMSuffix()
+                => _node = (ConstantNode<decimal>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Decimal, "2.345", 0));
+
+            [Fact]
+            public void TheEdmPrimitiveTypeIsSet()
+                => Assert.Same(EdmPrimitiveType.Decimal, _node.EdmType);
+
+            [Fact]
+            public void TheKindIsQueryNodeKindConstant()
+                => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
+
+            [Fact]
+            public void TheLiteralTextPropertyIsSet()
+                => Assert.Equal("2.345", _node.LiteralText);
+
+            [Fact]
+            public void TheValuePropertyIsSet()
+                => Assert.Equal(2.345M, _node.Value);
+
+            [Fact]
+            public void TheValuePropertyReturnsTheSameAsTheBaseValue()
+                => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);
+        }
+
         public class Parse_Double
         {
             private readonly ConstantNode<double> _node;

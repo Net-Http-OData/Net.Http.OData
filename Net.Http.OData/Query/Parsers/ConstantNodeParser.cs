@@ -45,7 +45,9 @@ namespace Net.Http.OData.Query.Parsers
                     throw ODataException.BadRequest(ExceptionMessage.UnableToParseDateTimeOffset);
 
                 case TokenType.Decimal:
-                    string decimalText = token.Value.Substring(0, token.Value.Length - 1);
+                    string decimalText = token.Value.EndsWith("m", StringComparison.OrdinalIgnoreCase)
+                        ? token.Value.Substring(0, token.Value.Length - 1)
+                        : token.Value;
                     decimal decimalValue = decimal.Parse(decimalText, ParserSettings.CultureInfo);
                     return ConstantNode.Decimal(token.Value, decimalValue);
 

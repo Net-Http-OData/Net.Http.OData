@@ -420,9 +420,9 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
-            public void ParsePropertyEqNegativeDecimalWithNoDigitBeforeDecimalPointValueExpression()
+            public void ParsePropertyEqNegativeDecimalWithoutSuffixValueExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("Price eq -.1M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq -1234.567", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -436,8 +436,8 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<ConstantNode<decimal>>(node.Right);
                 var nodeRight = (ConstantNode<decimal>)node.Right;
-                Assert.Equal("-.1M", nodeRight.LiteralText);
-                Assert.Equal(-.1M, nodeRight.Value);
+                Assert.Equal("-1234.567", nodeRight.LiteralText);
+                Assert.Equal(-1234.567M, nodeRight.Value);
             }
 
             [Fact]
@@ -671,6 +671,27 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
+            public void ParsePropertyEqPositiveDecimalSignedWithoutSuffixValueExpression()
+            {
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq +1234.567", EntityDataModel.Current.EntitySets["Products"].EdmType);
+
+                Assert.NotNull(queryNode);
+                Assert.IsType<BinaryOperatorNode>(queryNode);
+
+                var node = (BinaryOperatorNode)queryNode;
+
+                Assert.IsType<PropertyAccessNode>(node.Left);
+                Assert.Equal("Price", ((PropertyAccessNode)node.Left).PropertyPath.Property.Name);
+
+                Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
+
+                Assert.IsType<ConstantNode<decimal>>(node.Right);
+                var nodeRight = (ConstantNode<decimal>)node.Right;
+                Assert.Equal("+1234.567", nodeRight.LiteralText);
+                Assert.Equal(1234.567M, nodeRight.Value);
+            }
+
+            [Fact]
             public void ParsePropertyEqPositiveDecimalValueExpression()
             {
                 QueryNode queryNode = FilterExpressionParser.Parse("Price eq 1234.567M", EntityDataModel.Current.EntitySets["Products"].EdmType);
@@ -692,9 +713,9 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
-            public void ParsePropertyEqPositiveDecimalWithNoDigitBeforeDecimalPointValueExpression()
+            public void ParsePropertyEqPositiveDecimalWihtoutSuffixValueExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("Price eq .1M", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Price eq 1234.567", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -708,8 +729,8 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<ConstantNode<decimal>>(node.Right);
                 var nodeRight = (ConstantNode<decimal>)node.Right;
-                Assert.Equal(".1M", nodeRight.LiteralText);
-                Assert.Equal(.1M, nodeRight.Value);
+                Assert.Equal("1234.567", nodeRight.LiteralText);
+                Assert.Equal(1234.567M, nodeRight.Value);
             }
 
             [Fact]

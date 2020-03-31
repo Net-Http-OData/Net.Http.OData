@@ -17,35 +17,41 @@ namespace Net.Http.OData.Query.Parsers
 {
     internal struct Lexer
     {
+        // Expect whitespace, a comma or close parenthesis to follow (or the end of the line).
+        private const string LookAheadExpected = @"(?=\s|,|\)|$)";
+
+        // Expect whitespace to follow (or the end of the line).
+        private const string LookAheadWhitespace = @"(?=\s|$)";
+
         // More restrictive expressions should be added before less restrictive expressions which could also match.
         // Also, within those bounds then order by the most common first where possible.
         private static readonly TokenDefinition[] s_tokenDefinitions = new[]
         {
             new TokenDefinition(TokenType.OpenParentheses,      @"\("),
             new TokenDefinition(TokenType.CloseParentheses,     @"\)"),
-            new TokenDefinition(TokenType.And,                  @"and(?=\s|$)"),
-            new TokenDefinition(TokenType.Or,                   @"or(?=\s|$)"),
-            new TokenDefinition(TokenType.True,                 @"true"),
-            new TokenDefinition(TokenType.False,                @"false"),
-            new TokenDefinition(TokenType.Null,                 @"null"),
-            new TokenDefinition(TokenType.UnaryOperator,        @"not(?=\s|$)"),
-            new TokenDefinition(TokenType.BinaryOperator,       @"(eq|ne|gt|ge|lt|le|has|add|sub|mul|div|mod)(?=\s|$)"),
-            new TokenDefinition(TokenType.DateTimeOffset,       @"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d{1,12})?(Z|[+-]\d{2}:\d{2})?)?"),
-            new TokenDefinition(TokenType.Date,                 @"\d{4}-\d{2}-\d{2}"),
-            new TokenDefinition(TokenType.TimeOfDay,            @"\d{2}:\d{2}(:\d{2}(\.\d{1,12})?)?"),
-            new TokenDefinition(TokenType.Guid,                 @"[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}"),
-            new TokenDefinition(TokenType.Decimal,              @"(\+|-)?(\d+(\.\d+)?|(\.\d+))(m|M)"),
-            new TokenDefinition(TokenType.Double,               @"(NaN|INF|-INF|(\+|-)?(\d+(\.\d+)?(d|D)|\d+\.\d+(e|E)\d+))"),
-            new TokenDefinition(TokenType.Single,               @"(\+|-)?\d+(\.\d+)?(f|F)"),
-            new TokenDefinition(TokenType.Integer,              @"(\+|-)?\d+(l|L)?"),
-            new TokenDefinition(TokenType.FunctionName,         @"[a-z]+(?=\()"),
-            new TokenDefinition(TokenType.Comma,                @",(?=\s?)"),
-            new TokenDefinition(TokenType.Duration,             @"duration'(-)?P\d+DT\d{2}H\d{2}M\d{2}\.\d+S'"),
-            new TokenDefinition(TokenType.Base64Binary,         @"binary'[a-zA-Z0-9\+/]*={0,2}'"),
-            new TokenDefinition(TokenType.Enum,                 @"\w+(\.\w+)+'\w+(\,\w+)*'"),
-            new TokenDefinition(TokenType.EdmType,              @"([a-zA-Z]+\.)+[a-zA-Z0-9]+(?=\))"),
-            new TokenDefinition(TokenType.PropertyName,         @"(\w+\/?)+"),
-            new TokenDefinition(TokenType.String,               @"'(?:''|[\w\s-.~!$&()*+,;=@\\\/]*)*'"),
+            new TokenDefinition(TokenType.And,                  @"and" + LookAheadWhitespace),
+            new TokenDefinition(TokenType.Or,                   @"or" + LookAheadWhitespace),
+            new TokenDefinition(TokenType.True,                 @"true" + LookAheadExpected),
+            new TokenDefinition(TokenType.False,                @"false" + LookAheadExpected),
+            new TokenDefinition(TokenType.Null,                 @"null" + LookAheadExpected),
+            new TokenDefinition(TokenType.UnaryOperator,        @"not" + LookAheadWhitespace),
+            new TokenDefinition(TokenType.BinaryOperator,       @"(eq|ne|gt|ge|lt|le|has|add|sub|mul|div|mod)" + LookAheadWhitespace),
+            new TokenDefinition(TokenType.DateTimeOffset,       @"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d{1,12})?)?(Z|[+-]\d{2}:\d{2})?" + LookAheadExpected),
+            new TokenDefinition(TokenType.Date,                 @"\d{4}-\d{2}-\d{2}" + LookAheadExpected),
+            new TokenDefinition(TokenType.TimeOfDay,            @"\d{2}:\d{2}(:\d{2}(\.\d{1,12})?)?" + LookAheadExpected),
+            new TokenDefinition(TokenType.Guid,                 @"[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}" + LookAheadExpected),
+            new TokenDefinition(TokenType.Decimal,              @"(\+|-)?\d+((m|M)|\.\d+(m|M)?)" + LookAheadExpected),
+            new TokenDefinition(TokenType.Double,               @"((\+|-)?(\d+(\.\d+)?(d|D)|\d+\.\d+(e|E)\d+)|NaN|INF|-INF)" + LookAheadExpected),
+            new TokenDefinition(TokenType.Single,               @"(\+|-)?\d+(\.\d+)?(f|F)" + LookAheadExpected),
+            new TokenDefinition(TokenType.Integer,              @"(\+|-)?\d+(l|L)?" + LookAheadExpected),
+            new TokenDefinition(TokenType.FunctionName,         @"[a-z]+(?=\()"), // Function name is expected to be followed by a opening '('.
+            new TokenDefinition(TokenType.Comma,                @",(?=\s?)"), // Permit optional whitespace after the comma for spacing between function parameters.
+            new TokenDefinition(TokenType.Duration,             @"duration'(-)?P\d+DT\d{2}H\d{2}M\d{2}\.\d+S'" + LookAheadExpected),
+            new TokenDefinition(TokenType.Base64Binary,         @"binary'[a-zA-Z0-9\+/]*={0,2}'" + LookAheadExpected),
+            new TokenDefinition(TokenType.Enum,                 @"\w+(\.\w+)+'\w+(\,\w+)*'" + LookAheadExpected),
+            new TokenDefinition(TokenType.EdmType,              @"([a-zA-Z]+\.)+[a-zA-Z0-9]+(?=\))"), // EdmType is only expected as the last argument in a function so expect a closing ')'.
+            new TokenDefinition(TokenType.PropertyName,         @"[a-zA-Z_]+(\w+\/?)+" + LookAheadExpected),
+            new TokenDefinition(TokenType.String,               @"'(?:''|[\w\s-.~!$&()*+,;=@\\\/]*)*'" + LookAheadExpected),
             new TokenDefinition(TokenType.Whitespace,           @"\s", ignore: true),
         };
 
