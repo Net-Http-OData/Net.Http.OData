@@ -206,7 +206,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         default:
-                            throw new NotSupportedException(token.TokenType.ToString());
+                            throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {token.Value}", token.Position));
                     }
                 }
 
@@ -296,7 +296,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         default:
-                            throw new NotSupportedException(token.TokenType.ToString());
+                            throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {token.Value}", token.Position));
                     }
                 }
 
@@ -339,7 +339,7 @@ namespace Net.Http.OData.Query.Parsers
                         break;
 
                     default:
-                        throw new NotSupportedException(_tokens.Peek().TokenType.ToString());
+                        throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {_tokens.Peek().Value}", _tokens.Peek().Position));
                 }
 
                 return node;

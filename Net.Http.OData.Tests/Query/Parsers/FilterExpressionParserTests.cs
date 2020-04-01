@@ -47,6 +47,16 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
+            public void ParseFunctionInvalidSyntax()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterExpressionParser.Parse("cast(Colour, not", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
+
+                Assert.Equal(ExceptionMessage.UnableToParseFilter("unexpected not at position 14"), odataException.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            }
+
+            [Fact]
             public void ParseFunctionMissingParameterExpression()
             {
                 ODataException odataException = Assert.Throws<ODataException>(
@@ -77,12 +87,22 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
-            public void ParseInvalidSyntax()
+            public void ParseInvalidPropertyEqualsSyntax()
             {
                 ODataException odataException = Assert.Throws<ODataException>(
                     () => FilterExpressionParser.Parse("Name eq %", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
 
                 Assert.Equal(ExceptionMessage.GenericUnableToParseFilter, odataException.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            }
+
+            [Fact]
+            public void ParseInvalidSyntax()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterExpressionParser.Parse("true", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
+
+                Assert.Equal(ExceptionMessage.UnableToParseFilter("unexpected true at position 1"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
             }
 
@@ -133,6 +153,16 @@ namespace Net.Http.OData.Tests.Query.Parsers
                     () => FilterExpressionParser.Parse("Deleted eq true or", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            }
+
+            [Fact]
+            public void ParsePropertyInvalidSyntax()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterExpressionParser.Parse("Colour not", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
+
+                Assert.Equal(ExceptionMessage.UnableToParseFilter("unexpected not at position 8"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
             }
 

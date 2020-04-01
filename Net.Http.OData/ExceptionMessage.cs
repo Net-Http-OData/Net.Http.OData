@@ -84,8 +84,8 @@ namespace Net.Http.OData
         internal static string QueryOptionValueNotSupported(string queryOption, string value, string supportedValue)
             => $"The value '{value}' specified for OData query option {queryOption} is not supported by this service, acceptable values are {supportedValue}.";
 
-        internal static string UnableToParseFilter(string reason, int position = 0) // Add 1 as the position is zero indexed but the exception shouldn't use that as the caller may not get that.
-            => $"Unable to parse the $filter OData query option, {reason}{(position > 0 ? " at position " + (position + 1).ToString(CultureInfo.InvariantCulture) : string.Empty)}.";
+        internal static string UnableToParseFilter(string reason, int position = -1) // Add 1 as the position is zero indexed but the exception shouldn't use that as the caller may not get that.
+            => $"Unable to parse the $filter OData query option, {reason}{(position > -1 ? " at position " + (position + 1).ToString(CultureInfo.InvariantCulture) : string.Empty)}.";
 
         internal static string UnsupportedQueryOption(string queryOption)
             => $"The OData query option '{queryOption}' is not supported by this service.";
