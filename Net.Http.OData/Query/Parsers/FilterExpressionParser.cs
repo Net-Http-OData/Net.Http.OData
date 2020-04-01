@@ -51,12 +51,8 @@ namespace Net.Http.OData.Query.Parsers
                     switch (token.TokenType)
                     {
                         case TokenType.And:
-                            _nextBinaryOperatorKind = BinaryOperatorKind.And;
-                            UpdateExpressionTree();
-                            break;
-
                         case TokenType.Or:
-                            _nextBinaryOperatorKind = BinaryOperatorKind.Or;
+                            _nextBinaryOperatorKind = token.Value.ToBinaryOperatorKind();
                             UpdateExpressionTree();
                             break;
 
@@ -97,75 +93,6 @@ namespace Net.Http.OData.Query.Parsers
 
                     switch (token.TokenType)
                     {
-                        case TokenType.OpenParentheses:
-                            if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
-                            {
-                                // All OData functions have at least 1 or 2 parameters
-                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has no parameters specified", token.Position));
-                            }
-
-                            _groupingDepth++;
-                            stack.Push(node);
-                            break;
-
-                        case TokenType.CloseParentheses:
-                            if (_groupingDepth == 0)
-                            {
-                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the closing parenthesis not expected", token.Position));
-                            }
-
-                            _groupingDepth--;
-
-                            if (stack.Count > 0)
-                            {
-                                FunctionCallNode lastNode = stack.Pop();
-
-                                if (stack.Count > 0)
-                                {
-                                    stack.Peek().AddParameter(lastNode);
-                                }
-                                else
-                                {
-                                    if (binaryNode != null)
-                                    {
-                                        binaryNode.Right = lastNode;
-                                    }
-                                    else
-                                    {
-                                        node = lastNode;
-                                    }
-                                }
-                            }
-
-                            break;
-
-                        case TokenType.FunctionName:
-                            node = new FunctionCallNode(token.Value);
-                            break;
-
-                        case TokenType.BinaryOperator:
-                            binaryNode = new BinaryOperatorNode(node, token.Value.ToBinaryOperatorKind(), null);
-                            break;
-
-                        case TokenType.PropertyName:
-                            var propertyAccessNode = new PropertyAccessNode(PropertyPath.For(token.Value, _model));
-
-                            if (stack.Count > 0)
-                            {
-                                stack.Peek().AddParameter(propertyAccessNode);
-                            }
-                            else
-                            {
-                                if (binaryNode == null)
-                                {
-                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
-                                }
-
-                                binaryNode.Right = propertyAccessNode;
-                            }
-
-                            break;
-
                         case TokenType.Base64Binary:
                         case TokenType.Date:
                         case TokenType.DateTimeOffset:
@@ -200,6 +127,41 @@ namespace Net.Http.OData.Query.Parsers
 
                             break;
 
+                        case TokenType.BinaryOperator:
+                            binaryNode = new BinaryOperatorNode(node, token.Value.ToBinaryOperatorKind(), null);
+                            break;
+
+                        case TokenType.CloseParentheses:
+                            if (_groupingDepth == 0)
+                            {
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the closing parenthesis not expected", token.Position));
+                            }
+
+                            _groupingDepth--;
+
+                            if (stack.Count > 0)
+                            {
+                                FunctionCallNode lastNode = stack.Pop();
+
+                                if (stack.Count > 0)
+                                {
+                                    stack.Peek().AddParameter(lastNode);
+                                }
+                                else
+                                {
+                                    if (binaryNode != null)
+                                    {
+                                        binaryNode.Right = lastNode;
+                                    }
+                                    else
+                                    {
+                                        node = lastNode;
+                                    }
+                                }
+                            }
+
+                            break;
+
                         case TokenType.Comma:
                             if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
@@ -208,6 +170,43 @@ namespace Net.Http.OData.Query.Parsers
                             }
 
                             break;
+
+                        case TokenType.FunctionName:
+                            node = new FunctionCallNode(token.Value);
+                            break;
+
+                        case TokenType.OpenParentheses:
+                            if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
+                            {
+                                // All OData functions have at least 1 or 2 parameters
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has no parameters specified", token.Position));
+                            }
+
+                            _groupingDepth++;
+                            stack.Push(node);
+                            break;
+
+                        case TokenType.PropertyName:
+                            var propertyAccessNode = new PropertyAccessNode(PropertyPath.For(token.Value, _model));
+
+                            if (stack.Count > 0)
+                            {
+                                stack.Peek().AddParameter(propertyAccessNode);
+                            }
+                            else
+                            {
+                                if (binaryNode == null)
+                                {
+                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
+                                }
+
+                                binaryNode.Right = propertyAccessNode;
+                            }
+
+                            break;
+
+                        default:
+                            throw new NotSupportedException(token.TokenType.ToString());
                     }
                 }
 
@@ -233,6 +232,24 @@ namespace Net.Http.OData.Query.Parsers
 
                     switch (token.TokenType)
                     {
+                        case TokenType.Base64Binary:
+                        case TokenType.Date:
+                        case TokenType.DateTimeOffset:
+                        case TokenType.Decimal:
+                        case TokenType.Double:
+                        case TokenType.Duration:
+                        case TokenType.Enum:
+                        case TokenType.False:
+                        case TokenType.Guid:
+                        case TokenType.Integer:
+                        case TokenType.Null:
+                        case TokenType.Single:
+                        case TokenType.String:
+                        case TokenType.TimeOfDay:
+                        case TokenType.True:
+                            rightNode = ConstantNodeParser.ParseConstantNode(token);
+                            break;
+
                         case TokenType.BinaryOperator:
                             if (operatorKind != BinaryOperatorKind.None)
                             {
@@ -242,10 +259,6 @@ namespace Net.Http.OData.Query.Parsers
                             }
 
                             operatorKind = token.Value.ToBinaryOperatorKind();
-                            break;
-
-                        case TokenType.OpenParentheses:
-                            _groupingDepth++;
                             break;
 
                         case TokenType.CloseParentheses:
@@ -264,6 +277,10 @@ namespace Net.Http.OData.Query.Parsers
 
                             break;
 
+                        case TokenType.OpenParentheses:
+                            _groupingDepth++;
+                            break;
+
                         case TokenType.PropertyName:
                             var propertyAccessNode = new PropertyAccessNode(PropertyPath.For(token.Value, _model));
 
@@ -278,23 +295,8 @@ namespace Net.Http.OData.Query.Parsers
 
                             break;
 
-                        case TokenType.Base64Binary:
-                        case TokenType.Date:
-                        case TokenType.DateTimeOffset:
-                        case TokenType.Decimal:
-                        case TokenType.Double:
-                        case TokenType.Duration:
-                        case TokenType.Enum:
-                        case TokenType.False:
-                        case TokenType.Guid:
-                        case TokenType.Integer:
-                        case TokenType.Null:
-                        case TokenType.Single:
-                        case TokenType.String:
-                        case TokenType.TimeOfDay:
-                        case TokenType.True:
-                            rightNode = ConstantNodeParser.ParseConstantNode(token);
-                            break;
+                        default:
+                            throw new NotSupportedException(token.TokenType.ToString());
                     }
                 }
 
@@ -320,12 +322,6 @@ namespace Net.Http.OData.Query.Parsers
                         node = ParseFunctionCallNode();
                         break;
 
-                    case TokenType.UnaryOperator:
-                        Token token = _tokens.Dequeue();
-                        node = ParseQueryNode();
-                        node = new UnaryOperatorNode(node, token.Value.ToUnaryOperatorKind());
-                        break;
-
                     case TokenType.OpenParentheses:
                         _groupingDepth++;
                         _tokens.Dequeue();
@@ -334,6 +330,12 @@ namespace Net.Http.OData.Query.Parsers
 
                     case TokenType.PropertyName:
                         node = ParsePropertyAccessNode();
+                        break;
+
+                    case TokenType.UnaryOperator:
+                        Token token = _tokens.Dequeue();
+                        node = ParseQueryNode();
+                        node = new UnaryOperatorNode(node, token.Value.ToUnaryOperatorKind());
                         break;
 
                     default:
