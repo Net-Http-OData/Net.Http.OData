@@ -22,6 +22,14 @@ namespace Net.Http.OData.Tests.Query.Expressions
         }
 
         [Fact]
+        public void For_EdmProperty_ReturnsSameInstance()
+        {
+            EdmProperty edmProperty = EntityDataModel.Current.EntitySets["Customers"].EdmType.GetProperty("CompanyName");
+
+            Assert.Same(PropertyPath.For(edmProperty), PropertyPath.For(edmProperty));
+        }
+
+        [Fact]
         public void For_PropertyPath_MultipleProperties()
         {
             var propertyPath = PropertyPath.For("Category/Name", EntityDataModel.Current.EntitySets["Products"].EdmType);
@@ -46,6 +54,10 @@ namespace Net.Http.OData.Tests.Query.Expressions
             Assert.NotNull(propertyPath.Property);
             Assert.Equal("Name", propertyPath.Property.Name);
         }
+
+        [Fact]
+        public void For_PropertyPath_SingleProperty_ReturnsSameInstance()
+            => Assert.Same(PropertyPath.For("Name", EntityDataModel.Current.EntitySets["Products"].EdmType), PropertyPath.For("Name", EntityDataModel.Current.EntitySets["Products"].EdmType));
 
         [Fact]
         public void For_Throws_ArgumentNullException_For_Null_EdmProperty()

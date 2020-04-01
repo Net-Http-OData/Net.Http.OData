@@ -11,6 +11,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 using System;
+using System.Collections.Concurrent;
 using Net.Http.OData.Model;
 
 namespace Net.Http.OData.Query.Expressions
@@ -21,6 +22,8 @@ namespace Net.Http.OData.Query.Expressions
     [System.Diagnostics.DebuggerDisplay("{Property}/{Next}")]
     public sealed class PropertyPath
     {
+        private static readonly ConcurrentDictionary<EdmProperty, PropertyPath> s_edmPropertyCache = new ConcurrentDictionary<EdmProperty, PropertyPath>();
+
         /// <summary>
         /// Initialises a new instance of the <see cref="PropertyPath"/> class for the specified <see cref="EdmProperty"/> with no next path segment.
         /// </summary>
@@ -57,7 +60,7 @@ namespace Net.Http.OData.Query.Expressions
         /// </summary>
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
         /// <returns>The <see cref="PropertyPath"/> for the given EdmProperty.</returns>
-        internal static PropertyPath For(EdmProperty property) => new PropertyPath(property);
+        internal static PropertyPath For(EdmProperty property) => s_edmPropertyCache.GetOrAdd(property, p => new PropertyPath(p));
 
         /// <summary>
         /// Creates the <see cref="PropertyPath"/> for the given property path.
@@ -69,7 +72,7 @@ namespace Net.Http.OData.Query.Expressions
         {
             if (rawPropertyPath.IndexOf('/') == -1)
             {
-                return new PropertyPath(edmComplexType.GetProperty(rawPropertyPath));
+                return s_edmPropertyCache.GetOrAdd(edmComplexType.GetProperty(rawPropertyPath), p => new PropertyPath(p));
             }
 
             string[] nameSegments = rawPropertyPath.Split(SplitCharacter.ForwardSlash);
