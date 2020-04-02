@@ -38,10 +38,9 @@ namespace Net.Http.OData.Query.Expressions
         /// </summary>
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
         /// <param name="next">The next <see cref="PropertyPath"/> in the property path.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="property"/> is null.</exception>
         private PropertyPath(EdmProperty property, PropertyPath next)
         {
-            Property = property ?? throw new ArgumentNullException(nameof(property));
+            Property = property;
             Next = next;
         }
 
@@ -60,7 +59,8 @@ namespace Net.Http.OData.Query.Expressions
         /// </summary>
         /// <param name="property">The <see cref="EdmProperty"/> that the path segment represents.</param>
         /// <returns>The <see cref="PropertyPath"/> for the given EdmProperty.</returns>
-        internal static PropertyPath For(EdmProperty property) => s_edmPropertyCache.GetOrAdd(property, p => new PropertyPath(p));
+        internal static PropertyPath For(EdmProperty property)
+            => s_edmPropertyCache.GetOrAdd(property ?? throw new ArgumentNullException(nameof(property)), p => new PropertyPath(p));
 
         /// <summary>
         /// Creates the <see cref="PropertyPath"/> for the given property path.
