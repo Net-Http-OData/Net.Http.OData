@@ -266,15 +266,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.FunctionName:
-                            if (leftNode is null)
-                            {
-                                leftNode = new FunctionCallNode(token.Value);
-                            }
-                            else if (rightNode is null)
-                            {
-                                rightNode = new FunctionCallNode(token.Value);
-                            }
-
+                            rightNode = new FunctionCallNode(token.Value);
                             break;
 
                         case TokenType.OpenParentheses:
