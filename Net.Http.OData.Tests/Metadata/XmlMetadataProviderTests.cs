@@ -210,8 +210,6 @@ namespace Net.Http.OData.Tests.Metadata
         </EntitySet>
       </EntityContainer>
       <Annotations Target=""NorthwindModel.DefaultContainer"">
-        <Annotation Term=""Org.OData.Capabilities.V1.DereferenceableIDs"" Bool=""true"" />
-        <Annotation Term=""Org.OData.Capabilities.V1.ConventionalIDs"" Bool=""true"" />
         <Annotation Term=""Org.OData.Capabilities.V1.ConformanceLevel"">
           <EnumMember>Org.OData.Capabilities.V1.ConformanceLevelType/Minimal</EnumMember>
         </Annotation>
@@ -221,8 +219,20 @@ namespace Net.Http.OData.Tests.Metadata
             <String>application/json;odata.metadata=minimal</String>
           </Collection>
         </Annotation>
+        <Annotation Term=""Org.OData.Capabilities.V1.SupportedMetadataFormats"">
+          <Collection>
+            <String>application/json</String>
+            <String>text/plain</String>
+          </Collection>
+        </Annotation>
         <Annotation Term=""Org.OData.Capabilities.V1.AsynchronousRequestsSupported"" Bool=""false"" />
         <Annotation Term=""Org.OData.Capabilities.V1.BatchContinueOnErrorSupported"" Bool=""false"" />
+        <Annotation Term=""Org.OData.Capabilities.V1.CrossJoinSupported"" Bool=""false"" />
+        <Annotation Term=""Org.OData.Capabilities.V1.IndexableByKey"" Bool=""true"" />
+        <Annotation Term=""Org.OData.Capabilities.V1.TopSupported"" Bool=""true"" />
+        <Annotation Term=""Org.OData.Capabilities.V1.SkipSupported"" Bool=""true"" />
+        <Annotation Term=""Org.OData.Capabilities.V1.ComputeSupported"" Bool=""false"" />
+        <Annotation Term=""Org.OData.Capabilities.V1.BatchSupported"" Bool=""false"" />
         <Annotation Term=""Org.OData.Capabilities.V1.FilterFunctions"">
           <Collection>
             <String>concat</String>
@@ -254,6 +264,10 @@ namespace Net.Http.OData.Tests.Metadata
             <String>isof</String>
           </Collection>
         </Annotation>
+        <Annotation Term=""Org.OData.Capabilities.V1.KeyAsSegmentSupported"" Bool=""false"" />
+        <Annotation Term=""Org.OData.Capabilities.V1.QuerySegmentSupported"" Bool=""false"" />
+        <Annotation Term=""Org.OData.Capabilities.V1.AnnotationValuesInQuerySupported"" Bool=""false"" />
+        <Annotation Term=""Org.OData.Capabilities.V1.MediaLocationUpdateSupported"" Bool=""false"" />
       </Annotations>
     </Schema>
   </edmx:DataServices>
