@@ -35,7 +35,7 @@ namespace Net.Http.OData
         internal static string InvalidOrderByDirection(string orderByDirection, string propertyName)
             => $"The supplied order value '{orderByDirection}' for {propertyName} is invalid, valid options are 'asc' and 'desc'";
 
-        internal static string MediaTypeNotSupported(IEnumerable<string> supportedMediaTypes, IEnumerable<ODataMetadataLevel> supportedMetadataLevels, IEnumerable<string> requestedMediaTypes)
+        internal static string MediaTypeNotAcceptable(IEnumerable<string> supportedMediaTypes, IEnumerable<ODataMetadataLevel> supportedMetadataLevels, IEnumerable<string> requestedMediaTypes)
         {
             var allowedMediaTypes = new List<string>();
 

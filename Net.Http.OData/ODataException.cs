@@ -97,6 +97,14 @@ namespace Net.Http.OData
             => new ODataException(message, HttpStatusCode.BadRequest);
 
         /// <summary>
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.NotAcceptable" />.
+        /// </summary>
+        /// <param name="message">The a human-readable, language-dependent representation of the error.</param>
+        /// <returns>The ODataException which occured due to an unacceptable Accept header.</returns>
+        public static ODataException NotAcceptable(string message)
+            => new ODataException(message, HttpStatusCode.NotAcceptable);
+
+        /// <summary>
         /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.NotImplemented" />.
         /// </summary>
         /// <param name="message">The a human-readable, language-dependent representation of the error.</param>

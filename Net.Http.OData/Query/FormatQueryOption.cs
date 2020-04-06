@@ -41,7 +41,7 @@ namespace Net.Http.OData.Query
                 default:
                     string value = format.SubstringAfter('=');
 
-                    throw ODataException.UnsupportedMediaType(ExceptionMessage.QueryOptionValueNotSupported("$format", value, "'json, application/json'"));
+                    throw ODataException.NotAcceptable(ExceptionMessage.QueryOptionValueNotSupported("$format", value, "'json, application/json'"));
             }
         }
 
