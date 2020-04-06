@@ -168,6 +168,12 @@ namespace Net.Http.OData.Query.Validators
                 throw new ODataException("Unsupported function totaloffsetminutes", HttpStatusCode.NotImplemented);
             }
 
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.TotalSeconds) != AllowedFunctions.TotalSeconds
+                && rawFilterValue.Contains("totalseconds("))
+            {
+                throw new ODataException("Unsupported function totalseconds", HttpStatusCode.NotImplemented);
+            }
+
             if ((validationSettings.AllowedFunctions & AllowedFunctions.Year) != AllowedFunctions.Year
                 && rawFilterValue.Contains("year("))
             {

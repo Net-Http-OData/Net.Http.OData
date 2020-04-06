@@ -888,6 +888,32 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
+            public void ParseTotalSecondsFunctionExpression()
+            {
+                QueryNode queryNode = FilterExpressionParser.Parse("totalseconds(ReleaseDate) eq 23487645.224", EntityDataModel.Current.EntitySets["Products"].EdmType);
+
+                Assert.NotNull(queryNode);
+                Assert.IsType<BinaryOperatorNode>(queryNode);
+
+                var node = (BinaryOperatorNode)queryNode;
+
+                Assert.IsType<FunctionCallNode>(node.Left);
+                var nodeLeft = (FunctionCallNode)node.Left;
+                Assert.Equal("totalseconds", nodeLeft.Name);
+                Assert.Equal(1, nodeLeft.Parameters.Count);
+                Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
+                var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
+                Assert.Equal("ReleaseDate", nodeLeftParam0.PropertyPath.Property.Name);
+
+                Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
+
+                Assert.IsType<ConstantNode<decimal>>(node.Right);
+                var nodeRight = (ConstantNode<decimal>)node.Right;
+                Assert.Equal("23487645.224", nodeRight.LiteralText);
+                Assert.Equal(23487645.224M, nodeRight.Value);
+            }
+
+            [Fact]
             public void ParseToUpperFunctionExpression()
             {
                 QueryNode queryNode = FilterExpressionParser.Parse("toupper(CompanyName) eq 'ALFREDS FUTTERKISTE'", EntityDataModel.Current.EntitySets["Customers"].EdmType);
