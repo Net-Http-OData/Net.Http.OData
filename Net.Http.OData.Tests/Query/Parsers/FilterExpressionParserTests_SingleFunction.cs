@@ -783,6 +783,32 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
+            public void ParseTimeFunctionExpression()
+            {
+                QueryNode queryNode = FilterExpressionParser.Parse("time(Date) eq 12:00:00", EntityDataModel.Current.EntitySets["Orders"].EdmType);
+
+                Assert.NotNull(queryNode);
+                Assert.IsType<BinaryOperatorNode>(queryNode);
+
+                var node = (BinaryOperatorNode)queryNode;
+
+                Assert.IsType<FunctionCallNode>(node.Left);
+                var nodeLeft = (FunctionCallNode)node.Left;
+                Assert.Equal("time", nodeLeft.Name);
+                Assert.Equal(1, nodeLeft.Parameters.Count);
+                Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
+                var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
+                Assert.Equal("Date", nodeLeftParam0.PropertyPath.Property.Name);
+
+                Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
+
+                Assert.IsType<ConstantNode<TimeSpan>>(node.Right);
+                var nodeRight = (ConstantNode<TimeSpan>)node.Right;
+                Assert.Equal("12:00:00", nodeRight.LiteralText);
+                Assert.Equal(new TimeSpan(12, 0, 0), nodeRight.Value);
+            }
+
+            [Fact]
             public void ParseToLowerFunctionExpression()
             {
                 QueryNode queryNode = FilterExpressionParser.Parse("tolower(CompanyName) eq 'alfreds futterkiste'", EntityDataModel.Current.EntitySets["Customers"].EdmType);

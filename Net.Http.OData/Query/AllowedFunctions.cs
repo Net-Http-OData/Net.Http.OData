@@ -162,6 +162,11 @@ namespace Net.Http.OData.Query
         IsOf = 67108864,
 
         /// <summary>
+        /// Specifies that the 'time' function is allowed in the $filter query option.
+        /// </summary>
+        Time = 134217728,
+
+        /// <summary>
         /// Specifies that all string functions are allowed in the $filter query option.
         /// </summary>
         AllStringFunctions = Concat | Contains | EndsWith | IndexOf | Length | StartsWith | Substring | ToLower | ToUpper | Trim,
@@ -169,7 +174,7 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Specifies that all date/time functions are allowed in the $filter query option.
         /// </summary>
-        AllDateTimeFunctions = Date | Day | FractionalSeconds | Hour | MaxDateTime | MinDateTime | Minute | Month | Now | Second | TotalOffsetMinutes | Year,
+        AllDateTimeFunctions = Date | Day | FractionalSeconds | Hour | MaxDateTime | MinDateTime | Minute | Month | Now | Second | Time | TotalOffsetMinutes | Year,
 
         /// <summary>
         /// Specifies that all math functions are allowed in the $filter query option.

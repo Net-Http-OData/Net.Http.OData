@@ -2190,6 +2190,65 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
         }
 
+        public class WhenTheFilterQueryOptionContainsTheTimeAndItIsNotSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.None
+            };
+
+            public WhenTheFilterQueryOptionContainsTheTimeAndItIsNotSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=time(ReleaseDate) eq 12:00:00",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
+
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported function time", odataException.Message);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheTimeFunctionAndItIsSpecifiedInAllowedFunctions
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedQueryOptions = AllowedQueryOptions.Filter,
+                AllowedFunctions = AllowedFunctions.Time,
+                AllowedLogicalOperators = AllowedLogicalOperators.Equal
+            };
+
+            public WhenTheFilterQueryOptionContainsTheTimeFunctionAndItIsSpecifiedInAllowedFunctions()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=time(ReleaseDate) eq 12:00:00",
+                    EntityDataModel.Current.EntitySets["Products"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void AnExceptionShouldNotBeThrown()
+            {
+                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
+            }
+        }
+
         public class WhenTheFilterQueryOptionContainsTheToLowerFunctionAndItIsNotSpecifiedInAllowedFunctions
         {
             private readonly ODataQueryOptions _queryOptions;

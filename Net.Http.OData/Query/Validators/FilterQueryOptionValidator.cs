@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
 using System.Net;
 
 namespace Net.Http.OData.Query.Validators
@@ -153,6 +154,12 @@ namespace Net.Http.OData.Query.Validators
                 && rawFilterValue.Contains("second("))
             {
                 throw new ODataException("Unsupported function second", HttpStatusCode.NotImplemented);
+            }
+
+            if ((validationSettings.AllowedFunctions & AllowedFunctions.Time) != AllowedFunctions.Time
+                && (rawFilterValue.StartsWith("$filter=time(", StringComparison.Ordinal) || rawFilterValue.Contains(" time(")))
+            {
+                throw new ODataException("Unsupported function time", HttpStatusCode.NotImplemented);
             }
 
             if ((validationSettings.AllowedFunctions & AllowedFunctions.TotalOffsetMinutes) != AllowedFunctions.TotalOffsetMinutes
