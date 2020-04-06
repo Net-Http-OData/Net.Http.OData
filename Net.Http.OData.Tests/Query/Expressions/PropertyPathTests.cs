@@ -2,7 +2,6 @@
 using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
-using NorthwindModel;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query.Expressions
@@ -12,7 +11,26 @@ namespace Net.Http.OData.Tests.Query.Expressions
         public PropertyPathTests() => TestHelper.EnsureEDM();
 
         [Fact]
-        public void For_PropertyPath()
+        public void For_EdmProperty()
+        {
+            EdmProperty edmProperty = EntityDataModel.Current.EntitySets["Customers"].EdmType.GetProperty("CompanyName");
+
+            var propertyPath = PropertyPath.For(edmProperty);
+
+            Assert.Null(propertyPath.Next);
+            Assert.Equal(edmProperty, propertyPath.Property);
+        }
+
+        [Fact]
+        public void For_EdmProperty_ReturnsSameInstance()
+        {
+            EdmProperty edmProperty = EntityDataModel.Current.EntitySets["Customers"].EdmType.GetProperty("CompanyName");
+
+            Assert.Same(PropertyPath.For(edmProperty), PropertyPath.For(edmProperty));
+        }
+
+        [Fact]
+        public void For_PropertyPath_MultipleProperties()
         {
             var propertyPath = PropertyPath.For("Category/Name", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
@@ -28,7 +46,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
         }
 
         [Fact]
-        public void For_SingleProperty()
+        public void For_PropertyPath_SingleProperty()
         {
             var propertyPath = PropertyPath.For("Name", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
@@ -36,6 +54,10 @@ namespace Net.Http.OData.Tests.Query.Expressions
             Assert.NotNull(propertyPath.Property);
             Assert.Equal("Name", propertyPath.Property.Name);
         }
+
+        [Fact]
+        public void For_PropertyPath_SingleProperty_ReturnsSameInstance()
+            => Assert.Same(PropertyPath.For("Name", EntityDataModel.Current.EntitySets["Products"].EdmType), PropertyPath.For("Name", EntityDataModel.Current.EntitySets["Products"].EdmType));
 
         [Fact]
         public void For_Throws_ArgumentNullException_For_Null_EdmProperty()
@@ -59,20 +81,6 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
             Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("NorthwindModel.Category", "Definition"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-        }
-
-        [Fact]
-        public void WhenConstructed_WithEdmProperty()
-        {
-            Type type = typeof(Customer);
-            var edmComplexType = new EdmComplexType(type, new EdmProperty[0]);
-
-            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), EdmPrimitiveType.String, edmComplexType, new Lazy<bool>(() => true));
-
-            var propertyPath = PropertyPath.For(edmProperty);
-
-            Assert.Null(propertyPath.Next);
-            Assert.Equal(edmProperty, propertyPath.Property);
         }
     }
 }

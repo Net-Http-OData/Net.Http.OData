@@ -70,9 +70,24 @@ namespace Net.Http.OData.Query.Expressions
         internal static ConstantNode<long> Int64Zero { get; } = new ConstantNode<long>(EdmPrimitiveType.Int64, "0L", 0L);
 
         /// <summary>
+        /// Gets the ConstantNode which represents not a number.
+        /// </summary>
+        internal static ConstantNode<double> NaN { get; } = new ConstantNode<double>(EdmPrimitiveType.Double, "NaN", double.NaN);
+
+        /// <summary>
+        /// Gets the ConstantNode which represents negative infinity.
+        /// </summary>
+        internal static ConstantNode<double> NegativeInfinity { get; } = new ConstantNode<double>(EdmPrimitiveType.Double, "-INF", double.NegativeInfinity);
+
+        /// <summary>
         /// Gets the ConstantNode which represents a value of null.
         /// </summary>
         internal static ConstantNode<object> Null { get; } = new ConstantNode<object>(null, "null", null);
+
+        /// <summary>
+        /// Gets the ConstantNode which represents infinity.
+        /// </summary>
+        internal static ConstantNode<double> PositiveInfinity { get; } = new ConstantNode<double>(EdmPrimitiveType.Double, "INF", double.PositiveInfinity);
 
         /// <summary>
         /// Gets the ConstantNode which represents a value of true.

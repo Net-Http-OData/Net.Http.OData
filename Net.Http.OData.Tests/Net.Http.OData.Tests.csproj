@@ -40,4 +40,13 @@
     <ProjectReference Include="..\Net.Http.OData\Net.Http.OData.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Metadata\Schemas\v4.0\edm.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Metadata\Schemas\v4.0\edmx.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

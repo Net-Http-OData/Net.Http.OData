@@ -19,6 +19,10 @@ namespace Net.Http.OData
     {
         internal static string GenericUnableToParseFilter { get; } = "Unable to parse the $filter OData query option.";
 
+        internal static string UnableToParseDate { get; } = "Unable to parse the specified Date.";
+
+        internal static string UnableToParseDateTimeOffset { get; } = "Unable to parse the specified DateTimeOffset.";
+
         internal static string EdmTypeDoesNotContainProperty(string edmType, string propertyName)
             => $"The type '{edmType}' does not contain a property named '{propertyName}'.";
 
@@ -31,7 +35,7 @@ namespace Net.Http.OData
         internal static string InvalidOrderByDirection(string orderByDirection, string propertyName)
             => $"The supplied order value '{orderByDirection}' for {propertyName} is invalid, valid options are 'asc' and 'desc'";
 
-        internal static string MediaTypeNotSupported(IEnumerable<string> supportedMediaTypes, IEnumerable<ODataMetadataLevel> supportedMetadataLevels, IEnumerable<string> requestedMediaTypes)
+        internal static string MediaTypeNotAcceptable(IEnumerable<string> supportedMediaTypes, IEnumerable<ODataMetadataLevel> supportedMetadataLevels, IEnumerable<string> requestedMediaTypes)
         {
             var allowedMediaTypes = new List<string>();
 
@@ -80,8 +84,8 @@ namespace Net.Http.OData
         internal static string QueryOptionValueNotSupported(string queryOption, string value, string supportedValue)
             => $"The value '{value}' specified for OData query option {queryOption} is not supported by this service, acceptable values are {supportedValue}.";
 
-        internal static string UnableToParseFilter(string reason, int position = 0) // Add 1 as the position is zero indexed but the exception shouldn't use that as the caller may not get that.
-            => $"Unable to parse the $filter OData query option, {reason}{(position > 0 ? " at position " + (position + 1).ToString(CultureInfo.InvariantCulture) : string.Empty)}.";
+        internal static string UnableToParseFilter(string reason, int position = -1) // Add 1 as the position is zero indexed but the exception shouldn't use that as the caller may not get that.
+            => $"Unable to parse the $filter OData query option, {reason}{(position > -1 ? " at position " + (position + 1).ToString(CultureInfo.InvariantCulture) : string.Empty)}.";
 
         internal static string UnsupportedQueryOption(string queryOption)
             => $"The OData query option '{queryOption}' is not supported by this service.";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
@@ -9,9 +10,36 @@ namespace Net.Http.OData.Tests.Query.Parsers
 {
     public class ConstantNodeParserTests
     {
+        [Theory]
+        [InlineData("2011-02-29")] // Lexer should parse but should fail in ConstantNodeParser
+        [InlineData("2011-04-31")] // Lexer should parse but should fail in ConstantNodeParser
+        public void Parse_Date_Abnf_Failures(string value)
+        {
+            ODataException odataException = Assert.Throws<ODataException>(() => ConstantNodeParser.ParseConstantNode(new Token(TokenType.Date, value, 0)));
+
+            Assert.Equal(ExceptionMessage.UnableToParseDate, odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("2011-12-31T24:00Z")] // Lexer should parse but should fail in ConstantNodeParser
+        [InlineData("2011-12-31T24:00:00Z")] // Lexer should parse but should fail in ConstantNodeParser
+        [InlineData("2012-09-03T24:00-03:00")] // Lexer should parse but should fail in ConstantNodeParser
+        public void Parse_DateTimeOffset_Abnf_Failures(string value)
+        {
+            ODataException odataException = Assert.Throws<ODataException>(() => ConstantNodeParser.ParseConstantNode(new Token(TokenType.DateTimeOffset, value, 0)));
+
+            Assert.Equal(ExceptionMessage.UnableToParseDateTimeOffset, odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+        }
+
         [Fact]
         public void Parse_False_Returns_ConstantNodeFalse()
             => Assert.Equal(ConstantNode.False, ConstantNodeParser.ParseConstantNode(new Token(TokenType.False, "false", 0)));
+
+        [Fact]
+        public void Parse_Inf_Returns_ConstantNodeNaN()
+            => Assert.Equal(ConstantNode.PositiveInfinity, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "INF", 0)));
 
         [Fact]
         public void Parse_Int32_Zero_Returns_ConstantNodeInt32Zero()
@@ -23,6 +51,14 @@ namespace Net.Http.OData.Tests.Query.Parsers
             Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0l", 0)));
             Assert.Equal(ConstantNode.Int64Zero, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "0L", 0)));
         }
+
+        [Fact]
+        public void Parse_Nan_Returns_ConstantNodeNaN()
+            => Assert.Equal(ConstantNode.NaN, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "NaN", 0)));
+
+        [Fact]
+        public void Parse_NegativeInf_Returns_ConstantNodeNaN()
+            => Assert.Equal(ConstantNode.NegativeInfinity, ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "-INF", 0)));
 
         [Fact]
         public void Parse_Null_Returns_ConstantNodeNull()
@@ -145,6 +181,34 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void TheLiteralTextPropertyIsSet()
                 => Assert.Equal("2.345M", _node.LiteralText);
+
+            [Fact]
+            public void TheValuePropertyIsSet()
+                => Assert.Equal(2.345M, _node.Value);
+
+            [Fact]
+            public void TheValuePropertyReturnsTheSameAsTheBaseValue()
+                => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);
+        }
+
+        public class Parse_Decimal_WithoutMSuffix
+        {
+            private readonly ConstantNode<decimal> _node;
+
+            public Parse_Decimal_WithoutMSuffix()
+                => _node = (ConstantNode<decimal>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Decimal, "2.345", 0));
+
+            [Fact]
+            public void TheEdmPrimitiveTypeIsSet()
+                => Assert.Same(EdmPrimitiveType.Decimal, _node.EdmType);
+
+            [Fact]
+            public void TheKindIsQueryNodeKindConstant()
+                => Assert.Equal(QueryNodeKind.Constant, _node.Kind);
+
+            [Fact]
+            public void TheLiteralTextPropertyIsSet()
+                => Assert.Equal("2.345", _node.LiteralText);
 
             [Fact]
             public void TheValuePropertyIsSet()

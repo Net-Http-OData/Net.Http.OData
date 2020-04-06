@@ -91,30 +91,42 @@ namespace Net.Http.OData
         /// <summary>
         /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.BadRequest" />.
         /// </summary>
-        /// <param name="message">The message that describes the error.</param>
-        /// <returns>The ODataException.</returns>
-        public static ODataException BadRequest(string message) => new ODataException(message, HttpStatusCode.BadRequest);
+        /// <param name="message">The a human-readable, language-dependent representation of the error.</param>
+        /// <returns>The ODataException which occured due to a bad request.</returns>
+        public static ODataException BadRequest(string message)
+            => new ODataException(message, HttpStatusCode.BadRequest);
+
+        /// <summary>
+        /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.NotAcceptable" />.
+        /// </summary>
+        /// <param name="message">The a human-readable, language-dependent representation of the error.</param>
+        /// <returns>The ODataException which occured due to an unacceptable Accept header.</returns>
+        public static ODataException NotAcceptable(string message)
+            => new ODataException(message, HttpStatusCode.NotAcceptable);
 
         /// <summary>
         /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.NotImplemented" />.
         /// </summary>
-        /// <param name="message">The message that describes the error.</param>
-        /// <returns>The ODataException.</returns>
-        public static ODataException NotImplemented(string message) => new ODataException(message, HttpStatusCode.NotImplemented);
+        /// <param name="message">The a human-readable, language-dependent representation of the error.</param>
+        /// <returns>The ODataException which occured due to functionality not being implemented.</returns>
+        public static ODataException NotImplemented(string message)
+            => new ODataException(message, HttpStatusCode.NotImplemented);
 
         /// <summary>
         /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.PreconditionFailed" />.
         /// </summary>
-        /// <param name="message">The message that describes the error.</param>
-        /// <returns>The ODataException.</returns>
-        public static ODataException PreconditionFailed(string message) => new ODataException(message, HttpStatusCode.PreconditionFailed);
+        /// <param name="message">The a human-readable, language-dependent representation of the error.</param>
+        /// <returns>The ODataException which occured due to a precondition failed.</returns>
+        public static ODataException PreconditionFailed(string message)
+            => new ODataException(message, HttpStatusCode.PreconditionFailed);
 
         /// <summary>
         /// Creates a new ODataException with the specified message and <see cref="HttpStatusCode.UnsupportedMediaType" />.
         /// </summary>
-        /// <param name="message">The message that describes the error.</param>
-        /// <returns>The ODataException.</returns>
-        public static ODataException UnsupportedMediaType(string message) => new ODataException(message, HttpStatusCode.UnsupportedMediaType);
+        /// <param name="message">The a human-readable, language-dependent representation of the error.</param>
+        /// <returns>The ODataException which occured due to an unsupported media type.</returns>
+        public static ODataException UnsupportedMediaType(string message)
+            => new ODataException(message, HttpStatusCode.UnsupportedMediaType);
 
         /// <inheritdoc/>
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

@@ -79,14 +79,6 @@ namespace Net.Http.OData.Metadata
                 new XAttribute("Target", entityDataModel.EntitySets.First().Value.EdmType.ClrType.Namespace + ".DefaultContainer"),
                 new XElement(
                     s_edmNs + "Annotation",
-                    new XAttribute("Term", "Org.OData.Capabilities.V1.DereferenceableIDs"),
-                    new XAttribute("Bool", "true")),
-                new XElement(
-                    s_edmNs + "Annotation",
-                    new XAttribute("Term", "Org.OData.Capabilities.V1.ConventionalIDs"),
-                    new XAttribute("Bool", "true")),
-                new XElement(
-                    s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.ConformanceLevel"),
                     new XElement(s_edmNs + "EnumMember", "Org.OData.Capabilities.V1.ConformanceLevelType/Minimal")),
                 new XElement(
@@ -94,9 +86,17 @@ namespace Net.Http.OData.Metadata
                     new XAttribute("Term", "Org.OData.Capabilities.V1.SupportedFormats"),
                     new XElement(
                         s_edmNs + "Collection",
+                        serviceOptions.SupportedMediaTypes
+                        .Where(mediaType => mediaType != "text/plain")
 #pragma warning disable CA1308 // Normalize strings to uppercase
-                        serviceOptions.SupportedMetadataLevels.Select(metadataLevel => new XElement(s_edmNs + "String", $"application/json;odata.metadata={metadataLevel.ToString().ToLowerInvariant()}")))),
+                        .SelectMany(mediaType => serviceOptions.SupportedMetadataLevels.Select(metadataLevel => new XElement(s_edmNs + "String", $"{mediaType};odata.metadata={metadataLevel}".ToLowerInvariant()))))),
 #pragma warning restore CA1308 // Normalize strings to uppercase
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.SupportedMetadataFormats"),
+                    new XElement(
+                        s_edmNs + "Collection",
+                        serviceOptions.SupportedMediaTypes.Select(mediatype => new XElement(s_edmNs + "String", mediatype)))),
                 new XElement(
                     s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.AsynchronousRequestsSupported"),
@@ -107,10 +107,50 @@ namespace Net.Http.OData.Metadata
                     new XAttribute("Bool", "false")),
                 new XElement(
                     s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.CrossJoinSupported"),
+                    new XAttribute("Bool", "false")),
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.IndexableByKey"),
+                    new XAttribute("Bool", "true")),
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.TopSupported"),
+                    new XAttribute("Bool", "true")),
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.SkipSupported"),
+                    new XAttribute("Bool", "true")),
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.ComputeSupported"),
+                    new XAttribute("Bool", "false")),
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.BatchSupported"),
+                    new XAttribute("Bool", "false")),
+                new XElement(
+                    s_edmNs + "Annotation",
                     new XAttribute("Term", "Org.OData.Capabilities.V1.FilterFunctions"),
                     new XElement(
                         s_edmNs + "Collection",
-                        serviceOptions.SupportedFilterFunctions.Select(function => new XElement(s_edmNs + "String", function)))));
+                        serviceOptions.SupportedFilterFunctions.Select(function => new XElement(s_edmNs + "String", function)))),
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.KeyAsSegmentSupported"),
+                    new XAttribute("Bool", "false")),
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.QuerySegmentSupported"),
+                    new XAttribute("Bool", "false")),
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.AnnotationValuesInQuerySupported"),
+                    new XAttribute("Bool", "false")),
+                new XElement(
+                    s_edmNs + "Annotation",
+                    new XAttribute("Term", "Org.OData.Capabilities.V1.MediaLocationUpdateSupported"),
+                    new XAttribute("Bool", "false")));
 
             return annotations;
         }
@@ -154,8 +194,7 @@ namespace Net.Http.OData.Metadata
         {
             var entityContainer = new XElement(
                 s_edmNs + "EntityContainer",
-                new XAttribute(
-                    "Name", "DefaultContainer"),
+                new XAttribute("Name", "DefaultContainer"),
                 entityDataModel.EntitySets.Select(
                     kvp => new XElement(
                         s_edmNs + "EntitySet",
@@ -173,7 +212,9 @@ namespace Net.Http.OData.Metadata
                                 new XElement(
                                     s_edmNs + "PropertyValue",
                                     new XAttribute("Property", "Insertable"),
-                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Insertable) == Capabilities.Insertable).ToString(CultureInfo.InvariantCulture))))),
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Insertable) == Capabilities.Insertable).ToString(CultureInfo.InvariantCulture).ToLowerInvariant())))),
+#pragma warning restore CA1308 // Normalize strings to uppercase
                         new XElement(
                             s_edmNs + "Annotation",
                             new XAttribute("Term", "Org.OData.Capabilities.V1.UpdateRestrictions"),
@@ -182,7 +223,9 @@ namespace Net.Http.OData.Metadata
                                 new XElement(
                                     s_edmNs + "PropertyValue",
                                     new XAttribute("Property", "Updatable"),
-                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Updatable) == Capabilities.Updatable).ToString(CultureInfo.InvariantCulture))))),
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Updatable) == Capabilities.Updatable).ToString(CultureInfo.InvariantCulture).ToLowerInvariant())))),
+#pragma warning restore CA1308 // Normalize strings to uppercase
                         new XElement(
                             s_edmNs + "Annotation",
                             new XAttribute("Term", "Org.OData.Capabilities.V1.DeleteRestrictions"),
@@ -191,7 +234,9 @@ namespace Net.Http.OData.Metadata
                                 new XElement(
                                     s_edmNs + "PropertyValue",
                                     new XAttribute("Property", "Deletable"),
-                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Deletable) == Capabilities.Deletable).ToString(CultureInfo.InvariantCulture))))))));
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                                    new XAttribute("Bool", ((kvp.Value.Capabilities & Capabilities.Deletable) == Capabilities.Deletable).ToString(CultureInfo.InvariantCulture).ToLowerInvariant())))))));
+#pragma warning restore CA1308 // Normalize strings to uppercase
 
             return entityContainer;
         }
@@ -240,7 +285,9 @@ namespace Net.Http.OData.Metadata
                     s_edmNs + "EnumType",
                     new XAttribute("Name", t.Name),
                     new XAttribute("UnderlyingType", EdmType.GetEdmType(Enum.GetUnderlyingType(t.ClrType)).FullName),
-                    new XAttribute("IsFlags", (t.ClrType.GetCustomAttribute<FlagsAttribute>() != null).ToString(CultureInfo.InvariantCulture)),
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                    new XAttribute("IsFlags", (t.ClrType.GetCustomAttribute<FlagsAttribute>() != null).ToString(CultureInfo.InvariantCulture).ToLowerInvariant()),
+#pragma warning restore CA1308 // Normalize strings to uppercase
                     t.Members.Select(m => new XElement(
                         s_edmNs + "Member",
                         new XAttribute("Name", m.Name),

@@ -45,11 +45,11 @@ namespace Net.Http.OData.Model
         public IReadOnlyList<EdmProperty> Properties { get; }
 
         /// <summary>
-        /// Gets the <see cref="EdmProperty"/> with the specified name.
+        /// Gets the <see cref="EdmProperty"/> declared in this type with the specified name.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <returns>The <see cref="EdmProperty"/> declared in this type with the specified name.</returns>
-        /// <exception cref="ArgumentException">The type does not contain a property with the specified name.</exception>
+        /// <exception cref="ODataException">The type does not contain a property with the specified name.</exception>
         public EdmProperty GetProperty(string name)
         {
             for (int i = 0; i < Properties.Count; i++)

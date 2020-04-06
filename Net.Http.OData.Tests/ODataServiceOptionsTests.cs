@@ -281,8 +281,8 @@ namespace Net.Http.OData.Tests
 
             ODataException odataException = Assert.Throws<ODataException>(() => odataServiceOptions.Validate(new[] { "application/xml" }));
 
-            Assert.Equal(ExceptionMessage.MediaTypeNotSupported(odataServiceOptions.SupportedMediaTypes, odataServiceOptions.SupportedMetadataLevels, new[] { "application/xml" }), odataException.Message);
-            Assert.Equal(HttpStatusCode.UnsupportedMediaType, odataException.StatusCode);
+            Assert.Equal(ExceptionMessage.MediaTypeNotAcceptable(odataServiceOptions.SupportedMediaTypes, odataServiceOptions.SupportedMetadataLevels, new[] { "application/xml" }), odataException.Message);
+            Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
         }
 
         [Fact]

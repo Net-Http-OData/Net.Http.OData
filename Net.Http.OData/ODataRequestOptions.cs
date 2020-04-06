@@ -24,7 +24,7 @@ namespace Net.Http.OData
         /// </summary>
         /// <param name="serviceRootUri">The root URI of the OData Service.</param>
         /// <param name="isolationLevel">The OData-Isolation requested by the client, or None if not otherwise specified.</param>
-        /// <param name="metadataLevel">The odata.metadata level specified in the ACCEPT header by the client, or Minimal if not otherwise specified.</param>
+        /// <param name="metadataLevel">The odata.metadata level specified in the ACCEPT header (or $format query option) by the client, or Minimal if not otherwise specified.</param>
         /// <param name="odataVersion">The OData-Version used by the client to generate the request, or the maximum supported by this library if not otherwise specified.</param>
         /// <param name="odataMaxVersion">The OData-MaxVersion requested by the client for the server response, or the latest supported by this library if not otherwise specified.</param>
         /// <exception cref="ArgumentNullException">Thrown if any constructor argument is null.</exception>

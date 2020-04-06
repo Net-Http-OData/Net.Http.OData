@@ -51,6 +51,7 @@ namespace Net.Http.OData.Metadata
         /// </summary>
         /// <param name="name">The name of the item.</param>
         /// <param name="url">The URL of the item.</param>
+        /// <exception cref="ArgumentNullException">Thrown if the url is null.</exception>
         /// <returns>A service document item which represents an Entity Set in the Entity Data Model.</returns>
         public static ServiceDocumentItem EntitySet(string name, Uri url) => new ServiceDocumentItem("EntitySet", name, url);
     }

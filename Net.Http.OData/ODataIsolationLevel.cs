@@ -15,6 +15,9 @@ namespace Net.Http.OData
     /// <summary>
     /// Specifies the isolation of the current request from external changes.
     /// </summary>
+    /// <remarks>
+    /// <![CDATA[http://docs.oasis-open.org/odata/odata/v4.0/errata03/os/complete/part1-protocol/odata-v4.0-errata03-os-part1-protocol-complete.html#_Toc453752232]]>
+    /// </remarks>
     public enum ODataIsolationLevel
     {
         /// <summary>

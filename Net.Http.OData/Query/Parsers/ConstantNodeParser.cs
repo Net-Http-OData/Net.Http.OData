@@ -29,24 +29,30 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Binary(token.Value, binaryValue);
 
                 case TokenType.Date:
-                    var dateTimeValue = DateTime.ParseExact(token.Value, ParserSettings.ODataDateFormat, ParserSettings.CultureInfo, DateTimeStyles.AssumeLocal);
-                    return ConstantNode.Date(token.Value, dateTimeValue);
+                    if (DateTime.TryParseExact(token.Value, ParserSettings.ODataDateFormat, ParserSettings.CultureInfo, DateTimeStyles.AssumeLocal, out DateTime dateTimeValue))
+                    {
+                        return ConstantNode.Date(token.Value, dateTimeValue);
+                    }
+
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseDate);
 
                 case TokenType.DateTimeOffset:
-                    var dateTimeOffsetValue = DateTimeOffset.Parse(token.Value, ParserSettings.CultureInfo, ParserSettings.DateTimeStyles);
-                    return ConstantNode.DateTimeOffset(token.Value, dateTimeOffsetValue);
+                    if (DateTimeOffset.TryParse(token.Value, ParserSettings.CultureInfo, ParserSettings.DateTimeStyles, out DateTimeOffset dateTimeOffsetValue))
+                    {
+                        return ConstantNode.DateTimeOffset(token.Value, dateTimeOffsetValue);
+                    }
+
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseDateTimeOffset);
 
                 case TokenType.Decimal:
-                    string decimalText = token.Value.Substring(0, token.Value.Length - 1);
+                    string decimalText = token.Value.EndsWith("m", StringComparison.OrdinalIgnoreCase)
+                        ? token.Value.Substring(0, token.Value.Length - 1)
+                        : token.Value;
                     decimal decimalValue = decimal.Parse(decimalText, ParserSettings.CultureInfo);
                     return ConstantNode.Decimal(token.Value, decimalValue);
 
                 case TokenType.Double:
-                    string doubleText = token.Value.EndsWith("d", StringComparison.OrdinalIgnoreCase)
-                        ? token.Value.Substring(0, token.Value.Length - 1)
-                        : token.Value;
-                    double doubleValue = double.Parse(doubleText, ParserSettings.CultureInfo);
-                    return ConstantNode.Double(token.Value, doubleValue);
+                    return ParseDouble(token);
 
                 case TokenType.Duration:
                     string durationText = token.Value.Substring(9, token.Value.Length - 10)
@@ -80,28 +86,7 @@ namespace Net.Http.OData.Query.Parsers
                     return ConstantNode.Guid(token.Value, guidValue);
 
                 case TokenType.Integer:
-                    string integerText = token.Value;
-
-                    if (integerText == "0")
-                    {
-                        return ConstantNode.Int32Zero;
-                    }
-
-                    if (integerText == "0l" || integerText == "0L")
-                    {
-                        return ConstantNode.Int64Zero;
-                    }
-
-                    bool is64BitSuffix = integerText.EndsWith("l", StringComparison.OrdinalIgnoreCase);
-
-                    if (!is64BitSuffix && int.TryParse(integerText, out int int32Value))
-                    {
-                        return ConstantNode.Int32(token.Value, int32Value);
-                    }
-
-                    string int64Text = !is64BitSuffix ? integerText : integerText.Substring(0, integerText.Length - 1);
-                    long int64Value = long.Parse(int64Text, ParserSettings.CultureInfo);
-                    return ConstantNode.Int64(token.Value, int64Value);
+                    return ParseInteger(token);
 
                 case TokenType.Null:
                     return ConstantNode.Null;
@@ -124,6 +109,54 @@ namespace Net.Http.OData.Query.Parsers
 
                 default:
                     throw new NotSupportedException(token.TokenType.ToString());
+            }
+        }
+
+        private static ConstantNode ParseDouble(Token token)
+        {
+            switch (token.Value)
+            {
+                case "NaN":
+                    return ConstantNode.NaN;
+
+                case "INF":
+                    return ConstantNode.PositiveInfinity;
+
+                case "-INF":
+                    return ConstantNode.NegativeInfinity;
+
+                default:
+                    string doubleText = token.Value.EndsWith("d", StringComparison.OrdinalIgnoreCase)
+                        ? token.Value.Substring(0, token.Value.Length - 1)
+                        : token.Value;
+                    double doubleValue = double.Parse(doubleText, ParserSettings.CultureInfo);
+                    return ConstantNode.Double(token.Value, doubleValue);
+            }
+        }
+
+        private static ConstantNode ParseInteger(Token token)
+        {
+            switch (token.Value)
+            {
+                case "0":
+                    return ConstantNode.Int32Zero;
+
+                case "0l":
+                case "0L":
+                    return ConstantNode.Int64Zero;
+
+                default:
+                    string integerText = token.Value;
+                    bool is64BitSuffix = integerText.EndsWith("l", StringComparison.OrdinalIgnoreCase);
+
+                    if (!is64BitSuffix && int.TryParse(integerText, out int int32Value))
+                    {
+                        return ConstantNode.Int32(token.Value, int32Value);
+                    }
+
+                    string int64Text = !is64BitSuffix ? integerText : integerText.Substring(0, integerText.Length - 1);
+                    long int64Value = long.Parse(int64Text, ParserSettings.CultureInfo);
+                    return ConstantNode.Int64(token.Value, int64Value);
             }
         }
     }
