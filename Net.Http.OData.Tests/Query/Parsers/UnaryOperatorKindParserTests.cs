@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
 using Xunit;

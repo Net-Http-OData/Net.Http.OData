@@ -1,4 +1,4 @@
-# Net.Http.OData
+﻿# Net.Http.OData
 
 Net.Http.OData is a .NET Standard library which makes it easy to consume an OData 4.0 Query.
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
