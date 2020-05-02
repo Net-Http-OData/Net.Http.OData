@@ -36,6 +36,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("The query option $skip is not implemented by this service", odataException.Message);
+                Assert.Equal("$skip", odataException.Target);
             }
         }
 
@@ -113,6 +114,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
                 Assert.Equal("The value for OData query $skip must be a non-negative numeric value", odataException.Message);
+                Assert.Equal("$skip", odataException.Target);
             }
         }
     }

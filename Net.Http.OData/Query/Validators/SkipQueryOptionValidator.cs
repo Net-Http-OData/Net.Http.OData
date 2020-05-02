@@ -10,8 +10,6 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
-using System.Net;
-
 namespace Net.Http.OData.Query.Validators
 {
     /// <summary>
@@ -34,12 +32,12 @@ namespace Net.Http.OData.Query.Validators
 
             if ((validationSettings.AllowedQueryOptions & AllowedQueryOptions.Skip) != AllowedQueryOptions.Skip)
             {
-                throw new ODataException("The query option $skip is not implemented by this service", HttpStatusCode.NotImplemented);
+                throw ODataException.NotImplemented("The query option $skip is not implemented by this service", "$skip");
             }
 
             if (queryOptions.Skip.Value < 0)
             {
-                throw new ODataException("The value for OData query $skip must be a non-negative numeric value", HttpStatusCode.BadRequest);
+                throw ODataException.BadRequest("The value for OData query $skip must be a non-negative numeric value", "$skip");
             }
         }
     }

@@ -48,7 +48,7 @@ namespace Net.Http.OData.Model
                 return entitySet;
             }
 
-            throw ODataException.BadRequest(ExceptionMessage.EntityDataModelDoesNotContainEntitySet(entitySetName));
+            throw ODataException.BadRequest(ExceptionMessage.EntityDataModelDoesNotContainEntitySet(entitySetName), entitySetName);
         }
 
         /// <summary>

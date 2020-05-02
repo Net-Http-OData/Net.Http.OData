@@ -117,6 +117,7 @@ namespace Net.Http.OData.Tests.Model
 
             Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("NorthwindModel.Customer", "Name"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("NorthwindModel.Customer", odataException.Target);
         }
 
         [Fact]

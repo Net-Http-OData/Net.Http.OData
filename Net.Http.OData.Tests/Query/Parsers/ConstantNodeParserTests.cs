@@ -19,6 +19,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             Assert.Equal(ExceptionMessage.UnableToParseDate, odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$filter", odataException.Target);
         }
 
         [Theory]
@@ -31,6 +32,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             Assert.Equal(ExceptionMessage.UnableToParseDateTimeOffset, odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$filter", odataException.Target);
         }
 
         [Fact]

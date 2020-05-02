@@ -146,6 +146,7 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(ExceptionMessage.ODataIsolationLevelNotSupported("Snapshot"), odataException.Message);
             Assert.Equal(HttpStatusCode.PreconditionFailed, odataException.StatusCode);
+            Assert.Equal(ODataRequestHeaderNames.ODataIsolation, odataException.Target);
         }
 
         [Fact]
@@ -168,6 +169,7 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(ExceptionMessage.ODataMetadataLevelNotSupported("full", new[] { "none", "minimal" }), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("odata.metadata", odataException.Target);
         }
 
         [Fact]
@@ -190,6 +192,7 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(ExceptionMessage.ODataMaxVersionNotSupported(odataRequestOptions.ODataMaxVersion, odataServiceOptions.MinVersion, odataServiceOptions.MaxVersion), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal(ODataRequestHeaderNames.ODataMaxVersion, odataException.Target);
         }
 
         [Fact]
@@ -212,6 +215,7 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(ExceptionMessage.ODataMaxVersionNotSupported(odataRequestOptions.ODataMaxVersion, odataServiceOptions.MinVersion, odataServiceOptions.MaxVersion), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal(ODataRequestHeaderNames.ODataMaxVersion, odataException.Target);
         }
 
         [Fact]
@@ -234,6 +238,7 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(ExceptionMessage.ODataVersionNotSupported(odataRequestOptions.ODataVersion, odataServiceOptions.MinVersion, odataServiceOptions.MaxVersion), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal(ODataRequestHeaderNames.ODataVersion, odataException.Target);
         }
 
         [Fact]
@@ -256,6 +261,7 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(ExceptionMessage.ODataVersionNotSupported(odataRequestOptions.ODataVersion, odataServiceOptions.MinVersion, odataServiceOptions.MaxVersion), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal(ODataRequestHeaderNames.ODataVersion, odataException.Target);
         }
 
         [Fact]
@@ -283,6 +289,7 @@ namespace Net.Http.OData.Tests
 
             Assert.Equal(ExceptionMessage.MediaTypeNotAcceptable(odataServiceOptions.SupportedMediaTypes, odataServiceOptions.SupportedMetadataLevels, new[] { "application/xml" }), odataException.Message);
             Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
+            Assert.Equal("Accept", odataException.Target);
         }
 
         [Fact]

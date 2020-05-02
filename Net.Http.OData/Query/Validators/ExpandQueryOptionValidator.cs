@@ -10,8 +10,6 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
-using System.Net;
-
 namespace Net.Http.OData.Query.Validators
 {
     /// <summary>
@@ -34,7 +32,7 @@ namespace Net.Http.OData.Query.Validators
 
             if ((validationSettings.AllowedQueryOptions & AllowedQueryOptions.Expand) != AllowedQueryOptions.Expand)
             {
-                throw new ODataException("The query option $expand is not implemented by this service", HttpStatusCode.NotImplemented);
+                throw ODataException.NotImplemented("The query option $expand is not implemented by this service", "$expand");
             }
         }
     }

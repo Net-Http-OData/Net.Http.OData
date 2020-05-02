@@ -52,6 +52,7 @@ namespace Net.Http.OData.Tests.Model
 
             Assert.Equal(ExceptionMessage.EntityDataModelDoesNotContainEntitySet("Colour"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("Colour", odataException.Target);
         }
 
         [Fact]

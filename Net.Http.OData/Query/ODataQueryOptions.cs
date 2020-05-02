@@ -202,7 +202,7 @@ namespace Net.Http.OData.Query
 
             string queryOption = rawValue.SubstringBefore('=');
 
-            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueMustBePositiveInteger(queryOption));
+            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueMustBePositiveInteger(queryOption), queryOption);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "atom", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
+            Assert.Equal("$format", odataException.Target);
         }
 
         [Fact]
@@ -22,6 +23,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "text/vcard", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
+            Assert.Equal("$format", odataException.Target);
         }
 
         [Fact]
@@ -31,6 +33,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
+            Assert.Equal("$format", odataException.Target);
         }
 
         [Fact]
@@ -40,6 +43,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
+            Assert.Equal("$format", odataException.Target);
         }
 
         public class WhenConstructedWithRawValueApplicationJson

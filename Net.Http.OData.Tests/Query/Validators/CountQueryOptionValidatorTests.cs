@@ -36,6 +36,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
                 Assert.Equal("The supplied value for OData query $count is invalid, valid options are 'true' and 'false'", odataException.Message);
+                Assert.Equal("$count", odataException.Target);
             }
         }
 
@@ -66,6 +67,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("The query option $count is not implemented by this service", odataException.Message);
+                Assert.Equal("$count", odataException.Target);
             }
         }
 

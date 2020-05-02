@@ -71,6 +71,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
             Assert.Equal(ExceptionMessage.PropertyNotNavigable("Colour", "Colour/Name"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("NorthwindModel.Product", odataException.Target);
         }
 
         [Fact]
@@ -81,6 +82,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
             Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("NorthwindModel.Category", "Definition"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("NorthwindModel.Category", odataException.Target);
         }
     }
 }
