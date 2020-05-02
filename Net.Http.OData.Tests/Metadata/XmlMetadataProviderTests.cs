@@ -292,8 +292,8 @@ namespace Net.Http.OData.Tests.Metadata
             TestHelper.EnsureEDM();
 
             var schemas = new XmlSchemaSet();
-            schemas.Add(null, Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Metadata\Schemas\v4.0\edmx.xsd"));
-            schemas.Add(null, Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Metadata\Schemas\v4.0\edm.xsd"));
+            schemas.Add(null, Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Metadata", "Schemas", "v4.0", "edmx.xsd"));
+            schemas.Add(null, Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Metadata", "Schemas", "v4.0", "edm.xsd"));
 
             XDocument csdlDocument = XmlMetadataProvider.Create(EntityDataModel.Current, TestHelper.ODataServiceOptions);
             csdlDocument.Validate(schemas, (s, a) => Assert.Null(a.Message));
