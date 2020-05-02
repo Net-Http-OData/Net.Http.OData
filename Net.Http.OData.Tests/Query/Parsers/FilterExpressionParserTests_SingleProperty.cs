@@ -2,7 +2,7 @@
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
-using NorthwindModel;
+using Sample.Model;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query.Parsers
@@ -281,7 +281,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqEnumFlagsValueExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("AccessLevel has NorthwindModel.AccessLevel'Read,Write'", EntityDataModel.Current.EntitySets["Employees"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("AccessLevel has Sample.Model.AccessLevel'Read,Write'", EntityDataModel.Current.EntitySets["Employees"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -295,14 +295,14 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<ConstantNode<AccessLevel>>(node.Right);
                 var nodeRight = (ConstantNode<AccessLevel>)node.Right;
-                Assert.Equal("NorthwindModel.AccessLevel'Read,Write'", nodeRight.LiteralText);
+                Assert.Equal("Sample.Model.AccessLevel'Read,Write'", nodeRight.LiteralText);
                 Assert.Equal(AccessLevel.Read | AccessLevel.Write, nodeRight.Value);
             }
 
             [Fact]
             public void ParsePropertyEqEnumValueExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("Colour eq NorthwindModel.Colour'Blue'", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Colour eq Sample.Model.Colour'Blue'", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -316,7 +316,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<ConstantNode<Colour>>(node.Right);
                 var nodeRight = (ConstantNode<Colour>)node.Right;
-                Assert.Equal("NorthwindModel.Colour'Blue'", nodeRight.LiteralText);
+                Assert.Equal("Sample.Model.Colour'Blue'", nodeRight.LiteralText);
                 Assert.Equal(Colour.Blue, nodeRight.Value);
             }
 

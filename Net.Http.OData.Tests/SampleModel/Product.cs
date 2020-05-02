@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NorthwindModel
+namespace Sample.Model
 {
     public class Product
     {

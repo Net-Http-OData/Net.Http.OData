@@ -922,7 +922,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    "?$filter=AccessLevel has NorthwindModel.AccessLevel'Write'",
+                    "?$filter=AccessLevel has Sample.Model.AccessLevel'Write'",
                     EntityDataModel.Current.EntitySets["Employees"],
                     Mock.Of<IODataQueryOptionsValidator>());
             }
@@ -954,7 +954,7 @@ namespace Net.Http.OData.Tests.Query.Validators
                 TestHelper.EnsureEDM();
 
                 _queryOptions = new ODataQueryOptions(
-                    "?$filter=AccessLevel has NorthwindModel.AccessLevel'Write'",
+                    "?$filter=AccessLevel has Sample.Model.AccessLevel'Write'",
                     EntityDataModel.Current.EntitySets["Employees"],
                     Mock.Of<IODataQueryOptionsValidator>());
             }

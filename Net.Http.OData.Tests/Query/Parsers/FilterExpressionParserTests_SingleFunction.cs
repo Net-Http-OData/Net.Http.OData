@@ -407,7 +407,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParseIsOfFunctionWithTypeOnlyExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("isof(NorthwindModel.Order)", EntityDataModel.Current.EntitySets["Orders"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("isof(Sample.Model.Order)", EntityDataModel.Current.EntitySets["Orders"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<FunctionCallNode>(queryNode);
@@ -418,8 +418,8 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal(1, node.Parameters.Count);
                 Assert.IsType<ConstantNode<EdmType>>(node.Parameters[0]);
                 var nodeParam0 = (ConstantNode<EdmType>)node.Parameters[0];
-                Assert.Equal("NorthwindModel.Order", nodeParam0.LiteralText);
-                Assert.Equal(EdmType.GetEdmType(typeof(NorthwindModel.Order)), nodeParam0.Value);
+                Assert.Equal("Sample.Model.Order", nodeParam0.LiteralText);
+                Assert.Equal(EdmType.GetEdmType(typeof(Sample.Model.Order)), nodeParam0.Value);
             }
 
             [Fact]

@@ -20,7 +20,7 @@ namespace Net.Http.OData.Tests.Metadata
 
             var expected = XDocument.Parse($@"<edmx:Edmx xmlns:edmx=""http://docs.oasis-open.org/odata/ns/edmx"" Version=""{serviceOptions.MaxVersion}"">
   <edmx:DataServices>
-    <Schema xmlns=""http://docs.oasis-open.org/odata/ns/edm"" Namespace=""NorthwindModel"">
+    <Schema xmlns=""http://docs.oasis-open.org/odata/ns/edm"" Namespace=""Sample.Model"">
       <EnumType Name=""AccessLevel"" UnderlyingType=""Edm.Int32"" IsFlags=""true"">
         <Member Name=""None"" Value=""0"" />
         <Member Name=""Read"" Value=""1"" />
@@ -37,7 +37,7 @@ namespace Net.Http.OData.Tests.Metadata
         <Property Name=""ProductId"" Type=""Edm.Int32"" Nullable=""false"" />
         <Property Name=""Quantity"" Type=""Edm.Int16"" Nullable=""false"" />
         <Property Name=""UnitPrice"" Type=""Edm.Decimal"" Nullable=""false"" />
-        <NavigationProperty Name=""Order"" Type=""NorthwindModel.Order"" />
+        <NavigationProperty Name=""Order"" Type=""Sample.Model.Order"" />
       </ComplexType>
       <EntityType Name=""Categories"">
         <Key>
@@ -58,7 +58,7 @@ namespace Net.Http.OData.Tests.Metadata
         <Key>
           <PropertyRef Name=""Id"" />
         </Key>
-        <Property Name=""AccessLevel"" Type=""NorthwindModel.AccessLevel"" Nullable=""false"" />
+        <Property Name=""AccessLevel"" Type=""Sample.Model.AccessLevel"" Nullable=""false"" />
         <Property Name=""BirthDate"" Type=""Edm.Date"" Nullable=""false"" />
         <Property Name=""EmailAddress"" Type=""Edm.String"" Nullable=""false"" />
         <Property Name=""Forename"" Type=""Edm.String"" Nullable=""false"" />
@@ -68,11 +68,11 @@ namespace Net.Http.OData.Tests.Metadata
         <Property Name=""LeavingDate"" Type=""Edm.Date"" />
         <Property Name=""Surname"" Type=""Edm.String"" Nullable=""false"" />
         <Property Name=""Title"" Type=""Edm.String"" Nullable=""false"" />
-        <NavigationProperty Name=""Manager"" Type=""NorthwindModel.Manager"" />
+        <NavigationProperty Name=""Manager"" Type=""Sample.Model.Manager"" />
       </EntityType>
-      <EntityType Name=""Managers"" BaseType=""NorthwindModel.Employee"">
+      <EntityType Name=""Managers"" BaseType=""Sample.Model.Employee"">
         <Property Name=""AnnualBudget"" Type=""Edm.Decimal"" Nullable=""false"" />
-        <NavigationProperty Name=""Employees"" Type=""Collection(NorthwindModel.Employee)"" />
+        <NavigationProperty Name=""Employees"" Type=""Collection(Sample.Model.Employee)"" />
       </EntityType>
       <EntityType Name=""Orders"">
         <Key>
@@ -80,7 +80,7 @@ namespace Net.Http.OData.Tests.Metadata
         </Key>
         <Property Name=""Date"" Type=""Edm.DateTimeOffset"" Nullable=""false"" />
         <Property Name=""Freight"" Type=""Edm.Decimal"" Nullable=""false"" />
-        <Property Name=""OrderDetails"" Type=""Collection(NorthwindModel.OrderDetail)"" />
+        <Property Name=""OrderDetails"" Type=""Collection(Sample.Model.OrderDetail)"" />
         <Property Name=""OrderId"" Type=""Edm.Int64"" Nullable=""false"" />
         <Property Name=""ShipCountry"" Type=""Edm.String"" />
         <Property Name=""TransactionId"" Type=""Edm.Guid"" Nullable=""false"" />
@@ -89,7 +89,7 @@ namespace Net.Http.OData.Tests.Metadata
         <Key>
           <PropertyRef Name=""ProductId"" />
         </Key>
-        <Property Name=""Colour"" Type=""NorthwindModel.Colour"" Nullable=""false"" />
+        <Property Name=""Colour"" Type=""Sample.Model.Colour"" Nullable=""false"" />
         <Property Name=""Deleted"" Type=""Edm.Boolean"" Nullable=""false"" />
         <Property Name=""Description"" Type=""Edm.String"" />
         <Property Name=""Name"" Type=""Edm.String"" />
@@ -97,10 +97,10 @@ namespace Net.Http.OData.Tests.Metadata
         <Property Name=""ProductId"" Type=""Edm.Int32"" Nullable=""false"" />
         <Property Name=""Rating"" Type=""Edm.Int32"" Nullable=""false"" />
         <Property Name=""ReleaseDate"" Type=""Edm.Date"" Nullable=""false"" />
-        <NavigationProperty Name=""Category"" Type=""NorthwindModel.Category"" />
+        <NavigationProperty Name=""Category"" Type=""Sample.Model.Category"" />
       </EntityType>
       <EntityContainer Name=""DefaultContainer"">
-        <EntitySet Name=""Categories"" EntityType=""NorthwindModel.Category"">
+        <EntitySet Name=""Categories"" EntityType=""Sample.Model.Category"">
           <Annotation Term=""Org.OData.Core.V1.ResourcePath"" String=""Categories"" />
           <Annotation Term=""Org.OData.Capabilities.V1.InsertRestrictions"">
             <Record>
@@ -118,7 +118,7 @@ namespace Net.Http.OData.Tests.Metadata
             </Record>
           </Annotation>
         </EntitySet>
-        <EntitySet Name=""Customers"" EntityType=""NorthwindModel.Customer"">
+        <EntitySet Name=""Customers"" EntityType=""Sample.Model.Customer"">
           <Annotation Term=""Org.OData.Core.V1.ResourcePath"" String=""Customers"" />
           <Annotation Term=""Org.OData.Capabilities.V1.InsertRestrictions"">
             <Record>
@@ -136,7 +136,7 @@ namespace Net.Http.OData.Tests.Metadata
             </Record>
           </Annotation>
         </EntitySet>
-        <EntitySet Name=""Employees"" EntityType=""NorthwindModel.Employee"">
+        <EntitySet Name=""Employees"" EntityType=""Sample.Model.Employee"">
           <Annotation Term=""Org.OData.Core.V1.ResourcePath"" String=""Employees"" />
           <Annotation Term=""Org.OData.Capabilities.V1.InsertRestrictions"">
             <Record>
@@ -154,7 +154,7 @@ namespace Net.Http.OData.Tests.Metadata
             </Record>
           </Annotation>
         </EntitySet>
-        <EntitySet Name=""Managers"" EntityType=""NorthwindModel.Manager"">
+        <EntitySet Name=""Managers"" EntityType=""Sample.Model.Manager"">
           <Annotation Term=""Org.OData.Core.V1.ResourcePath"" String=""Managers"" />
           <Annotation Term=""Org.OData.Capabilities.V1.InsertRestrictions"">
             <Record>
@@ -172,7 +172,7 @@ namespace Net.Http.OData.Tests.Metadata
             </Record>
           </Annotation>
         </EntitySet>
-        <EntitySet Name=""Orders"" EntityType=""NorthwindModel.Order"">
+        <EntitySet Name=""Orders"" EntityType=""Sample.Model.Order"">
           <Annotation Term=""Org.OData.Core.V1.ResourcePath"" String=""Orders"" />
           <Annotation Term=""Org.OData.Capabilities.V1.InsertRestrictions"">
             <Record>
@@ -190,7 +190,7 @@ namespace Net.Http.OData.Tests.Metadata
             </Record>
           </Annotation>
         </EntitySet>
-        <EntitySet Name=""Products"" EntityType=""NorthwindModel.Product"">
+        <EntitySet Name=""Products"" EntityType=""Sample.Model.Product"">
           <Annotation Term=""Org.OData.Core.V1.ResourcePath"" String=""Products"" />
           <Annotation Term=""Org.OData.Capabilities.V1.InsertRestrictions"">
             <Record>
@@ -209,7 +209,7 @@ namespace Net.Http.OData.Tests.Metadata
           </Annotation>
         </EntitySet>
       </EntityContainer>
-      <Annotations Target=""NorthwindModel.DefaultContainer"">
+      <Annotations Target=""Sample.Model.DefaultContainer"">
         <Annotation Term=""Org.OData.Capabilities.V1.ConformanceLevel"">
           <EnumMember>Org.OData.Capabilities.V1.ConformanceLevelType/Minimal</EnumMember>
         </Annotation>

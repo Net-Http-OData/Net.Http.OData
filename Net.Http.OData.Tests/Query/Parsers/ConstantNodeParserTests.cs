@@ -3,7 +3,7 @@ using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
-using NorthwindModel;
+using Sample.Model;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query.Parsers
@@ -313,7 +313,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             {
                 TestHelper.EnsureEDM();
 
-                _node = (ConstantNode<AccessLevel>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Enum, "NorthwindModel.AccessLevel'Read'", 0));
+                _node = (ConstantNode<AccessLevel>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Enum, "Sample.Model.AccessLevel'Read'", 0));
             }
 
             [Fact]
@@ -326,7 +326,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             [Fact]
             public void TheLiteralTextPropertyIsSet()
-                => Assert.Equal("NorthwindModel.AccessLevel'Read'", _node.LiteralText);
+                => Assert.Equal("Sample.Model.AccessLevel'Read'", _node.LiteralText);
 
             [Fact]
             public void TheValuePropertyIsSet()

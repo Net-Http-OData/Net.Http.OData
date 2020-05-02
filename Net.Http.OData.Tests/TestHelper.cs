@@ -1,6 +1,6 @@
 ﻿using System;
 using Net.Http.OData.Model;
-using NorthwindModel;
+using Sample.Model;
 
 namespace Net.Http.OData.Tests
 {
