@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ODataError.cs" company="Project Contributors">
+// <copyright file="ODataErrorDetail.cs" company="Project Contributors">
 // Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -10,25 +10,18 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
-using System.Collections.Generic;
-
 namespace Net.Http.OData
 {
     /// <summary>
-    /// A class representing an OData error.
+    /// A class representing the detail of an OData error.
     /// </summary>
-    public sealed class ODataError
+    public class ODataErrorDetail
     {
         /// <summary>
         /// Gets or sets a service-defined error code.
         /// </summary>
         /// <remarks>This code serves as a sub-status for the HTTP error code specified in the response.</remarks>
         public string Code { get; set; }
-
-        /// <summary>
-        /// Gets or sets the details.
-        /// </summary>
-        public IEnumerable<ODataErrorDetail> Details { get; set; }
 
         /// <summary>
         /// Gets or sets a human-readable, language-dependent representation of the error.
