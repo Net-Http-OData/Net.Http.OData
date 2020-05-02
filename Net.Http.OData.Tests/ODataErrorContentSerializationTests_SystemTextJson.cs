@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.Json;
 using Xunit;
 
 namespace Net.Http.OData.Tests
@@ -10,11 +11,11 @@ namespace Net.Http.OData.Tests
         {
             var odataErrorContent = ODataErrorContent.Create(404, "Not Found");
 
-            string jsonResult = System.Text.Json.JsonSerializer.Serialize(odataErrorContent, TestHelper.JsonSerializerOptions);
+            string jsonResult = JsonSerializer.Serialize(odataErrorContent, TestHelper.JsonSerializerOptions);
 
             Assert.Equal("{\"error\":{\"code\":\"404\",\"message\":\"Not Found\"}}", jsonResult);
 
-            ODataErrorContent deserializedODataErrorContent = System.Text.Json.JsonSerializer.Deserialize<ODataErrorContent>(jsonResult, TestHelper.JsonSerializerOptions);
+            ODataErrorContent deserializedODataErrorContent = JsonSerializer.Deserialize<ODataErrorContent>(jsonResult, TestHelper.JsonSerializerOptions);
 
             Assert.Equal(odataErrorContent.Error.Code, deserializedODataErrorContent.Error.Code);
             Assert.Equal(odataErrorContent.Error.Message, deserializedODataErrorContent.Error.Message);
@@ -26,11 +27,11 @@ namespace Net.Http.OData.Tests
         {
             var odataErrorContent = ODataErrorContent.Create(404, "Not Found", "target");
 
-            string jsonResult = System.Text.Json.JsonSerializer.Serialize(odataErrorContent, TestHelper.JsonSerializerOptions);
+            string jsonResult = JsonSerializer.Serialize(odataErrorContent, TestHelper.JsonSerializerOptions);
 
             Assert.Equal("{\"error\":{\"code\":\"404\",\"message\":\"Not Found\",\"target\":\"target\"}}", jsonResult);
 
-            ODataErrorContent deserializedODataErrorContent = System.Text.Json.JsonSerializer.Deserialize<ODataErrorContent>(jsonResult, TestHelper.JsonSerializerOptions);
+            ODataErrorContent deserializedODataErrorContent = JsonSerializer.Deserialize<ODataErrorContent>(jsonResult, TestHelper.JsonSerializerOptions);
 
             Assert.Equal(odataErrorContent.Error.Code, deserializedODataErrorContent.Error.Code);
             Assert.Equal(odataErrorContent.Error.Message, deserializedODataErrorContent.Error.Message);
@@ -42,11 +43,11 @@ namespace Net.Http.OData.Tests
         {
             var odataErrorContent = ODataErrorContent.Create(501, "Unsupported functionality", "query", new[] { new ODataErrorDetail { Code = "301", Message = "$search query option not supported", Target = "$search" } });
 
-            string jsonResult = System.Text.Json.JsonSerializer.Serialize(odataErrorContent, TestHelper.JsonSerializerOptions);
+            string jsonResult = JsonSerializer.Serialize(odataErrorContent, TestHelper.JsonSerializerOptions);
 
             Assert.Equal("{\"error\":{\"code\":\"501\",\"details\":[{\"code\":\"301\",\"message\":\"$search query option not supported\",\"target\":\"$search\"}],\"message\":\"Unsupported functionality\",\"target\":\"query\"}}", jsonResult);
 
-            ODataErrorContent deserializedODataErrorContent = Newtonsoft.Json.JsonConvert.DeserializeObject<ODataErrorContent>(jsonResult, TestHelper.JsonSerializerSettings);
+            ODataErrorContent deserializedODataErrorContent = JsonSerializer.Deserialize<ODataErrorContent>(jsonResult, TestHelper.JsonSerializerOptions);
 
             Assert.Equal(odataErrorContent.Error.Code, deserializedODataErrorContent.Error.Code);
             Assert.Single(odataErrorContent.Error.Details);
