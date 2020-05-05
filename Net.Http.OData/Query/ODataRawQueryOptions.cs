@@ -49,7 +49,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$select=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$select"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$select"), "$select");
                         }
 
                         Select = rawQueryOption;
@@ -58,7 +58,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$filter=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$filter"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$filter"), "$filter");
                         }
 
                         Filter = rawQueryOption;
@@ -67,7 +67,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$orderby=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$orderby"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$orderby"), "$orderby");
                         }
 
                         OrderBy = rawQueryOption;
@@ -76,7 +76,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$skip=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skip"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skip"), "$skip");
                         }
 
                         Skip = rawQueryOption;
@@ -85,7 +85,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$top=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$top"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$top"), "$top");
                         }
 
                         Top = rawQueryOption;
@@ -94,7 +94,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$count=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$count"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$count"), "$count");
                         }
 
                         Count = rawQueryOption;
@@ -103,7 +103,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$format=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$format"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$format"), "$format");
                         }
 
                         Format = rawQueryOption;
@@ -112,7 +112,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$expand=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$expand"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$expand"), "$expand");
                         }
 
                         Expand = rawQueryOption;
@@ -121,7 +121,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$search=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$search"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$search"), "$search");
                         }
 
                         Search = rawQueryOption;
@@ -130,7 +130,7 @@ namespace Net.Http.OData.Query
                     {
                         if (rawQueryOption.Equals("$skiptoken=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skiptoken"));
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skiptoken"), "$skiptoken");
                         }
 
                         SkipToken = rawQueryOption;
@@ -139,7 +139,7 @@ namespace Net.Http.OData.Query
                     {
                         string optionName = rawQueryOption.SubstringBefore('=');
 
-                        throw ODataException.BadRequest(ExceptionMessage.UnsupportedQueryOption(optionName));
+                        throw ODataException.BadRequest(ExceptionMessage.UnsupportedQueryOption(optionName), optionName);
                     }
                 }
             }

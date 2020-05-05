@@ -36,6 +36,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("The query option $top is not implemented by this service", odataException.Message);
+                Assert.Equal("$top", odataException.Target);
             }
         }
 
@@ -93,6 +94,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
                 Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 0 allowed by this service", odataException.Message);
+                Assert.Equal("$top", odataException.Target);
             }
         }
 
@@ -177,6 +179,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
                 Assert.Equal("The integer value for $top is invalid, it must be an integer greater than zero and below the max value of 100 allowed by this service", odataException.Message);
+                Assert.Equal("$top", odataException.Target);
             }
         }
     }

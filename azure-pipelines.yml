@@ -1,4 +1,4 @@
-trigger:
+﻿trigger:
   branches:
     include:
       - master
@@ -54,7 +54,7 @@ steps:
 
 - script: dotnet pack --no-build -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion="$(buildVersion)-preview$(Build.BuildNumber)"
   displayName: 'dotnet pack (pre)'
-  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
 
 - script: dotnet pack --no-build -o:$(Build.ArtifactStagingDirectory) -p:PackageVersion=$(buildVersion)
   displayName: 'dotnet pack'

@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Net.Http.OData
@@ -39,8 +40,9 @@ namespace Net.Http.OData
         /// <param name="code">The error code.</param>
         /// <param name="message">The error message.</param>
         /// <param name="target">The error target.</param>
+        /// <param name="details">The details of the error.</param>
         /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
-        public static ODataErrorContent Create(int code, string message, string target)
-            => new ODataErrorContent { Error = new ODataError { Code = code.ToString(CultureInfo.InvariantCulture), Message = message, Target = target } };
+        public static ODataErrorContent Create(int code, string message, string target, IEnumerable<ODataErrorDetail> details = null)
+            => new ODataErrorContent { Error = new ODataError { Code = code.ToString(CultureInfo.InvariantCulture), Details = details, Message = message, Target = target } };
     }
 }

@@ -1,4 +1,4 @@
-// -----------------------------------------------------------------------
+﻿// -----------------------------------------------------------------------
 // <copyright file="SearchQueryOption.cs" company="Project Contributors">
 // Copyright Project Contributors
 //

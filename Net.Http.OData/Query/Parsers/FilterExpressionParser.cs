@@ -67,14 +67,14 @@ namespace Net.Http.OData.Query.Parsers
 
                 if (_groupingDepth != 0 || _nodeStack.Count != 1)
                 {
-                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter("an extra opening or missing closing parenthesis may be present"));
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter("an extra opening or missing closing parenthesis may be present"), "$filter");
                 }
 
                 QueryNode node = _nodeStack.Pop();
 
                 if (node is BinaryOperatorNode binaryNode && binaryNode.Right is null)
                 {
-                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the binary operator {binaryNode.OperatorKind.ToString()} has no right node"));
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the binary operator {binaryNode.OperatorKind.ToString()} has no right node"), "$filter");
                 }
 
                 return node;
@@ -119,7 +119,7 @@ namespace Net.Http.OData.Query.Parsers
                             {
                                 if (binaryNode == null)
                                 {
-                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
+                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter, "$filter");
                                 }
 
                                 binaryNode.Right = constantNode;
@@ -134,7 +134,7 @@ namespace Net.Http.OData.Query.Parsers
                         case TokenType.CloseParentheses:
                             if (_groupingDepth == 0)
                             {
-                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the closing parenthesis not expected", token.Position));
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the closing parenthesis not expected", token.Position), "$filter");
                             }
 
                             _groupingDepth--;
@@ -166,7 +166,7 @@ namespace Net.Http.OData.Query.Parsers
                             if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
                                 // If there is a comma in a function call, there should be another parameter followed by a closing comma
-                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has a missing parameter or extra comma", token.Position));
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has a missing parameter or extra comma", token.Position), "$filter");
                             }
 
                             break;
@@ -179,7 +179,7 @@ namespace Net.Http.OData.Query.Parsers
                             if (_tokens.Count > 0 && _tokens.Peek().TokenType == TokenType.CloseParentheses)
                             {
                                 // All OData functions have at least 1 or 2 parameters
-                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has no parameters specified", token.Position));
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the function {node?.Name} has no parameters specified", token.Position), "$filter");
                             }
 
                             _groupingDepth++;
@@ -197,7 +197,7 @@ namespace Net.Http.OData.Query.Parsers
                             {
                                 if (binaryNode == null)
                                 {
-                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter);
+                                    throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter, "$filter");
                                 }
 
                                 binaryNode.Right = propertyAccessNode;
@@ -206,7 +206,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         default:
-                            throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {token.Value}", token.Position));
+                            throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {token.Value}", token.Position), "$filter");
                     }
                 }
 
@@ -288,7 +288,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         default:
-                            throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {token.Value}", token.Position));
+                            throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {token.Value}", token.Position), "$filter");
                     }
                 }
 
@@ -303,7 +303,7 @@ namespace Net.Http.OData.Query.Parsers
             {
                 if (_tokens.Count == 0)
                 {
-                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"));
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), "$filter");
                 }
 
                 QueryNode node;
@@ -331,7 +331,7 @@ namespace Net.Http.OData.Query.Parsers
                         break;
 
                     default:
-                        throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {_tokens.Peek().Value}", _tokens.Peek().Position));
+                        throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {_tokens.Peek().Value}", _tokens.Peek().Position), "$filter");
                 }
 
                 return node;

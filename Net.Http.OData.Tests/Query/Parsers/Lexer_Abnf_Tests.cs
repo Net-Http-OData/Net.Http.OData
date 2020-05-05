@@ -1,4 +1,5 @@
-﻿using Net.Http.OData.Query.Parsers;
+﻿using System.Net;
+using Net.Http.OData.Query.Parsers;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query.Parsers
@@ -114,6 +115,9 @@ namespace Net.Http.OData.Tests.Query.Parsers
             var lexer = new Lexer(value);
 
             ODataException odataException = Assert.Throws<ODataException>(() => lexer.MoveNext());
+            Assert.Equal(ExceptionMessage.GenericUnableToParseFilter, odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$filter", odataException.Target);
         }
 
         [Theory]
@@ -124,6 +128,9 @@ namespace Net.Http.OData.Tests.Query.Parsers
             var lexer = new Lexer(value);
 
             ODataException odataException = Assert.Throws<ODataException>(() => lexer.MoveNext());
+            Assert.Equal(ExceptionMessage.GenericUnableToParseFilter, odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$filter", odataException.Target);
         }
 
         [Theory]
@@ -134,6 +141,9 @@ namespace Net.Http.OData.Tests.Query.Parsers
             var lexer = new Lexer(value);
 
             ODataException odataException = Assert.Throws<ODataException>(() => lexer.MoveNext());
+            Assert.Equal(ExceptionMessage.GenericUnableToParseFilter, odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$filter", odataException.Target);
         }
 
         [Theory]
@@ -144,6 +154,9 @@ namespace Net.Http.OData.Tests.Query.Parsers
             var lexer = new Lexer(value);
 
             ODataException odataException = Assert.Throws<ODataException>(() => lexer.MoveNext());
+            Assert.Equal(ExceptionMessage.GenericUnableToParseFilter, odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$filter", odataException.Target);
         }
 
         [Theory]
@@ -154,6 +167,9 @@ namespace Net.Http.OData.Tests.Query.Parsers
             var lexer = new Lexer(value);
 
             ODataException odataException = Assert.Throws<ODataException>(() => lexer.MoveNext());
+            Assert.Equal(ExceptionMessage.GenericUnableToParseFilter, odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$filter", odataException.Target);
         }
 
         [Fact]

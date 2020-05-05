@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using Net.Http.OData.Model;
-using NorthwindModel;
+using Sample.Model;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Model
@@ -115,8 +115,9 @@ namespace Net.Http.OData.Tests.Model
 
             ODataException odataException = Assert.Throws<ODataException>(() => edmComplexType.GetProperty("Name"));
 
-            Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("NorthwindModel.Customer", "Name"), odataException.Message);
+            Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("Sample.Model.Customer", "Name"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("Sample.Model.Customer", odataException.Target);
         }
 
         [Fact]

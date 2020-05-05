@@ -34,7 +34,7 @@ namespace Net.Http.OData.Query.Parsers
                         return ConstantNode.Date(token.Value, dateTimeValue);
                     }
 
-                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseDate);
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseDate, "$filter");
 
                 case TokenType.DateTimeOffset:
                     if (DateTimeOffset.TryParse(token.Value, ParserSettings.CultureInfo, ParserSettings.DateTimeStyles, out DateTimeOffset dateTimeOffsetValue))
@@ -42,7 +42,7 @@ namespace Net.Http.OData.Query.Parsers
                         return ConstantNode.DateTimeOffset(token.Value, dateTimeOffsetValue);
                     }
 
-                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseDateTimeOffset);
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseDateTimeOffset, "$filter");
 
                 case TokenType.Decimal:
                     string decimalText = token.Value.EndsWith("m", StringComparison.OrdinalIgnoreCase)

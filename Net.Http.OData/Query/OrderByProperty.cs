@@ -56,7 +56,7 @@ namespace Net.Http.OData.Query
                 }
                 else
                 {
-                    throw ODataException.BadRequest(ExceptionMessage.InvalidOrderByDirection(rawValue.SubstringAfter(' '), PropertyPath.Property.Name));
+                    throw ODataException.BadRequest(ExceptionMessage.InvalidOrderByDirection(rawValue.SubstringAfter(' '), PropertyPath.Property.Name), "$orderby");
                 }
             }
         }

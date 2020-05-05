@@ -38,6 +38,6 @@ namespace Net.Http.OData.Query.Parsers
         internal static BinaryOperatorKind ToBinaryOperatorKind(this string operatorType)
             => s_operatorTypeMap.TryGetValue(operatorType, out BinaryOperatorKind binaryOperatorKind)
                 ? binaryOperatorKind
-                : throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType));
+                : throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType), "$filter");
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
@@ -644,7 +644,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParseNestedGrouping()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("(ReleaseDate ge 2015-03-01T00:00:00 and ReleaseDate le 2015-03-31T23:59:59) and ((Deleted eq false and substringof('ilk', Description) eq true) or (Deleted eq false and substringof('rrots', Description) eq true))", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("(ReleaseDate ge 2015-03-01T00:00:00 and ReleaseDate le 2015-03-31T23:59:59) and ((Discontinued eq false and substringof('ilk', Description) eq true) or (Discontinued eq false and substringof('rrots', Description) eq true))", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);

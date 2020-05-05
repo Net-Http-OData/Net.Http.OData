@@ -71,6 +71,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
             Assert.Equal(ExceptionMessage.PropertyNotNavigable("Colour", "Colour/Name"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("Sample.Model.Product", odataException.Target);
         }
 
         [Fact]
@@ -79,8 +80,9 @@ namespace Net.Http.OData.Tests.Query.Expressions
             ODataException odataException = Assert.Throws<ODataException>(
                 () => PropertyPath.For("Category/Definition/Name", EntityDataModel.Current.EntitySets["Products"].EdmType));
 
-            Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("NorthwindModel.Category", "Definition"), odataException.Message);
+            Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("Sample.Model.Category", "Definition"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("Sample.Model.Category", odataException.Target);
         }
     }
 }

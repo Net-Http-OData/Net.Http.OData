@@ -88,7 +88,7 @@ namespace Net.Http.OData.Query.Expressions
                 // All properties in the path except the last must be navigable.
                 if (i < nameSegments.Length - 1 && !edmProperties[i].IsNavigable)
                 {
-                    throw ODataException.BadRequest(ExceptionMessage.PropertyNotNavigable(nameSegments[i], rawPropertyPath));
+                    throw ODataException.BadRequest(ExceptionMessage.PropertyNotNavigable(nameSegments[i], rawPropertyPath), model.FullName);
                 }
 
                 model = edmProperties[i].PropertyType as EdmComplexType;

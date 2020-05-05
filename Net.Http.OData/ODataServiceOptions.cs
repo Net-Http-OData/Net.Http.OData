@@ -142,7 +142,7 @@ namespace Net.Http.OData
                 }
             }
 
-            throw ODataException.NotAcceptable(ExceptionMessage.MediaTypeNotAcceptable(SupportedMediaTypes, SupportedMetadataLevels, requestedMediaTypes));
+            throw ODataException.NotAcceptable(ExceptionMessage.MediaTypeNotAcceptable(SupportedMediaTypes, SupportedMetadataLevels, requestedMediaTypes), "Accept");
         }
 
         /// <summary>
@@ -160,25 +160,32 @@ namespace Net.Http.OData
 
             if (!SupportedIsolationLevels.Contains(odataRequestOptions.IsolationLevel))
             {
-                throw ODataException.PreconditionFailed(ExceptionMessage.ODataIsolationLevelNotSupported(odataRequestOptions.IsolationLevel.ToString()));
+                throw ODataException.PreconditionFailed(
+                    ExceptionMessage.ODataIsolationLevelNotSupported(odataRequestOptions.IsolationLevel.ToString()),
+                    ODataRequestHeaderNames.ODataIsolation);
             }
 
             if (!SupportedMetadataLevels.Contains(odataRequestOptions.MetadataLevel))
             {
                 throw ODataException.BadRequest(
 #pragma warning disable CA1308 // Normalize strings to uppercase
-                    ExceptionMessage.ODataMetadataLevelNotSupported(odataRequestOptions.MetadataLevel.ToString().ToLowerInvariant(), SupportedMetadataLevels.Select(x => x.ToString().ToLowerInvariant())));
+                    ExceptionMessage.ODataMetadataLevelNotSupported(odataRequestOptions.MetadataLevel.ToString().ToLowerInvariant(), SupportedMetadataLevels.Select(x => x.ToString().ToLowerInvariant())),
 #pragma warning restore CA1308 // Normalize strings to uppercase
+                    "odata.metadata");
             }
 
             if (odataRequestOptions.ODataVersion < MinVersion || odataRequestOptions.ODataVersion > MaxVersion)
             {
-                throw ODataException.BadRequest(ExceptionMessage.ODataVersionNotSupported(odataRequestOptions.ODataVersion, MinVersion, MaxVersion));
+                throw ODataException.BadRequest(
+                    ExceptionMessage.ODataVersionNotSupported(odataRequestOptions.ODataVersion, MinVersion, MaxVersion),
+                    ODataRequestHeaderNames.ODataVersion);
             }
 
             if (odataRequestOptions.ODataMaxVersion < MinVersion || odataRequestOptions.ODataMaxVersion > MaxVersion)
             {
-                throw ODataException.BadRequest(ExceptionMessage.ODataMaxVersionNotSupported(odataRequestOptions.ODataMaxVersion, MinVersion, MaxVersion));
+                throw ODataException.BadRequest(
+                    ExceptionMessage.ODataMaxVersionNotSupported(odataRequestOptions.ODataMaxVersion, MinVersion, MaxVersion),
+                    ODataRequestHeaderNames.ODataMaxVersion);
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using Net.Http.OData.Model;
-using NorthwindModel;
+using Sample.Model;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Model
@@ -52,6 +52,7 @@ namespace Net.Http.OData.Tests.Model
 
             Assert.Equal(ExceptionMessage.EntityDataModelDoesNotContainEntitySet("Colour"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("Colour", odataException.Target);
         }
 
         [Fact]

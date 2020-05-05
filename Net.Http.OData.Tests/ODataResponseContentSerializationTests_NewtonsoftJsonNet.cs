@@ -1,4 +1,5 @@
-using System.Dynamic;
+﻿using System.Dynamic;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Net.Http.OData.Tests
@@ -20,7 +21,7 @@ namespace Net.Http.OData.Tests
                 Value = new[] { item },
             };
 
-            string jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
+            string jsonResult = JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
 
             Assert.Equal("{\"@odata.count\":12,\"value\":[{\"name\":\"Coffee\",\"total\":2.55}]}", jsonResult);
         }
@@ -41,7 +42,7 @@ namespace Net.Http.OData.Tests
                 Value = new[] { item },
             };
 
-            string jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
+            string jsonResult = JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
 
             Assert.Equal("{\"@odata.context\":\"http://services.odata.org/OData/$metadata#Products\",\"@odata.count\":12,\"value\":[{\"name\":\"Coffee\",\"total\":2.55}]}", jsonResult);
         }
@@ -63,7 +64,7 @@ namespace Net.Http.OData.Tests
                 Value = new[] { item },
             };
 
-            string jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
+            string jsonResult = JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
 
             Assert.Equal("{\"@odata.context\":\"http://services.odata.org/OData/$metadata#Products\",\"@odata.count\":12,\"@odata.nextLink\":\"http://services.odata.org/OData/Products?$skip=5\",\"value\":[{\"name\":\"Coffee\",\"total\":2.55}]}", jsonResult);
         }
@@ -82,7 +83,7 @@ namespace Net.Http.OData.Tests
                 Value = new[] { item },
             };
 
-            string jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
+            string jsonResult = JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
 
             Assert.Equal("{\"@odata.context\":\"http://services.odata.org/OData/$metadata#Products\",\"@odata.count\":12,\"value\":[{\"id\":14225,\"name\":\"Fred\"}]}", jsonResult);
         }
@@ -102,7 +103,7 @@ namespace Net.Http.OData.Tests
                 Value = new[] { item },
             };
 
-            string jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
+            string jsonResult = JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
 
             Assert.Equal("{\"@odata.context\":\"http://services.odata.org/OData/$metadata#Products\",\"@odata.count\":12,\"@odata.nextLink\":\"http://services.odata.org/OData/Products?$skip=5\",\"value\":[{\"id\":14225,\"name\":\"Fred\"}]}", jsonResult);
         }
@@ -120,7 +121,7 @@ namespace Net.Http.OData.Tests
                 Value = new[] { item },
             };
 
-            string jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
+            string jsonResult = JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
 
             Assert.Equal("{\"@odata.count\":12,\"value\":[{\"id\":14225,\"name\":\"Fred\"}]}", jsonResult);
         }
@@ -134,7 +135,7 @@ namespace Net.Http.OData.Tests
                 Value = new[] { 1, 2, 3 },
             };
 
-            string jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
+            string jsonResult = JsonConvert.SerializeObject(responseContent, TestHelper.JsonSerializerSettings);
 
             Assert.Equal("{\"@odata.count\":5,\"value\":[1,2,3]}", jsonResult);
         }

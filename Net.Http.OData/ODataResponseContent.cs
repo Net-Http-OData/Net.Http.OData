@@ -23,27 +23,27 @@ namespace Net.Http.OData
         /// <summary>
         /// Gets or sets the context URI for the payload, unless 'odata.metadata=none' is specified in the request.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("@odata.context", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
+        [Newtonsoft.Json.JsonProperty(ODataPropertyNames.ODataContext, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 0)]
 #if NETSTANDARD2_0
-        [System.Text.Json.Serialization.JsonPropertyName("@odata.context")]
+        [System.Text.Json.Serialization.JsonPropertyName(ODataPropertyNames.ODataContext)]
 #endif
         public string Context { get; set; }
 
         /// <summary>
         /// Gets or sets the total count of members in the collection represented by the request when '$count=true' is specified.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("@odata.count", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 1)]
+        [Newtonsoft.Json.JsonProperty(ODataPropertyNames.ODataCount, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 1)]
 #if NETSTANDARD2_0
-        [System.Text.Json.Serialization.JsonPropertyName("@odata.count")]
+        [System.Text.Json.Serialization.JsonPropertyName(ODataPropertyNames.ODataCount)]
 #endif
         public long? Count { get; set; }
 
         /// <summary>
         /// Gets or sets the URL that allows retrieving the next subset of the requested collection, its presence indicates that a response is only a subset of the requested collection.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("@odata.nextLink", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 2)]
+        [Newtonsoft.Json.JsonProperty(ODataPropertyNames.ODataNextLink, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, Order = 2)]
 #if NETSTANDARD2_0
-        [System.Text.Json.Serialization.JsonPropertyName("@odata.nextLink")]
+        [System.Text.Json.Serialization.JsonPropertyName(ODataPropertyNames.ODataNextLink)]
 #endif
         public string NextLink { get; set; }
 

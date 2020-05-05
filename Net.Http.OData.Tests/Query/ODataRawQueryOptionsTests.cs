@@ -27,6 +27,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$select"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$select", odataException.Target);
         }
 
         [Fact]
@@ -36,6 +37,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$count"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$count", odataException.Target);
         }
 
         [Fact]
@@ -45,6 +47,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$expand"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$expand", odataException.Target);
         }
 
         [Fact]
@@ -54,6 +57,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$filter"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$filter", odataException.Target);
         }
 
         [Fact]
@@ -63,6 +67,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$format"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$format", odataException.Target);
         }
 
         [Fact]
@@ -72,6 +77,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$orderby"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$orderby", odataException.Target);
         }
 
         [Fact]
@@ -81,6 +87,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$search"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$search", odataException.Target);
         }
 
         [Fact]
@@ -90,6 +97,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skip"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$skip", odataException.Target);
         }
 
         [Fact]
@@ -99,6 +107,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skiptoken"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$skiptoken", odataException.Target);
         }
 
         [Fact]
@@ -108,6 +117,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$top"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$top", odataException.Target);
         }
 
         [Fact]
@@ -117,6 +127,7 @@ namespace Net.Http.OData.Tests.Query
 
             Assert.Equal(ExceptionMessage.UnsupportedQueryOption("$wibble"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal("$wibble", odataException.Target);
         }
 
         public class WhenCallingConstructorWithAllQueryOptions

@@ -1,6 +1,6 @@
 ﻿using System;
 using Net.Http.OData.Model;
-using NorthwindModel;
+using Sample.Model;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Model

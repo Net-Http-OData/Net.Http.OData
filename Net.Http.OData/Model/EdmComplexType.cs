@@ -62,7 +62,7 @@ namespace Net.Http.OData.Model
                 }
             }
 
-            throw ODataException.BadRequest(ExceptionMessage.EdmTypeDoesNotContainProperty(FullName, name));
+            throw ODataException.BadRequest(ExceptionMessage.EdmTypeDoesNotContainProperty(FullName, name), FullName);
         }
     }
 }

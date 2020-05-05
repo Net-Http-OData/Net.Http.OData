@@ -1,4 +1,4 @@
-# A script for building, testing and viewing code coverage locally
+﻿# A script for building, testing and viewing code coverage locally
 param(
     [bool]$showCoverage = $true,
     [bool]$createNupkg = $false

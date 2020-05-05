@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Parsers;
@@ -407,7 +407,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParseIsOfFunctionWithTypeOnlyExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("isof(NorthwindModel.Order)", EntityDataModel.Current.EntitySets["Orders"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("isof(Sample.Model.Order)", EntityDataModel.Current.EntitySets["Orders"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<FunctionCallNode>(queryNode);
@@ -418,8 +418,8 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal(1, node.Parameters.Count);
                 Assert.IsType<ConstantNode<EdmType>>(node.Parameters[0]);
                 var nodeParam0 = (ConstantNode<EdmType>)node.Parameters[0];
-                Assert.Equal("NorthwindModel.Order", nodeParam0.LiteralText);
-                Assert.Equal(EdmType.GetEdmType(typeof(NorthwindModel.Order)), nodeParam0.Value);
+                Assert.Equal("Sample.Model.Order", nodeParam0.LiteralText);
+                Assert.Equal(EdmType.GetEdmType(typeof(Sample.Model.Order)), nodeParam0.Value);
             }
 
             [Fact]
@@ -783,6 +783,32 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
+            public void ParseTimeFunctionExpression()
+            {
+                QueryNode queryNode = FilterExpressionParser.Parse("time(Date) eq 12:00:00", EntityDataModel.Current.EntitySets["Orders"].EdmType);
+
+                Assert.NotNull(queryNode);
+                Assert.IsType<BinaryOperatorNode>(queryNode);
+
+                var node = (BinaryOperatorNode)queryNode;
+
+                Assert.IsType<FunctionCallNode>(node.Left);
+                var nodeLeft = (FunctionCallNode)node.Left;
+                Assert.Equal("time", nodeLeft.Name);
+                Assert.Equal(1, nodeLeft.Parameters.Count);
+                Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
+                var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
+                Assert.Equal("Date", nodeLeftParam0.PropertyPath.Property.Name);
+
+                Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
+
+                Assert.IsType<ConstantNode<TimeSpan>>(node.Right);
+                var nodeRight = (ConstantNode<TimeSpan>)node.Right;
+                Assert.Equal("12:00:00", nodeRight.LiteralText);
+                Assert.Equal(new TimeSpan(12, 0, 0), nodeRight.Value);
+            }
+
+            [Fact]
             public void ParseToLowerFunctionExpression()
             {
                 QueryNode queryNode = FilterExpressionParser.Parse("tolower(CompanyName) eq 'alfreds futterkiste'", EntityDataModel.Current.EntitySets["Customers"].EdmType);
@@ -859,6 +885,32 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 var nodeRight = (ConstantNode<int>)node.Right;
                 Assert.Equal("321541354", nodeRight.LiteralText);
                 Assert.Equal(321541354, nodeRight.Value);
+            }
+
+            [Fact]
+            public void ParseTotalSecondsFunctionExpression()
+            {
+                QueryNode queryNode = FilterExpressionParser.Parse("totalseconds(ReleaseDate) eq 23487645.224", EntityDataModel.Current.EntitySets["Products"].EdmType);
+
+                Assert.NotNull(queryNode);
+                Assert.IsType<BinaryOperatorNode>(queryNode);
+
+                var node = (BinaryOperatorNode)queryNode;
+
+                Assert.IsType<FunctionCallNode>(node.Left);
+                var nodeLeft = (FunctionCallNode)node.Left;
+                Assert.Equal("totalseconds", nodeLeft.Name);
+                Assert.Equal(1, nodeLeft.Parameters.Count);
+                Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
+                var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
+                Assert.Equal("ReleaseDate", nodeLeftParam0.PropertyPath.Property.Name);
+
+                Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
+
+                Assert.IsType<ConstantNode<decimal>>(node.Right);
+                var nodeRight = (ConstantNode<decimal>)node.Right;
+                Assert.Equal("23487645.224", nodeRight.LiteralText);
+                Assert.Equal(23487645.224M, nodeRight.Value);
             }
 
             [Fact]

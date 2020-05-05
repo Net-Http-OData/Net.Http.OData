@@ -1,6 +1,6 @@
 ﻿using System;
 using Net.Http.OData.Model;
-using NorthwindModel;
+using Sample.Model;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Model
@@ -18,7 +18,7 @@ namespace Net.Http.OData.Tests.Model
         {
             TestHelper.EnsureEDM();
 
-            var edmType = EdmType.GetEdmType("NorthwindModel.AccessLevel");
+            var edmType = EdmType.GetEdmType("Sample.Model.AccessLevel");
 
             Assert.NotNull(edmType);
             Assert.Equal(typeof(AccessLevel), edmType.ClrType);
