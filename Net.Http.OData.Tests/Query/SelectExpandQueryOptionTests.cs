@@ -199,8 +199,8 @@ namespace Net.Http.OData.Tests.Query
                 Assert.Equal(9, _option.PropertyPaths.Count);
 
                 Assert.Equal("Colour", _option.PropertyPaths[0].Property.Name);
-                Assert.Equal("Deleted", _option.PropertyPaths[1].Property.Name);
-                Assert.Equal("Description", _option.PropertyPaths[2].Property.Name);
+                Assert.Equal("Description", _option.PropertyPaths[1].Property.Name);
+                Assert.Equal("Discontinued", _option.PropertyPaths[2].Property.Name);
                 Assert.Equal("Name", _option.PropertyPaths[3].Property.Name);
                 Assert.Equal("Price", _option.PropertyPaths[4].Property.Name);
                 Assert.Equal("ProductId", _option.PropertyPaths[5].Property.Name);
@@ -240,8 +240,8 @@ namespace Net.Http.OData.Tests.Query
                 Assert.All(_option.PropertyPaths, p => Assert.Null(p.Next));
 
                 Assert.Equal("Colour", _option.PropertyPaths[0].Property.Name);
-                Assert.Equal("Deleted", _option.PropertyPaths[1].Property.Name);
-                Assert.Equal("Description", _option.PropertyPaths[2].Property.Name);
+                Assert.Equal("Description", _option.PropertyPaths[1].Property.Name);
+                Assert.Equal("Discontinued", _option.PropertyPaths[2].Property.Name);
                 Assert.Equal("Name", _option.PropertyPaths[3].Property.Name);
                 Assert.Equal("Price", _option.PropertyPaths[4].Property.Name);
                 Assert.Equal("ProductId", _option.PropertyPaths[5].Property.Name);

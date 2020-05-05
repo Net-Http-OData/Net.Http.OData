@@ -119,7 +119,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             public void ParseLeftBinaryNodeMissingExpression()
             {
                 ODataException odataException = Assert.Throws<ODataException>(
-                    () => FilterExpressionParser.Parse("and Deleted eq true", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
+                    () => FilterExpressionParser.Parse("and Discontinued eq true", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
@@ -141,7 +141,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             public void ParsePropertyEqMissingExpression()
             {
                 ODataException odataException = Assert.Throws<ODataException>(
-                    () => FilterExpressionParser.Parse("Deleted eq", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
+                    () => FilterExpressionParser.Parse("Discontinued eq", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("the binary operator Equal has no right node"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
@@ -152,7 +152,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             public void ParsePropertyEqValueAndMissingExpression()
             {
                 ODataException odataException = Assert.Throws<ODataException>(
-                    () => FilterExpressionParser.Parse("Deleted eq true and", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
+                    () => FilterExpressionParser.Parse("Discontinued eq true and", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
@@ -163,7 +163,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             public void ParsePropertyEqValueOrMissingExpression()
             {
                 ODataException odataException = Assert.Throws<ODataException>(
-                    () => FilterExpressionParser.Parse("Deleted eq true or", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
+                    () => FilterExpressionParser.Parse("Discontinued eq true or", EntityDataModel.Current.EntitySets["Products"].EdmType)); ;
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);

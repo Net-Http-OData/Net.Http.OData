@@ -33,26 +33,33 @@ namespace Net.Http.OData.Tests.Metadata
         <Member Name=""Red"" Value=""3"" />
       </EnumType>
       <ComplexType Name=""OrderDetail"">
-        <Property Name=""OrderId"" Type=""Edm.Int64"" Nullable=""false"" />
-        <Property Name=""ProductId"" Type=""Edm.Int32"" Nullable=""false"" />
+        <Property Name=""Discount"" Type=""Edm.Decimal"" Nullable=""false"" />
         <Property Name=""Quantity"" Type=""Edm.Int16"" Nullable=""false"" />
         <Property Name=""UnitPrice"" Type=""Edm.Decimal"" Nullable=""false"" />
         <NavigationProperty Name=""Order"" Type=""Sample.Model.Order"" />
+        <NavigationProperty Name=""Product"" Type=""Sample.Model.Product"" />
       </ComplexType>
       <EntityType Name=""Categories"">
         <Key>
           <PropertyRef Name=""Name"" />
         </Key>
-        <Property Name=""Name"" Type=""Edm.String"" />
+        <Property Name=""Description"" Type=""Edm.String"" Nullable=""false"" />
+        <Property Name=""Name"" Type=""Edm.String"" Nullable=""false"" />
       </EntityType>
       <EntityType Name=""Customers"">
         <Key>
           <PropertyRef Name=""CompanyName"" />
         </Key>
-        <Property Name=""City"" Type=""Edm.String"" />
-        <Property Name=""CompanyName"" Type=""Edm.String"" />
-        <Property Name=""Country"" Type=""Edm.String"" />
+        <Property Name=""Address"" Type=""Edm.String"" Nullable=""false"" />
+        <Property Name=""City"" Type=""Edm.String"" Nullable=""false"" />
+        <Property Name=""CompanyName"" Type=""Edm.String"" Nullable=""false"" />
+        <Property Name=""ContactName"" Type=""Edm.String"" />
+        <Property Name=""Country"" Type=""Edm.String"" Nullable=""false"" />
         <Property Name=""LegacyId"" Type=""Edm.Int32"" Nullable=""false"" />
+        <Property Name=""Phone"" Type=""Edm.String"" />
+        <Property Name=""PostalCode"" Type=""Edm.String"" Nullable=""false"" />
+        <NavigationProperty Name=""AccountManager"" Type=""Sample.Model.Employee"" />
+        <NavigationProperty Name=""Orders"" Type=""Collection(Sample.Model.Order)"" />
       </EntityType>
       <EntityType Name=""Employees"">
         <Key>
@@ -82,20 +89,21 @@ namespace Net.Http.OData.Tests.Metadata
         <Property Name=""Freight"" Type=""Edm.Decimal"" Nullable=""false"" />
         <Property Name=""OrderDetails"" Type=""Collection(Sample.Model.OrderDetail)"" />
         <Property Name=""OrderId"" Type=""Edm.Int64"" Nullable=""false"" />
-        <Property Name=""ShipCountry"" Type=""Edm.String"" />
+        <Property Name=""ShipCountry"" Type=""Edm.String"" Nullable=""false"" />
         <Property Name=""TransactionId"" Type=""Edm.Guid"" Nullable=""false"" />
+        <NavigationProperty Name=""Customer"" Type=""Sample.Model.Customer"" />
       </EntityType>
       <EntityType Name=""Products"">
         <Key>
           <PropertyRef Name=""ProductId"" />
         </Key>
         <Property Name=""Colour"" Type=""Sample.Model.Colour"" Nullable=""false"" />
-        <Property Name=""Deleted"" Type=""Edm.Boolean"" Nullable=""false"" />
-        <Property Name=""Description"" Type=""Edm.String"" />
-        <Property Name=""Name"" Type=""Edm.String"" />
+        <Property Name=""Description"" Type=""Edm.String"" Nullable=""false"" />
+        <Property Name=""Discontinued"" Type=""Edm.Boolean"" Nullable=""false"" />
+        <Property Name=""Name"" Type=""Edm.String"" Nullable=""false"" />
         <Property Name=""Price"" Type=""Edm.Decimal"" Nullable=""false"" />
         <Property Name=""ProductId"" Type=""Edm.Int32"" Nullable=""false"" />
-        <Property Name=""Rating"" Type=""Edm.Int32"" Nullable=""false"" />
+        <Property Name=""Rating"" Type=""Edm.Single"" Nullable=""false"" />
         <Property Name=""ReleaseDate"" Type=""Edm.Date"" Nullable=""false"" />
         <NavigationProperty Name=""Category"" Type=""Sample.Model.Category"" />
       </EntityType>

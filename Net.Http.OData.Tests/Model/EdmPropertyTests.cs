@@ -63,7 +63,7 @@ namespace Net.Http.OData.Tests.Model
         {
             Type type = typeof(Customer);
             EdmTypeCache.Map.TryGetValue(typeof(string), out EdmType edmType);
-            var edmProperty = new EdmProperty(type.GetProperty("CompanyName"), edmType, new EdmComplexType(type, new EdmProperty[0]), new Lazy<bool>(() => false));
+            var edmProperty = new EdmProperty(type.GetProperty("ContactName"), edmType, new EdmComplexType(type, new EdmProperty[0]), new Lazy<bool>(() => false));
 
             Assert.True(edmProperty.IsNullable);
         }

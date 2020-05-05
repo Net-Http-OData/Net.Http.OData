@@ -17,7 +17,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParseIgnoresTrailingWhitespace()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("Deleted eq true ", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Discontinued eq true ", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -26,7 +26,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<PropertyAccessNode>(node.Left);
                 var nodeLeft = (PropertyAccessNode)node.Left;
-                Assert.Equal("Deleted", nodeLeft.PropertyPath.Property.Name);
+                Assert.Equal("Discontinued", nodeLeft.PropertyPath.Property.Name);
 
                 Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
 
@@ -323,7 +323,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqFalseValueExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("Deleted eq false", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Discontinued eq false", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -331,7 +331,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 var node = (BinaryOperatorNode)queryNode;
 
                 Assert.IsType<PropertyAccessNode>(node.Left);
-                Assert.Equal("Deleted", ((PropertyAccessNode)node.Left).PropertyPath.Property.Name);
+                Assert.Equal("Discontinued", ((PropertyAccessNode)node.Left).PropertyPath.Property.Name);
 
                 Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
 
@@ -1155,7 +1155,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
             [Fact]
             public void ParsePropertyEqTrueValueExpression()
             {
-                QueryNode queryNode = FilterExpressionParser.Parse("Deleted eq true", EntityDataModel.Current.EntitySets["Products"].EdmType);
+                QueryNode queryNode = FilterExpressionParser.Parse("Discontinued eq true", EntityDataModel.Current.EntitySets["Products"].EdmType);
 
                 Assert.NotNull(queryNode);
                 Assert.IsType<BinaryOperatorNode>(queryNode);
@@ -1163,7 +1163,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 var node = (BinaryOperatorNode)queryNode;
 
                 Assert.IsType<PropertyAccessNode>(node.Left);
-                Assert.Equal("Deleted", ((PropertyAccessNode)node.Left).PropertyPath.Property.Name);
+                Assert.Equal("Discontinued", ((PropertyAccessNode)node.Left).PropertyPath.Property.Name);
 
                 Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
 
