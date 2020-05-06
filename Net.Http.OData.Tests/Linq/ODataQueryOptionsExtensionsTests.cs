@@ -178,12 +178,12 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Customers"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            Assert.Throws<ArgumentNullException>(() => ODataQueryOptionsExtensions.ApplyTo(queryOptions, null).ToList());
+            Assert.Throws<ArgumentNullException>(() => ODataQueryOptionsExtensions.ApplyTo(queryOptions, null));
         }
 
         [Fact]
         public void ApplyTo_Throws_ArgumentNullException_For_Null_QueryOptions()
-            => Assert.Throws<ArgumentNullException>(() => ODataQueryOptionsExtensions.ApplyTo(null, _categories.AsQueryable()).ToList());
+            => Assert.Throws<ArgumentNullException>(() => ODataQueryOptionsExtensions.ApplyTo(null, _categories.AsQueryable()));
 
         [Fact]
         public void ApplyTo_Throws_InvalidOperationException_For_Incorrect_QueryType()
@@ -195,7 +195,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Customers"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            Assert.Throws<InvalidOperationException>(() => queryOptions.ApplyTo(_categories.AsQueryable()).ToList());
+            Assert.Throws<InvalidOperationException>(() => queryOptions.ApplyTo(_categories.AsQueryable()));
         }
     }
 }
