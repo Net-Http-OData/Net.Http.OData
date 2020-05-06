@@ -47,6 +47,11 @@ namespace Net.Http.OData.Linq
                 throw new InvalidOperationException();
             }
 
+            return ApplyToImpl(queryOptions, queryable);
+        }
+
+        private static IEnumerable<ExpandoObject> ApplyToImpl(ODataQueryOptions queryOptions, IQueryable queryable)
+        {
             foreach (object entity in queryable)
             {
                 yield return BuildExpando(queryOptions, entity);
@@ -55,22 +60,10 @@ namespace Net.Http.OData.Linq
 
         private static ExpandoObject BuildExpando(ODataQueryOptions queryOptions, object entity)
         {
+            IEnumerable<PropertyPath> propertyPaths = queryOptions.Select?.PropertyPaths ?? queryOptions.EntitySet.EdmType.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For);
+
             var expandoObject = new ExpandoObject();
 
-            if (queryOptions.Select == null)
-            {
-                PopulateExpando(expandoObject, entity, queryOptions.EntitySet.EdmType.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For));
-            }
-            else
-            {
-                PopulateExpando(expandoObject, entity, queryOptions.Select.PropertyPaths);
-            }
-
-            return expandoObject;
-        }
-
-        private static void PopulateExpando(ExpandoObject expandoObject, object entity, IEnumerable<PropertyPath> propertyPaths)
-        {
             foreach (PropertyPath propertyPath in propertyPaths)
             {
                 PropertyPath path = propertyPath;
@@ -87,6 +80,8 @@ namespace Net.Http.OData.Linq
 
                 dictionary[path.Property.Name] = path.Property.ClrProperty.GetValue(obj);
             }
+
+            return expandoObject;
         }
     }
 }
