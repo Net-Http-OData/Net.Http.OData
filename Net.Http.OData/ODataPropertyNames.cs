@@ -18,6 +18,11 @@ namespace Net.Http.OData
     public static class ODataPropertyNames
     {
         /// <summary>
+        /// The @odata.associationLink property.
+        /// </summary>
+        public const string ODataAssociatioLink = "@odata.associationLink";
+
+        /// <summary>
         /// The @odata.context property.
         /// </summary>
         public const string ODataContext = "@odata.context";
@@ -28,8 +33,48 @@ namespace Net.Http.OData
         public const string ODataCount = "@odata.count";
 
         /// <summary>
+        /// The @odata.deltaLink property.
+        /// </summary>
+        public const string ODataDeltaLink = "@odata.deltaLink";
+
+        /// <summary>
+        /// The @odata.editLink property.
+        /// </summary>
+        public const string ODataEditLink = "@odata.editLink";
+
+        /// <summary>
+        /// The @odata.etag property.
+        /// </summary>
+        public const string ODataEtag = "@odata.etag";
+
+        /// <summary>
+        /// The @odata.id property.
+        /// </summary>
+        public const string ODataId = "@odata.id";
+
+        /// <summary>
+        /// The @odata.metadataEtag property.
+        /// </summary>
+        public const string ODataMetadataEtag = "@odata.metadataEtag";
+
+        /// <summary>
+        /// The @odata.navigationLink property.
+        /// </summary>
+        public const string ODataNavigationLink = "@odata.navigationLink";
+
+        /// <summary>
         /// The @odata.nextLink property.
         /// </summary>
         public const string ODataNextLink = "@odata.nextLink";
+
+        /// <summary>
+        /// The @odata.readLink property.
+        /// </summary>
+        public const string ODataReadLink = "@odata.readLink";
+
+        /// <summary>
+        /// The @odata.type property.
+        /// </summary>
+        public const string ODataType = "@odata.type";
     }
 }
