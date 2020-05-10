@@ -11,14 +11,13 @@
       - README.md
       - stylecop.json
 
-# Must be Windows due to the .NET 4.5 build target
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
   buildVersion: '0.0.0'
-  projectPath: '.\Net.Http.OData\Net.Http.OData.csproj'
+  projectPath: './Net.Http.OData/Net.Http.OData.csproj'
   testWorkingDirectory: 'Net.Http.OData.Tests'
 
 steps:
@@ -30,10 +29,10 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
-- script: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=.\TestResults\
+- script: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
   displayName: 'dotnet test'
 
-- script: reportgenerator "-reports:TestResults\coverage.cobertura.xml" "-targetdir:TestResults\Coverage" -reporttypes:HTML;
+- script: reportgenerator "-reports:TestResults/coverage.cobertura.xml" "-targetdir:TestResults/Coverage" -reporttypes:HTML;
   workingDirectory: $(testWorkingDirectory)
   displayName: 'reportgenerator'
 
@@ -41,8 +40,8 @@ steps:
   displayName: 'publish code coverage'
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)\$(testWorkingDirectory)\TestResults\coverage.cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)\$(testWorkingDirectory)\TestResults\Coverage'
+    summaryFileLocation: '$(Build.SourcesDirectory)/$(testWorkingDirectory)/TestResults/coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/$(testWorkingDirectory)/TestResults/Coverage'
 
 - task: PowerShell@2
   inputs:
