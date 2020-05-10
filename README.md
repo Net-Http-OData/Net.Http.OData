@@ -39,7 +39,5 @@ The NuGet Package contains binaries compiled against:
 * .NET Standard 2.0
   * _Has an implicit dependency on Newtonsoft.Json 10.0.1 or later due to the internal use of the JsonPropertyAttribute_
   * _Has an implicit dependency on System.Text.Json 4.6.0 or later due to the internal use of the JsonPropertyNameAttribute_
-* .NET Framework 4.5
-  * _Has an implicit dependency on Newtonsoft.Json 6.0.4 or later due to the internal use of the JsonPropertyAttribute_
 
 To find out more, head over to the [Wiki](https://github.com/Net-Http-OData/Net.Http.OData/wiki).
