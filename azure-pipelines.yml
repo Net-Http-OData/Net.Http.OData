@@ -11,7 +11,6 @@
       - README.md
       - stylecop.json
 
-# Must be Windows due to the .NET 4.5 build target
 pool:
   vmImage: 'windows-latest'
 
@@ -66,4 +65,5 @@ steps:
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'NuGet.org (Net.Http.OData)'
-  condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual'))
+  condition: and(and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')), in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/master'))
+
