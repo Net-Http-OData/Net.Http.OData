@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Linq.Expressions;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
 
@@ -50,9 +51,60 @@ namespace Net.Http.OData.Linq
             return ApplyToImpl(queryOptions, queryable);
         }
 
+        private static IQueryable ApplyOrder(ODataQueryOptions queryOptions, IQueryable queryable)
+        {
+            if (queryOptions.OrderBy == null)
+            {
+                return queryable;
+            }
+
+            IQueryable q = queryable;
+
+            for (int i = 0; i < queryOptions.OrderBy.Properties.Count; i++)
+            {
+                OrderByProperty orderByProperty = queryOptions.OrderBy.Properties[i];
+                PropertyPath path = orderByProperty.PropertyPath;
+                Type entityType = queryOptions.EntitySet.EdmType.ClrType;
+                Type propertyType = path.Property.ClrProperty.PropertyType;
+
+                // the 'entity' in the lambda expression (entity => entity.Property)
+                ParameterExpression entityParameterExpression = Expression.Parameter(entityType, "entity");
+
+                // the 'property' in the lambda expression (entity => entity.Property)
+                MemberExpression propertyMemberExpression = Expression.Property(entityParameterExpression, path.Property.Name);
+
+                while (path.Next != null)
+                {
+                    path = path.Next;
+                    propertyMemberExpression = Expression.Property(propertyMemberExpression, path.Property.Name);
+                    propertyType = path.Property.ClrProperty.PropertyType;
+                }
+
+                // Represents the lambda in the method argument "(entity => entity.Property)"
+                LambdaExpression lambdaExpression = Expression.Lambda(
+                    typeof(Func<,>).MakeGenericType(entityType, propertyType),
+                    propertyMemberExpression,
+                    new ParameterExpression[] { entityParameterExpression });
+
+                // Represents the method call itself "OrderBy(entity => entity.Property)"
+                MethodCallExpression orderByCallExpression = Expression.Call(
+                    typeof(Queryable),
+                    OrderByMethodName(orderByProperty.Direction, i),
+                    new Type[] { entityType, propertyType },
+                    q.Expression,
+                    lambdaExpression);
+
+                q = q.Provider.CreateQuery(orderByCallExpression);
+            }
+
+            return q;
+        }
+
         private static IEnumerable<ExpandoObject> ApplyToImpl(ODataQueryOptions queryOptions, IQueryable queryable)
         {
-            foreach (object entity in queryable)
+            IQueryable q = ApplyOrder(queryOptions, queryable);
+
+            foreach (object entity in q)
             {
                 yield return BuildExpando(queryOptions, entity);
             }
@@ -82,6 +134,16 @@ namespace Net.Http.OData.Linq
             }
 
             return expandoObject;
+        }
+
+        private static string OrderByMethodName(OrderByDirection direction, int index)
+        {
+            if (direction == OrderByDirection.Ascending)
+            {
+                return index == 0 ? "OrderBy" : "ThenBy";
+            }
+
+            return index == 0 ? "OrderByDescending" : "ThenByDescending";
         }
     }
 }

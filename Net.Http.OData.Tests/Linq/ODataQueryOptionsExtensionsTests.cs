@@ -21,24 +21,116 @@ namespace Net.Http.OData.Tests.Linq
             _categories = new[]
             {
                 new Category { Name = "Mobile Phones", Description = "The latest mobile phones"},
-                new Category { Name = "Phone Cases", Description = "Mobile phone cases"},
+                new Category { Name = "Accessories", Description = "Mobile phone accessories"},
             };
 
             _products = new[]
             {
                 new Product { Category = _categories[0], Colour = Colour.Blue, Description = "iPhone SE 64GB Blue", Name = "iPhone SE 64GB Blue", Price = 419.00M, ProductId = 1, Rating = 4.67f, ReleaseDate = new DateTime(2020, 4, 24) },
-                new Product { Category = _categories[0], Colour = Colour.Blue, Description = "iPhone SE 128GB Blue", Name = "iPhone SE 128GB Blue", Price = 469.00M, ProductId = 2, Rating = 4.76f, ReleaseDate = new DateTime(2020, 4, 24) },
-                new Product { Category = _categories[0], Colour = Colour.Blue, Description = "iPhone SE 256GB Blue", Name = "iPhone SE 256GB Blue", Price = 569.00M, ProductId = 3, Rating = 4.43f, ReleaseDate = new DateTime(2020, 4, 24) },
-                new Product { Category = _categories[0], Colour = Colour.Red, Description = "iPhone SE 64GB Red", Name = "iPhone SE 64GB Red", Price = 419.00M, ProductId = 4, Rating = 4.68f, ReleaseDate = new DateTime(2020, 4, 24) },
+                new Product { Category = _categories[0], Colour = Colour.Red, Description = "iPhone SE 64GB Red", Name = "iPhone SE 64GB Red", Price = 419.00M, ProductId = 2, Rating = 4.68f, ReleaseDate = new DateTime(2020, 4, 24) },
+                new Product { Category = _categories[0], Colour = Colour.Green, Description = "iPhone SE 64GB Green", Name = "iPhone SE 64GB Green", Price = 419.00M, ProductId = 3, Rating = 4.25f, ReleaseDate = new DateTime(2020, 4, 24) },
+                new Product { Category = _categories[0], Colour = Colour.Blue, Description = "iPhone SE 128GB Blue", Name = "iPhone SE 128GB Blue", Price = 469.00M, ProductId = 4, Rating = 4.76f, ReleaseDate = new DateTime(2020, 4, 24) },
                 new Product { Category = _categories[0], Colour = Colour.Red, Description = "iPhone SE 128GB Red", Name = "iPhone SE 128GB Red", Price = 469.00M, ProductId = 5, Rating = 4.72f, ReleaseDate = new DateTime(2020, 4, 24) },
-                new Product { Category = _categories[0], Colour = Colour.Red, Description = "iPhone SE 256GB Red", Name = "iPhone SE 256GB Red", Price = 569.00M, ProductId = 6, Rating = 4.41f, ReleaseDate = new DateTime(2020, 4, 24) },
-                new Product { Category = _categories[0], Colour = Colour.Green, Description = "iPhone SE 64GB Green", Name = "iPhone SE 64GB Green", Price = 419.00M, ProductId = 7, Rating = 4.25f, ReleaseDate = new DateTime(2020, 4, 24) },
-                new Product { Category = _categories[0], Colour = Colour.Green, Description = "iPhone SE 128GB Green", Name = "iPhone SE 128GB Green", Price = 469.00M, ProductId = 8, Rating = 4.36f, ReleaseDate = new DateTime(2020, 4, 24) },
+                new Product { Category = _categories[0], Colour = Colour.Green, Description = "iPhone SE 128GB Green", Name = "iPhone SE 128GB Green", Price = 469.00M, ProductId = 6, Rating = 4.36f, ReleaseDate = new DateTime(2020, 4, 24) },
+                new Product { Category = _categories[0], Colour = Colour.Blue, Description = "iPhone SE 256GB Blue", Name = "iPhone SE 256GB Blue", Price = 569.00M, ProductId = 7, Rating = 4.43f, ReleaseDate = new DateTime(2020, 4, 24) },
+                new Product { Category = _categories[0], Colour = Colour.Red, Description = "iPhone SE 256GB Red", Name = "iPhone SE 256GB Red", Price = 569.00M, ProductId = 8, Rating = 4.41f, ReleaseDate = new DateTime(2020, 4, 24) },
                 new Product { Category = _categories[0], Colour = Colour.Green, Description = "iPhone SE 256GB Green", Name = "iPhone SE 256GB Green", Price = 569.00M, ProductId = 9, Rating = 4.26f, ReleaseDate = new DateTime(2020, 4, 24) },
                 new Product { Category = _categories[1], Colour = Colour.Blue, Description = "iPhone SE Silicone Case - Blue", Name = "iPhone SE Silicone Case - Blue", Price = 39.00M, ProductId = 10, Rating = 3.76f, ReleaseDate = new DateTime(2020, 4, 24) },
                 new Product { Category = _categories[1], Colour = Colour.Red, Description = "iPhone SE Silicone Case - Red", Name = "iPhone SE Silicone Case - Red", Price = 39.00M, ProductId = 11, Rating = 3.24f, ReleaseDate = new DateTime(2020, 4, 24) },
                 new Product { Category = _categories[1], Colour = Colour.Green, Description = "iPhone SE Silicone Case - Green", Name = "iPhone SE Silicone Case - Green", Price = 39.00M, ProductId = 12, Rating = 3.87f, ReleaseDate = new DateTime(2020, 4, 24) },
             };
+        }
+
+        [Fact]
+        public void ApplyTo_OrderBy_NotDeclared()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+
+            Assert.Equal(_products.Count, results.Count);
+
+            Assert.Equal(_products.Min(x => x.ProductId), ((dynamic)results[0]).ProductId);
+            Assert.Equal(_products.Max(x => x.ProductId), ((dynamic)results[results.Count - 1]).ProductId);
+        }
+
+        [Fact]
+        public void ApplyTo_OrderBy_Properties()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$orderby=Price,Rating desc",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+
+            Assert.Equal(_products.Count, results.Count);
+
+            IOrderedEnumerable<Product> orderedProducts = _products.OrderBy(x => x.Price).ThenByDescending(x => x.Rating);
+
+            Assert.Equal(orderedProducts.First().ProductId, ((dynamic)results[0]).ProductId);
+            Assert.Equal(orderedProducts.Last().ProductId, ((dynamic)results[results.Count - 1]).ProductId);
+        }
+
+        [Fact]
+        public void ApplyTo_OrderBy_Properties_IncludingPropertyPath()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$orderby=Category/Name,Name,Price desc",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+
+            Assert.Equal(_products.Count, results.Count);
+
+            IOrderedEnumerable<Product> orderedProducts = _products.OrderBy(x => x.Category.Name).ThenBy(x => x.Name).ThenByDescending(x => x.Price);
+
+            Assert.Equal(orderedProducts.First().ProductId, ((dynamic)results[0]).ProductId);
+            Assert.Equal(orderedProducts.Last().ProductId, ((dynamic)results[results.Count - 1]).ProductId);
+        }
+
+        [Fact]
+        public void ApplyTo_OrderBy_SingleProperty_Ascending()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$orderby=Rating",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+
+            Assert.Equal(_products.Count, results.Count);
+            Assert.Equal(_products.Min(x => x.Rating), ((dynamic)results[0]).Rating);
+            Assert.Equal(_products.Max(x => x.Rating), ((dynamic)results[results.Count - 1]).Rating);
+        }
+
+        [Fact]
+        public void ApplyTo_OrderBy_SingleProperty_Descending()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$orderby=Rating desc",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+
+            Assert.Equal(_products.Count, results.Count);
+            Assert.Equal(_products.Max(x => x.Rating), ((dynamic)results[0]).Rating);
+            Assert.Equal(_products.Min(x => x.Rating), ((dynamic)results[results.Count - 1]).Rating);
         }
 
         [Fact]
@@ -93,7 +185,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Select_Properties_PlusPropertyPath()
+        public void ApplyTo_Select_Properties_IncludingPropertyPath()
         {
             TestHelper.EnsureEDM();
 
