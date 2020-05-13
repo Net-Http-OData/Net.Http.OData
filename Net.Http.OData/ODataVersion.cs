@@ -40,7 +40,7 @@ namespace Net.Http.OData
         /// <summary>
         /// Gets the max <see cref="ODataVersion"/> supported by the library.
         /// </summary>
-        public static ODataVersion MaxVersion => OData40;
+        public static ODataVersion MaxVersion => OData401;
 
         /// <summary>
         /// Gets the min <see cref="ODataVersion"/> supported by the library.
@@ -51,6 +51,11 @@ namespace Net.Http.OData
         /// Gets the <see cref="ODataVersion"/> for 4.0.
         /// </summary>
         public static ODataVersion OData40 { get; } = new ODataVersion("4.0");
+
+        /// <summary>
+        /// Gets the <see cref="ODataVersion"/> for 4.01.
+        /// </summary>
+        public static ODataVersion OData401 { get; } = new ODataVersion("4.01");
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

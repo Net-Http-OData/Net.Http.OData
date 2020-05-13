@@ -89,7 +89,7 @@ namespace Net.Http.OData.Tests
         }
 
         [Fact]
-        public void MaxVersion_Returns_OData40() => Assert.Same(ODataVersion.OData40, ODataVersion.MaxVersion);
+        public void MaxVersion_Returns_OData401() => Assert.Same(ODataVersion.OData401, ODataVersion.MaxVersion);
 
         [Fact]
         public void MinVersion_Returns_OData40() => Assert.Same(ODataVersion.OData40, ODataVersion.MinVersion);
