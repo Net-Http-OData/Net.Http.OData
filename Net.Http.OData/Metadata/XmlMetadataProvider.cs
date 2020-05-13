@@ -52,7 +52,7 @@ namespace Net.Http.OData.Metadata
                 new XElement(
                     s_edmxNs + "Edmx",
                     new XAttribute(XNamespace.Xmlns + "edmx", s_edmxNs),
-                    new XAttribute("Version", odataServiceOptions.MaxVersion),
+                    new XAttribute("Version", "4.0"),
                     new XElement(
                         s_edmxNs + "DataServices",
                         new XElement(

@@ -18,7 +18,7 @@ namespace Net.Http.OData.Tests.Metadata
 
             ODataServiceOptions serviceOptions = TestHelper.ODataServiceOptions;
 
-            var expected = XDocument.Parse($@"<edmx:Edmx xmlns:edmx=""http://docs.oasis-open.org/odata/ns/edmx"" Version=""{serviceOptions.MaxVersion}"">
+            var expected = XDocument.Parse($@"<edmx:Edmx xmlns:edmx=""http://docs.oasis-open.org/odata/ns/edmx"" Version=""4.0"">
   <edmx:DataServices>
     <Schema xmlns=""http://docs.oasis-open.org/odata/ns/edm"" Namespace=""Sample.Model"">
       <EnumType Name=""AccessLevel"" UnderlyingType=""Edm.Int32"" IsFlags=""true"">
