@@ -41,7 +41,7 @@ namespace Net.Http.OData.Query.Expressions
         public override QueryNodeKind Kind { get; } = QueryNodeKind.Constant;
 
         /// <summary>
-        /// Gets the literal text if the constant value.
+        /// Gets the literal text of the constant value.
         /// </summary>
         public string LiteralText { get; }
 
