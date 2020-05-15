@@ -308,5 +308,22 @@ namespace Net.Http.OData.Tests.Linq
 
             Assert.Throws<InvalidOperationException>(() => queryOptions.ApplyTo(_categories.AsQueryable()));
         }
+
+        [Fact]
+        public void ApplyTo_Top()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$top=4",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+
+            Assert.Equal(4, results.Count);
+            Assert.Equal(_products[0].ProductId, ((dynamic)results[0]).ProductId);
+            Assert.Equal(_products[3].ProductId, ((dynamic)results[3]).ProductId);
+        }
     }
 }
