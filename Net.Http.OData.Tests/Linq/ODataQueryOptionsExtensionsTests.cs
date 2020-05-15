@@ -261,6 +261,25 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
+        public void ApplyTo_Skip()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$skip=4",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+
+            IEnumerable<Product> skippedProducts = _products.Skip(4);
+
+            Assert.Equal(_products.Count - 4, results.Count);
+            Assert.Equal(skippedProducts.First().ProductId, ((dynamic)results[0]).ProductId);
+            Assert.Equal(skippedProducts.Last().ProductId, ((dynamic)results[results.Count - 1]).ProductId);
+        }
+
+        [Fact]
         public void ApplyTo_Throws_ArgumentNullException_For_Null_Queryable()
         {
             TestHelper.EnsureEDM();
