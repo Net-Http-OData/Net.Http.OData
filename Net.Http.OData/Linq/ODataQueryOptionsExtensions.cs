@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
 
@@ -48,7 +49,15 @@ namespace Net.Http.OData.Linq
                 throw new InvalidOperationException();
             }
 
-            return ApplyToImpl(queryOptions, queryable);
+            return Apply(queryOptions, queryable);
+        }
+
+        private static IEnumerable<ExpandoObject> Apply(ODataQueryOptions queryOptions, IQueryable queryable)
+        {
+            foreach (object entity in queryable.ApplyOrder(queryOptions).ApplySkip(queryOptions).ApplyTop(queryOptions))
+            {
+                yield return ApplySelect(entity, queryOptions);
+            }
         }
 
         private static IQueryable ApplyOrder(this IQueryable queryable, ODataQueryOptions queryOptions)
@@ -100,6 +109,65 @@ namespace Net.Http.OData.Linq
             return q;
         }
 
+        private static ExpandoObject ApplySelect(object entity, ODataQueryOptions queryOptions)
+        {
+            IEnumerable<PropertyPath> propertyPaths = queryOptions.Select?.PropertyPaths ?? queryOptions.EntitySet.EdmType.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For);
+
+            if (queryOptions.Expand != null)
+            {
+                propertyPaths = propertyPaths.Concat(queryOptions.Expand.PropertyPaths);
+            }
+
+            var expandoObject = new ExpandoObject();
+
+            foreach (PropertyPath propertyPath in propertyPaths)
+            {
+                PropertyPath path = propertyPath;
+                var dictionary = (IDictionary<string, object>)expandoObject;
+                object obj = entity;
+
+                while (path.Next != null)
+                {
+                    if (!dictionary.ContainsKey(path.Property.Name))
+                    {
+                        dictionary[path.Property.Name] = new ExpandoObject();
+                    }
+
+                    dictionary = (IDictionary<string, object>)dictionary[path.Property.Name];
+                    obj = path.Property.ClrProperty.GetValue(obj);
+                    path = path.Next;
+                }
+
+                if (path.Property.IsNavigable)
+                {
+                    dictionary[path.Property.Name] = new ExpandoObject();
+                    dictionary = (IDictionary<string, object>)dictionary[path.Property.Name];
+                    obj = path.Property.ClrProperty.GetValue(obj);
+
+                    var edmComplexType = path.Property.PropertyType as EdmComplexType;
+
+                    while (edmComplexType != null)
+                    {
+                        foreach (EdmProperty edmProperty in edmComplexType.Properties)
+                        {
+                            if (!edmProperty.IsNavigable)
+                            {
+                                dictionary[edmProperty.Name] = edmProperty.ClrProperty.GetValue(obj);
+                            }
+                        }
+
+                        edmComplexType = edmComplexType.BaseType as EdmComplexType;
+                    }
+                }
+                else
+                {
+                    dictionary[path.Property.Name] = path.Property.ClrProperty.GetValue(obj);
+                }
+            }
+
+            return expandoObject;
+        }
+
         private static IQueryable ApplySkip(this IQueryable queryable, ODataQueryOptions queryOptions)
         {
             if (queryOptions.Skip.HasValue)
@@ -117,19 +185,6 @@ namespace Net.Http.OData.Linq
             return queryable;
         }
 
-        private static IEnumerable<ExpandoObject> ApplyToImpl(ODataQueryOptions queryOptions, IQueryable queryable)
-        {
-            IQueryable q = queryable
-                .ApplyOrder(queryOptions)
-                .ApplySkip(queryOptions)
-                .ApplyTop(queryOptions);
-
-            foreach (object entity in q)
-            {
-                yield return BuildExpando(queryOptions, entity);
-            }
-        }
-
         private static IQueryable ApplyTop(this IQueryable queryable, ODataQueryOptions queryOptions)
         {
             if (queryOptions.Top.HasValue)
@@ -145,32 +200,6 @@ namespace Net.Http.OData.Linq
             }
 
             return queryable;
-        }
-
-        private static ExpandoObject BuildExpando(ODataQueryOptions queryOptions, object entity)
-        {
-            IEnumerable<PropertyPath> propertyPaths = queryOptions.Select?.PropertyPaths ?? queryOptions.EntitySet.EdmType.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For);
-
-            var expandoObject = new ExpandoObject();
-
-            foreach (PropertyPath propertyPath in propertyPaths)
-            {
-                PropertyPath path = propertyPath;
-                var dictionary = (IDictionary<string, object>)expandoObject;
-                object obj = entity;
-
-                while (path.Next != null)
-                {
-                    dictionary[path.Property.Name] = new ExpandoObject();
-                    dictionary = (IDictionary<string, object>)dictionary[path.Property.Name];
-                    obj = path.Property.ClrProperty.GetValue(entity);
-                    path = path.Next;
-                }
-
-                dictionary[path.Property.Name] = path.Property.ClrProperty.GetValue(obj);
-            }
-
-            return expandoObject;
         }
 
         private static string OrderByMethodName(OrderByDirection direction, int index)
