@@ -14,6 +14,9 @@ namespace Net.Http.OData.Tests.Linq
     public class ODataQueryOptionsExtensionsTests
     {
         private readonly IList<Category> _categories;
+        private readonly IList<Customer> _customers;
+        private readonly IList<Employee> _employees;
+        private readonly IList<Manager> _managers;
         private readonly IList<Product> _products;
 
         public ODataQueryOptionsExtensionsTests()
@@ -38,6 +41,23 @@ namespace Net.Http.OData.Tests.Linq
                 new Product { Category = _categories[1], Colour = Colour.Blue, Description = "iPhone SE Silicone Case - Blue", Name = "iPhone SE Silicone Case - Blue", Price = 39.00M, ProductId = 10, Rating = 3.76f, ReleaseDate = new DateTime(2020, 4, 24) },
                 new Product { Category = _categories[1], Colour = Colour.Red, Description = "iPhone SE Silicone Case - Red", Name = "iPhone SE Silicone Case - Red", Price = 39.00M, ProductId = 11, Rating = 3.24f, ReleaseDate = new DateTime(2020, 4, 24) },
                 new Product { Category = _categories[1], Colour = Colour.Green, Description = "iPhone SE Silicone Case - Green", Name = "iPhone SE Silicone Case - Green", Price = 39.00M, ProductId = 12, Rating = 3.87f, ReleaseDate = new DateTime(2020, 4, 24) },
+            };
+
+            _managers = new[]
+            {
+                new Manager { AccessLevel = AccessLevel.Delete, AnnualBudget = 5000000.00M, BirthDate = new DateTime(1971, 5, 16), EmailAddress = "Bob.Jones@odata.org", Forename="Bob", Id = "Bob.Jones", JoiningDate = new DateTime(2007, 3, 8), Surname = "Jones", Title = "Mr" },
+                new Manager { AccessLevel = AccessLevel.Delete, AnnualBudget = 8500000.00M, BirthDate = new DateTime(1982, 6, 21), EmailAddress = "Jess.Smith@odata.org", Forename="Jess", Id = "Jess.Smith", JoiningDate = new DateTime(2006, 7, 15), Surname = "Smith", Title = "Mrs" },
+            };
+
+            _employees = new List<Employee>(_managers)
+            {
+                new Employee { AccessLevel = AccessLevel.Write, BirthDate = new DateTime(1989, 4, 21), EmailAddress = "Alice.Rake@odata.org", Forename="Alice", Id = "Alice.Rake", JoiningDate = new DateTime(2012, 12, 6), Manager = _managers[0], Surname = "Rake", Title = "Miss" },
+                new Employee { AccessLevel = AccessLevel.Write, BirthDate = new DateTime(1992, 7, 2), EmailAddress = "Mark.Strong@odata.org", Forename="Mark", Id = "Mark.Strong", JoiningDate = new DateTime(2012, 7, 23), Manager = _managers[1], Surname = "Strong", Title = "Mr" },
+            };
+
+            _customers = new[]
+            {
+                new Customer { AccountManager = _employees[_managers.Count + 1], Address = "Some Street", City = "Star City", CompanyName = "Target", ContactName = "Geoff Jr", Country = "USA", LegacyId = 8763, Phone = "555-4202", PostalCode = "76542" },
             };
         }
 
@@ -131,6 +151,48 @@ namespace Net.Http.OData.Tests.Linq
             Assert.Equal(_products.Count, results.Count);
             Assert.Equal(_products.Max(x => x.Rating), ((dynamic)results[0]).Rating);
             Assert.Equal(_products.Min(x => x.Rating), ((dynamic)results[results.Count - 1]).Rating);
+        }
+
+        [Fact]
+        public void ApplyTo_Select_Expand()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$select=CompanyName,ContactName,AccountManager/Forename,AccountManager/Surname,AccountManager/EmailAddress&$expand=AccountManager/Manager",
+                EntityDataModel.Current.EntitySets["Customers"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = queryOptions.ApplyTo(_customers.AsQueryable()).ToList();
+
+            Assert.Equal(_customers.Count, results.Count);
+
+            for (int i = 0; i < _customers.Count; i++)
+            {
+                Assert.Equal(3, ((IDictionary<string, object>)results[i]).Count);
+                Assert.Equal(_customers[i].CompanyName, ((dynamic)results[i]).CompanyName);
+                Assert.Equal(_customers[i].ContactName, ((dynamic)results[i]).ContactName);
+
+                dynamic accountManager = ((dynamic)results[i]).AccountManager;
+                Assert.Equal(4, ((IDictionary<string, object>)accountManager).Count);
+                Assert.Equal(_customers[i].AccountManager.Forename, ((dynamic)accountManager).Forename);
+                Assert.Equal(_customers[i].AccountManager.Surname, ((dynamic)accountManager).Surname);
+                Assert.Equal(_customers[i].AccountManager.EmailAddress, ((dynamic)accountManager).EmailAddress);
+
+                dynamic manager = ((dynamic)accountManager).Manager;
+                Assert.Equal(11, ((IDictionary<string, object>)manager).Count);
+                Assert.Equal(_customers[i].AccountManager.Manager.AccessLevel, ((dynamic)manager).AccessLevel);
+                Assert.Equal(_customers[i].AccountManager.Manager.AnnualBudget, ((dynamic)manager).AnnualBudget);
+                Assert.Equal(_customers[i].AccountManager.Manager.BirthDate, ((dynamic)manager).BirthDate);
+                Assert.Equal(_customers[i].AccountManager.Manager.EmailAddress, ((dynamic)manager).EmailAddress);
+                Assert.Equal(_customers[i].AccountManager.Manager.Forename, ((dynamic)manager).Forename);
+                Assert.Equal(_customers[i].AccountManager.Manager.Id, ((dynamic)manager).Id);
+                Assert.Equal(_customers[i].AccountManager.Manager.ImageData, ((dynamic)manager).ImageData);
+                Assert.Equal(_customers[i].AccountManager.Manager.JoiningDate, ((dynamic)manager).JoiningDate);
+                Assert.Equal(_customers[i].AccountManager.Manager.LeavingDate, ((dynamic)manager).LeavingDate);
+                Assert.Equal(_customers[i].AccountManager.Manager.Surname, ((dynamic)manager).Surname);
+                Assert.Equal(_customers[i].AccountManager.Manager.Title, ((dynamic)manager).Title);
+            }
         }
 
         [Fact]
