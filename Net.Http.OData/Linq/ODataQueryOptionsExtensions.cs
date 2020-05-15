@@ -121,12 +121,30 @@ namespace Net.Http.OData.Linq
         {
             IQueryable q = queryable
                 .ApplyOrder(queryOptions)
-                .ApplySkip(queryOptions);
+                .ApplySkip(queryOptions)
+                .ApplyTop(queryOptions);
 
             foreach (object entity in q)
             {
                 yield return BuildExpando(queryOptions, entity);
             }
+        }
+
+        private static IQueryable ApplyTop(this IQueryable queryable, ODataQueryOptions queryOptions)
+        {
+            if (queryOptions.Top.HasValue)
+            {
+                MethodCallExpression skipCallExpression = Expression.Call(
+                    typeof(Queryable),
+                    "Take",
+                    new Type[] { queryOptions.EntitySet.EdmType.ClrType },
+                    queryable.Expression,
+                    Expression.Constant(queryOptions.Top.Value));
+
+                return queryable.Provider.CreateQuery(skipCallExpression);
+            }
+
+            return queryable;
         }
 
         private static ExpandoObject BuildExpando(ODataQueryOptions queryOptions, object entity)
