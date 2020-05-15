@@ -51,7 +51,7 @@ namespace Net.Http.OData.Linq
             return ApplyToImpl(queryOptions, queryable);
         }
 
-        private static IQueryable ApplyOrder(ODataQueryOptions queryOptions, IQueryable queryable)
+        private static IQueryable ApplyOrder(this IQueryable queryable, ODataQueryOptions queryOptions)
         {
             if (queryOptions.OrderBy == null)
             {
@@ -100,9 +100,28 @@ namespace Net.Http.OData.Linq
             return q;
         }
 
+        private static IQueryable ApplySkip(this IQueryable queryable, ODataQueryOptions queryOptions)
+        {
+            if (queryOptions.Skip.HasValue)
+            {
+                MethodCallExpression skipCallExpression = Expression.Call(
+                    typeof(Queryable),
+                    "Skip",
+                    new Type[] { queryOptions.EntitySet.EdmType.ClrType },
+                    queryable.Expression,
+                    Expression.Constant(queryOptions.Skip.Value));
+
+                return queryable.Provider.CreateQuery(skipCallExpression);
+            }
+
+            return queryable;
+        }
+
         private static IEnumerable<ExpandoObject> ApplyToImpl(ODataQueryOptions queryOptions, IQueryable queryable)
         {
-            IQueryable q = ApplyOrder(queryOptions, queryable);
+            IQueryable q = queryable
+                .ApplyOrder(queryOptions)
+                .ApplySkip(queryOptions);
 
             foreach (object entity in q)
             {
