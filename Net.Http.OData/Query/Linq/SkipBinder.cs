@@ -20,19 +20,19 @@ namespace Net.Http.OData.Query.Linq
     {
         internal static IQueryable ApplySkip(this IQueryable queryable, ODataQueryOptions queryOptions)
         {
-            if (queryOptions.Skip.HasValue)
+            if (queryOptions.Skip == null)
             {
-                MethodCallExpression skipCallExpression = Expression.Call(
-                    typeof(Queryable),
-                    "Skip",
-                    new Type[] { queryOptions.EntitySet.EdmType.ClrType },
-                    queryable.Expression,
-                    Expression.Constant(queryOptions.Skip.Value));
-
-                return queryable.Provider.CreateQuery(skipCallExpression);
+                return queryable;
             }
 
-            return queryable;
+            MethodCallExpression skipCallExpression = Expression.Call(
+                typeof(Queryable),
+                "Skip",
+                new Type[] { queryOptions.EntitySet.EdmType.ClrType },
+                queryable.Expression,
+                Expression.Constant(queryOptions.Skip.Value));
+
+            return queryable.Provider.CreateQuery(skipCallExpression);
         }
     }
 }
