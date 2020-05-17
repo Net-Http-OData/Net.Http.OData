@@ -19,19 +19,19 @@ namespace Net.Http.OData.Query.Linq
     {
         internal static IQueryable ApplyTop(this IQueryable queryable, ODataQueryOptions queryOptions)
         {
-            if (queryOptions.Top.HasValue)
+            if (queryOptions.Top == null)
             {
-                MethodCallExpression skipCallExpression = Expression.Call(
-                    typeof(Queryable),
-                    "Take",
-                    new Type[] { queryOptions.EntitySet.EdmType.ClrType },
-                    queryable.Expression,
-                    Expression.Constant(queryOptions.Top.Value));
-
-                return queryable.Provider.CreateQuery(skipCallExpression);
+                return queryable;
             }
 
-            return queryable;
+            MethodCallExpression skipCallExpression = Expression.Call(
+                typeof(Queryable),
+                "Take",
+                new Type[] { queryOptions.EntitySet.EdmType.ClrType },
+                queryable.Expression,
+                Expression.Constant(queryOptions.Top.Value));
+
+            return queryable.Provider.CreateQuery(skipCallExpression);
         }
     }
 }
