@@ -62,24 +62,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void Apply_Throws_ArgumentNullException_For_Null_Queryable()
-        {
-            TestHelper.EnsureEDM();
-
-            var queryOptions = new ODataQueryOptions(
-                "?$count=true",
-                EntityDataModel.Current.EntitySets["Customers"],
-                Mock.Of<IODataQueryOptionsValidator>());
-
-            Assert.Throws<ArgumentNullException>(() => QueryableExtensions.Apply(null, queryOptions));
-        }
-
-        [Fact]
-        public void Apply_Throws_ArgumentNullException_For_Null_QueryOptions()
-            => Assert.Throws<ArgumentNullException>(() => QueryableExtensions.Apply(_categories.AsQueryable(), null));
-
-        [Fact]
-        public void ApplyTo_OrderBy_NotDeclared()
+        public void Apply_OrderBy_NotDeclared()
         {
             TestHelper.EnsureEDM();
 
@@ -97,7 +80,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_OrderBy_Properties()
+        public void Apply_OrderBy_Properties()
         {
             TestHelper.EnsureEDM();
 
@@ -117,7 +100,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_OrderBy_Properties_IncludingPropertyPath()
+        public void Apply_OrderBy_Properties_IncludingPropertyPath()
         {
             TestHelper.EnsureEDM();
 
@@ -137,7 +120,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_OrderBy_SingleProperty_Ascending()
+        public void Apply_OrderBy_SingleProperty_Ascending()
         {
             TestHelper.EnsureEDM();
 
@@ -154,7 +137,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_OrderBy_SingleProperty_Descending()
+        public void Apply_OrderBy_SingleProperty_Descending()
         {
             TestHelper.EnsureEDM();
 
@@ -171,7 +154,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Select_Expand()
+        public void Apply_Select_Expand()
         {
             TestHelper.EnsureEDM();
 
@@ -213,7 +196,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Select_NotDeclared()
+        public void Apply_Select_NotDeclared()
         {
             TestHelper.EnsureEDM();
 
@@ -241,7 +224,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Select_Properties()
+        public void Apply_Select_Properties()
         {
             TestHelper.EnsureEDM();
 
@@ -264,7 +247,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Select_Properties_IncludingPropertyPath()
+        public void Apply_Select_Properties_IncludingPropertyPath()
         {
             TestHelper.EnsureEDM();
 
@@ -291,7 +274,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Select_SingleProperty()
+        public void Apply_Select_SingleProperty()
         {
             TestHelper.EnsureEDM();
 
@@ -312,7 +295,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Select_Star()
+        public void Apply_Select_Star()
         {
             TestHelper.EnsureEDM();
 
@@ -340,7 +323,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Skip()
+        public void Apply_Skip()
         {
             TestHelper.EnsureEDM();
 
@@ -359,7 +342,24 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Throws_InvalidOperationException_For_Incorrect_QueryType()
+        public void Apply_Throws_ArgumentNullException_For_Null_Queryable()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$count=true",
+                EntityDataModel.Current.EntitySets["Customers"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            Assert.Throws<ArgumentNullException>(() => QueryableExtensions.Apply(null, queryOptions));
+        }
+
+        [Fact]
+        public void Apply_Throws_ArgumentNullException_For_Null_QueryOptions()
+            => Assert.Throws<ArgumentNullException>(() => QueryableExtensions.Apply(_categories.AsQueryable(), null));
+
+        [Fact]
+        public void Apply_Throws_InvalidOperationException_For_Incorrect_QueryType()
         {
             TestHelper.EnsureEDM();
 
@@ -372,7 +372,7 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
-        public void ApplyTo_Top()
+        public void Apply_Top()
         {
             TestHelper.EnsureEDM();
 
