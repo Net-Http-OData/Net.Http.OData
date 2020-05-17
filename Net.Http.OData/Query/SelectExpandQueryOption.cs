@@ -55,7 +55,7 @@ namespace Net.Http.OData.Query
                 }
                 else
                 {
-                    propertyPaths.Add(PropertyPath.For(propertyPathName, model));
+                    propertyPaths.Add(PropertyPath.For(model, propertyPathName));
                 }
             }
 
