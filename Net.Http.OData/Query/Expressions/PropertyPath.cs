@@ -72,7 +72,7 @@ namespace Net.Http.OData.Query.Expressions
         {
             if (rawPropertyPath.IndexOf('/') == -1)
             {
-                return s_edmPropertyCache.GetOrAdd(edmComplexType.GetProperty(rawPropertyPath), p => new PropertyPath(p));
+                return For(edmComplexType.GetProperty(rawPropertyPath));
             }
 
             string[] nameSegments = rawPropertyPath.Split(SplitCharacter.ForwardSlash);
