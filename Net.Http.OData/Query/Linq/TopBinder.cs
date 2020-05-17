@@ -24,14 +24,14 @@ namespace Net.Http.OData.Query.Linq
                 return queryable;
             }
 
-            MethodCallExpression skipCallExpression = Expression.Call(
+            MethodCallExpression takeCallExpression = Expression.Call(
                 typeof(Queryable),
                 "Take",
                 new Type[] { queryOptions.EntitySet.EdmType.ClrType },
                 queryable.Expression,
                 Expression.Constant(queryOptions.Top.Value));
 
-            return queryable.Provider.CreateQuery(skipCallExpression);
+            return queryable.Provider.CreateQuery(takeCallExpression);
         }
     }
 }
