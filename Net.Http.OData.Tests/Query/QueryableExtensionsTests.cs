@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Net.Http.OData.Tests.Linq
 {
-    public class ODataQueryOptionsExtensionsTests
+    public class QueryableExtensionsTests
     {
         private readonly IList<Category> _categories;
         private readonly IList<Customer> _customers;
@@ -19,7 +19,7 @@ namespace Net.Http.OData.Tests.Linq
         private readonly IList<Manager> _managers;
         private readonly IList<Product> _products;
 
-        public ODataQueryOptionsExtensionsTests()
+        public QueryableExtensionsTests()
         {
             _categories = new[]
             {
@@ -62,6 +62,23 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
+        public void Apply_Throws_ArgumentNullException_For_Null_Queryable()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$count=true",
+                EntityDataModel.Current.EntitySets["Customers"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            Assert.Throws<ArgumentNullException>(() => QueryableExtensions.Apply(null, queryOptions));
+        }
+
+        [Fact]
+        public void Apply_Throws_ArgumentNullException_For_Null_QueryOptions()
+            => Assert.Throws<ArgumentNullException>(() => QueryableExtensions.Apply(_categories.AsQueryable(), null));
+
+        [Fact]
         public void ApplyTo_OrderBy_NotDeclared()
         {
             TestHelper.EnsureEDM();
@@ -71,7 +88,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
 
@@ -89,7 +106,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
 
@@ -109,7 +126,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
 
@@ -129,7 +146,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
             Assert.Equal(_products.Min(x => x.Rating), ((dynamic)results[0]).Rating);
@@ -146,7 +163,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
             Assert.Equal(_products.Max(x => x.Rating), ((dynamic)results[0]).Rating);
@@ -163,7 +180,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Customers"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_customers.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _customers.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_customers.Count, results.Count);
 
@@ -205,7 +222,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
 
@@ -233,7 +250,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
 
@@ -256,7 +273,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
 
@@ -283,7 +300,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
 
@@ -304,7 +321,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(_products.Count, results.Count);
 
@@ -332,7 +349,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             IEnumerable<Product> skippedProducts = _products.Skip(4);
 
@@ -340,23 +357,6 @@ namespace Net.Http.OData.Tests.Linq
             Assert.Equal(skippedProducts.First().ProductId, ((dynamic)results[0]).ProductId);
             Assert.Equal(skippedProducts.Last().ProductId, ((dynamic)results[results.Count - 1]).ProductId);
         }
-
-        [Fact]
-        public void ApplyTo_Throws_ArgumentNullException_For_Null_Queryable()
-        {
-            TestHelper.EnsureEDM();
-
-            var queryOptions = new ODataQueryOptions(
-                "?$count=true",
-                EntityDataModel.Current.EntitySets["Customers"],
-                Mock.Of<IODataQueryOptionsValidator>());
-
-            Assert.Throws<ArgumentNullException>(() => ODataQueryOptionsExtensions.ApplyTo(queryOptions, null));
-        }
-
-        [Fact]
-        public void ApplyTo_Throws_ArgumentNullException_For_Null_QueryOptions()
-            => Assert.Throws<ArgumentNullException>(() => ODataQueryOptionsExtensions.ApplyTo(null, _categories.AsQueryable()));
 
         [Fact]
         public void ApplyTo_Throws_InvalidOperationException_For_Incorrect_QueryType()
@@ -368,7 +368,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Customers"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            Assert.Throws<InvalidOperationException>(() => queryOptions.ApplyTo(_categories.AsQueryable()));
+            Assert.Throws<InvalidOperationException>(() => _categories.AsQueryable().Apply(queryOptions));
         }
 
         [Fact]
@@ -381,7 +381,7 @@ namespace Net.Http.OData.Tests.Linq
                 EntityDataModel.Current.EntitySets["Products"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            IList<ExpandoObject> results = queryOptions.ApplyTo(_products.AsQueryable()).ToList();
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
 
             Assert.Equal(4, results.Count);
             Assert.Equal(_products[0].ProductId, ((dynamic)results[0]).ProductId);
