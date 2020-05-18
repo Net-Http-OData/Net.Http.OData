@@ -30,19 +30,10 @@ namespace Net.Http.OData
         /// </summary>
         /// <param name="code">The error code.</param>
         /// <param name="message">The error message.</param>
-        /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
-        public static ODataErrorContent Create(int code, string message)
-            => Create(code, message, null);
-
-        /// <summary>
-        /// Creates a new <see cref="ODataErrorContent"/> for the specified values.
-        /// </summary>
-        /// <param name="code">The error code.</param>
-        /// <param name="message">The error message.</param>
         /// <param name="target">The error target.</param>
         /// <param name="details">The details of the error.</param>
         /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
-        public static ODataErrorContent Create(int code, string message, string target, IEnumerable<ODataErrorDetail> details = null)
+        public static ODataErrorContent Create(int code, string message, string target = null, IEnumerable<ODataErrorDetail> details = null)
             => new ODataErrorContent { Error = new ODataError { Code = code.ToString(CultureInfo.InvariantCulture), Details = details, Message = message, Target = target } };
     }
 }
