@@ -12,6 +12,7 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Net.Http.OData.Model
 {
@@ -32,6 +33,9 @@ namespace Net.Http.OData.Model
         {
             Properties = properties ?? throw new ArgumentNullException(nameof(properties));
             BaseType = baseType;
+
+            // 'entity' in the lambda expression 'entity => entity.Property'
+            ParameterExpression = Expression.Parameter(clrType, "entity");
         }
 
         /// <summary>
@@ -43,6 +47,8 @@ namespace Net.Http.OData.Model
         /// Gets the <see cref="EdmProperty"/> instances representing the properties defined on this type.
         /// </summary>
         public IReadOnlyList<EdmProperty> Properties { get; }
+
+        internal ParameterExpression ParameterExpression { get; }
 
         /// <summary>
         /// Gets the <see cref="EdmProperty"/> declared in this type with the specified name.

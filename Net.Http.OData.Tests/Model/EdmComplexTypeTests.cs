@@ -28,6 +28,9 @@ namespace Net.Http.OData.Tests.Model
             Assert.Same(type, edmComplexType.ClrType);
             Assert.Equal(type.FullName, edmComplexType.FullName);
             Assert.Equal(type.Name, edmComplexType.Name);
+            Assert.NotNull(edmComplexType.ParameterExpression);
+            Assert.Equal("entity", edmComplexType.ParameterExpression.Name);
+            Assert.Same(edmComplexType.ClrType, edmComplexType.ParameterExpression.Type);
             Assert.Same(properties, edmComplexType.Properties);
         }
 
@@ -44,6 +47,9 @@ namespace Net.Http.OData.Tests.Model
             Assert.Same(type, edmComplexType.ClrType);
             Assert.Equal(type.FullName, edmComplexType.FullName);
             Assert.Equal(type.Name, edmComplexType.Name);
+            Assert.NotNull(edmComplexType.ParameterExpression);
+            Assert.Equal("entity", edmComplexType.ParameterExpression.Name);
+            Assert.Same(edmComplexType.ClrType, edmComplexType.ParameterExpression.Type);
             Assert.Same(properties, edmComplexType.Properties);
         }
 

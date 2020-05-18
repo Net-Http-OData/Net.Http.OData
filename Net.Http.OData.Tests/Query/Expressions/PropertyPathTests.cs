@@ -15,15 +15,18 @@ namespace Net.Http.OData.Tests.Query.Expressions
         {
             var propertyPath = PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Category/Name");
 
+            Assert.NotNull(propertyPath.LambdaExpression);
+            Assert.NotNull(propertyPath.MemberExpression);
+            Assert.Same(propertyPath.InnerMostProperty.ClrProperty, propertyPath.MemberExpression.Member);
             Assert.NotNull(propertyPath.Next);
             Assert.NotNull(propertyPath.Property);
             Assert.Equal("Category", propertyPath.Property.Name);
 
-            propertyPath = propertyPath.Next;
+            Assert.Null(propertyPath.Next.Next);
+            Assert.NotNull(propertyPath.Next.Property);
+            Assert.Equal("Name", propertyPath.Next.Property.Name);
 
-            Assert.Null(propertyPath.Next);
-            Assert.NotNull(propertyPath.Property);
-            Assert.Equal("Name", propertyPath.Property.Name);
+            Assert.Same(propertyPath.InnerMostProperty, propertyPath.Next.Property);
         }
 
         [Fact]
@@ -37,9 +40,14 @@ namespace Net.Http.OData.Tests.Query.Expressions
         {
             var propertyPath = PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Name");
 
+            Assert.NotNull(propertyPath.LambdaExpression);
+            Assert.NotNull(propertyPath.MemberExpression);
+            Assert.Same(propertyPath.Property.ClrProperty, propertyPath.MemberExpression.Member);
             Assert.Null(propertyPath.Next);
             Assert.NotNull(propertyPath.Property);
             Assert.Equal("Name", propertyPath.Property.Name);
+
+            Assert.Same(propertyPath.InnerMostProperty, propertyPath.Property);
         }
 
         [Fact]
@@ -61,6 +69,9 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
             var propertyPath = PropertyPath.For(edmProperty);
 
+            Assert.NotNull(propertyPath.LambdaExpression);
+            Assert.NotNull(propertyPath.MemberExpression);
+            Assert.Same(edmProperty.ClrProperty, propertyPath.MemberExpression.Member);
             Assert.Null(propertyPath.Next);
             Assert.Equal(edmProperty, propertyPath.Property);
         }

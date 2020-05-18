@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Net.Http.OData.Model;
 
 namespace Net.Http.OData.Query.Expressions
@@ -44,6 +45,53 @@ namespace Net.Http.OData.Query.Expressions
         {
             Property = property;
             Next = next;
+
+            // 'entity' in the lambda expression 'entity => entity.Property'
+            ParameterExpression entityParameterExpression = Property.DeclaringType.ParameterExpression;
+
+            PropertyPath path = this;
+            Type propertyType = Property.ClrProperty.PropertyType;
+
+            // 'Property' in the lambda expression 'entity => entity.Property'
+            MemberExpression propertyMemberExpression = Expression.Property(entityParameterExpression, path.Property.Name);
+
+            while (path.Next != null)
+            {
+                path = path.Next;
+                propertyMemberExpression = Expression.Property(propertyMemberExpression, path.Property.Name);
+                propertyType = path.Property.ClrProperty.PropertyType;
+            }
+
+            MemberExpression = propertyMemberExpression;
+
+            // Represents the lambda in the method argument '(entity => entity.Property)'
+            LambdaExpression = Expression.Lambda(
+                typeof(Func<,>).MakeGenericType(Property.DeclaringType.ClrType, propertyType),
+                propertyMemberExpression,
+                new ParameterExpression[] { entityParameterExpression });
+        }
+
+        /// <summary>
+        /// Gets the <see cref="EdmProperty"/> representing the inner most property being referenced in the query.
+        /// </summary>
+        public EdmProperty InnerMostProperty
+        {
+            get
+            {
+                if (Next == null)
+                {
+                    return Property;
+                }
+
+                PropertyPath path = Next;
+
+                while (path.Next != null)
+                {
+                    path = path.Next;
+                }
+
+                return path.Property;
+            }
         }
 
         /// <summary>
@@ -55,6 +103,10 @@ namespace Net.Http.OData.Query.Expressions
         /// Gets the <see cref="EdmProperty"/> representing the property being referenced in the query.
         /// </summary>
         public EdmProperty Property { get; }
+
+        internal LambdaExpression LambdaExpression { get; }
+
+        internal MemberExpression MemberExpression { get; }
 
         /// <summary>
         /// Creates the <see cref="PropertyPath"/> for the given <see cref="EdmProperty"/>.
