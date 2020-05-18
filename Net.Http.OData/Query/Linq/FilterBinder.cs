@@ -25,156 +25,138 @@ namespace Net.Http.OData.Query.Linq
                 return queryable;
             }
 
-            var filterBinder = new FilterBinderImpl(queryable, queryOptions);
-            return filterBinder.Bind();
+            Expression predicateBody = Bind(queryOptions.Filter.Expression);
+
+            LambdaExpression lambdaExpression = Expression.Lambda(
+                typeof(Func<,>).MakeGenericType(queryOptions.EntitySet.EdmType.ClrType, typeof(bool)),
+                predicateBody,
+                new ParameterExpression[] { queryOptions.EntitySet.EdmType.ParameterExpression });
+
+            MethodCallExpression whereCallExpression = Expression.Call(
+                typeof(Queryable),
+                "Where",
+                new Type[] { queryable.ElementType },
+                queryable.Expression,
+                lambdaExpression);
+
+            return queryable.Provider.CreateQuery(whereCallExpression);
         }
 
-        private sealed class FilterBinderImpl
+        private static Expression Bind(QueryNode queryNode)
         {
-            private readonly IQueryable _queryable;
-            private readonly ODataQueryOptions _queryOptions;
-
-            internal FilterBinderImpl(IQueryable queryable, ODataQueryOptions queryOptions)
+            switch (queryNode.Kind)
             {
-                _queryable = queryable;
-                _queryOptions = queryOptions;
+                case QueryNodeKind.BinaryOperator:
+                    return Bind((BinaryOperatorNode)queryNode);
+
+                case QueryNodeKind.Constant:
+                    return Bind((ConstantNode)queryNode);
+
+                case QueryNodeKind.PropertyAccess:
+                    return Bind((PropertyAccessNode)queryNode);
+
+                case QueryNodeKind.UnaryOperator:
+                    return Bind((UnaryOperatorNode)queryNode);
+
+                default:
+                    throw new NotSupportedException($"Query nodes of type '{queryNode.Kind}' are not supported by this service.");
             }
+        }
 
-            internal IQueryable Bind()
+        private static Expression Bind(BinaryOperatorNode binaryOperatorNode)
+        {
+            Expression leftExpression = Bind(binaryOperatorNode.Left);
+            Expression rightExpression = Bind(binaryOperatorNode.Right);
+
+            switch (binaryOperatorNode.OperatorKind)
             {
-                Expression predicateBody = Bind(_queryOptions.Filter.Expression);
+                case BinaryOperatorKind.Add:
+                    if (leftExpression.Type != rightExpression.Type)
+                    {
+                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
+                    }
 
-                LambdaExpression lambdaExpression = Expression.Lambda(
-                    typeof(Func<,>).MakeGenericType(_queryOptions.EntitySet.EdmType.ClrType, typeof(bool)),
-                    predicateBody,
-                    new ParameterExpression[] { _queryOptions.EntitySet.EdmType.ParameterExpression });
+                    return Expression.Add(leftExpression, rightExpression);
 
-                MethodCallExpression whereCallExpression = Expression.Call(
-                    typeof(Queryable),
-                    "Where",
-                    new Type[] { _queryable.ElementType },
-                    _queryable.Expression,
-                    lambdaExpression);
+                case BinaryOperatorKind.And:
+                    return Expression.And(leftExpression, rightExpression);
 
-                return _queryable.Provider.CreateQuery(whereCallExpression);
+                case BinaryOperatorKind.Divide:
+                    if (leftExpression.Type != rightExpression.Type)
+                    {
+                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
+                    }
+
+                    return Expression.Divide(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.Equal:
+                    return Expression.Equal(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.Has:
+                    return Expression.Call(leftExpression, typeof(Enum).GetMethod("HasFlag"), Expression.Convert(rightExpression, typeof(Enum)));
+
+                case BinaryOperatorKind.GreaterThan:
+                    return Expression.GreaterThan(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.GreaterThanOrEqual:
+                    return Expression.GreaterThanOrEqual(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.LessThan:
+                    return Expression.LessThan(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.LessThanOrEqual:
+                    return Expression.LessThanOrEqual(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.Modulo:
+                    if (leftExpression.Type != rightExpression.Type)
+                    {
+                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
+                    }
+
+                    return Expression.Modulo(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.Multiply:
+                    if (leftExpression.Type != rightExpression.Type)
+                    {
+                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
+                    }
+
+                    return Expression.Multiply(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.NotEqual:
+                    return Expression.NotEqual(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.Or:
+                    return Expression.Or(leftExpression, rightExpression);
+
+                case BinaryOperatorKind.Subtract:
+                    if (leftExpression.Type != rightExpression.Type)
+                    {
+                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
+                    }
+
+                    return Expression.Subtract(leftExpression, rightExpression);
+
+                default:
+                    throw new NotSupportedException($"Binary query nodes of type '{binaryOperatorNode.OperatorKind}' are not supported by this service.");
             }
+        }
 
-            private Expression Bind(QueryNode queryNode)
+        private static Expression Bind(ConstantNode constantNode)
+            => constantNode.Value == null ? Expression.Constant(null) : Expression.Constant(constantNode.Value, constantNode.EdmType.ClrType);
+
+        private static Expression Bind(PropertyAccessNode propertyAccessNode)
+            => propertyAccessNode.PropertyPath.MemberExpression;
+
+        private static Expression Bind(UnaryOperatorNode unaryOperatorNode)
+        {
+            switch (unaryOperatorNode.OperatorKind)
             {
-                switch (queryNode.Kind)
-                {
-                    case QueryNodeKind.BinaryOperator:
-                        return Bind((BinaryOperatorNode)queryNode);
+                case UnaryOperatorKind.Not:
+                    return Expression.Not(Bind(unaryOperatorNode.Operand));
 
-                    case QueryNodeKind.Constant:
-                        return Bind((ConstantNode)queryNode);
-
-                    case QueryNodeKind.PropertyAccess:
-                        return Bind((PropertyAccessNode)queryNode);
-
-                    case QueryNodeKind.UnaryOperator:
-                        return Bind((UnaryOperatorNode)queryNode);
-
-                    default:
-                        throw new NotSupportedException($"Query nodes of type '{queryNode.Kind}' are not supported by this service.");
-                }
-            }
-
-            private Expression Bind(BinaryOperatorNode binaryOperatorNode)
-            {
-                Expression leftExpression = Bind(binaryOperatorNode.Left);
-                Expression rightExpression = Bind(binaryOperatorNode.Right);
-
-                switch (binaryOperatorNode.OperatorKind)
-                {
-                    case BinaryOperatorKind.Add:
-                        if (leftExpression.Type != rightExpression.Type)
-                        {
-                            rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                        }
-
-                        return Expression.Add(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.And:
-                        return Expression.And(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.Divide:
-                        if (leftExpression.Type != rightExpression.Type)
-                        {
-                            rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                        }
-
-                        return Expression.Divide(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.Equal:
-                        return Expression.Equal(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.Has:
-                        return Expression.Call(leftExpression, typeof(Enum).GetMethod("HasFlag"), Expression.Convert(rightExpression, typeof(Enum)));
-
-                    case BinaryOperatorKind.GreaterThan:
-                        return Expression.GreaterThan(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.GreaterThanOrEqual:
-                        return Expression.GreaterThanOrEqual(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.LessThan:
-                        return Expression.LessThan(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.LessThanOrEqual:
-                        return Expression.LessThanOrEqual(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.Modulo:
-                        if (leftExpression.Type != rightExpression.Type)
-                        {
-                            rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                        }
-
-                        return Expression.Modulo(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.Multiply:
-                        if (leftExpression.Type != rightExpression.Type)
-                        {
-                            rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                        }
-
-                        return Expression.Multiply(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.NotEqual:
-                        return Expression.NotEqual(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.Or:
-                        return Expression.Or(leftExpression, rightExpression);
-
-                    case BinaryOperatorKind.Subtract:
-                        if (leftExpression.Type != rightExpression.Type)
-                        {
-                            rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                        }
-
-                        return Expression.Subtract(leftExpression, rightExpression);
-
-                    default:
-                        throw new NotSupportedException($"Binary query nodes of type '{binaryOperatorNode.OperatorKind}' are not supported by this service.");
-                }
-            }
-
-            private Expression Bind(ConstantNode constantNode)
-                => constantNode.Value == null ? Expression.Constant(null) : Expression.Constant(constantNode.Value, constantNode.EdmType.ClrType);
-
-            private Expression Bind(PropertyAccessNode propertyAccessNode)
-                => propertyAccessNode.PropertyPath.MemberExpression;
-
-            private Expression Bind(UnaryOperatorNode unaryOperatorNode)
-            {
-                switch (unaryOperatorNode.OperatorKind)
-                {
-                    case UnaryOperatorKind.Not:
-                        return Expression.Not(Bind(unaryOperatorNode.Operand));
-
-                    default:
-                        throw new NotSupportedException($"Unar query nodes of type '{unaryOperatorNode.OperatorKind}' are not supported by this service.");
-                }
+                default:
+                    throw new NotSupportedException($"Unar query nodes of type '{unaryOperatorNode.OperatorKind}' are not supported by this service.");
             }
         }
     }
