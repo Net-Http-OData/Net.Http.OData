@@ -45,20 +45,490 @@ namespace Net.Http.OData.Tests.Linq
 
             _managers = new[]
             {
-                new Manager { AccessLevel = AccessLevel.Delete, AnnualBudget = 5000000.00M, BirthDate = new DateTime(1971, 5, 16), EmailAddress = "Bob.Jones@odata.org", Forename="Bob", Id = "Bob.Jones", JoiningDate = new DateTime(2007, 3, 8), Surname = "Jones", Title = "Mr" },
-                new Manager { AccessLevel = AccessLevel.Delete, AnnualBudget = 8500000.00M, BirthDate = new DateTime(1982, 6, 21), EmailAddress = "Jess.Smith@odata.org", Forename="Jess", Id = "Jess.Smith", JoiningDate = new DateTime(2006, 7, 15), Surname = "Smith", Title = "Mrs" },
+                new Manager { AccessLevel = AccessLevel.Read | AccessLevel.Write | AccessLevel.Delete, AnnualBudget = 5000000.00M, BirthDate = new DateTime(1971, 5, 16), EmailAddress = "Bob.Jones@odata.org", Forename="Bob", Id = "Bob.Jones", JoiningDate = new DateTime(2007, 3, 8), Surname = "Jones", Title = "Mr" },
+                new Manager { AccessLevel = AccessLevel.Read | AccessLevel.Write | AccessLevel.Delete, AnnualBudget = 8500000.00M, BirthDate = new DateTime(1982, 6, 21), EmailAddress = "Jess.Smith@odata.org", Forename="Jess", Id = "Jess.Smith", JoiningDate = new DateTime(2006, 7, 15), Surname = "Smith", Title = "Mrs" },
             };
 
             _employees = new List<Employee>(_managers)
             {
-                new Employee { AccessLevel = AccessLevel.Write, BirthDate = new DateTime(1989, 4, 21), EmailAddress = "Alice.Rake@odata.org", Forename="Alice", Id = "Alice.Rake", JoiningDate = new DateTime(2012, 12, 6), Manager = _managers[0], Surname = "Rake", Title = "Miss" },
-                new Employee { AccessLevel = AccessLevel.Write, BirthDate = new DateTime(1992, 7, 2), EmailAddress = "Mark.Strong@odata.org", Forename="Mark", Id = "Mark.Strong", JoiningDate = new DateTime(2012, 7, 23), Manager = _managers[1], Surname = "Strong", Title = "Mr" },
+                new Employee { AccessLevel = AccessLevel.Read | AccessLevel.Write, BirthDate = new DateTime(1989, 4, 21), EmailAddress = "Alice.Rake@odata.org", Forename="Alice", Id = "Alice.Rake", JoiningDate = new DateTime(2012, 12, 6), Manager = _managers[0], Surname = "Rake", Title = "Miss" },
+                new Employee { AccessLevel = AccessLevel.Read | AccessLevel.Write, BirthDate = new DateTime(1992, 7, 2), EmailAddress = "Mark.Strong@odata.org", Forename="Mark", Id = "Mark.Strong", JoiningDate = new DateTime(2012, 7, 23), Manager = _managers[1], Surname = "Strong", Title = "Mr" },
             };
 
             _customers = new[]
             {
                 new Customer { AccountManager = _employees[_managers.Count + 1], Address = "Some Street", City = "Star City", CompanyName = "Target", ContactName = "Geoff Jr", Country = "USA", LegacyId = 8763, Phone = "555-4202", PostalCode = "76542" },
             };
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Add_Equals()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price add 11.00M eq 50M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price + 11.00M == 50M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39.00M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Add_Equals_Implicit_Cast()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price add 11 eq 50M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price + 11 == 50M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39.00M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Divide_Equals()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price div 2M eq 19.5M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price / 2 == 19.5M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39.00M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Divide_Equals_Implicit_Cast()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price div 2 eq 19.5M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price / 2 == 19.5M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39.00M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Equals_Enum()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Colour eq Sample.Model.Colour'Blue'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Colour == Colour.Blue).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(Colour.Blue, ((dynamic)x).Colour));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Equals_Int()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=ProductId eq 4",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Single(results);
+
+            Assert.Equal(4, ((dynamic)results[0]).ProductId);
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Equals_Null()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Description eq null",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Empty(results);
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Equals_String()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Description eq 'iPhone SE 64GB Blue'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Single(results);
+
+            Assert.Equal(_products.Single(x => x.Description == "iPhone SE 64GB Blue").ProductId, ((dynamic)results[0]).ProductId);
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_GreaterThan_And_Single_Property_Equals()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price gt 469.00M and Colour eq Sample.Model.Colour'Blue'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price > 469.00M && x.Colour == Colour.Blue).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Price > 469.00M && ((dynamic)x).Colour == Colour.Blue));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_GreaterThan_Decimal()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price gt 469.00M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price > 469.00M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Price > 469.00M));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_GreaterThan_Or_Single_Property_Equals()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price gt 469.00M or Colour eq Sample.Model.Colour'Blue'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price > 469.00M || x.Colour == Colour.Blue).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Price > 469.00M || ((dynamic)x).Colour == Colour.Blue));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_GreaterThanOrEqual_Decimal()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price ge 469.00M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price >= 469.00M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Price >= 469.00M));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Has_Enum()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=AccessLevel has Sample.Model.AccessLevel'Read,Write'",
+                EntityDataModel.Current.EntitySets["Employees"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _employees.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_employees.Where(x => x.AccessLevel.HasFlag(AccessLevel.Read | AccessLevel.Write)).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).AccessLevel.HasFlag(AccessLevel.Read | AccessLevel.Write)));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_LessThan_Decimal()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price lt 469.00M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price < 469.00M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Price < 469.00M));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_LessThanOrEqual_Decimal()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price le 469.00M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price <= 469.00M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Price <= 469.00M));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Modulo_Equals()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Rating mod 2f eq 0.68f",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Rating % 2 == 0.68f).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39.00M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Modulo_Equals_Implicit_Cast()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Rating mod 2 eq 0.68f",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Rating % 2 == 0.68f).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39.00M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Multiply_Equals()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price mul 2M eq 78M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price * 2 == 78M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39.00M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Multiply_Equals_Implicit_Cast()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price mul 2 eq 78M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price * 2 == 78M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39.00M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Not_Equals_String()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=not Description eq 'iPhone SE 64GB Blue'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Description != "iPhone SE 64GB Blue").Count(), results.Count);
+
+            Assert.All(results, x => Assert.NotEqual("iPhone SE 64GB Blue", ((dynamic)x).Description));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_NotEquals_Enum()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Colour ne Sample.Model.Colour'Blue'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Colour != Colour.Blue).Count(), results.Count);
+
+            Assert.All(results, x => Assert.NotEqual(Colour.Blue, ((dynamic)x).Colour));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_NotEquals_Int()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=ProductId ne 4",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Count - 1, results.Count);
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_NotEquals_Null()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Description ne null",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Count, results.Count);
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_NotEquals_String()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Description ne 'iPhone SE 64GB Blue'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Description != "iPhone SE 64GB Blue").Count(), results.Count);
+
+            Assert.All(results, x => Assert.NotEqual("iPhone SE 64GB Blue", ((dynamic)x).Description));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Subtract_Equals()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price sub 11M eq 28M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price - 11M == 28M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Subtract_Equals_Implicit_Cast()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Price sub 11 eq 28M",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Price - 11 == 28M).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(39M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_PropertyPath_Equals_String()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Category/Name eq 'Accessories'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Category.Name == "Accessories").Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Description.Contains("Case")));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_PropertyPath_NotEquals_String()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Category/Name ne 'Accessories'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Category.Name != "Accessories").Count(), results.Count);
+
+            Assert.All(results, x => Assert.False(((dynamic)x).Description.Contains("Case")));
         }
 
         [Fact]

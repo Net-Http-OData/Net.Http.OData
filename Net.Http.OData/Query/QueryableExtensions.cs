@@ -54,7 +54,7 @@ namespace Net.Http.OData.Linq
 
         private static IEnumerable<ExpandoObject> ApplyImpl(IQueryable queryable, ODataQueryOptions queryOptions)
         {
-            foreach (object entity in queryable.ApplyOrder(queryOptions).ApplySkip(queryOptions).ApplyTop(queryOptions))
+            foreach (object entity in queryable.ApplyFilter(queryOptions).ApplyOrder(queryOptions).ApplySkip(queryOptions).ApplyTop(queryOptions))
             {
                 yield return ApplySelect(entity, queryOptions);
             }
