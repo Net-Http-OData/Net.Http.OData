@@ -83,16 +83,21 @@ namespace Net.Http.OData.Model
         {
             if (clrType.IsEnum)
             {
-                Array enumValues = Enum.GetValues(clrType);
+                return EdmTypeCache.Map.GetOrAdd(
+                    clrType,
+                    t =>
+                    {
+                        Array enumValues = Enum.GetValues(t);
 
-                var members = new List<EdmEnumMember>(enumValues.Length);
+                        var members = new List<EdmEnumMember>(enumValues.Length);
 
-                foreach (object value in enumValues)
-                {
-                    members.Add(new EdmEnumMember(value.ToString(), (int)value));
-                }
+                        foreach (object value in enumValues)
+                        {
+                            members.Add(new EdmEnumMember(value.ToString(), (int)value));
+                        }
 
-                return EdmTypeCache.Map.GetOrAdd(clrType, t => new EdmEnumType(t, members.AsReadOnly()));
+                        return new EdmEnumType(t, members.AsReadOnly());
+                    });
             }
 
             if (clrType.IsGenericType)
