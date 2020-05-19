@@ -40,7 +40,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class ByteValue
         {
-            private readonly ConstantNode<byte> _node;
+            private readonly ConstantNode _node;
 
             public ByteValue() => _node = ConstantNode.Byte("", 254);
 
@@ -62,7 +62,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class FalseValue
         {
-            private readonly ConstantNode<bool> _node;
+            private readonly ConstantNode _node;
 
             public FalseValue() => _node = ConstantNode.False;
 
@@ -76,7 +76,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public void TheLiteralTextPropertyIsSet() => Assert.Equal("false", _node.LiteralText);
 
             [Fact]
-            public void TheValuePropertyIsSet() => Assert.False(_node.Value);
+            public void TheValuePropertyIsSet() => Assert.False((bool)_node.Value);
 
             [Fact]
             public void TheValuePropertyReturnsTheSameAsTheBaseValue() => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);
@@ -84,7 +84,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class Int16Value
         {
-            private readonly ConstantNode<short> _node;
+            private readonly ConstantNode _node;
 
             public Int16Value() => _node = ConstantNode.Int16("16", 16);
 
@@ -106,7 +106,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class Int32ZeroValue
         {
-            private readonly ConstantNode<int> _node;
+            private readonly ConstantNode _node;
 
             public Int32ZeroValue() => _node = ConstantNode.Int32Zero;
 
@@ -128,7 +128,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class Int64ZeroValue
         {
-            private readonly ConstantNode<long> _node;
+            private readonly ConstantNode _node;
 
             public Int64ZeroValue() => _node = ConstantNode.Int64Zero;
 
@@ -150,7 +150,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class NaNValue
         {
-            private readonly ConstantNode<double> _node;
+            private readonly ConstantNode _node;
 
             public NaNValue() => _node = ConstantNode.NaN;
 
@@ -172,7 +172,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class NegativeInfinityValue
         {
-            private readonly ConstantNode<double> _node;
+            private readonly ConstantNode _node;
 
             public NegativeInfinityValue() => _node = ConstantNode.NegativeInfinity;
 
@@ -194,7 +194,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class NullValue
         {
-            private readonly ConstantNode<object> _node;
+            private readonly ConstantNode _node;
 
             public NullValue() => _node = ConstantNode.Null;
 
@@ -216,7 +216,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class PositiveInfinityValue
         {
-            private readonly ConstantNode<double> _node;
+            private readonly ConstantNode _node;
 
             public PositiveInfinityValue() => _node = ConstantNode.PositiveInfinity;
 
@@ -238,7 +238,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class SByteValue
         {
-            private readonly ConstantNode<sbyte> _node;
+            private readonly ConstantNode _node;
 
             public SByteValue() => _node = ConstantNode.SByte("", -24);
 
@@ -260,7 +260,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class TrueValue
         {
-            private readonly ConstantNode<bool> _node;
+            private readonly ConstantNode _node;
 
             public TrueValue() => _node = ConstantNode.True;
 
@@ -274,7 +274,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             public void TheLiteralTextPropertyIsSet() => Assert.Equal("true", _node.LiteralText);
 
             [Fact]
-            public void TheValuePropertyIsSet() => Assert.True(_node.Value);
+            public void TheValuePropertyIsSet() => Assert.True((bool)_node.Value);
 
             [Fact]
             public void TheValuePropertyReturnsTheSameAsTheBaseValue() => Assert.Equal(_node.Value, ((ConstantNode)_node).Value);

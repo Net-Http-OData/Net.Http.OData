@@ -80,12 +80,12 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Base64Binary
         {
-            private readonly ConstantNode<byte[]> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Base64Binary()
             {
                 // Base64 of Net.Http.OData
-                _node = (ConstantNode<byte[]>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Base64Binary, "TmV0Lkh0dHAuT0RhdGE=", 0));
+                _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Base64Binary, "TmV0Lkh0dHAuT0RhdGE=", 0));
             }
 
             [Fact]
@@ -111,10 +111,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Date
         {
-            private readonly ConstantNode<DateTime> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Date()
-                => _node = (ConstantNode<DateTime>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Date, "2000-12-18", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Date, "2000-12-18", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -139,10 +139,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_DateTimeOffset
         {
-            private readonly ConstantNode<DateTimeOffset> _node;
+            private readonly ConstantNode _node;
 
             public Parse_DateTimeOffset()
-                => _node = (ConstantNode<DateTimeOffset>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.DateTimeOffset, "2002-10-15T17:34:23Z", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.DateTimeOffset, "2002-10-15T17:34:23Z", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -167,10 +167,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Decimal
         {
-            private readonly ConstantNode<decimal> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Decimal()
-                => _node = (ConstantNode<decimal>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Decimal, "2.345M", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Decimal, "2.345M", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -195,10 +195,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Decimal_WithoutMSuffix
         {
-            private readonly ConstantNode<decimal> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Decimal_WithoutMSuffix()
-                => _node = (ConstantNode<decimal>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Decimal, "2.345", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Decimal, "2.345", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -223,10 +223,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Double
         {
-            private readonly ConstantNode<double> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Double()
-                => _node = (ConstantNode<double>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "2.029d", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Double, "2.029d", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -251,10 +251,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Duration
         {
-            private readonly ConstantNode<TimeSpan> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Duration()
-                => _node = (ConstantNode<TimeSpan>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Duration, "duration'P6DT23H59M59.9999S'", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Duration, "duration'P6DT23H59M59.9999S'", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -279,10 +279,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_EdmType
         {
-            private readonly ConstantNode<EdmType> _node;
+            private readonly ConstantNode _node;
 
             public Parse_EdmType()
-                => _node = (ConstantNode<EdmType>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.EdmType, "Edm.String", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.EdmType, "Edm.String", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -307,13 +307,13 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Enum
         {
-            private readonly ConstantNode<AccessLevel> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Enum()
             {
                 TestHelper.EnsureEDM();
 
-                _node = (ConstantNode<AccessLevel>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Enum, "Sample.Model.AccessLevel'Read'", 0));
+                _node = ConstantNodeParser.ParseConstantNode(new Token(TokenType.Enum, "Sample.Model.AccessLevel'Read'", 0));
             }
 
             [Fact]
@@ -339,10 +339,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Guid
         {
-            private readonly ConstantNode<Guid> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Guid()
-                => _node = (ConstantNode<Guid>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Guid, "12345678-aaaa-bbbb-cccc-ddddeeeeffff", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Guid, "12345678-aaaa-bbbb-cccc-ddddeeeeffff", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -367,10 +367,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Int32
         {
-            private readonly ConstantNode<int> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Int32()
-                => _node = (ConstantNode<int>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "32", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "32", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -395,10 +395,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Int64
         {
-            private readonly ConstantNode<long> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Int64()
-                => _node = (ConstantNode<long>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "64L", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Integer, "64L", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -423,10 +423,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_Single
         {
-            private readonly ConstantNode<float> _node;
+            private readonly ConstantNode _node;
 
             public Parse_Single() =>
-                _node = (ConstantNode<float>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Single, "2.0f", 0));
+                _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.Single, "2.0f", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -451,10 +451,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_String
         {
-            private readonly ConstantNode<string> _node;
+            private readonly ConstantNode _node;
 
             public Parse_String() =>
-                _node = (ConstantNode<string>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.String, "'Hello OData'", 0));
+                _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.String, "'Hello OData'", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()
@@ -479,10 +479,10 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
         public class Parse_TimeOfDay
         {
-            private readonly ConstantNode<TimeSpan> _node;
+            private readonly ConstantNode _node;
 
             public Parse_TimeOfDay()
-                => _node = (ConstantNode<TimeSpan>)ConstantNodeParser.ParseConstantNode(new Token(TokenType.TimeOfDay, "13:20:00", 0));
+                => _node = (ConstantNode)ConstantNodeParser.ParseConstantNode(new Token(TokenType.TimeOfDay, "13:20:00", 0));
 
             [Fact]
             public void TheEdmPrimitiveTypeIsSet()

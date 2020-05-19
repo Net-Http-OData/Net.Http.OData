@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Globalization;
-using System.Reflection;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 
@@ -74,9 +73,8 @@ namespace Net.Http.OData.Query.Parsers
                     EdmEnumType edmEnumType = (EdmEnumType)EdmType.GetEdmType(edmEnumTypeName);
                     string edmEnumMemberName = token.Value.Substring(firstQuote + 1, token.Value.Length - firstQuote - 2);
                     object enumValue = edmEnumType.GetClrValue(edmEnumMemberName);
-                    Type constantNodeType = typeof(ConstantNode<>).MakeGenericType(edmEnumType.ClrType);
 
-                    return (ConstantNode)Activator.CreateInstance(constantNodeType, BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { edmEnumType, token.Value, enumValue }, null);
+                    return new ConstantNode(edmEnumType, token.Value, enumValue);
 
                 case TokenType.False:
                     return ConstantNode.False;

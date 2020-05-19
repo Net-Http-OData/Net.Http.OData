@@ -61,8 +61,8 @@ namespace Net.Http.OData.Tests.Query
             Assert.IsType<PropertyAccessNode>(nodeLeft.Left);
             Assert.Equal("LegacyId", ((PropertyAccessNode)nodeLeft.Left).PropertyPath.Property.Name);
             Assert.Equal(BinaryOperatorKind.Equal, nodeLeft.OperatorKind);
-            Assert.IsType<ConstantNode<int>>(nodeLeft.Right);
-            Assert.Equal(2139, ((ConstantNode<int>)nodeLeft.Right).Value);
+            Assert.IsType<ConstantNode>(nodeLeft.Right);
+            Assert.Equal(2139, ((ConstantNode)nodeLeft.Right).Value);
 
             Assert.Equal(BinaryOperatorKind.And, node.OperatorKind);
 
@@ -71,8 +71,8 @@ namespace Net.Http.OData.Tests.Query
             Assert.IsType<PropertyAccessNode>(nodeRight.Left);
             Assert.Equal("CompanyName", ((PropertyAccessNode)nodeRight.Left).PropertyPath.Property.Name);
             Assert.Equal(BinaryOperatorKind.Equal, nodeRight.OperatorKind);
-            Assert.IsType<ConstantNode<string>>(nodeRight.Right);
-            Assert.Equal("Pool Farm & Primrose Hill Nursery", ((ConstantNode<string>)nodeRight.Right).Value);
+            Assert.IsType<ConstantNode>(nodeRight.Right);
+            Assert.Equal("Pool Farm & Primrose Hill Nursery", ((ConstantNode)nodeRight.Right).Value);
         }
 
         [Fact]
@@ -279,7 +279,7 @@ namespace Net.Http.OData.Tests.Query
 
                 Assert.IsType<PropertyAccessNode>(node.Left);
                 Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
-                Assert.IsType<ConstantNode<string>>(node.Right);
+                Assert.IsType<ConstantNode>(node.Right);
             }
 
             [Fact]
