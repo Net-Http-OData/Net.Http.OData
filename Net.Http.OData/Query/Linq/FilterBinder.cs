@@ -19,28 +19,27 @@ namespace Net.Http.OData.Query.Linq
 {
     internal static class FilterBinder
     {
+        private static readonly PropertyInfo s_dateTimeDay = typeof(DateTime).GetProperty("Day");
+        private static readonly PropertyInfo s_dateTimeMonth = typeof(DateTime).GetProperty("Month");
+        private static readonly PropertyInfo s_dateTimeOffsetDate = typeof(DateTimeOffset).GetProperty("Date");
+        private static readonly PropertyInfo s_dateTimeOffsetDay = typeof(DateTimeOffset).GetProperty("Day");
+        private static readonly PropertyInfo s_dateTimeOffsetHour = typeof(DateTimeOffset).GetProperty("Hour");
+        private static readonly PropertyInfo s_dateTimeOffsetMinute = typeof(DateTimeOffset).GetProperty("Minute");
+        private static readonly PropertyInfo s_dateTimeOffsetMonth = typeof(DateTimeOffset).GetProperty("Month");
+        private static readonly PropertyInfo s_dateTimeOffsetSecond = typeof(DateTimeOffset).GetProperty("Second");
+        private static readonly PropertyInfo s_dateTimeOffsetYear = typeof(DateTimeOffset).GetProperty("Year");
+        private static readonly PropertyInfo s_dateTimeYear = typeof(DateTime).GetProperty("Year");
         private static readonly MethodInfo s_enumHasFlag = typeof(Enum).GetMethod("HasFlag");
-
         private static readonly MethodInfo s_stringConcat = typeof(string).GetMethod("Concat", new[] { typeof(string), typeof(string) });
-
         private static readonly MethodInfo s_stringContains = typeof(string).GetMethod("Contains", new[] { typeof(string) });
-
         private static readonly MethodInfo s_stringEndsWith = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
-
         private static readonly MethodInfo s_stringIndexOf = typeof(string).GetMethod("IndexOf", new[] { typeof(string) });
-
         private static readonly PropertyInfo s_stringLength = typeof(string).GetProperty("Length");
-
         private static readonly MethodInfo s_stringStartsWith = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
-
         private static readonly MethodInfo s_stringSubstringInt = typeof(string).GetMethod("Substring", new[] { typeof(int) });
-
         private static readonly MethodInfo s_stringSubstringIntInt = typeof(string).GetMethod("Substring", new[] { typeof(int), typeof(int) });
-
         private static readonly MethodInfo s_stringToLower = typeof(string).GetMethod("ToLower", Type.EmptyTypes);
-
         private static readonly MethodInfo s_stringToUpper = typeof(string).GetMethod("ToUpper", Type.EmptyTypes);
-
         private static readonly MethodInfo s_stringTrim = typeof(string).GetMethod("Trim", Type.EmptyTypes);
 
         internal static IQueryable ApplyFilter(this IQueryable queryable, ODataQueryOptions queryOptions)
@@ -183,14 +182,73 @@ namespace Net.Http.OData.Query.Linq
                 case "contains":
                     return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringContains, Bind(functionCallNode.Parameters[1]));
 
+                case "date":
+                    return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeOffsetDate);
+
+                case "day":
+                    switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
+                    {
+                        case "Edm.Date":
+                            return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeDay);
+
+                        case "Edm.DateTimeOffset":
+                            return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeOffsetDay);
+
+                        default:
+                            throw new NotSupportedException();
+                    }
+
                 case "endswith":
                     return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringEndsWith, Bind(functionCallNode.Parameters[1]));
+
+                case "hour":
+                    switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
+                    {
+                        case "Edm.DateTimeOffset":
+                            return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeOffsetHour);
+
+                        default:
+                            throw new NotSupportedException();
+                    }
 
                 case "indexof":
                     return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringIndexOf, Bind(functionCallNode.Parameters[1]));
 
                 case "length":
                     return Expression.Property(Bind(functionCallNode.Parameters[0]), s_stringLength);
+
+                case "minute":
+                    switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
+                    {
+                        case "Edm.DateTimeOffset":
+                            return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeOffsetMinute);
+
+                        default:
+                            throw new NotSupportedException();
+                    }
+
+                case "month":
+                    switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
+                    {
+                        case "Edm.Date":
+                            return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeMonth);
+
+                        case "Edm.DateTimeOffset":
+                            return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeOffsetMonth);
+
+                        default:
+                            throw new NotSupportedException();
+                    }
+
+                case "second":
+                    switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
+                    {
+                        case "Edm.DateTimeOffset":
+                            return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeOffsetSecond);
+
+                        default:
+                            throw new NotSupportedException();
+                    }
 
                 case "startswith":
                     return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringStartsWith, Bind(functionCallNode.Parameters[1]));
@@ -217,6 +275,19 @@ namespace Net.Http.OData.Query.Linq
 
                 case "trim":
                     return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringTrim);
+
+                case "year":
+                    switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
+                    {
+                        case "Edm.Date":
+                            return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeYear);
+
+                        case "Edm.DateTimeOffset":
+                            return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeOffsetYear);
+
+                        default:
+                            throw new NotSupportedException();
+                    }
 
                 default:
                     throw new NotSupportedException($"The function '{functionCallNode.Name}' is not supported by this service.");
