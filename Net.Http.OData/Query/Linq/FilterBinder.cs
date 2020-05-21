@@ -313,7 +313,7 @@ namespace Net.Http.OData.Query.Linq
                     return Expression.Not(Bind(unaryOperatorNode.Operand));
 
                 default:
-                    throw new NotSupportedException($"Unar query nodes of type '{unaryOperatorNode.OperatorKind}' are not supported by this service.");
+                    throw new NotSupportedException($"Unary query nodes of type '{unaryOperatorNode.OperatorKind}' are not supported by this service.");
             }
         }
 
