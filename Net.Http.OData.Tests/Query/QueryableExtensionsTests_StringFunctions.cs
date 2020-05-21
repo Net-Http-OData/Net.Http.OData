@@ -116,7 +116,7 @@ namespace Net.Http.OData.Tests.Query
         }
 
         [Fact]
-        public void Apply_Filter_Single_Property_Substring()
+        public void Apply_Filter_Single_Property_Substring_Int()
         {
             TestHelper.EnsureEDM();
 
@@ -130,6 +130,23 @@ namespace Net.Http.OData.Tests.Query
             Assert.Equal(_products.Where(x => x.Description.Substring(7) == "SE 64GB Blue").Count(), results.Count);
 
             Assert.All(results, x => Assert.True(((dynamic)x).Description == "iPhone SE 64GB Blue"));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Substring_Int_Int()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=substring(Description, 7, 2) eq 'SE'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Description.Substring(7, 2) == "SE").Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Description.Substring(7, 2) == "SE"));
         }
 
         [Fact]
