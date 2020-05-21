@@ -17,6 +17,7 @@ namespace Net.Http.OData.Tests.Query
         private readonly IList<Customer> _customers;
         private readonly IList<Employee> _employees;
         private readonly IList<Manager> _managers;
+        private readonly IList<Order> _orders;
         private readonly IList<Product> _products;
 
         public QueryableExtensionsTests()
@@ -59,6 +60,19 @@ namespace Net.Http.OData.Tests.Query
             {
                 new Customer { AccountManager = _employees[_managers.Count + 1], Address = "Some Street", City = "Star City", CompanyName = "Target", ContactName = "Geoff Jr", Country = "USA", LegacyId = 8763, Phone = "555-4202", PostalCode = "76542" },
             };
+
+            _orders = new[]
+            {
+                new Order { Customer = _customers[0], Date = new DateTimeOffset(2020, 4, 25, 9, 30, 53, new TimeSpan(2, 0, 0)), Freight = 12.00M, OrderDetails = new []{ new OrderDetail { Discount = 0.05M, Product = _products[3], Quantity = 15, UnitPrice = _products[3].Price } }, OrderId = 2632, ShipCountry = _customers[0].Country, TransactionId = new Guid("c46e35b8-0160-4b37-b5af-766d9699d0a8") }
+            };
+
+            foreach (Order order in _orders)
+            {
+                foreach (OrderDetail orderDetail in order.OrderDetails)
+                {
+                    orderDetail.Order = order;
+                }
+            }
         }
 
         [Fact]
