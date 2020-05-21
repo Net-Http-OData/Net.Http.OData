@@ -30,6 +30,9 @@ namespace Net.Http.OData.Query.Linq
         private static readonly PropertyInfo s_dateTimeOffsetYear = typeof(DateTimeOffset).GetProperty("Year");
         private static readonly PropertyInfo s_dateTimeYear = typeof(DateTime).GetProperty("Year");
         private static readonly MethodInfo s_enumHasFlag = typeof(Enum).GetMethod("HasFlag");
+        private static readonly MethodInfo s_mathCeilingDecimal = typeof(Math).GetMethod("Ceiling", new[] { typeof(decimal) });
+        private static readonly MethodInfo s_mathFloorDecimal = typeof(Math).GetMethod("Floor", new[] { typeof(decimal) });
+        private static readonly MethodInfo s_mathRoundDecimal = typeof(Math).GetMethod("Round", new[] { typeof(decimal) });
         private static readonly MethodInfo s_stringConcat = typeof(string).GetMethod("Concat", new[] { typeof(string), typeof(string) });
         private static readonly MethodInfo s_stringContains = typeof(string).GetMethod("Contains", new[] { typeof(string) });
         private static readonly MethodInfo s_stringEndsWith = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
@@ -98,71 +101,46 @@ namespace Net.Http.OData.Query.Linq
             switch (binaryOperatorNode.OperatorKind)
             {
                 case BinaryOperatorKind.Add:
-                    if (leftExpression.Type != rightExpression.Type)
-                    {
-                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                    }
-
-                    return Expression.Add(leftExpression, rightExpression);
+                    return Expression.Add(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.And:
                     return Expression.And(leftExpression, rightExpression);
 
                 case BinaryOperatorKind.Divide:
-                    if (leftExpression.Type != rightExpression.Type)
-                    {
-                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                    }
-
-                    return Expression.Divide(leftExpression, rightExpression);
+                    return Expression.Divide(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.Equal:
-                    return Expression.Equal(leftExpression, rightExpression);
+                    return Expression.Equal(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.Has:
                     return Expression.Call(leftExpression, s_enumHasFlag, Expression.Convert(rightExpression, typeof(Enum)));
 
                 case BinaryOperatorKind.GreaterThan:
-                    return Expression.GreaterThan(leftExpression, rightExpression);
+                    return Expression.GreaterThan(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.GreaterThanOrEqual:
-                    return Expression.GreaterThanOrEqual(leftExpression, rightExpression);
+                    return Expression.GreaterThanOrEqual(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.LessThan:
-                    return Expression.LessThan(leftExpression, rightExpression);
+                    return Expression.LessThan(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.LessThanOrEqual:
-                    return Expression.LessThanOrEqual(leftExpression, rightExpression);
+                    return Expression.LessThanOrEqual(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.Modulo:
-                    if (leftExpression.Type != rightExpression.Type)
-                    {
-                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                    }
-
-                    return Expression.Modulo(leftExpression, rightExpression);
+                    return Expression.Modulo(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.Multiply:
-                    if (leftExpression.Type != rightExpression.Type)
-                    {
-                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                    }
-
-                    return Expression.Multiply(leftExpression, rightExpression);
+                    return Expression.Multiply(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.NotEqual:
-                    return Expression.NotEqual(leftExpression, rightExpression);
+                    return Expression.NotEqual(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 case BinaryOperatorKind.Or:
                     return Expression.Or(leftExpression, rightExpression);
 
                 case BinaryOperatorKind.Subtract:
-                    if (leftExpression.Type != rightExpression.Type)
-                    {
-                        rightExpression = Expression.Convert(rightExpression, leftExpression.Type);
-                    }
-
-                    return Expression.Subtract(leftExpression, rightExpression);
+                    return Expression.Subtract(leftExpression, ConvertInNecessary(rightExpression, leftExpression.Type));
 
                 default:
                     throw new NotSupportedException($"Binary query nodes of type '{binaryOperatorNode.OperatorKind}' are not supported by this service.");
@@ -176,6 +154,16 @@ namespace Net.Http.OData.Query.Linq
         {
             switch (functionCallNode.Name)
             {
+                case "ceiling":
+                    switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
+                    {
+                        case "Edm.Decimal":
+                            return Expression.Call(s_mathCeilingDecimal, Bind(functionCallNode.Parameters[0]));
+
+                        default:
+                            throw new NotSupportedException();
+                    }
+
                 case "concat":
                     return Expression.Call(s_stringConcat, Bind(functionCallNode.Parameters[0]), Bind(functionCallNode.Parameters[1]));
 
@@ -200,6 +188,16 @@ namespace Net.Http.OData.Query.Linq
 
                 case "endswith":
                     return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringEndsWith, Bind(functionCallNode.Parameters[1]));
+
+                case "floor":
+                    switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
+                    {
+                        case "Edm.Decimal":
+                            return Expression.Call(s_mathFloorDecimal, Bind(functionCallNode.Parameters[0]));
+
+                        default:
+                            throw new NotSupportedException();
+                    }
 
                 case "hour":
                     switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
@@ -235,6 +233,16 @@ namespace Net.Http.OData.Query.Linq
 
                         case "Edm.DateTimeOffset":
                             return Expression.Property(Bind(functionCallNode.Parameters[0]), s_dateTimeOffsetMonth);
+
+                        default:
+                            throw new NotSupportedException();
+                    }
+
+                case "round":
+                    switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
+                    {
+                        case "Edm.Decimal":
+                            return Expression.Call(s_mathRoundDecimal, Bind(functionCallNode.Parameters[0]));
 
                         default:
                             throw new NotSupportedException();
@@ -308,5 +316,8 @@ namespace Net.Http.OData.Query.Linq
                     throw new NotSupportedException($"Unar query nodes of type '{unaryOperatorNode.OperatorKind}' are not supported by this service.");
             }
         }
+
+        private static Expression ConvertInNecessary(Expression expression, Type type)
+            => expression.Type != type ? Expression.Convert(expression, type) : expression;
     }
 }

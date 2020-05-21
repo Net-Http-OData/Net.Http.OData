@@ -63,7 +63,7 @@ namespace Net.Http.OData.Tests.Query
 
             _orders = new[]
             {
-                new Order { Customer = _customers[0], Date = new DateTimeOffset(2020, 4, 25, 9, 30, 53, new TimeSpan(2, 0, 0)), Freight = 12.00M, OrderDetails = new []{ new OrderDetail { Discount = 0.05M, Product = _products[3], Quantity = 15, UnitPrice = _products[3].Price } }, OrderId = 2632, ShipCountry = _customers[0].Country, TransactionId = new Guid("c46e35b8-0160-4b37-b5af-766d9699d0a8") }
+                new Order { Customer = _customers[0], Date = new DateTimeOffset(2020, 4, 25, 9, 30, 53, new TimeSpan(2, 0, 0)), Freight = 12.50M, OrderDetails = new []{ new OrderDetail { Discount = 0.05M, Product = _products[3], Quantity = 15, UnitPrice = _products[3].Price } }, OrderId = 2632, ShipCountry = _customers[0].Country, TransactionId = new Guid("c46e35b8-0160-4b37-b5af-766d9699d0a8") }
             };
 
             foreach (Order order in _orders)
