@@ -96,6 +96,42 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
+        public void Apply_Filter_Single_Property_Concat()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=concat(concat(Forename, ', '), Surname) eq 'Jess, Smith'",
+                EntityDataModel.Current.EntitySets["Employees"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _employees.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_employees.Where(x => (x.Forename + ", " + x.Surname) == "Jess, Smith").Count(), results.Count);
+
+            Assert.Single(results);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Forename == "Jess" && ((dynamic)x).Surname == "Smith"));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Contains()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=contains(Description, 'Case')",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Description.Contains("Case")).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Description.Contains("Case")));
+        }
+
+        [Fact]
         public void Apply_Filter_Single_Property_Divide_Equals()
         {
             TestHelper.EnsureEDM();
@@ -127,6 +163,23 @@ namespace Net.Http.OData.Tests.Linq
             Assert.Equal(_products.Where(x => x.Price / 2 == 19.5M).Count(), results.Count);
 
             Assert.All(results, x => Assert.Equal(39.00M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_EndsWith()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=endswith(Description, 'Blue')",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Description.EndsWith("Blue")).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Description.EndsWith("Blue")));
         }
 
         [Fact]
@@ -278,6 +331,40 @@ namespace Net.Http.OData.Tests.Linq
             Assert.Equal(_employees.Where(x => x.AccessLevel.HasFlag(AccessLevel.Read | AccessLevel.Write)).Count(), results.Count);
 
             Assert.All(results, x => Assert.True(((dynamic)x).AccessLevel.HasFlag(AccessLevel.Read | AccessLevel.Write)));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_IndexOf()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=indexof(Description, '64GB') eq 10",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Description.IndexOf("64GB") == 10).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Description.Contains("64GB")));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Length()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=length(Description) eq 19",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Description.Length == 19).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Description.Length == 19));
         }
 
         [Fact]
@@ -464,6 +551,40 @@ namespace Net.Http.OData.Tests.Linq
         }
 
         [Fact]
+        public void Apply_Filter_Single_Property_StartsWith()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=startswith(Description, 'iPhone SE 64GB')",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Description.StartsWith("iPhone SE 64GB")).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Description.StartsWith("iPhone SE 64GB")));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Substring()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=substring(Description, 7) eq 'SE 64GB Blue'",
+                EntityDataModel.Current.EntitySets["Products"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _products.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_products.Where(x => x.Description.Substring(7) == "SE 64GB Blue").Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Description == "iPhone SE 64GB Blue"));
+        }
+
+        [Fact]
         public void Apply_Filter_Single_Property_Subtract_Equals()
         {
             TestHelper.EnsureEDM();
@@ -495,6 +616,63 @@ namespace Net.Http.OData.Tests.Linq
             Assert.Equal(_products.Where(x => x.Price - 11 == 28M).Count(), results.Count);
 
             Assert.All(results, x => Assert.Equal(39M, ((dynamic)x).Price));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_ToLower()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=tolower(Forename) eq 'jess'",
+                EntityDataModel.Current.EntitySets["Employees"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _employees.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_employees.Where(x => x.Forename.ToLower() == "jess").Count(), results.Count);
+
+            Assert.Single(results);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Forename == "Jess"));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_ToUpper()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=toupper(Forename) eq 'JESS'",
+                EntityDataModel.Current.EntitySets["Employees"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _employees.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_employees.Where(x => x.Forename.ToUpper() == "JESS").Count(), results.Count);
+
+            Assert.Single(results);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Forename == "Jess"));
+        }
+
+        [Fact]
+        public void Apply_Filter_Single_Property_Trim()
+        {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=trim(Forename) eq 'Jess'",
+                EntityDataModel.Current.EntitySets["Employees"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _employees.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_employees.Where(x => x.Forename.Trim() == "Jess").Count(), results.Count);
+
+            Assert.Single(results);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Forename == "Jess"));
         }
 
         [Fact]
