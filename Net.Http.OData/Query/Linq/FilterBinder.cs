@@ -33,7 +33,9 @@ namespace Net.Http.OData.Query.Linq
 
         private static readonly MethodInfo s_stringStartsWith = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
 
-        private static readonly MethodInfo s_stringSubstring = typeof(string).GetMethod("Substring", new[] { typeof(int) });
+        private static readonly MethodInfo s_stringSubstringInt = typeof(string).GetMethod("Substring", new[] { typeof(int) });
+
+        private static readonly MethodInfo s_stringSubstringIntInt = typeof(string).GetMethod("Substring", new[] { typeof(int), typeof(int) });
 
         private static readonly MethodInfo s_stringToLower = typeof(string).GetMethod("ToLower", Type.EmptyTypes);
 
@@ -194,7 +196,18 @@ namespace Net.Http.OData.Query.Linq
                     return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringStartsWith, Bind(functionCallNode.Parameters[1]));
 
                 case "substring":
-                    return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringSubstring, Bind(functionCallNode.Parameters[1]));
+                    if (functionCallNode.Parameters.Count == 2)
+                    {
+                        return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringSubstringInt, Bind(functionCallNode.Parameters[1]));
+                    }
+                    else if (functionCallNode.Parameters.Count == 3)
+                    {
+                        return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringSubstringIntInt, Bind(functionCallNode.Parameters[1]), Bind(functionCallNode.Parameters[2]));
+                    }
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
 
                 case "tolower":
                     return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringToLower);
