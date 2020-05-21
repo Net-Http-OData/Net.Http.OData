@@ -12,12 +12,35 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query.Linq
 {
     internal static class FilterBinder
     {
+        private static readonly MethodInfo s_enumHasFlag = typeof(Enum).GetMethod("HasFlag");
+
+        private static readonly MethodInfo s_stringConcat = typeof(string).GetMethod("Concat", new[] { typeof(string), typeof(string) });
+
+        private static readonly MethodInfo s_stringContains = typeof(string).GetMethod("Contains", new[] { typeof(string) });
+
+        private static readonly MethodInfo s_stringEndsWith = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
+
+        private static readonly MethodInfo s_stringIndexOf = typeof(string).GetMethod("IndexOf", new[] { typeof(string) });
+
+        private static readonly PropertyInfo s_stringLength = typeof(string).GetProperty("Length");
+
+        private static readonly MethodInfo s_stringStartsWith = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
+
+        private static readonly MethodInfo s_stringSubstring = typeof(string).GetMethod("Substring", new[] { typeof(int) });
+
+        private static readonly MethodInfo s_stringToLower = typeof(string).GetMethod("ToLower", Type.EmptyTypes);
+
+        private static readonly MethodInfo s_stringToUpper = typeof(string).GetMethod("ToUpper", Type.EmptyTypes);
+
+        private static readonly MethodInfo s_stringTrim = typeof(string).GetMethod("Trim", Type.EmptyTypes);
+
         internal static IQueryable ApplyFilter(this IQueryable queryable, ODataQueryOptions queryOptions)
         {
             if (queryOptions.Filter == null)
@@ -51,6 +74,9 @@ namespace Net.Http.OData.Query.Linq
 
                 case QueryNodeKind.Constant:
                     return Bind((ConstantNode)queryNode);
+
+                case QueryNodeKind.FunctionCall:
+                    return Bind((FunctionCallNode)queryNode);
 
                 case QueryNodeKind.PropertyAccess:
                     return Bind((PropertyAccessNode)queryNode);
@@ -93,7 +119,7 @@ namespace Net.Http.OData.Query.Linq
                     return Expression.Equal(leftExpression, rightExpression);
 
                 case BinaryOperatorKind.Has:
-                    return Expression.Call(leftExpression, typeof(Enum).GetMethod("HasFlag"), Expression.Convert(rightExpression, typeof(Enum)));
+                    return Expression.Call(leftExpression, s_enumHasFlag, Expression.Convert(rightExpression, typeof(Enum)));
 
                 case BinaryOperatorKind.GreaterThan:
                     return Expression.GreaterThan(leftExpression, rightExpression);
@@ -144,6 +170,45 @@ namespace Net.Http.OData.Query.Linq
 
         private static Expression Bind(ConstantNode constantNode)
             => constantNode.Value == null ? Expression.Constant(null) : Expression.Constant(constantNode.Value, constantNode.EdmType.ClrType);
+
+        private static Expression Bind(FunctionCallNode functionCallNode)
+        {
+            switch (functionCallNode.Name)
+            {
+                case "concat":
+                    return Expression.Call(s_stringConcat, Bind(functionCallNode.Parameters[0]), Bind(functionCallNode.Parameters[1]));
+
+                case "contains":
+                    return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringContains, Bind(functionCallNode.Parameters[1]));
+
+                case "endswith":
+                    return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringEndsWith, Bind(functionCallNode.Parameters[1]));
+
+                case "indexof":
+                    return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringIndexOf, Bind(functionCallNode.Parameters[1]));
+
+                case "length":
+                    return Expression.Property(Bind(functionCallNode.Parameters[0]), s_stringLength);
+
+                case "startswith":
+                    return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringStartsWith, Bind(functionCallNode.Parameters[1]));
+
+                case "substring":
+                    return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringSubstring, Bind(functionCallNode.Parameters[1]));
+
+                case "tolower":
+                    return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringToLower);
+
+                case "toupper":
+                    return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringToUpper);
+
+                case "trim":
+                    return Expression.Call(Bind(functionCallNode.Parameters[0]), s_stringTrim);
+
+                default:
+                    throw new NotSupportedException($"The function '{functionCallNode.Name}' is not supported by this service.");
+            }
+        }
 
         private static Expression Bind(PropertyAccessNode propertyAccessNode)
             => propertyAccessNode.PropertyPath.MemberExpression;
