@@ -14,9 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using Net.Http.OData.Model;
 using Net.Http.OData.Query;
-using Net.Http.OData.Query.Expressions;
 using Net.Http.OData.Query.Linq;
 
 namespace Net.Http.OData.Linq
@@ -56,67 +54,8 @@ namespace Net.Http.OData.Linq
         {
             foreach (object entity in queryable.ApplyFilter(queryOptions).ApplyOrder(queryOptions).ApplySkip(queryOptions).ApplyTop(queryOptions))
             {
-                yield return ApplySelect(entity, queryOptions);
+                yield return SelectExpandBinder.ApplySelectExpand(entity, queryOptions.EntitySet, queryOptions.Select, queryOptions.Expand);
             }
-        }
-
-        private static ExpandoObject ApplySelect(object entity, ODataQueryOptions queryOptions)
-        {
-            IEnumerable<PropertyPath> propertyPaths = queryOptions.Select?.PropertyPaths ?? queryOptions.EntitySet.EdmType.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For);
-
-            if (queryOptions.Expand != null)
-            {
-                propertyPaths = propertyPaths.Concat(queryOptions.Expand.PropertyPaths);
-            }
-
-            var expandoObject = new ExpandoObject();
-
-            foreach (PropertyPath propertyPath in propertyPaths)
-            {
-                PropertyPath path = propertyPath;
-                var dictionary = (IDictionary<string, object>)expandoObject;
-                object obj = entity;
-
-                while (path.Next != null)
-                {
-                    if (!dictionary.ContainsKey(path.Property.Name))
-                    {
-                        dictionary[path.Property.Name] = new ExpandoObject();
-                    }
-
-                    dictionary = (IDictionary<string, object>)dictionary[path.Property.Name];
-                    obj = path.Property.ClrProperty.GetValue(obj);
-                    path = path.Next;
-                }
-
-                if (path.Property.IsNavigable)
-                {
-                    dictionary[path.Property.Name] = new ExpandoObject();
-                    dictionary = (IDictionary<string, object>)dictionary[path.Property.Name];
-                    obj = path.Property.ClrProperty.GetValue(obj);
-
-                    var edmComplexType = path.Property.PropertyType as EdmComplexType;
-
-                    while (edmComplexType != null)
-                    {
-                        foreach (EdmProperty edmProperty in edmComplexType.Properties)
-                        {
-                            if (!edmProperty.IsNavigable)
-                            {
-                                dictionary[edmProperty.Name] = edmProperty.ClrProperty.GetValue(obj);
-                            }
-                        }
-
-                        edmComplexType = edmComplexType.BaseType as EdmComplexType;
-                    }
-                }
-                else
-                {
-                    dictionary[path.Property.Name] = path.Property.ClrProperty.GetValue(obj);
-                }
-            }
-
-            return expandoObject;
         }
     }
 }
