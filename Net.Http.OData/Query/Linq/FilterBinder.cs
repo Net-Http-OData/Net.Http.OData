@@ -24,17 +24,20 @@ namespace Net.Http.OData.Query.Linq
         private static readonly PropertyInfo s_dateTimeOffsetDate = typeof(DateTimeOffset).GetProperty("Date");
         private static readonly PropertyInfo s_dateTimeOffsetDay = typeof(DateTimeOffset).GetProperty("Day");
         private static readonly PropertyInfo s_dateTimeOffsetHour = typeof(DateTimeOffset).GetProperty("Hour");
+        private static readonly FieldInfo s_dateTimeOffsetMaxValue = typeof(DateTimeOffset).GetField("MaxValue");
         private static readonly PropertyInfo s_dateTimeOffsetMinute = typeof(DateTimeOffset).GetProperty("Minute");
+        private static readonly FieldInfo s_dateTimeOffsetMinValue = typeof(DateTimeOffset).GetField("MinValue");
         private static readonly PropertyInfo s_dateTimeOffsetMonth = typeof(DateTimeOffset).GetProperty("Month");
+        private static readonly PropertyInfo s_dateTimeOffsetNow = typeof(DateTimeOffset).GetProperty("Now");
         private static readonly PropertyInfo s_dateTimeOffsetSecond = typeof(DateTimeOffset).GetProperty("Second");
         private static readonly PropertyInfo s_dateTimeOffsetYear = typeof(DateTimeOffset).GetProperty("Year");
         private static readonly PropertyInfo s_dateTimeYear = typeof(DateTime).GetProperty("Year");
         private static readonly MethodInfo s_enumHasFlag = typeof(Enum).GetMethod("HasFlag");
         private static readonly MethodInfo s_mathCeilingDecimal = typeof(Math).GetMethod("Ceiling", new[] { typeof(decimal) });
-        private static readonly MethodInfo s_mathFloorDecimal = typeof(Math).GetMethod("Floor", new[] { typeof(decimal) });
-        private static readonly MethodInfo s_mathRoundDecimal = typeof(Math).GetMethod("Round", new[] { typeof(decimal) });
         private static readonly MethodInfo s_mathCeilingDouble = typeof(Math).GetMethod("Ceiling", new[] { typeof(double) });
+        private static readonly MethodInfo s_mathFloorDecimal = typeof(Math).GetMethod("Floor", new[] { typeof(decimal) });
         private static readonly MethodInfo s_mathFloorDouble = typeof(Math).GetMethod("Floor", new[] { typeof(double) });
+        private static readonly MethodInfo s_mathRoundDecimal = typeof(Math).GetMethod("Round", new[] { typeof(decimal) });
         private static readonly MethodInfo s_mathRoundDouble = typeof(Math).GetMethod("Round", new[] { typeof(double) });
         private static readonly MethodInfo s_stringConcat = typeof(string).GetMethod("Concat", new[] { typeof(string), typeof(string) });
         private static readonly MethodInfo s_stringContains = typeof(string).GetMethod("Contains", new[] { typeof(string) });
@@ -224,6 +227,12 @@ namespace Net.Http.OData.Query.Linq
                 case "length":
                     return Expression.Property(Bind(functionCallNode.Parameters[0]), s_stringLength);
 
+                case "maxdatetime":
+                    return Expression.Field(null, s_dateTimeOffsetMaxValue);
+
+                case "mindatetime":
+                    return Expression.Field(null, s_dateTimeOffsetMinValue);
+
                 case "minute":
                     switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
                     {
@@ -246,6 +255,9 @@ namespace Net.Http.OData.Query.Linq
                         default:
                             throw new NotSupportedException();
                     }
+
+                case "now":
+                    return Expression.Property(null, s_dateTimeOffsetNow);
 
                 case "round":
                     switch (((PropertyAccessNode)functionCallNode.Parameters[0]).PropertyPath.InnerMostProperty.PropertyType.FullName)
