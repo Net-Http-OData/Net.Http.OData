@@ -304,7 +304,7 @@ namespace Net.Http.OData.Tests.Model
                 Assert.Equal(typeof(Order), edmComplexType.ClrType);
                 Assert.Equal("Sample.Model.Order", edmComplexType.FullName);
                 Assert.Equal("Order", edmComplexType.Name);
-                Assert.Equal(7, edmComplexType.Properties.Count);
+                Assert.Equal(8, edmComplexType.Properties.Count);
 
                 Assert.Same(edmComplexType, edmComplexType.Properties[0].DeclaringType);
                 Assert.True(edmComplexType.Properties[0].IsNavigable);
@@ -346,8 +346,14 @@ namespace Net.Http.OData.Tests.Model
                 Assert.Same(edmComplexType, edmComplexType.Properties[6].DeclaringType);
                 Assert.False(edmComplexType.Properties[6].IsNavigable);
                 Assert.False(edmComplexType.Properties[6].IsNullable);
-                Assert.Equal("TransactionId", edmComplexType.Properties[6].Name);
-                Assert.Same(EdmPrimitiveType.Guid, edmComplexType.Properties[6].PropertyType);
+                Assert.Equal("ShippingWeight", edmComplexType.Properties[6].Name);
+                Assert.Same(EdmPrimitiveType.Double, edmComplexType.Properties[6].PropertyType);
+
+                Assert.Same(edmComplexType, edmComplexType.Properties[7].DeclaringType);
+                Assert.False(edmComplexType.Properties[7].IsNavigable);
+                Assert.False(edmComplexType.Properties[7].IsNullable);
+                Assert.Equal("TransactionId", edmComplexType.Properties[7].Name);
+                Assert.Same(EdmPrimitiveType.Guid, edmComplexType.Properties[7].PropertyType);
 
                 Assert.Same(edmComplexType.Properties[4], entitySet.EntityKey);
             }
