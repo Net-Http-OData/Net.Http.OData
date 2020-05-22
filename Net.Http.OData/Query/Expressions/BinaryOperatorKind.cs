@@ -18,7 +18,7 @@ namespace Net.Http.OData.Query.Expressions
     public enum BinaryOperatorKind
     {
         /// <summary>
-        /// The binary kind is none.
+        /// The binary operator is none.
         /// </summary>
         None = 0,
 
