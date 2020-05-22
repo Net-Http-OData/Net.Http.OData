@@ -32,6 +32,18 @@ namespace Net.Http.OData.Tests.Query
         [Fact]
         public void Apply_Filter_Single_Property_Ceiling_Double()
         {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=ceiling(ShippingWeight) eq 9",
+                EntityDataModel.Current.EntitySets["Orders"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _orders.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_orders.Where(x => Math.Ceiling(x.ShippingWeight) == 9).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(9, Math.Ceiling(((dynamic)x).ShippingWeight)));
         }
 
         [Fact]
@@ -54,6 +66,18 @@ namespace Net.Http.OData.Tests.Query
         [Fact]
         public void Apply_Filter_Single_Property_Floor_Double()
         {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=floor(ShippingWeight) eq 8",
+                EntityDataModel.Current.EntitySets["Orders"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _orders.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_orders.Where(x => Math.Floor(x.ShippingWeight) == 8).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(8, Math.Floor(((dynamic)x).ShippingWeight)));
         }
 
         [Fact]
@@ -76,6 +100,18 @@ namespace Net.Http.OData.Tests.Query
         [Fact]
         public void Apply_Filter_Single_Property_Round_Double()
         {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=round(ShippingWeight) eq 9",
+                EntityDataModel.Current.EntitySets["Orders"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _orders.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_orders.Where(x => Math.Round(x.ShippingWeight) == 9).Count(), results.Count);
+
+            Assert.All(results, x => Assert.Equal(9, Math.Round(((dynamic)x).ShippingWeight)));
         }
     }
 }
