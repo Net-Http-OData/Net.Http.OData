@@ -40,7 +40,7 @@ namespace Net.Http.OData.Query.Expressions
         public EdmType EdmType { get; }
 
         /// <inheritdoc/>
-        public override QueryNodeKind Kind { get; } = QueryNodeKind.Constant;
+        public override QueryNodeKind Kind => QueryNodeKind.Constant;
 
         /// <summary>
         /// Gets the literal text of the constant value.

@@ -28,7 +28,7 @@ namespace Net.Http.OData.Query.Expressions
             => PropertyPath = propertyPath ?? throw new ArgumentNullException(nameof(propertyPath));
 
         /// <inheritdoc/>
-        public override QueryNodeKind Kind { get; } = QueryNodeKind.PropertyAccess;
+        public override QueryNodeKind Kind => QueryNodeKind.PropertyAccess;
 
         /// <summary>
         /// Gets the property path being referenced in the query.
