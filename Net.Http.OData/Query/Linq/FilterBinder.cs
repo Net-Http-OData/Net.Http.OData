@@ -33,6 +33,9 @@ namespace Net.Http.OData.Query.Linq
         private static readonly MethodInfo s_mathCeilingDecimal = typeof(Math).GetMethod("Ceiling", new[] { typeof(decimal) });
         private static readonly MethodInfo s_mathFloorDecimal = typeof(Math).GetMethod("Floor", new[] { typeof(decimal) });
         private static readonly MethodInfo s_mathRoundDecimal = typeof(Math).GetMethod("Round", new[] { typeof(decimal) });
+        private static readonly MethodInfo s_mathCeilingDouble = typeof(Math).GetMethod("Ceiling", new[] { typeof(double) });
+        private static readonly MethodInfo s_mathFloorDouble = typeof(Math).GetMethod("Floor", new[] { typeof(double) });
+        private static readonly MethodInfo s_mathRoundDouble = typeof(Math).GetMethod("Round", new[] { typeof(double) });
         private static readonly MethodInfo s_stringConcat = typeof(string).GetMethod("Concat", new[] { typeof(string), typeof(string) });
         private static readonly MethodInfo s_stringContains = typeof(string).GetMethod("Contains", new[] { typeof(string) });
         private static readonly MethodInfo s_stringEndsWith = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
@@ -160,6 +163,9 @@ namespace Net.Http.OData.Query.Linq
                         case "Edm.Decimal":
                             return Expression.Call(s_mathCeilingDecimal, Bind(functionCallNode.Parameters[0]));
 
+                        case "Edm.Double":
+                            return Expression.Call(s_mathCeilingDouble, Bind(functionCallNode.Parameters[0]));
+
                         default:
                             throw new NotSupportedException();
                     }
@@ -194,6 +200,9 @@ namespace Net.Http.OData.Query.Linq
                     {
                         case "Edm.Decimal":
                             return Expression.Call(s_mathFloorDecimal, Bind(functionCallNode.Parameters[0]));
+
+                        case "Edm.Double":
+                            return Expression.Call(s_mathFloorDouble, Bind(functionCallNode.Parameters[0]));
 
                         default:
                             throw new NotSupportedException();
@@ -243,6 +252,9 @@ namespace Net.Http.OData.Query.Linq
                     {
                         case "Edm.Decimal":
                             return Expression.Call(s_mathRoundDecimal, Bind(functionCallNode.Parameters[0]));
+
+                        case "Edm.Double":
+                            return Expression.Call(s_mathRoundDouble, Bind(functionCallNode.Parameters[0]));
 
                         default:
                             throw new NotSupportedException();
