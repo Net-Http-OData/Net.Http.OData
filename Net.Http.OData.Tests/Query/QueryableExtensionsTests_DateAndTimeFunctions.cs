@@ -98,11 +98,35 @@ namespace Net.Http.OData.Tests.Query
         [Fact]
         public void Apply_Filter_Single_Property_MaxDateTime()
         {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Date le maxdatetime()",
+                EntityDataModel.Current.EntitySets["Orders"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _orders.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_orders.Where(x => x.Date < DateTimeOffset.MaxValue).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Date < DateTimeOffset.MaxValue));
         }
 
         [Fact]
         public void Apply_Filter_Single_Property_MinDateTime()
         {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Date ge mindatetime()",
+                EntityDataModel.Current.EntitySets["Orders"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _orders.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_orders.Where(x => x.Date > DateTimeOffset.MinValue).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Date > DateTimeOffset.MinValue));
         }
 
         [Fact]
@@ -164,6 +188,18 @@ namespace Net.Http.OData.Tests.Query
         [Fact]
         public void Apply_Filter_Single_Property_Now()
         {
+            TestHelper.EnsureEDM();
+
+            var queryOptions = new ODataQueryOptions(
+                "?$filter=Date le now()",
+                EntityDataModel.Current.EntitySets["Orders"],
+                Mock.Of<IODataQueryOptionsValidator>());
+
+            IList<ExpandoObject> results = _orders.AsQueryable().Apply(queryOptions).ToList();
+
+            Assert.Equal(_orders.Where(x => x.Date < DateTimeOffset.Now).Count(), results.Count);
+
+            Assert.All(results, x => Assert.True(((dynamic)x).Date < DateTimeOffset.Now));
         }
 
         [Fact]
