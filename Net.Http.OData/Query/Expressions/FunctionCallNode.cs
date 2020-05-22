@@ -38,7 +38,7 @@ namespace Net.Http.OData.Query.Expressions
         }
 
         /// <inheritdoc/>
-        public override QueryNodeKind Kind { get; } = QueryNodeKind.FunctionCall;
+        public override QueryNodeKind Kind => QueryNodeKind.FunctionCall;
 
         /// <summary>
         /// Gets the name of the function.

@@ -32,7 +32,7 @@ namespace Net.Http.OData.Query.Expressions
         }
 
         /// <inheritdoc/>
-        public override QueryNodeKind Kind { get; } = QueryNodeKind.UnaryOperator;
+        public override QueryNodeKind Kind => QueryNodeKind.UnaryOperator;
 
         /// <summary>
         /// Gets the operand of the unary operator.
