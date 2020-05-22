@@ -1,4 +1,4 @@
-﻿// <copyright file="SelectExpandBinder.cs" company="Project Contributors">
+﻿// <copyright file="ODataObjectBuilder.cs" company="Project Contributors">
 // Copyright Project Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,21 +17,12 @@ using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query.Linq
 {
-    internal static class SelectExpandBinder
+    /// <summary>
+    /// A class which builds an OData representation of an entity as an <see cref="ExpandoObject"/>.
+    /// </summary>
+    internal static class ODataObjectBuilder
     {
-        internal static ExpandoObject ApplySelectExpand(object entity, EntitySet entitySet, SelectExpandQueryOption selectQueryOption, SelectExpandQueryOption expandQueryOption)
-        {
-            IEnumerable<PropertyPath> propertyPaths = selectQueryOption?.PropertyPaths ?? entitySet.EdmType.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For);
-
-            if (expandQueryOption != null)
-            {
-                propertyPaths = propertyPaths.Concat(expandQueryOption.PropertyPaths);
-            }
-
-            return BuildODataDynamicObject(entity, propertyPaths);
-        }
-
-        private static ExpandoObject BuildODataDynamicObject(object entity, IEnumerable<PropertyPath> propertyPaths)
+        internal static ExpandoObject BuildODataObject(object entity, IEnumerable<PropertyPath> propertyPaths)
         {
             var expandoObject = new ExpandoObject();
 
@@ -81,6 +72,21 @@ namespace Net.Http.OData.Query.Linq
             }
 
             return expandoObject;
+        }
+
+        internal static IEnumerable<ExpandoObject> BuildODataObjects(IQueryable queryable, ODataQueryOptions queryOptions)
+        {
+            foreach (object entity in queryable.ApplyFilter(queryOptions).ApplyOrder(queryOptions).ApplySkip(queryOptions).ApplyTop(queryOptions))
+            {
+                IEnumerable<PropertyPath> propertyPaths = queryOptions.Select?.PropertyPaths ?? queryOptions.EntitySet.EdmType.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For);
+
+                if (queryOptions.Expand != null)
+                {
+                    propertyPaths = propertyPaths.Concat(queryOptions.Expand.PropertyPaths);
+                }
+
+                yield return BuildODataObject(entity, propertyPaths);
+            }
         }
     }
 }

@@ -47,15 +47,7 @@ namespace Net.Http.OData.Linq
                 throw new InvalidOperationException();
             }
 
-            return ApplyImpl(queryable, queryOptions);
-        }
-
-        private static IEnumerable<ExpandoObject> ApplyImpl(IQueryable queryable, ODataQueryOptions queryOptions)
-        {
-            foreach (object entity in queryable.ApplyFilter(queryOptions).ApplyOrder(queryOptions).ApplySkip(queryOptions).ApplyTop(queryOptions))
-            {
-                yield return SelectExpandBinder.ApplySelectExpand(entity, queryOptions.EntitySet, queryOptions.Select, queryOptions.Expand);
-            }
+            return ODataObjectBuilder.BuildODataObjects(queryable, queryOptions);
         }
     }
 }
