@@ -28,6 +28,7 @@ namespace Net.Http.OData.Query.Parsers
         private static readonly TokenDefinition[] s_tokenDefinitions = new[]
         {
             new TokenDefinition(TokenType.Whitespace,           @"\s", ignore: true),
+            new TokenDefinition(TokenType.ForwardSlash,         @"\/", ignore: true),
             new TokenDefinition(TokenType.BinaryOperator,       @"(eq|ne|gt|ge|lt|le|has|add|sub|mul|div|mod)" + LookAheadWhitespace),
             new TokenDefinition(TokenType.And,                  @"and" + LookAheadWhitespace),
             new TokenDefinition(TokenType.Or,                   @"or" + LookAheadWhitespace),
@@ -43,7 +44,9 @@ namespace Net.Http.OData.Query.Parsers
             new TokenDefinition(TokenType.Null,                 @"null" + LookAheadExpected),
             new TokenDefinition(TokenType.UnaryOperator,        @"not" + LookAheadWhitespace),
             new TokenDefinition(TokenType.Double,               @"((\+|-)?(\d+(\.\d+)?(d|D)|\d+\.\d+(e|E)\d+)|NaN|INF|-INF)" + LookAheadExpected),
-            new TokenDefinition(TokenType.PropertyName,         @"[a-zA-Z_]+(\w+\/?)+" + LookAheadExpected),
+            new TokenDefinition(TokenType.PropertyName,         @"[a-zA-Z_]+((\w+\/?)+" + LookAheadExpected + @"|(?=/(all|any)\())"),
+            new TokenDefinition(TokenType.LambdaOperator,       @"(all|any)+(?=\()"), // Lambda is expected to be followed by a opening '('.
+            new TokenDefinition(TokenType.LambdaAlias,          @"[a-z]+:[a-z]+(?=\/)"),
             new TokenDefinition(TokenType.FunctionName,         @"[a-z]+(?=\()"), // Function name is expected to be followed by a opening '('.
             new TokenDefinition(TokenType.String,               @"'(?:''|[\w\s-.~!$&()*+,;=@\\\/]*)*'" + LookAheadExpected),
             new TokenDefinition(TokenType.Comma,                @",(?=\s?)"), // Permit optional whitespace after the comma for spacing between function parameters.

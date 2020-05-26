@@ -27,6 +27,7 @@ namespace Net.Http.OData.Query
             {
                 AllowedArithmeticOperators = AllowedArithmeticOperators.All,
                 AllowedFunctions = AllowedFunctions.AllFunctions,
+                AllowedLambdaOperators = AllowedLambdaOperators.AllOperators,
                 AllowedLogicalOperators = AllowedLogicalOperators.All,
                 AllowedQueryOptions = AllowedQueryOptions.All,
                 MaxTop = 100,
@@ -40,6 +41,7 @@ namespace Net.Http.OData.Query
             {
                 AllowedArithmeticOperators = AllowedArithmeticOperators.None,
                 AllowedFunctions = AllowedFunctions.None,
+                AllowedLambdaOperators = AllowedLambdaOperators.None,
                 AllowedLogicalOperators = AllowedLogicalOperators.None,
                 AllowedQueryOptions = AllowedQueryOptions.None,
                 MaxTop = 0,
@@ -54,6 +56,11 @@ namespace Net.Http.OData.Query
         /// Gets or sets the allowed functions.
         /// </summary>
         public AllowedFunctions AllowedFunctions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the allowed lambda operators.
+        /// </summary>
+        public AllowedLambdaOperators AllowedLambdaOperators { get; set; }
 
         /// <summary>
         /// Gets or sets the allowed logical operators.
@@ -102,6 +109,7 @@ namespace Net.Http.OData.Query
 
             return other.AllowedArithmeticOperators == AllowedArithmeticOperators
                 && other.AllowedFunctions == AllowedFunctions
+                && other.AllowedLambdaOperators == AllowedLambdaOperators
                 && other.AllowedLogicalOperators == AllowedLogicalOperators
                 && other.AllowedQueryOptions == AllowedQueryOptions
                 && other.MaxTop == MaxTop;
@@ -111,6 +119,7 @@ namespace Net.Http.OData.Query
         public override int GetHashCode()
             => AllowedArithmeticOperators.GetHashCode()
             ^ AllowedFunctions.GetHashCode()
+            ^ AllowedLambdaOperators.GetHashCode()
             ^ AllowedLogicalOperators.GetHashCode()
             ^ AllowedQueryOptions.GetHashCode()
             ^ MaxTop.GetHashCode();
