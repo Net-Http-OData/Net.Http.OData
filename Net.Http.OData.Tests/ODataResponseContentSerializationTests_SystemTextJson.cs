@@ -85,7 +85,7 @@ namespace Net.Http.OData.Tests
 
             string jsonResult = JsonSerializer.Serialize(responseContent, TestHelper.JsonSerializerOptions);
 
-            Assert.Equal("{\"@odata.context\":\"http://services.odata.org/OData/$metadata#Products\",\"@odata.count\":12,\"value\":[{\"Id\":14225,\"Name\":\"Fred\"}]}", jsonResult);
+            Assert.Equal("{\"@odata.context\":\"http://services.odata.org/OData/$metadata#Products\",\"@odata.count\":12,\"value\":[{\"id\":14225,\"name\":\"Fred\"}]}", jsonResult);
         }
 
         [Fact]
@@ -105,7 +105,7 @@ namespace Net.Http.OData.Tests
 
             string jsonResult = JsonSerializer.Serialize(responseContent, TestHelper.JsonSerializerOptions);
 
-            Assert.Equal("{\"@odata.context\":\"http://services.odata.org/OData/$metadata#Products\",\"@odata.count\":12,\"@odata.nextLink\":\"http://services.odata.org/OData/Products?$skip=5\",\"value\":[{\"Id\":14225,\"Name\":\"Fred\"}]}", jsonResult);
+            Assert.Equal("{\"@odata.context\":\"http://services.odata.org/OData/$metadata#Products\",\"@odata.count\":12,\"@odata.nextLink\":\"http://services.odata.org/OData/Products?$skip=5\",\"value\":[{\"id\":14225,\"name\":\"Fred\"}]}", jsonResult);
         }
 
         [Fact]
@@ -123,7 +123,7 @@ namespace Net.Http.OData.Tests
 
             string jsonResult = JsonSerializer.Serialize(responseContent, TestHelper.JsonSerializerOptions);
 
-            Assert.Equal("{\"@odata.count\":12,\"value\":[{\"Id\":14225,\"Name\":\"Fred\"}]}", jsonResult);
+            Assert.Equal("{\"@odata.count\":12,\"value\":[{\"id\":14225,\"name\":\"Fred\"}]}", jsonResult);
         }
 
         [Fact]
