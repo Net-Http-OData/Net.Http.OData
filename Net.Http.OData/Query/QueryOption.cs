@@ -26,7 +26,16 @@ namespace Net.Http.OData.Query
         /// <param name="rawValue">The raw value.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="rawValue"/> is null.</exception>
         protected QueryOption(string rawValue)
-            => RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
+        {
+            RawValue = rawValue ?? throw new ArgumentNullException(nameof(rawValue));
+
+            if (rawValue.IndexOf('=') == rawValue.Length - 1)
+            {
+                string optionName = rawValue.SubstringBefore('=');
+
+                throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(optionName), optionName);
+            }
+        }
 
         /// <summary>
         /// Gets the raw request value.

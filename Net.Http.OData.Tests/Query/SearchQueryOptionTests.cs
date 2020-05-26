@@ -1,10 +1,23 @@
-﻿using Net.Http.OData.Query;
+﻿using System.Net;
+using Net.Http.OData.Query;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query
 {
     public class SearchQueryOptionTests
     {
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyQueryOption()
+        {
+            TestHelper.EnsureEDM();
+
+            ODataException odataException = Assert.Throws<ODataException>(() => new SearchQueryOption("$search="));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SearchQueryOption), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal(ODataUriNames.SearchQueryOption, odataException.Target);
+        }
+
         public class WhenConstructedWithASearchExpression
         {
             private readonly SearchQueryOption _option;
