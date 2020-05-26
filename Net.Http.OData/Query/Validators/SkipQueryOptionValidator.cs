@@ -32,12 +32,12 @@ namespace Net.Http.OData.Query.Validators
 
             if ((validationSettings.AllowedQueryOptions & AllowedQueryOptions.Skip) != AllowedQueryOptions.Skip)
             {
-                throw ODataException.NotImplemented("The query option $skip is not implemented by this service", "$skip");
+                throw ODataException.NotImplemented("The query option $skip is not implemented by this service", ODataUriNames.SkipQueryOption);
             }
 
             if (queryOptions.Skip.Value < 0)
             {
-                throw ODataException.BadRequest("The value for OData query $skip must be a non-negative numeric value", "$skip");
+                throw ODataException.BadRequest("The value for OData query $skip must be a non-negative numeric value", ODataUriNames.SkipQueryOption);
             }
         }
     }

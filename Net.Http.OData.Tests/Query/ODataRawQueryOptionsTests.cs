@@ -25,9 +25,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$select="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$select"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SelectQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$select", odataException.Target);
+            Assert.Equal(ODataUriNames.SelectQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -35,9 +35,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$count="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$count"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.CountQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$count", odataException.Target);
+            Assert.Equal(ODataUriNames.CountQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -45,9 +45,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$expand="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$expand"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.ExpandQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$expand", odataException.Target);
+            Assert.Equal(ODataUriNames.ExpandQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -55,9 +55,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$filter="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$filter"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.FilterQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$filter", odataException.Target);
+            Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -65,9 +65,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$format="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$format"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.FormatQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$format", odataException.Target);
+            Assert.Equal(ODataUriNames.FormatQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -75,9 +75,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$orderby="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$orderby"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.OrderByQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$orderby", odataException.Target);
+            Assert.Equal(ODataUriNames.OrderByQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -85,9 +85,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$search="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$search"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SearchQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$search", odataException.Target);
+            Assert.Equal(ODataUriNames.SearchQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -95,9 +95,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$skip="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skip"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SkipQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$skip", odataException.Target);
+            Assert.Equal(ODataUriNames.SkipQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -105,9 +105,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$skiptoken="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skiptoken"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SkipTokenQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$skiptoken", odataException.Target);
+            Assert.Equal(ODataUriNames.SkipTokenQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -115,9 +115,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new ODataRawQueryOptions("?$top="));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty("$top"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.TopQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$top", odataException.Target);
+            Assert.Equal(ODataUriNames.TopQueryOption, odataException.Target);
         }
 
         [Fact]

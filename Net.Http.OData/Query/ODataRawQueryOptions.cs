@@ -45,92 +45,92 @@ namespace Net.Http.OData.Query
                     // Decode the chunks to prevent splitting the query on an '&' which is actually part of a string value
                     string rawQueryOption = Uri.UnescapeDataString(queryOption);
 
-                    if (rawQueryOption.StartsWith("$select=", StringComparison.Ordinal))
+                    if (rawQueryOption.StartsWith(ODataUriNames.SelectQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$select=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$select"), "$select");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SelectQueryOption), ODataUriNames.SelectQueryOption);
                         }
 
                         Select = rawQueryOption;
                     }
-                    else if (rawQueryOption.StartsWith("$filter=", StringComparison.Ordinal))
+                    else if (rawQueryOption.StartsWith(ODataUriNames.FilterQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$filter=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$filter"), "$filter");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.FilterQueryOption), ODataUriNames.FilterQueryOption);
                         }
 
                         Filter = rawQueryOption;
                     }
-                    else if (rawQueryOption.StartsWith("$orderby=", StringComparison.Ordinal))
+                    else if (rawQueryOption.StartsWith(ODataUriNames.OrderByQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$orderby=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$orderby"), "$orderby");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.OrderByQueryOption), ODataUriNames.OrderByQueryOption);
                         }
 
                         OrderBy = rawQueryOption;
                     }
-                    else if (rawQueryOption.StartsWith("$skip=", StringComparison.Ordinal))
+                    else if (rawQueryOption.StartsWith(ODataUriNames.SkipQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$skip=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skip"), "$skip");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SkipQueryOption), ODataUriNames.SkipQueryOption);
                         }
 
                         Skip = rawQueryOption;
                     }
-                    else if (rawQueryOption.StartsWith("$top=", StringComparison.Ordinal))
+                    else if (rawQueryOption.StartsWith(ODataUriNames.TopQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$top=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$top"), "$top");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.TopQueryOption), ODataUriNames.TopQueryOption);
                         }
 
                         Top = rawQueryOption;
                     }
-                    else if (rawQueryOption.StartsWith("$count=", StringComparison.Ordinal))
+                    else if (rawQueryOption.StartsWith(ODataUriNames.CountQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$count=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$count"), "$count");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.CountQueryOption), ODataUriNames.CountQueryOption);
                         }
 
                         Count = rawQueryOption;
                     }
-                    else if (rawQueryOption.StartsWith("$format=", StringComparison.Ordinal))
+                    else if (rawQueryOption.StartsWith(ODataUriNames.FormatQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$format=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$format"), "$format");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.FormatQueryOption), ODataUriNames.FormatQueryOption);
                         }
 
                         Format = rawQueryOption;
                     }
-                    else if (rawQueryOption.StartsWith("$expand=", StringComparison.Ordinal))
+                    else if (rawQueryOption.StartsWith(ODataUriNames.ExpandQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$expand=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$expand"), "$expand");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.ExpandQueryOption), ODataUriNames.ExpandQueryOption);
                         }
 
                         Expand = rawQueryOption;
                     }
-                    else if (rawQueryOption.StartsWith("$search=", StringComparison.Ordinal))
+                    else if (rawQueryOption.StartsWith(ODataUriNames.SearchQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$search=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$search"), "$search");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SearchQueryOption), ODataUriNames.SearchQueryOption);
                         }
 
                         Search = rawQueryOption;
                     }
-                    else if (rawQueryOption.StartsWith("$skiptoken=", StringComparison.Ordinal))
+                    else if (rawQueryOption.StartsWith(ODataUriNames.SkipTokenQueryOption, StringComparison.Ordinal))
                     {
                         if (rawQueryOption.Equals("$skiptoken=", StringComparison.Ordinal))
                         {
-                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty("$skiptoken"), "$skiptoken");
+                            throw ODataException.BadRequest(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SkipTokenQueryOption), ODataUriNames.SkipTokenQueryOption);
                         }
 
                         SkipToken = rawQueryOption;

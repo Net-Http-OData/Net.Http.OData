@@ -77,7 +77,7 @@ namespace Net.Http.OData
 
         public static string ODataContext<TEntityKey>(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet)
 #pragma warning restore S2326 // Unused type parameters should be removed
-            => metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet).Append("/$entity").ToString() : default;
+            => metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet).Append("/").Append(ODataUriNames.Entity).ToString() : default;
 
         /// <summary>
         /// Returns a <see cref="string"/> containing the the @odata.context.
@@ -168,7 +168,7 @@ namespace Net.Http.OData
         }
 
         private static StringBuilder ODataContextUriBuilder(string scheme, string host, string path)
-            => ODataServiceUriBuilder(scheme, host, path).Append("$metadata");
+            => ODataServiceUriBuilder(scheme, host, path).Append(ODataUriNames.Metadata);
 
         private static StringBuilder ODataContextUriBuilder(string scheme, string host, string path, EntitySet entitySet)
         {

@@ -36,7 +36,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("The query option $format is not implemented by this service", odataException.Message);
-                Assert.Equal("$format", odataException.Target);
+                Assert.Equal(ODataUriNames.FormatQueryOption, odataException.Target);
             }
         }
 

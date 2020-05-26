@@ -41,7 +41,7 @@ namespace Net.Http.OData.Query
                 default:
                     string value = format.SubstringAfter('=');
 
-                    throw ODataException.NotAcceptable(ExceptionMessage.QueryOptionValueNotSupported("$format", value, "'json, application/json'"), "$format");
+                    throw ODataException.NotAcceptable(ExceptionMessage.QueryOptionValueNotSupported(ODataUriNames.FormatQueryOption, value, "'json, application/json'"), ODataUriNames.FormatQueryOption);
             }
         }
 

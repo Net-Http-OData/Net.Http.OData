@@ -87,9 +87,9 @@ namespace Net.Http.OData.Tests.Query
 
             ODataException odataException = Assert.Throws<ODataException>(() => queryOptions.Skip);
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueMustBePositiveInteger("$skip"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueMustBePositiveInteger(ODataUriNames.SkipQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$skip", odataException.Target);
+            Assert.Equal(ODataUriNames.SkipQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -104,9 +104,9 @@ namespace Net.Http.OData.Tests.Query
 
             ODataException odataException = Assert.Throws<ODataException>(() => queryOptions.Top);
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueMustBePositiveInteger("$top"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueMustBePositiveInteger(ODataUriNames.TopQueryOption), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$top", odataException.Target);
+            Assert.Equal(ODataUriNames.TopQueryOption, odataException.Target);
         }
 
         [Fact]

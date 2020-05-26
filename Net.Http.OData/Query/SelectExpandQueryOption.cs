@@ -44,11 +44,11 @@ namespace Net.Http.OData.Query
             {
                 if (propertyPathName == "*")
                 {
-                    if (rawValue.StartsWith("$select", StringComparison.Ordinal))
+                    if (rawValue.StartsWith(ODataUriNames.SelectQueryOption, StringComparison.Ordinal))
                     {
                         propertyPaths.AddRange(model.Properties.Where(p => !p.IsNavigable).Select(PropertyPath.For));
                     }
-                    else if (rawValue.StartsWith("$expand", StringComparison.Ordinal))
+                    else if (rawValue.StartsWith(ODataUriNames.ExpandQueryOption, StringComparison.Ordinal))
                     {
                         propertyPaths.AddRange(model.Properties.Where(p => p.IsNavigable).Select(PropertyPath.For));
                     }

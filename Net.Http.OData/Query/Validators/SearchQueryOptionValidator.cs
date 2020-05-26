@@ -32,7 +32,7 @@ namespace Net.Http.OData.Query.Validators
 
             if ((validationSettings.AllowedQueryOptions & AllowedQueryOptions.Search) != AllowedQueryOptions.Search)
             {
-                throw ODataException.NotImplemented("The query option $search is not implemented by this service", "$search");
+                throw ODataException.NotImplemented("The query option $search is not implemented by this service", ODataUriNames.SearchQueryOption);
             }
         }
     }

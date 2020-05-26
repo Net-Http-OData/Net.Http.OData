@@ -24,7 +24,7 @@ namespace Net.Http.OData.Query.Parsers
                     return UnaryOperatorKind.Not;
 
                 default:
-                    throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType), "$filter");
+                    throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType), ODataUriNames.FilterQueryOption);
             }
         }
     }

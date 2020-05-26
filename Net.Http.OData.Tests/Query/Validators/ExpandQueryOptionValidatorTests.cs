@@ -36,7 +36,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("The query option $expand is not implemented by this service", odataException.Message);
-                Assert.Equal("$expand", odataException.Target);
+                Assert.Equal(ODataUriNames.ExpandQueryOption, odataException.Target);
             }
         }
 

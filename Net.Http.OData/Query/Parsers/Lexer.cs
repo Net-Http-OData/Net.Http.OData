@@ -98,7 +98,7 @@ namespace Net.Http.OData.Query.Parsers
 
             if (_content.Length != _position)
             {
-                throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter, "$filter");
+                throw ODataException.BadRequest(ExceptionMessage.GenericUnableToParseFilter, ODataUriNames.FilterQueryOption);
             }
 
             return false;
