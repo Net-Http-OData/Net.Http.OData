@@ -8,6 +8,7 @@ namespace Net.Http.OData.Tests
     {
         internal static System.Text.Json.JsonSerializerOptions JsonSerializerOptions => new System.Text.Json.JsonSerializerOptions
         {
+            DictionaryKeyPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
             IgnoreNullValues = true,
             PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
         };
