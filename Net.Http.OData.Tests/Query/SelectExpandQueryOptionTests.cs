@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Net.Http.OData.Query.Expressions;
@@ -11,6 +12,30 @@ namespace Net.Http.OData.Tests.Query
         [Fact]
         public void Constructor_Throws_ArgumentNullException_For_NullModel()
             => Assert.Throws<ArgumentNullException>(() => new SelectExpandQueryOption("$select=*", null));
+
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyExpandQueryOption()
+        {
+            TestHelper.EnsureEDM();
+
+            ODataException odataException = Assert.Throws<ODataException>(() => new FilterQueryOption("$expand=", EntityDataModel.Current.EntitySets["Customers"].EdmType));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.ExpandQueryOption), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal(ODataUriNames.ExpandQueryOption, odataException.Target);
+        }
+
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptySelectQueryOption()
+        {
+            TestHelper.EnsureEDM();
+
+            ODataException odataException = Assert.Throws<ODataException>(() => new FilterQueryOption("$select=", EntityDataModel.Current.EntitySets["Customers"].EdmType));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.SelectQueryOption), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal(ODataUriNames.SelectQueryOption, odataException.Target);
+        }
 
         public class WhenConstructedWithExpandSingleValue
         {

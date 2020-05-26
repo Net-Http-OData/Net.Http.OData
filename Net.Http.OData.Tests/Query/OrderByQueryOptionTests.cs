@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
 using Xunit;
@@ -10,6 +11,18 @@ namespace Net.Http.OData.Tests.Query
         [Fact]
         public void Constructor_Throws_ArgumentNullException_For_NullModel()
             => Assert.Throws<ArgumentNullException>(() => new OrderByQueryOption("$orderby=Name", null));
+
+        [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyQueryOption()
+        {
+            TestHelper.EnsureEDM();
+
+            ODataException odataException = Assert.Throws<ODataException>(() => new OrderByQueryOption("$orderby=", EntityDataModel.Current.EntitySets["Products"].EdmType));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.OrderByQueryOption), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal(ODataUriNames.OrderByQueryOption, odataException.Target);
+        }
 
         public class WhenConstructedWithASingleValue
         {

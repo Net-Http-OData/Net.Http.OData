@@ -7,6 +7,18 @@ namespace Net.Http.OData.Tests.Query
     public class FormatQueryOptionTests
     {
         [Fact]
+        public void Constructor_Throws_ODataException_For_EmptyQueryOption()
+        {
+            TestHelper.EnsureEDM();
+
+            ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format="));
+
+            Assert.Equal(ExceptionMessage.QueryOptionValueCannotBeEmpty(ODataUriNames.FormatQueryOption), odataException.Message);
+            Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+            Assert.Equal(ODataUriNames.FormatQueryOption, odataException.Target);
+        }
+
+        [Fact]
         public void Constructor_Throws_ODataException_For_FormatAtom()
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=atom"));
