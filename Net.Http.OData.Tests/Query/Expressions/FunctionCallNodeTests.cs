@@ -39,7 +39,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
             }
 
             [Fact]
-            public void TheKindIsQueryNodeKindSingleValueFunctionCall()
+            public void TheKindIsQueryNodeKindFunctionCall()
             {
                 Assert.Equal(QueryNodeKind.FunctionCall, _node.Kind);
             }

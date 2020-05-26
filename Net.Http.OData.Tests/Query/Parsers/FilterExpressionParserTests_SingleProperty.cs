@@ -9,9 +9,9 @@ namespace Net.Http.OData.Tests.Query.Parsers
 {
     public partial class FilterExpressionParserTests
     {
-        public class SingleValuePropertyValueTests
+        public class PropertyValueTests
         {
-            public SingleValuePropertyValueTests()
+            public PropertyValueTests()
                 => TestHelper.EnsureEDM();
 
             [Fact]
