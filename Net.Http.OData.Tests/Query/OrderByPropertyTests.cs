@@ -37,7 +37,7 @@ namespace Net.Http.OData.Tests.Query
 
                 Assert.Equal(ExceptionMessage.InvalidOrderByDirection("ASC", "CompanyName"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$orderby", odataException.Target);
+                Assert.Equal(ODataUriNames.OrderByQueryOption, odataException.Target);
             }
         }
 
@@ -54,7 +54,7 @@ namespace Net.Http.OData.Tests.Query
 
                 Assert.Equal(ExceptionMessage.InvalidOrderByDirection("wibble", "CompanyName"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$orderby", odataException.Target);
+                Assert.Equal(ODataUriNames.OrderByQueryOption, odataException.Target);
             }
         }
 

@@ -32,7 +32,7 @@ namespace Net.Http.OData.Query.Validators
 
             if ((validationSettings.AllowedQueryOptions & AllowedQueryOptions.SkipToken) != AllowedQueryOptions.SkipToken)
             {
-                throw ODataException.NotImplemented("The query option $skiptoken is not implemented by this service", "$skiptoken");
+                throw ODataException.NotImplemented("The query option $skiptoken is not implemented by this service", ODataUriNames.SkipTokenQueryOption);
             }
         }
     }

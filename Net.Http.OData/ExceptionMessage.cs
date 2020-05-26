@@ -10,6 +10,7 @@
 //
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -80,6 +81,11 @@ namespace Net.Http.OData
 
         internal static string QueryOptionValueMustBePositiveInteger(string queryOption)
             => $"The value specified for OData query option {queryOption} must be a non-negative numeric value.";
+
+        internal static string QueryOptionValueNotSupported(object formatQueryOption, string value, string v)
+        {
+            throw new NotImplementedException();
+        }
 
         internal static string QueryOptionValueNotSupported(string queryOption, string value, string supportedValue)
             => $"The value '{value}' specified for OData query option {queryOption} is not supported by this service, acceptable values are {supportedValue}.";

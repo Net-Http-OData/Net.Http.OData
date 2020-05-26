@@ -41,7 +41,7 @@ namespace Net.Http.OData.Tests
         [Fact]
         public void JsonSerializationWith_Code_Message_Target_Details()
         {
-            var odataErrorContent = ODataErrorContent.Create(501, "Unsupported functionality", "query", new[] { new ODataErrorDetail { Code = "301", Message = "$search query option not supported", Target = "$search" } });
+            var odataErrorContent = ODataErrorContent.Create(501, "Unsupported functionality", "query", new[] { new ODataErrorDetail { Code = "301", Message = "$search query option not supported", Target = ODataUriNames.SearchQueryOption } });
 
             string jsonResult = JsonSerializer.Serialize(odataErrorContent, TestHelper.JsonSerializerOptions);
 

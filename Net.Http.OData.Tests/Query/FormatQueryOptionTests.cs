@@ -11,9 +11,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=atom"));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "atom", "'json, application/json'"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported(ODataUriNames.FormatQueryOption, "atom", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
-            Assert.Equal("$format", odataException.Target);
+            Assert.Equal(ODataUriNames.FormatQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -21,9 +21,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=text/vcard"));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "text/vcard", "'json, application/json'"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported(ODataUriNames.FormatQueryOption, "text/vcard", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
-            Assert.Equal("$format", odataException.Target);
+            Assert.Equal(ODataUriNames.FormatQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -31,9 +31,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=xml"));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json, application/json'"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported(ODataUriNames.FormatQueryOption, "xml", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
-            Assert.Equal("$format", odataException.Target);
+            Assert.Equal(ODataUriNames.FormatQueryOption, odataException.Target);
         }
 
         [Fact]
@@ -41,9 +41,9 @@ namespace Net.Http.OData.Tests.Query
         {
             ODataException odataException = Assert.Throws<ODataException>(() => new FormatQueryOption("$format=xml;odata.metadata=none"));
 
-            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported("$format", "xml", "'json, application/json'"), odataException.Message);
+            Assert.Equal(ExceptionMessage.QueryOptionValueNotSupported(ODataUriNames.FormatQueryOption, "xml", "'json, application/json'"), odataException.Message);
             Assert.Equal(HttpStatusCode.NotAcceptable, odataException.StatusCode);
-            Assert.Equal("$format", odataException.Target);
+            Assert.Equal(ODataUriNames.FormatQueryOption, odataException.Target);
         }
 
         public class WhenConstructedWithRawValueApplicationJson

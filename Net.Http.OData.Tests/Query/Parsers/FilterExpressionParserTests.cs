@@ -24,7 +24,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("the binary operator Equal has no right node"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -35,7 +35,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an extra opening or missing closing parenthesis may be present"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -46,7 +46,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("the closing parenthesis not expected at position 23"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -57,7 +57,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("unexpected not at position 14"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -68,7 +68,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("the function ceiling has no parameters specified at position 8"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -79,7 +79,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an extra opening or missing closing parenthesis may be present"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -90,7 +90,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("the function cast has a missing parameter or extra comma at position 12"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -101,7 +101,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.GenericUnableToParseFilter, odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -112,7 +112,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("unexpected true at position 1"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -123,7 +123,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -134,7 +134,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -145,7 +145,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("the binary operator Equal has no right node"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -156,7 +156,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -167,7 +167,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -178,7 +178,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("unexpected not at position 8"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
 
             [Fact]
@@ -189,7 +189,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
     }

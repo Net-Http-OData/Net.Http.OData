@@ -14,7 +14,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
             Assert.Equal(ExceptionMessage.InvalidOperator("wibble"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-            Assert.Equal("$filter", odataException.Target);
+            Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
         }
 
         [Fact]

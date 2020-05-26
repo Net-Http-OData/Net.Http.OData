@@ -38,7 +38,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator add", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -98,7 +98,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator and", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -157,7 +157,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function cast", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -217,7 +217,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function ceiling", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -277,7 +277,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function concat", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -337,7 +337,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function contains", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -397,7 +397,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function date", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -457,7 +457,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function day", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -518,7 +518,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator div", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -578,7 +578,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function endswith", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -638,7 +638,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator eq", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -697,7 +697,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function floor", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -757,7 +757,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function fractionalseconds", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -817,7 +817,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator gt", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -876,7 +876,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator ge", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -935,7 +935,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator has", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -994,7 +994,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function hour", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1054,7 +1054,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function indexof", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1114,7 +1114,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function isof", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1174,7 +1174,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function length", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1234,7 +1234,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator lt", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1293,7 +1293,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator le", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1352,7 +1352,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function maxdatetime", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1412,7 +1412,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function mindatetime", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1472,7 +1472,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function minute", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1533,7 +1533,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator mod", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1593,7 +1593,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function month", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1654,7 +1654,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator mul", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1714,7 +1714,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator ne", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1774,7 +1774,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator not", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1835,7 +1835,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function now", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1895,7 +1895,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator or", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -1954,7 +1954,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function round", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2014,7 +2014,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function second", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2074,7 +2074,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function startswith", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2134,7 +2134,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function substring", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2195,7 +2195,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported operator sub", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2255,7 +2255,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function time", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2315,7 +2315,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function tolower", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2375,7 +2375,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function totaloffsetminutes", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2435,7 +2435,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function totalseconds", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2495,7 +2495,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function toupper", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2555,7 +2555,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function trim", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2615,7 +2615,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("Unsupported function year", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
@@ -2674,7 +2674,7 @@ namespace Net.Http.OData.Tests.Query.Validators
 
                 Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
                 Assert.Equal("The query option $filter is not implemented by this service", odataException.Message);
-                Assert.Equal("$filter", odataException.Target);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
         }
 
