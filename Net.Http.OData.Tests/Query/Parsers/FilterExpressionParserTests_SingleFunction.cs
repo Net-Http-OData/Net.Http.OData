@@ -8,9 +8,9 @@ namespace Net.Http.OData.Tests.Query.Parsers
 {
     public partial class FilterExpressionParserTests
     {
-        public class SingleValueFunctionCallTests
+        public class FunctionCallTests
         {
-            public SingleValueFunctionCallTests()
+            public FunctionCallTests()
                 => TestHelper.EnsureEDM();
 
             [Fact]
