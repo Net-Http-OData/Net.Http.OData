@@ -46,5 +46,10 @@ namespace Net.Http.OData.Query.Expressions
         /// The query node is a unary operator query node.
         /// </summary>
         UnaryOperator = 5,
+
+        /// <summary>
+        /// The query node is a lambda query node.
+        /// </summary>
+        LambdaOperator = 6,
     }
 }
