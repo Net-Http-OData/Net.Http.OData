@@ -74,7 +74,7 @@ namespace Net.Http.OData.Query.Parsers
 
                 if (node is BinaryOperatorNode binaryNode && binaryNode.Right is null)
                 {
-                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the binary operator {binaryNode.OperatorKind.ToString()} has no right node"), ODataUriNames.FilterQueryOption);
+                    throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"the binary operator {binaryNode.OperatorKind} has no right node"), ODataUriNames.FilterQueryOption);
                 }
 
                 return node;
