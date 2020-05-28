@@ -44,7 +44,7 @@ namespace Net.Http.OData.Query.Parsers
             new TokenDefinition(TokenType.Null,                 @"null" + LookAheadExpected),
             new TokenDefinition(TokenType.UnaryOperator,        @"not" + LookAheadWhitespace),
             new TokenDefinition(TokenType.Double,               @"((\+|-)?(\d+(\.\d+)?(d|D)|\d+\.\d+(e|E)\d+)|NaN|INF|-INF)" + LookAheadExpected),
-            new TokenDefinition(TokenType.PropertyName,         @"[a-zA-Z_]+((\w+\/?)+" + LookAheadExpected + @"|(?=/(all|any)\())"),
+            new TokenDefinition(TokenType.PropertyName,         $@"[a-zA-Z_]+((\w+\/?)+{LookAheadExpected}|(?=/(all|any)\())"),
             new TokenDefinition(TokenType.LambdaOperator,       @"(all|any)+(?=\()"), // Lambda is expected to be followed by a opening '('.
             new TokenDefinition(TokenType.LambdaAlias,          @"[a-z]+:[a-z]+(?=\/)"),
             new TokenDefinition(TokenType.FunctionName,         @"[a-z]+(?=\()"), // Function name is expected to be followed by a opening '('.
