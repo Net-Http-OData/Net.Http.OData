@@ -25,7 +25,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("cast", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Cast, nodeLeft.Name);
                 Assert.Equal(2, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -53,7 +53,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 var node = (FunctionCallNode)queryNode;
 
-                Assert.Equal("cast", node.Name);
+                Assert.Equal(ODataFunctionNames.Cast, node.Name);
                 Assert.Equal(1, node.Parameters.Count);
                 Assert.IsType<ConstantNode>(node.Parameters[0]);
                 var constantNode = (ConstantNode)node.Parameters[0];
@@ -73,7 +73,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("ceiling", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Ceiling, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -99,11 +99,11 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("concat", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Concat, nodeLeft.Name);
                 Assert.Equal(2, nodeLeft.Parameters.Count);
                 Assert.IsType<FunctionCallNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (FunctionCallNode)nodeLeft.Parameters[0];
-                Assert.Equal("concat", nodeLeftParam0.Name);
+                Assert.Equal(ODataFunctionNames.Concat, nodeLeftParam0.Name);
                 Assert.Equal(2, nodeLeftParam0.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeftParam0.Parameters[0]);
                 var nodeLeftParam0Param0 = (PropertyAccessNode)nodeLeftParam0.Parameters[0];
@@ -135,7 +135,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("contains", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Contains, nodeLeft.Name);
                 Assert.Equal(2, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -163,7 +163,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 var node = (FunctionCallNode)queryNode;
 
-                Assert.Equal("contains", node.Name);
+                Assert.Equal(ODataFunctionNames.Contains, node.Name);
                 Assert.Equal(2, node.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(node.Parameters[0]);
                 var nodeParam0 = (PropertyAccessNode)node.Parameters[0];
@@ -186,7 +186,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("date", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Date, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -212,7 +212,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("day", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Day, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -238,7 +238,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("endswith", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Endswith, nodeLeft.Name);
                 Assert.Equal(2, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -264,7 +264,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 var node = (FunctionCallNode)queryNode;
 
-                Assert.Equal("endswith", node.Name);
+                Assert.Equal(ODataFunctionNames.Endswith, node.Name);
                 Assert.Equal(2, node.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(node.Parameters[0]);
                 var nodeParam0 = (PropertyAccessNode)node.Parameters[0];
@@ -287,7 +287,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("floor", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Floor, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -313,7 +313,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("fractionalseconds", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.FractionalSeconds, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -339,7 +339,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("hour", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Hour, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -365,7 +365,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("indexof", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.IndexOf, nodeLeft.Name);
                 Assert.Equal(2, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -393,7 +393,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 var node = (FunctionCallNode)queryNode;
 
-                Assert.Equal("isof", node.Name);
+                Assert.Equal(ODataFunctionNames.IsOf, node.Name);
                 Assert.Equal(2, node.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(node.Parameters[0]);
                 var nodeParam0 = (PropertyAccessNode)node.Parameters[0];
@@ -414,7 +414,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 var node = (FunctionCallNode)queryNode;
 
-                Assert.Equal("isof", node.Name);
+                Assert.Equal(ODataFunctionNames.IsOf, node.Name);
                 Assert.Equal(1, node.Parameters.Count);
                 Assert.IsType<ConstantNode>(node.Parameters[0]);
                 var nodeParam0 = (ConstantNode)node.Parameters[0];
@@ -434,7 +434,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("length", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Length, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -465,7 +465,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
 
                 Assert.IsType<FunctionCallNode>(node.Right);
-                Assert.Equal("maxdatetime", ((FunctionCallNode)node.Right).Name);
+                Assert.Equal(ODataFunctionNames.MaxDateTime, ((FunctionCallNode)node.Right).Name);
                 Assert.Equal(0, ((FunctionCallNode)node.Right).Parameters.Count);
             }
 
@@ -486,7 +486,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal(BinaryOperatorKind.Equal, node.OperatorKind);
 
                 Assert.IsType<FunctionCallNode>(node.Right);
-                Assert.Equal("mindatetime", ((FunctionCallNode)node.Right).Name);
+                Assert.Equal(ODataFunctionNames.MinDateTime, ((FunctionCallNode)node.Right).Name);
                 Assert.Equal(0, ((FunctionCallNode)node.Right).Parameters.Count);
             }
 
@@ -502,7 +502,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("minute", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Minute, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -528,7 +528,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("month", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Month, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -554,7 +554,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Operand);
                 var nodeOperand = (FunctionCallNode)node.Operand;
-                Assert.Equal("endswith", nodeOperand.Name);
+                Assert.Equal(ODataFunctionNames.Endswith, nodeOperand.Name);
                 Assert.Equal(2, nodeOperand.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeOperand.Parameters[0]);
                 var nodeOperandParam0 = (PropertyAccessNode)nodeOperand.Parameters[0];
@@ -584,7 +584,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal(BinaryOperatorKind.GreaterThanOrEqual, node.OperatorKind);
 
                 Assert.IsType<FunctionCallNode>(node.Right);
-                Assert.Equal("now", ((FunctionCallNode)node.Right).Name);
+                Assert.Equal(ODataFunctionNames.Now, ((FunctionCallNode)node.Right).Name);
                 Assert.Equal(0, ((FunctionCallNode)node.Right).Parameters.Count);
             }
 
@@ -600,7 +600,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("round", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Round, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -626,7 +626,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("second", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Second, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -652,7 +652,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("startswith", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Startswith, nodeLeft.Name);
                 Assert.Equal(2, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -678,7 +678,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 var node = (FunctionCallNode)queryNode;
 
-                Assert.Equal("startswith", node.Name);
+                Assert.Equal(ODataFunctionNames.Startswith, node.Name);
                 Assert.Equal(2, node.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(node.Parameters[0]);
                 var nodeParam0 = (PropertyAccessNode)node.Parameters[0];
@@ -701,7 +701,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("substring", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Substring, nodeLeft.Name);
                 Assert.Equal(2, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -731,12 +731,12 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.IsType<FunctionCallNode>(queryNode);
 
                 var node = (FunctionCallNode)queryNode;
-                Assert.Equal("substring", node.Name);
+                Assert.Equal(ODataFunctionNames.Substring, node.Name);
                 Assert.Equal(2, node.Parameters.Count);
                 Assert.IsType<FunctionCallNode>(node.Parameters[0]);
 
                 var nodeParam0 = (FunctionCallNode)node.Parameters[0];
-                Assert.Equal("tolower", nodeParam0.Name);
+                Assert.Equal(ODataFunctionNames.ToLower, nodeParam0.Name);
                 Assert.Equal(1, nodeParam0.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeParam0.Parameters[0]);
                 var nodeParam0Param0 = (PropertyAccessNode)nodeParam0.Parameters[0];
@@ -760,7 +760,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("substring", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Substring, nodeLeft.Name);
                 Assert.Equal(3, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -820,7 +820,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("tolower", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.ToLower, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -846,7 +846,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("tolower", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.ToLower, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -873,7 +873,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("totaloffsetminutes", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.TotalOffsetMinutes, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -925,7 +925,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("toupper", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.ToUpper, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -951,7 +951,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("trim", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Trim, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];
@@ -975,7 +975,7 @@ namespace Net.Http.OData.Tests.Query.Parsers
 
                 Assert.IsType<FunctionCallNode>(node.Left);
                 var nodeLeft = (FunctionCallNode)node.Left;
-                Assert.Equal("year", nodeLeft.Name);
+                Assert.Equal(ODataFunctionNames.Year, nodeLeft.Name);
                 Assert.Equal(1, nodeLeft.Parameters.Count);
                 Assert.IsType<PropertyAccessNode>(nodeLeft.Parameters[0]);
                 var nodeLeftParam0 = (PropertyAccessNode)nodeLeft.Parameters[0];

@@ -43,39 +43,39 @@ namespace Net.Http.OData.Tests
             Assert.Equal(27, _odataServiceOptions.SupportedFilterFunctions.Count);
 
             // String functions
-            Assert.Contains("concat", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("contains", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("endswith", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("indexof", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("length", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("startswith", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("substring", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("tolower", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("toupper", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("trim", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Concat, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Contains, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Endswith, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.IndexOf, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Length, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Startswith, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Substring, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.ToLower, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.ToUpper, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Trim, _odataServiceOptions.SupportedFilterFunctions);
 
             // Date functions
-            Assert.Contains("date", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("day", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("fractionalseconds", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("hour", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("maxdatetime", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("mindatetime", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("minute", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("month", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("now", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("second", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("totaloffsetminutes", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("year", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Date, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Day, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.FractionalSeconds, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Hour, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.MaxDateTime, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.MinDateTime, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Minute, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Month, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Now, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Second, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.TotalOffsetMinutes, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Year, _odataServiceOptions.SupportedFilterFunctions);
 
             // Math functions
-            Assert.Contains("ceiling", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("floor", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("round", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Ceiling, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Floor, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Round, _odataServiceOptions.SupportedFilterFunctions);
 
             // Type functions
-            Assert.Contains("cast", _odataServiceOptions.SupportedFilterFunctions);
-            Assert.Contains("isof", _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.Cast, _odataServiceOptions.SupportedFilterFunctions);
+            Assert.Contains(ODataFunctionNames.IsOf, _odataServiceOptions.SupportedFilterFunctions);
         }
 
         [Fact]
