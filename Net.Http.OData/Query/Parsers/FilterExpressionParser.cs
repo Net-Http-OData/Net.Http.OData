@@ -264,7 +264,7 @@ namespace Net.Http.OData.Query.Parsers
                             break;
 
                         case TokenType.PropertyName:
-                            leftNode = new PropertyAccessNode(PropertyPath.For(token.Value, model));
+                            leftNode = new PropertyAccessNode(PropertyPath.For(model, token.Value));
                             break;
 
                         default:
