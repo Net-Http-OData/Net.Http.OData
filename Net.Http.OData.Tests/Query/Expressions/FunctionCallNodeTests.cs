@@ -17,7 +17,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
             public WhenAddingAParameter()
             {
-                _node = new FunctionCallNode("contains");
+                _node = new FunctionCallNode(ODataFunctionNames.Contains);
                 _node.AddParameter(_parameter);
             }
 
@@ -30,7 +30,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
 
         public class WhenConstructed
         {
-            private readonly string _functionName = "contains";
+            private readonly string _functionName = ODataFunctionNames.Contains;
             private readonly FunctionCallNode _node;
 
             public WhenConstructed()

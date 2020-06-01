@@ -41,39 +41,39 @@ namespace Net.Http.OData
             SupportedFilterFunctions = new[]
             {
                 // String functions
-                "concat",
-                "contains",
-                "endswith",
-                "indexof",
-                "length",
-                "startswith",
-                "substring",
-                "tolower",
-                "toupper",
-                "trim",
+                ODataFunctionNames.Concat,
+                ODataFunctionNames.Contains,
+                ODataFunctionNames.Endswith,
+                ODataFunctionNames.IndexOf,
+                ODataFunctionNames.Length,
+                ODataFunctionNames.Startswith,
+                ODataFunctionNames.Substring,
+                ODataFunctionNames.ToLower,
+                ODataFunctionNames.ToUpper,
+                ODataFunctionNames.Trim,
 
                 // Date functions
-                "date",
-                "day",
-                "fractionalseconds",
-                "hour",
-                "maxdatetime",
-                "mindatetime",
-                "minute",
-                "month",
-                "now",
-                "second",
-                "totaloffsetminutes",
-                "year",
+                ODataFunctionNames.Date,
+                ODataFunctionNames.Day,
+                ODataFunctionNames.FractionalSeconds,
+                ODataFunctionNames.Hour,
+                ODataFunctionNames.MaxDateTime,
+                ODataFunctionNames.MinDateTime,
+                ODataFunctionNames.Minute,
+                ODataFunctionNames.Month,
+                ODataFunctionNames.Now,
+                ODataFunctionNames.Second,
+                ODataFunctionNames.TotalOffsetMinutes,
+                ODataFunctionNames.Year,
 
                 // Math functions
-                "ceiling",
-                "floor",
-                "round",
+                ODataFunctionNames.Ceiling,
+                ODataFunctionNames.Floor,
+                ODataFunctionNames.Round,
 
                 // Type functions
-                "cast",
-                "isof",
+                ODataFunctionNames.Cast,
+                ODataFunctionNames.IsOf,
             };
 
             SupportedIsolationLevels = supportedIsolationLevels ?? throw new ArgumentNullException(nameof(supportedIsolationLevels));
