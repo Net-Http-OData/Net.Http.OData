@@ -15,66 +15,19 @@ namespace Net.Http.OData
     /// <summary>
     /// The names for OData URI segments.
     /// </summary>
-    public static class ODataUriNames
+    internal static class ODataUriNames
     {
-        /// <summary>
-        /// The string representing the $count query option.
-        /// </summary>
-        public const string CountQueryOption = "$count";
-
-        /// <summary>
-        /// The string representing the $entity segment in the URI.
-        /// </summary>
-        public const string Entity = "$entity";
-
-        /// <summary>
-        /// The string representing the $expand query option.
-        /// </summary>
-        public const string ExpandQueryOption = "$expand";
-
-        /// <summary>
-        /// The string representing the $filter query option.
-        /// </summary>
-        public const string FilterQueryOption = "$filter";
-
-        /// <summary>
-        /// The string representing the $format query option.
-        /// </summary>
-        public const string FormatQueryOption = "$format";
-
-        /// <summary>
-        /// The string representing the $metadata segment in the URI.
-        /// </summary>
-        public const string Metadata = "$metadata";
-
-        /// <summary>
-        /// The string representing the $orderby query option.
-        /// </summary>
-        public const string OrderByQueryOption = "$orderby";
-
-        /// <summary>
-        /// The string representing the $search query option.
-        /// </summary>
-        public const string SearchQueryOption = "$search";
-
-        /// <summary>
-        /// The string representing the $select query option.
-        /// </summary>
-        public const string SelectQueryOption = "$select";
-
-        /// <summary>
-        /// The string representing the $skip query option.
-        /// </summary>
-        public const string SkipQueryOption = "$skip";
-
-        /// <summary>
-        /// The string representing the $skiptoken query option.
-        /// </summary>
-        public const string SkipTokenQueryOption = "$skiptoken";
-
-        /// <summary>
-        /// The string representing the $top query option.
-        /// </summary>
-        public const string TopQueryOption = "$top";
+        internal const string CountQueryOption = "$count";
+        internal const string Entity = "$entity";
+        internal const string ExpandQueryOption = "$expand";
+        internal const string FilterQueryOption = "$filter";
+        internal const string FormatQueryOption = "$format";
+        internal const string Metadata = "$metadata";
+        internal const string OrderByQueryOption = "$orderby";
+        internal const string SearchQueryOption = "$search";
+        internal const string SelectQueryOption = "$select";
+        internal const string SkipQueryOption = "$skip";
+        internal const string SkipTokenQueryOption = "$skiptoken";
+        internal const string TopQueryOption = "$top";
     }
 }
