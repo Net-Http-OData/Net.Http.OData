@@ -41,6 +41,7 @@ namespace Net.Http.OData.Query.Validators
             ValidateStringFunctions(queryOptions, validationSettings);
             ValidateDateTimeFunctions(queryOptions, validationSettings);
             ValidateMathFunctions(queryOptions, validationSettings);
+            ValidateLambdaOperators(queryOptions, validationSettings);
             ValidateLogicalOperators(queryOptions, validationSettings);
             ValidateArithmeticOperators(queryOptions, validationSettings);
         }
@@ -177,6 +178,28 @@ namespace Net.Http.OData.Query.Validators
                 && rawFilterValue.Contains("year("))
             {
                 throw ODataException.NotImplemented("Unsupported function year", ODataUriNames.FilterQueryOption);
+            }
+        }
+
+        private static void ValidateLambdaOperators(ODataQueryOptions queryOptions, ODataValidationSettings validationSettings)
+        {
+            if (validationSettings.AllowedLambdaOperators == AllowedLambdaOperators.AllOperators)
+            {
+                return;
+            }
+
+            string rawFilterValue = queryOptions.RawValues.Filter;
+
+            if ((validationSettings.AllowedLambdaOperators & AllowedLambdaOperators.All) != AllowedLambdaOperators.All
+                && rawFilterValue.Contains("/all("))
+            {
+                throw ODataException.NotImplemented("Unsupported operator all", ODataUriNames.FilterQueryOption);
+            }
+
+            if ((validationSettings.AllowedLambdaOperators & AllowedLambdaOperators.Any) != AllowedLambdaOperators.Any
+                && rawFilterValue.Contains("/any("))
+            {
+                throw ODataException.NotImplemented("Unsupported operator any", ODataUriNames.FilterQueryOption);
             }
         }
 

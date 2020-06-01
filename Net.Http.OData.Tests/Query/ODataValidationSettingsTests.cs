@@ -45,6 +45,9 @@ namespace Net.Http.OData.Tests.Query
             public void SetsAllowedFunctionsTAllFunctions() => Assert.Equal(AllowedFunctions.AllFunctions, _all.AllowedFunctions);
 
             [Fact]
+            public void SetsAllowedLambdaOperatorsToAllOperators() => Assert.Equal(AllowedLambdaOperators.AllOperators, _all.AllowedLambdaOperators);
+
+            [Fact]
             public void SetsAllowedLogicalOperatorsToAll() => Assert.Equal(AllowedLogicalOperators.All, _all.AllowedLogicalOperators);
 
             [Fact]
@@ -63,6 +66,9 @@ namespace Net.Http.OData.Tests.Query
 
             [Fact]
             public void SetsAllowedFunctionsToNone() => Assert.Equal(AllowedFunctions.None, _none.AllowedFunctions);
+
+            [Fact]
+            public void SetsAllowedLambdaOperatorsToNone() => Assert.Equal(AllowedLambdaOperators.None, _none.AllowedLambdaOperators);
 
             [Fact]
             public void SetsAllowedLogicalOperatorsToNone() => Assert.Equal(AllowedLogicalOperators.None, _none.AllowedLogicalOperators);

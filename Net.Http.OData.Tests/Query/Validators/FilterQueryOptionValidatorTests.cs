@@ -70,6 +70,67 @@ namespace Net.Http.OData.Tests.Query.Validators
             }
         }
 
+        public class WhenTheFilterQueryOptionContainsTheAllOperatorAllItIsNotSpecifiedInAllowedLambdaOperators
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedLambdaOperators = AllowedLambdaOperators.None,
+                AllowedLogicalOperators = AllowedLogicalOperators.GreaterThan,
+                AllowedQueryOptions = AllowedQueryOptions.Filter
+            };
+
+            public WhenTheFilterQueryOptionContainsTheAllOperatorAllItIsNotSpecifiedInAllowedLambdaOperators()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=OrderDetails/all(d:d/Quantity gt 100)",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
+
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator all", odataException.Message);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheAllOperatorAllItIsSpecifiedInAllowedLambdaOperators
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedLambdaOperators = AllowedLambdaOperators.AllOperators,
+                AllowedLogicalOperators = AllowedLogicalOperators.GreaterThan,
+                AllowedQueryOptions = AllowedQueryOptions.Filter
+            };
+
+            public WhenTheFilterQueryOptionContainsTheAllOperatorAllItIsSpecifiedInAllowedLambdaOperators()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=OrderDetails/all(d:d/Quantity gt 100)",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void AnExceptionShouldNotBeThrown()
+            {
+                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
+            }
+        }
+
         public class WhenTheFilterQueryOptionContainsTheAndOperatorAndItIsNotSpecifiedInAllowedLogicalOperators
         {
             private readonly ODataQueryOptions _queryOptions;
@@ -119,6 +180,67 @@ namespace Net.Http.OData.Tests.Query.Validators
                 _queryOptions = new ODataQueryOptions(
                     "?$filter=Forename eq 'John' and Surname eq 'Smith'",
                     EntityDataModel.Current.EntitySets["Employees"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void AnExceptionShouldNotBeThrown()
+            {
+                FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheAnyOperatorAnyItIsNotSpecifiedInAnyowedLambdaOperators
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedLambdaOperators = AllowedLambdaOperators.None,
+                AllowedLogicalOperators = AllowedLogicalOperators.GreaterThan,
+                AllowedQueryOptions = AllowedQueryOptions.Filter
+            };
+
+            public WhenTheFilterQueryOptionContainsTheAnyOperatorAnyItIsNotSpecifiedInAnyowedLambdaOperators()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=OrderDetails/any(d:d/Quantity gt 100)",
+                    EntityDataModel.Current.EntitySets["Orders"],
+                    Mock.Of<IODataQueryOptionsValidator>());
+            }
+
+            [Fact]
+            public void An_ODataException_IsThrown_WithStatusNotImplemented()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterQueryOptionValidator.Validate(_queryOptions, _validationSettings));
+
+                Assert.Equal(HttpStatusCode.NotImplemented, odataException.StatusCode);
+                Assert.Equal("Unsupported operator any", odataException.Message);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
+            }
+        }
+
+        public class WhenTheFilterQueryOptionContainsTheAnyOperatorAnyItIsSpecifiedInAnyowedLambdaOperators
+        {
+            private readonly ODataQueryOptions _queryOptions;
+
+            private readonly ODataValidationSettings _validationSettings = new ODataValidationSettings
+            {
+                AllowedLambdaOperators = AllowedLambdaOperators.AllOperators,
+                AllowedLogicalOperators = AllowedLogicalOperators.GreaterThan,
+                AllowedQueryOptions = AllowedQueryOptions.Filter
+            };
+
+            public WhenTheFilterQueryOptionContainsTheAnyOperatorAnyItIsSpecifiedInAnyowedLambdaOperators()
+            {
+                TestHelper.EnsureEDM();
+
+                _queryOptions = new ODataQueryOptions(
+                    "?$filter=OrderDetails/any(d:d/Quantity gt 100)",
+                    EntityDataModel.Current.EntitySets["Orders"],
                     Mock.Of<IODataQueryOptionsValidator>());
             }
 

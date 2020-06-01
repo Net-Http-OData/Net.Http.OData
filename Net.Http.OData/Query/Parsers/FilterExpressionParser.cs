@@ -218,6 +218,63 @@ namespace Net.Http.OData.Query.Parsers
                 return node;
             }
 
+            private QueryNode ParseLambdaOperatorNode(PropertyAccessNode parameter, LambdaOperatorKind lambdaOperatorKind)
+            {
+                string lambdaAlias = null;
+                var model = (EdmComplexType)((EdmCollectionType)parameter.PropertyPath.Property.PropertyType).ContainedType;
+
+                QueryNode leftNode = null;
+                BinaryOperatorKind operatorKind = BinaryOperatorKind.None;
+                QueryNode rightNode = null;
+
+                while (_tokens.Count > 0)
+                {
+                    Token token = _tokens.Dequeue();
+
+                    switch (token.TokenType)
+                    {
+                        case TokenType.Base64Binary:
+                        case TokenType.Date:
+                        case TokenType.DateTimeOffset:
+                        case TokenType.Decimal:
+                        case TokenType.Double:
+                        case TokenType.Duration:
+                        case TokenType.Enum:
+                        case TokenType.False:
+                        case TokenType.Guid:
+                        case TokenType.Integer:
+                        case TokenType.Null:
+                        case TokenType.Single:
+                        case TokenType.String:
+                        case TokenType.TimeOfDay:
+                        case TokenType.True:
+                            rightNode = ConstantNodeParser.ParseConstantNode(token);
+                            break;
+
+                        case TokenType.BinaryOperator:
+                            operatorKind = token.Value.ToBinaryOperatorKind();
+                            break;
+
+                        case TokenType.CloseParentheses:
+                        case TokenType.OpenParentheses:
+                            continue;
+
+                        case TokenType.LambdaAlias:
+                            lambdaAlias = token.Value;
+                            break;
+
+                        case TokenType.PropertyName:
+                            leftNode = new PropertyAccessNode(PropertyPath.For(token.Value, model));
+                            break;
+
+                        default:
+                            throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {token.Value}", token.Position), ODataUriNames.FilterQueryOption);
+                    }
+                }
+
+                return new LambdaOperatorNode(parameter, lambdaOperatorKind, lambdaAlias, new BinaryOperatorNode(leftNode, operatorKind, rightNode));
+            }
+
             private QueryNode ParsePropertyAccessNode()
             {
                 QueryNode result = null;
@@ -269,6 +326,10 @@ namespace Net.Http.OData.Query.Parsers
                             rightNode = new FunctionCallNode(token.Value);
                             break;
 
+                        case TokenType.LambdaOperator:
+                            result = ParseLambdaOperatorNode((PropertyAccessNode)leftNode, token.Value.ToLambdaOperatorKind());
+                            break;
+
                         case TokenType.OpenParentheses:
                             _groupingDepth++;
                             break;
@@ -292,9 +353,12 @@ namespace Net.Http.OData.Query.Parsers
                     }
                 }
 
-                result = result is null
-                    ? new BinaryOperatorNode(leftNode, operatorKind, rightNode)
-                    : new BinaryOperatorNode(result, operatorKind, leftNode ?? rightNode);
+                if (operatorKind != BinaryOperatorKind.None)
+                {
+                    result = result is null
+                        ? new BinaryOperatorNode(leftNode, operatorKind, rightNode)
+                        : new BinaryOperatorNode(result, operatorKind, leftNode ?? rightNode);
+                }
 
                 return result;
             }
