@@ -74,5 +74,9 @@ namespace Net.Http.OData.Tests
             Assert.Equal(odataException.Message, odataErrorDetail.Message);
             Assert.Equal(odataException.Target, odataErrorDetail.Target);
         }
+
+        [Fact]
+        public void When_Constructed_Without_Specifying_HttpStatusCode()
+            => Assert.Equal(HttpStatusCode.InternalServerError, new ODataException().StatusCode);
     }
 }
