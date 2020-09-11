@@ -44,7 +44,7 @@ namespace Net.Http.OData.Linq
 
             if (queryable.ElementType != queryOptions.EntitySet.EdmType.ClrType)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(ExceptionMessage.QueryableNotExpectedType(queryOptions.EntitySet.EdmType.ClrType));
             }
 
             return ODataObjectBuilder.BuildODataObjects(queryable, queryOptions);

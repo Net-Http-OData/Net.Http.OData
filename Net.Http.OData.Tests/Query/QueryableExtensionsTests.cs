@@ -384,7 +384,9 @@ namespace Net.Http.OData.Tests.Query
                 EntityDataModel.Current.EntitySets["Customers"],
                 Mock.Of<IODataQueryOptionsValidator>());
 
-            Assert.Throws<InvalidOperationException>(() => _categories.AsQueryable().Apply(queryOptions));
+            var exception = Assert.Throws<InvalidOperationException>(() => _categories.AsQueryable().Apply(queryOptions));
+
+            Assert.Equal(ExceptionMessage.QueryableNotExpectedType(queryOptions.EntitySet.EdmType.ClrType), exception.Message);
         }
 
         [Fact]
