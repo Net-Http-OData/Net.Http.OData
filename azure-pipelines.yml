@@ -9,6 +9,7 @@
     exclude:
       - .editorconfig
       - build.ps1
+      - build.sh
       - README.md
       - stylecop.json
 
