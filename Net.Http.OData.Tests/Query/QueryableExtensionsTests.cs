@@ -63,7 +63,9 @@ namespace Net.Http.OData.Tests.Query
 
             _orders = new[]
             {
-                new Order { Customer = _customers[0], Date = new DateTimeOffset(2020, 4, 25, 9, 30, 53, new TimeSpan(2, 0, 0)), Freight = 12.50M, OrderDetails = new []{ new OrderDetail { Discount = 0.05M, Product = _products[3], Quantity = 15, UnitPrice = _products[3].Price } }, OrderId = 2632, ShipCountry = _customers[0].Country, ShippingWeight = 8.789D, TransactionId = new Guid("c46e35b8-0160-4b37-b5af-766d9699d0a8") }
+                new Order { Customer = _customers[0], Date = new DateTimeOffset(2020, 4, 25, 9, 30, 53, new TimeSpan(2, 0, 0)), Freight = 12.50M, OrderDetails = new []{ new OrderDetail { Discount = 0.05M, Product = _products[3], Quantity = 15, UnitPrice = _products[3].Price } }, OrderId = 2632, ShipCountry = _customers[0].Country, ShippingWeight = 8.789D, TransactionId = new Guid("c46e35b8-0160-4b37-b5af-766d9699d0a8") },
+                new Order { Customer = _customers[0], Date = new DateTimeOffset(2020, 4, 26, 15, 11, 14, new TimeSpan(2, 0, 0)), Freight = 15.00M, OrderDetails = new []{ new OrderDetail { Discount = 0.05M, Product = _products[1], Quantity = 110, UnitPrice = _products[1].Price }, new OrderDetail { Discount = 0.05M, Product = _products[2], Quantity = 110, UnitPrice = _products[2].Price } }, OrderId = 2633, ShipCountry = _customers[0].Country, ShippingWeight = 76.417D, TransactionId = new Guid("29f953b2-7dc1-4ba1-abc3-d956fb3e423b") },
+                new Order { Customer = _customers[0], Date = new DateTimeOffset(2020, 4, 27, 13, 18, 6, new TimeSpan(2, 0, 0)), Freight = 20.75M, OrderDetails = new []{ new OrderDetail { Discount = 0.05M, Product = _products[3], Quantity = 15, UnitPrice = _products[3].Price }, new OrderDetail { Discount = 0.05M, Product = _products[2], Quantity = 110, UnitPrice = _products[2].Price } }, OrderId = 2634, ShipCountry = _customers[0].Country, ShippingWeight = 65.547D, TransactionId = new Guid("a35d7987-e292-471d-818f-0b61dba850fa") },
             };
 
             foreach (Order order in _orders)

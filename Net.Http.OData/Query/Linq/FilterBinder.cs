@@ -13,6 +13,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Net.Http.OData.Model;
 using Net.Http.OData.Query.Expressions;
 
 namespace Net.Http.OData.Query.Linq
@@ -87,6 +88,9 @@ namespace Net.Http.OData.Query.Linq
 
                 case QueryNodeKind.FunctionCall:
                     return Bind((FunctionCallNode)queryNode);
+
+                case QueryNodeKind.LambdaOperator:
+                    return Bind((LambdaOperatorNode)queryNode);
 
                 case QueryNodeKind.PropertyAccess:
                     return Bind((PropertyAccessNode)queryNode);
@@ -324,6 +328,26 @@ namespace Net.Http.OData.Query.Linq
                 default:
                     throw new NotSupportedException($"The function '{functionCallNode.Name}' is not supported by this service.");
             }
+        }
+
+        private static Expression Bind(LambdaOperatorNode lambdaOperatorNode)
+        {
+            var propertyAccessNode = (PropertyAccessNode)lambdaOperatorNode.Parameter;
+            var edmCollectionType = (EdmCollectionType)propertyAccessNode.PropertyPath.InnerMostProperty.PropertyType;
+
+            Expression predicateBody = Bind(lambdaOperatorNode.Body);
+
+            LambdaExpression lambdaExpression = Expression.Lambda(
+                typeof(Func<,>).MakeGenericType(edmCollectionType.ContainedType.ClrType, typeof(bool)),
+                predicateBody,
+                new ParameterExpression[] { ((EdmComplexType)edmCollectionType.ContainedType).ParameterExpression });
+
+            return Expression.Call(
+                typeof(Enumerable), // TODO: does this need to target the collection as an IQueryable instead?
+                lambdaOperatorNode.OperatorKind.ToString(),
+                new Type[] { edmCollectionType.ContainedType.ClrType },
+                propertyAccessNode.PropertyPath.MemberExpression,
+                lambdaExpression);
         }
 
         private static Expression Bind(PropertyAccessNode propertyAccessNode)
