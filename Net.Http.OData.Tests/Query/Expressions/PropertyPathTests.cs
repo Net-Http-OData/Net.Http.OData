@@ -11,53 +11,76 @@ namespace Net.Http.OData.Tests.Query.Expressions
         public PropertyPathTests() => TestHelper.EnsureEDM();
 
         [Fact]
+        public void For_EdmComplexType_PropertyPath_MultipleProperties()
+        {
+            var propertyPath = PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Category/Name");
+
+            Assert.NotNull(propertyPath.LambdaExpression);
+            Assert.NotNull(propertyPath.MemberExpression);
+            Assert.Same(propertyPath.InnerMostProperty.ClrProperty, propertyPath.MemberExpression.Member);
+            Assert.NotNull(propertyPath.Next);
+            Assert.NotNull(propertyPath.Property);
+            Assert.Equal("Category", propertyPath.Property.Name);
+
+            Assert.Null(propertyPath.Next.Next);
+            Assert.NotNull(propertyPath.Next.Property);
+            Assert.Equal("Name", propertyPath.Next.Property.Name);
+
+            Assert.Same(propertyPath.InnerMostProperty, propertyPath.Next.Property);
+        }
+
+        [Fact]
+        public void For_EdmComplexType_PropertyPath_MultipleProperties_Returns_Same_Instance()
+            => Assert.Same(
+                PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Category/Name"),
+                PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Category/Name"));
+
+        [Fact]
+        public void For_EdmComplexType_PropertyPath_SingleProperty()
+        {
+            var propertyPath = PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Name");
+
+            Assert.NotNull(propertyPath.LambdaExpression);
+            Assert.NotNull(propertyPath.MemberExpression);
+            Assert.Same(propertyPath.Property.ClrProperty, propertyPath.MemberExpression.Member);
+            Assert.Null(propertyPath.Next);
+            Assert.NotNull(propertyPath.Property);
+            Assert.Equal("Name", propertyPath.Property.Name);
+
+            Assert.Same(propertyPath.InnerMostProperty, propertyPath.Property);
+        }
+
+        [Fact]
+        public void For_EdmComplexType_PropertyPath_SingleProperty_Returns_Same_Instance()
+            => Assert.Same(
+                PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Name"),
+                PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType.GetProperty("Name")));
+
+        [Fact]
+        public void For_EdmComplexType_PropertyPath_SingleProperty_Returns_Same_Instance_As_For_EdmProperty()
+            => Assert.Same(
+                PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Name"),
+                PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Name"));
+
+        [Fact]
         public void For_EdmProperty()
         {
             EdmProperty edmProperty = EntityDataModel.Current.EntitySets["Customers"].EdmType.GetProperty("CompanyName");
 
             var propertyPath = PropertyPath.For(edmProperty);
 
+            Assert.NotNull(propertyPath.LambdaExpression);
+            Assert.NotNull(propertyPath.MemberExpression);
+            Assert.Same(edmProperty.ClrProperty, propertyPath.MemberExpression.Member);
             Assert.Null(propertyPath.Next);
             Assert.Equal(edmProperty, propertyPath.Property);
         }
 
         [Fact]
-        public void For_EdmProperty_ReturnsSameInstance()
-        {
-            EdmProperty edmProperty = EntityDataModel.Current.EntitySets["Customers"].EdmType.GetProperty("CompanyName");
-
-            Assert.Same(PropertyPath.For(edmProperty), PropertyPath.For(edmProperty));
-        }
-
-        [Fact]
-        public void For_PropertyPath_MultipleProperties()
-        {
-            var propertyPath = PropertyPath.For("Category/Name", EntityDataModel.Current.EntitySets["Products"].EdmType);
-
-            Assert.NotNull(propertyPath.Next);
-            Assert.NotNull(propertyPath.Property);
-            Assert.Equal("Category", propertyPath.Property.Name);
-
-            propertyPath = propertyPath.Next;
-
-            Assert.Null(propertyPath.Next);
-            Assert.NotNull(propertyPath.Property);
-            Assert.Equal("Name", propertyPath.Property.Name);
-        }
-
-        [Fact]
-        public void For_PropertyPath_SingleProperty()
-        {
-            var propertyPath = PropertyPath.For("Name", EntityDataModel.Current.EntitySets["Products"].EdmType);
-
-            Assert.Null(propertyPath.Next);
-            Assert.NotNull(propertyPath.Property);
-            Assert.Equal("Name", propertyPath.Property.Name);
-        }
-
-        [Fact]
-        public void For_PropertyPath_SingleProperty_ReturnsSameInstance()
-            => Assert.Same(PropertyPath.For("Name", EntityDataModel.Current.EntitySets["Products"].EdmType), PropertyPath.For("Name", EntityDataModel.Current.EntitySets["Products"].EdmType));
+        public void For_EdmProperty_Returns_Same_Instance()
+            => Assert.Same(
+                PropertyPath.For(EntityDataModel.Current.EntitySets["Customers"].EdmType.GetProperty("CompanyName")),
+                PropertyPath.For(EntityDataModel.Current.EntitySets["Customers"].EdmType.GetProperty("CompanyName")));
 
         [Fact]
         public void For_Throws_ArgumentNullException_For_Null_EdmProperty()
@@ -67,7 +90,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
         public void For_Throws_ODataException_For_InvalidNonNavigable()
         {
             ODataException odataException = Assert.Throws<ODataException>(
-                () => PropertyPath.For("Colour/Name", EntityDataModel.Current.EntitySets["Products"].EdmType));
+                () => PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Colour/Name"));
 
             Assert.Equal(ExceptionMessage.PropertyNotNavigable("Colour", "Colour/Name"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
@@ -78,7 +101,7 @@ namespace Net.Http.OData.Tests.Query.Expressions
         public void For_Throws_ODataException_For_InvalidPath()
         {
             ODataException odataException = Assert.Throws<ODataException>(
-                () => PropertyPath.For("Category/Definition/Name", EntityDataModel.Current.EntitySets["Products"].EdmType));
+                () => PropertyPath.For(EntityDataModel.Current.EntitySets["Products"].EdmType, "Category/Definition/Name"));
 
             Assert.Equal(ExceptionMessage.EdmTypeDoesNotContainProperty("Sample.Model.Category", "Definition"), odataException.Message);
             Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);

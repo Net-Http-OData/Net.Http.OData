@@ -72,8 +72,8 @@ namespace Net.Http.OData
         internal static string PropertyNotNavigable(string propertyName, string propertyPath)
             => $"The property '{propertyName}' in the path '{propertyPath}' is not a navigable property.";
 
-        internal static string QueryNodeKindNotSupported(string queryNodeKind)
-            => $"Query nodes of type '{queryNodeKind}' are not supported by this service.";
+        internal static string QueryableNotExpectedType(Type type)
+            => $"The target IQueryable was expected be of type '{type.FullName}'";
 
         internal static string QueryOptionValueCannotBeEmpty(string queryOption)
             => $"If the OData query option {queryOption} is specified, it's value cannot be empty.";

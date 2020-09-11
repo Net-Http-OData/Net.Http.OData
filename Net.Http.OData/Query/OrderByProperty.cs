@@ -40,11 +40,11 @@ namespace Net.Http.OData.Query
 
             if (rawValue.IndexOf(' ') == -1)
             {
-                PropertyPath = PropertyPath.For(rawValue, model);
+                PropertyPath = PropertyPath.For(model, rawValue);
             }
             else
             {
-                PropertyPath = PropertyPath.For(rawValue.SubstringBefore(' '), model);
+                PropertyPath = PropertyPath.For(model, rawValue.SubstringBefore(' '));
 
                 if (rawValue.EndsWith(" asc", StringComparison.Ordinal))
                 {
