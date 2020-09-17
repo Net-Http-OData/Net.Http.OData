@@ -14,7 +14,10 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -27,10 +30,24 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: dotnet test
       run: dotnet test --no-restore --verbosity normal
-    - name: read version
-      run: |
-        $project_version = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
-        echo "::set-env name=BUILD_VERSION::$project_version"
-      shell: powershell
-    - name: dotnet pack
-      run: dotnet pack --no-build -p:PackageVersion=$BUILD_VERSION
+#  build:
+#    runs-on: windows-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Setup .NET Core
+#      uses: actions/setup-dotnet@v1
+#      with:
+#        dotnet-version: 3.1.301
+#    - name: dotnet restore
+#      run: dotnet restore
+#    - name: dotnet build
+#      run: dotnet build --configuration Release --no-restore
+#    - name: dotnet test
+#      run: dotnet test --no-restore --verbosity normal
+#    - name: read version
+#      run: |
+#        $project_version = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+#        echo "::set-env name=BUILD_VERSION::$project_version"
+#      shell: powershell
+#    - name: dotnet pack
+#      run: dotnet pack --no-build -p:PackageVersion=$BUILD_VERSION
