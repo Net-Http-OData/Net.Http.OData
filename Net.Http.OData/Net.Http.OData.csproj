@@ -64,7 +64,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations" PrivateAssets="All" Version="4.7.0" />
-    <PackageReference Include="System.Text.Json" PrivateAssets="All" Version="4.6.0" />
+    <PackageReference Include="System.Text.Json" PrivateAssets="All" Version="4.7.2" />
   </ItemGroup>
 
   <ItemGroup>
