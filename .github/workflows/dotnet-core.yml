@@ -28,3 +28,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: dotnet test
       run: dotnet test --no-restore --verbosity normal
+    - name: read version
+      run: |
+        $projVersion = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+        echo "::set-env name=build_version::$projVersion"
