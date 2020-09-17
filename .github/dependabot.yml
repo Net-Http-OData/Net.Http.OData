@@ -10,3 +10,6 @@ updates:
     schedule:
       interval: "weekly"
     target-branch: "develop"
+    ignore:
+      - dependency-name: "Newtonsoft.Json"
+      - dependency-name: "System.Text.Json"
