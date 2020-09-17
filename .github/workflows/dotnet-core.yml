@@ -30,5 +30,7 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: read version
       run: |
-        $projVersion = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
-        echo "::set-env name=build_version::$projVersion"
+        $project_version = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+        echo "::set-env name=build_version::$project_version"
+        echo $build_version
+      shell: powershell
