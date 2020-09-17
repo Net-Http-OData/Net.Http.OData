@@ -30,7 +30,9 @@ jobs:
     - name: read version
       run: |
         $project_version = ([xml](Get-Content ".\Net.Http.OData\Net.Http.OData.csproj")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
-        echo "::set-env name=BUILD_VERSION::$(project_version)"
+        echo "::set-env name=BUILD_VERSION::$project_version"
       shell: powershell
-    - name: dotnet pack
-      run: dotnet pack --no-build -p:PackageVersion=$BUILD_VERSION
+    - name: echo ver
+      run: write-host $BUILD_VERSION
+#    - name: dotnet pack
+#      run: dotnet pack --no-build -p:PackageVersion=$BUILD_VERSION
