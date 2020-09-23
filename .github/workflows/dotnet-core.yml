@@ -22,6 +22,8 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
+    - name: dotnet tool update
+      run: dotnet tool update --global dotnet-reportgenerator-globaltool
     - name: dotnet restore
       run: dotnet restore
     - name: dotnet build
