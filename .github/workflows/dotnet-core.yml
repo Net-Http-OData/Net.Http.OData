@@ -23,6 +23,7 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: dotnet tool update
+      if: matrix.os == 'ubuntu-latest'
       run: dotnet tool update --global dotnet-reportgenerator-globaltool
     - name: dotnet restore
       run: dotnet restore
