@@ -32,10 +32,9 @@ jobs:
     - name: dotnet test
       if: matrix.os != 'ubuntu-latest'
       run: dotnet test --no-restore
-    - name: dotnet test (coverage)
+    - name: dotnet test (with coverage)
       if: matrix.os == 'ubuntu-latest'
-      run: dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
-    - name: coverage
-      if: matrix.os == 'ubuntu-latest'
-      run: cd Net.Http.OData.Tests |
+      run: |
+        dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
+        cd Net.Http.OData.Tests
         reportgenerator "-reports:TestResults/coverage.cobertura.xml" "-targetdir:TestResults/Coverage" -reporttypes:HTML
