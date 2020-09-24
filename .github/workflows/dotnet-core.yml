@@ -38,9 +38,9 @@ jobs:
         dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
         cd Net.Http.OData.Tests
         reportgenerator "-reports:TestResults/coverage.cobertura.xml" "-targetdir:TestResults/Coverage" -reporttypes:HTML
-    - name: Archive code coverage results
+    - name: Publish code coverage results
       if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v2
       with:
         name: code-coverage-report
-        path: ./TestResults/Coverage/index.html
+        path: ./TestResults/Coverage/index.htm
