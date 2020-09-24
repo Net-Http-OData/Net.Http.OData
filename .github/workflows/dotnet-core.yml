@@ -37,4 +37,5 @@ jobs:
       run: dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
     - name: coverage
       if: matrix.os == 'ubuntu-latest'
-      run: reportgenerator "-reports:TestResults/coverage.cobertura.xml" "-targetdir:TestResults/Coverage" -reporttypes:HTML
+      run: cd Net.Http.OData.Tests |
+        reportgenerator "-reports:TestResults/coverage.cobertura.xml" "-targetdir:TestResults/Coverage" -reporttypes:HTML
