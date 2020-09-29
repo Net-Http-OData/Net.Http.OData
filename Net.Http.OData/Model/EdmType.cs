@@ -77,8 +77,8 @@ namespace Net.Http.OData.Model
         /// </summary>
         /// <param name="clrType">The CLR <see cref="Type"/> to find in the Entity Data Model.</param>
         /// <returns>The <see cref="EdmType"/> for the specified CLR <see cref="Type"/>, if found; otherwise, null.</returns>
-        public static EdmType GetEdmType(Type clrType)
-            => EdmTypeCache.Map.TryGetValue(clrType, out EdmType edmType) ? edmType : default;
+        public static EdmType GetEdmType(Type clrType) =>
+            EdmTypeCache.Map.TryGetValue(clrType, out EdmType edmType) ? edmType : default;
 
         /// <inheritdoc/>
         public override bool Equals(object obj) => Equals(obj as EdmType);
@@ -115,7 +115,7 @@ namespace Net.Http.OData.Model
         /// Since the duplicate types are due to needing to map 'int' and 'int?' to 'Edm.Int32' for example, ignore nullables when using this method.
         /// At present, this method is used by ConstantNodeParser to resolve Enums and EdmTypes.
         /// </remarks>
-        internal static EdmType GetEdmType(string edmTypeName)
-            => EdmTypeCache.Map.Values.FirstOrDefault(t => t.FullName.Equals(edmTypeName, StringComparison.Ordinal) && Nullable.GetUnderlyingType(t.ClrType) == null);
+        internal static EdmType GetEdmType(string edmTypeName) =>
+            EdmTypeCache.Map.Values.FirstOrDefault(t => t.FullName.Equals(edmTypeName, StringComparison.Ordinal) && Nullable.GetUnderlyingType(t.ClrType) == null);
     }
 }

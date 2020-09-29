@@ -23,7 +23,8 @@ namespace Net.Http.OData.Query
         /// </summary>
         /// <param name="rawValue">The raw request value.</param>
         internal SearchQueryOption(string rawValue)
-            : base(rawValue) => Expression = rawValue.SubstringAfter('=');
+            : base(rawValue) =>
+            Expression = rawValue.SubstringAfter('=');
 
         /// <summary>
         /// Gets the search expression.

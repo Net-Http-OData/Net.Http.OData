@@ -33,7 +33,7 @@ namespace Net.Http.OData
         /// <param name="target">The error target.</param>
         /// <param name="details">The details of the error.</param>
         /// <returns>The populated <see cref="ODataErrorContent"/>.</returns>
-        public static ODataErrorContent Create(int code, string message, string target = null, IEnumerable<ODataErrorDetail> details = null)
-            => new ODataErrorContent { Error = new ODataError { Code = code.ToString(CultureInfo.InvariantCulture), Details = details, Message = message, Target = target } };
+        public static ODataErrorContent Create(int code, string message, string target = null, IEnumerable<ODataErrorDetail> details = null) =>
+            new ODataErrorContent { Error = new ODataError { Code = code.ToString(CultureInfo.InvariantCulture), Details = details, Message = message, Target = target } };
     }
 }

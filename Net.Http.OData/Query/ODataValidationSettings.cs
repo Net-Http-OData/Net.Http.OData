@@ -22,8 +22,8 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Gets the validation settings for when all OData queries are allowed.
         /// </summary>
-        public static ODataValidationSettings All
-            => new ODataValidationSettings
+        public static ODataValidationSettings All =>
+            new ODataValidationSettings
             {
                 AllowedArithmeticOperators = AllowedArithmeticOperators.All,
                 AllowedFunctions = AllowedFunctions.AllFunctions,
@@ -36,8 +36,8 @@ namespace Net.Http.OData.Query
         /// <summary>
         /// Gets the validation settings for when no OData queries are allowed.
         /// </summary>
-        public static ODataValidationSettings None
-            => new ODataValidationSettings
+        public static ODataValidationSettings None =>
+            new ODataValidationSettings
             {
                 AllowedArithmeticOperators = AllowedArithmeticOperators.None,
                 AllowedFunctions = AllowedFunctions.None,
@@ -82,7 +82,8 @@ namespace Net.Http.OData.Query
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        public static bool operator !=(ODataValidationSettings left, ODataValidationSettings right) => !(left == right);
+        public static bool operator !=(ODataValidationSettings left, ODataValidationSettings right) =>
+            !(left == right);
 
         public static bool operator ==(ODataValidationSettings left, ODataValidationSettings right)
         {
@@ -116,8 +117,8 @@ namespace Net.Http.OData.Query
         }
 
         /// <inheritdoc/>
-        public override int GetHashCode()
-            => AllowedArithmeticOperators.GetHashCode()
+        public override int GetHashCode() =>
+            AllowedArithmeticOperators.GetHashCode()
             ^ AllowedFunctions.GetHashCode()
             ^ AllowedLambdaOperators.GetHashCode()
             ^ AllowedLogicalOperators.GetHashCode()

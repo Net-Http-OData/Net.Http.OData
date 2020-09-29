@@ -157,8 +157,8 @@ namespace Net.Http.OData.Query.Linq
             }
         }
 
-        private static Expression Bind(ConstantNode constantNode)
-            => constantNode.Value == null ? Expression.Constant(null) : Expression.Constant(constantNode.Value, constantNode.EdmType.ClrType);
+        private static Expression Bind(ConstantNode constantNode) =>
+            constantNode.Value == null ? Expression.Constant(null) : Expression.Constant(constantNode.Value, constantNode.EdmType.ClrType);
 
         private static Expression Bind(FunctionCallNode functionCallNode)
         {
@@ -350,8 +350,8 @@ namespace Net.Http.OData.Query.Linq
                 lambdaExpression);
         }
 
-        private static Expression Bind(PropertyAccessNode propertyAccessNode)
-            => propertyAccessNode.PropertyPath.MemberExpression;
+        private static Expression Bind(PropertyAccessNode propertyAccessNode) =>
+            propertyAccessNode.PropertyPath.MemberExpression;
 
         private static Expression Bind(UnaryOperatorNode unaryOperatorNode)
         {
@@ -365,7 +365,7 @@ namespace Net.Http.OData.Query.Linq
             }
         }
 
-        private static Expression ConvertInNecessary(Expression expression, Type type)
-            => expression.Type != type ? Expression.Convert(expression, type) : expression;
+        private static Expression ConvertInNecessary(Expression expression, Type type) =>
+            expression.Type != type ? Expression.Convert(expression, type) : expression;
     }
 }

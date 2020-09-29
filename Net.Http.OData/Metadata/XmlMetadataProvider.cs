@@ -70,7 +70,8 @@ namespace Net.Http.OData.Metadata
             return document;
         }
 
-        private static IEnumerable<XElement> GetActions() => Enumerable.Empty<XElement>();
+        private static IEnumerable<XElement> GetActions() =>
+            Enumerable.Empty<XElement>();
 
         private static XElement GetAnnotations(EntityDataModel entityDataModel, ODataServiceOptions serviceOptions)
         {
@@ -241,8 +242,8 @@ namespace Net.Http.OData.Metadata
             return entityContainer;
         }
 
-        private static XElement GetEntityKey(EdmProperty edmProperty)
-            => new XElement(
+        private static XElement GetEntityKey(EdmProperty edmProperty) =>
+            new XElement(
                 s_edmNs + "Key",
                 new XElement(
                     s_edmNs + "PropertyRef",
@@ -296,10 +297,11 @@ namespace Net.Http.OData.Metadata
             return enumTypes;
         }
 
-        private static IEnumerable<XElement> GetFunctions() => Enumerable.Empty<XElement>();
+        private static IEnumerable<XElement> GetFunctions() =>
+            Enumerable.Empty<XElement>();
 
-        private static IEnumerable<XElement> GetProperties(IEnumerable<EdmProperty> properties)
-            => properties
+        private static IEnumerable<XElement> GetProperties(IEnumerable<EdmProperty> properties) =>
+            properties
             .Where(p => !p.IsNavigable)
             .Select(p =>
             {

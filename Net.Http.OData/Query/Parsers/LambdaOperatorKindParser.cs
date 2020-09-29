@@ -23,9 +23,9 @@ namespace Net.Http.OData.Query.Parsers
             ["any"] = LambdaOperatorKind.Any,
         };
 
-        internal static LambdaOperatorKind ToLambdaOperatorKind(this string operatorType)
-            => s_operatorTypeMap.TryGetValue(operatorType, out LambdaOperatorKind binaryOperatorKind)
-                ? binaryOperatorKind
-                : throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType), ODataUriNames.FilterQueryOption);
+        internal static LambdaOperatorKind ToLambdaOperatorKind(this string operatorType) =>
+            s_operatorTypeMap.TryGetValue(operatorType, out LambdaOperatorKind binaryOperatorKind)
+            ? binaryOperatorKind
+            : throw ODataException.BadRequest(ExceptionMessage.InvalidOperator(operatorType), ODataUriNames.FilterQueryOption);
     }
 }

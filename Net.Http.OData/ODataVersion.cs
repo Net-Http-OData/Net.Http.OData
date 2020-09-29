@@ -54,14 +54,14 @@ namespace Net.Http.OData
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        public static bool operator !=(ODataVersion left, ODataVersion right)
-            => !(left == right);
+        public static bool operator !=(ODataVersion left, ODataVersion right) =>
+            !(left == right);
 
-        public static bool operator <(ODataVersion a, ODataVersion b)
-            => a != null && b != null && a._decimalVersion < b._decimalVersion;
+        public static bool operator <(ODataVersion a, ODataVersion b) =>
+            a != null && b != null && a._decimalVersion < b._decimalVersion;
 
-        public static bool operator <=(ODataVersion a, ODataVersion b)
-            => a != null && b != null && a._decimalVersion <= b._decimalVersion;
+        public static bool operator <=(ODataVersion a, ODataVersion b) =>
+            a != null && b != null && a._decimalVersion <= b._decimalVersion;
 
         public static bool operator ==(ODataVersion left, ODataVersion right)
         {
@@ -73,11 +73,11 @@ namespace Net.Http.OData
             return left.Equals(right);
         }
 
-        public static bool operator >(ODataVersion a, ODataVersion b)
-            => a != null && b != null && a._decimalVersion > b._decimalVersion;
+        public static bool operator >(ODataVersion a, ODataVersion b) =>
+            a != null && b != null && a._decimalVersion > b._decimalVersion;
 
-        public static bool operator >=(ODataVersion a, ODataVersion b)
-            => a != null && b != null && a._decimalVersion >= b._decimalVersion;
+        public static bool operator >=(ODataVersion a, ODataVersion b) =>
+            a != null && b != null && a._decimalVersion >= b._decimalVersion;
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
@@ -126,20 +126,20 @@ namespace Net.Http.OData
         }
 
         /// <inheritdoc/>
-        public int CompareTo(object obj)
-            => ReferenceEquals(this, obj) ? 0 : CompareTo(obj as ODataVersion);
+        public int CompareTo(object obj) =>
+            ReferenceEquals(this, obj) ? 0 : CompareTo(obj as ODataVersion);
 
         /// <inheritdoc/>
-        public int CompareTo(ODataVersion other)
-            => other == null ? 1 : _decimalVersion.CompareTo(other._decimalVersion);
+        public int CompareTo(ODataVersion other) =>
+            other == null ? 1 : _decimalVersion.CompareTo(other._decimalVersion);
 
         /// <inheritdoc/>
-        public override bool Equals(object obj)
-            => Equals(obj as ODataVersion);
+        public override bool Equals(object obj) =>
+            Equals(obj as ODataVersion);
 
         /// <inheritdoc/>
-        public bool Equals(ODataVersion other)
-            => other != null && _version == other._version;
+        public bool Equals(ODataVersion other) =>
+            other != null && _version == other._version;
 
         /// <inheritdoc/>
         public override int GetHashCode() => _version.GetHashCode();

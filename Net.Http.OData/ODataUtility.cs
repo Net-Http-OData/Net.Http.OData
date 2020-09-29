@@ -35,8 +35,8 @@ namespace Net.Http.OData
         /// <param name="host">The host (e.g. odataservice.org).</param>
         /// <param name="path">The path (e.g. /odata/...)</param>
         /// <returns>A <see cref="string"/> containing the the @odata.context.</returns>
-        public static string ODataContext(ODataMetadataLevel metadataLevel, string scheme, string host, string path)
-            => metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path).ToString() : default;
+        public static string ODataContext(ODataMetadataLevel metadataLevel, string scheme, string host, string path) =>
+            metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path).ToString() : default;
 
         /// <summary>
         /// Returns a <see cref="string"/> containing the the @odata.context.
@@ -47,8 +47,8 @@ namespace Net.Http.OData
         /// <param name="path">The path (e.g. /odata/...)</param>
         /// <param name="entitySet">The <see cref="EntitySet"/>.</param>
         /// <returns>A <see cref="string"/> containing the the @odata.context.</returns>
-        public static string ODataContext(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet)
-            => metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet).ToString() : default;
+        public static string ODataContext(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet) =>
+            metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet).ToString() : default;
 
         /// <summary>
         /// Returns a <see cref="string"/> containing the the @odata.context.
@@ -60,8 +60,8 @@ namespace Net.Http.OData
         /// <param name="entitySet">The <see cref="EntitySet"/>.</param>
         /// <param name="selectQueryOption">The $select query option.</param>
         /// <returns>A <see cref="string"/> containing the the @odata.context.</returns>
-        public static string ODataContext(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet, SelectExpandQueryOption selectQueryOption)
-            => metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet, selectQueryOption).ToString() : default;
+        public static string ODataContext(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet, SelectExpandQueryOption selectQueryOption) =>
+            metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet, selectQueryOption).ToString() : default;
 
         /// <summary>
         /// Returns a <see cref="string"/> containing the the @odata.context.
@@ -75,9 +75,9 @@ namespace Net.Http.OData
         /// <returns>A <see cref="string"/> containing the the @odata.context.</returns>
 #pragma warning disable S2326 // Unused type parameters should be removed
 
-        public static string ODataContext<TEntityKey>(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet)
+        public static string ODataContext<TEntityKey>(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet) =>
 #pragma warning restore S2326 // Unused type parameters should be removed
-            => metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet).Append('/').Append(ODataUriNames.Entity).ToString() : default;
+            metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet).Append('/').Append(ODataUriNames.Entity).ToString() : default;
 
         /// <summary>
         /// Returns a <see cref="string"/> containing the the @odata.context.
@@ -91,8 +91,8 @@ namespace Net.Http.OData
         /// <param name="propertyName">The property name.</param>
         /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
         /// <returns>A <see cref="string"/> containing the the @odata.context.</returns>
-        public static string ODataContext<TEntityKey>(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet, TEntityKey entityKey, string propertyName)
-            => metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet, entityKey, propertyName).ToString() : default;
+        public static string ODataContext<TEntityKey>(ODataMetadataLevel metadataLevel, string scheme, string host, string path, EntitySet entitySet, TEntityKey entityKey, string propertyName) =>
+            metadataLevel != ODataMetadataLevel.None ? ODataContextUriBuilder(scheme, host, path, entitySet, entityKey, propertyName).ToString() : default;
 
         /// <summary>
         /// Returns a <see cref="string"/> containing the the @odata.id.
@@ -104,8 +104,8 @@ namespace Net.Http.OData
         /// <param name="entityKey">The entity key for the entity set.</param>
         /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
         /// <returns>A <see cref="string"/> containing the the @odata.id.</returns>
-        public static string ODataId<TEntityKey>(string scheme, string host, string path, EntitySet entitySet, TEntityKey entityKey)
-            => ODataContextUriBuilder(scheme, host, path, entitySet).Replace("$metadata#", string.Empty).AppendEntityKey(entityKey).ToString();
+        public static string ODataId<TEntityKey>(string scheme, string host, string path, EntitySet entitySet, TEntityKey entityKey) =>
+            ODataContextUriBuilder(scheme, host, path, entitySet).Replace("$metadata#", string.Empty).AppendEntityKey(entityKey).ToString();
 
         /// <summary>
         /// Returns a <see cref="Uri"/> which represents the root of the OData service.
@@ -114,8 +114,8 @@ namespace Net.Http.OData
         /// <param name="host">The host (e.g. odataservice.org).</param>
         /// <param name="path">The path (e.g. /odata/...)</param>
         /// <returns>A <see cref="Uri"/> which represents the root of the OData service.</returns>
-        public static Uri ODataServiceRootUri(string scheme, string host, string path)
-            => new Uri(ODataServiceUriBuilder(scheme, host, path).ToString());
+        public static Uri ODataServiceRootUri(string scheme, string host, string path) =>
+            new Uri(ODataServiceUriBuilder(scheme, host, path).ToString());
 
         /// <summary>
         /// Resolves the entity set name from the specified path segment of a URI.
@@ -167,8 +167,8 @@ namespace Net.Http.OData
             return contextUriBuilder;
         }
 
-        private static StringBuilder ODataContextUriBuilder(string scheme, string host, string path)
-            => ODataServiceUriBuilder(scheme, host, path).Append(ODataUriNames.Metadata);
+        private static StringBuilder ODataContextUriBuilder(string scheme, string host, string path) =>
+            ODataServiceUriBuilder(scheme, host, path).Append(ODataUriNames.Metadata);
 
         private static StringBuilder ODataContextUriBuilder(string scheme, string host, string path, EntitySet entitySet)
         {

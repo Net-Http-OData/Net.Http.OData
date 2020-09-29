@@ -20,8 +20,8 @@ namespace Net.Http.OData.Model
     /// </summary>
     public sealed class EntityDataModel
     {
-        internal EntityDataModel(IReadOnlyDictionary<string, EntitySet> entitySets)
-            => EntitySets = entitySets ?? throw new System.ArgumentNullException(nameof(entitySets));
+        internal EntityDataModel(IReadOnlyDictionary<string, EntitySet> entitySets) =>
+            EntitySets = entitySets ?? throw new System.ArgumentNullException(nameof(entitySets));
 
         /// <summary>
         /// Gets the current Entity Data Model, the value will be null until <see cref="EntityDataModelBuilder.BuildModel" /> has been called.
@@ -56,6 +56,7 @@ namespace Net.Http.OData.Model
         /// </summary>
         /// <param name="edmType">The <see cref="EdmType"/> to check.</param>
         /// <returns>True if the <see cref="EdmType"/> is an <see cref="EntitySet"/> in the Entity Data Model; otherwise false.</returns>
-        internal bool IsEntitySet(EdmType edmType) => EntitySets.Values.Any(x => x.EdmType == edmType);
+        internal bool IsEntitySet(EdmType edmType) =>
+            EntitySets.Values.Any(x => x.EdmType == edmType);
     }
 }
