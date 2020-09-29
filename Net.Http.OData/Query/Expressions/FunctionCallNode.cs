@@ -50,6 +50,7 @@ namespace Net.Http.OData.Query.Expressions
         /// </summary>
         public IReadOnlyList<QueryNode> Parameters => _parameters;
 
-        internal void AddParameter(QueryNode queryNode) => _parameters.Add(queryNode);
+        internal void AddParameter(QueryNode queryNode) =>
+            _parameters.Add(queryNode);
     }
 }

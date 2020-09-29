@@ -40,7 +40,8 @@ namespace Net.Http.OData.Model
         /// Builds the Entity Data Model containing the collections registered.
         /// </summary>
         /// <returns>The Entity Data Model.</returns>
-        public EntityDataModel BuildModel() => EntityDataModel.Current = _entityDataModel;
+        public EntityDataModel BuildModel() =>
+            EntityDataModel.Current = _entityDataModel;
 
         /// <summary>
         /// Registers an Entity Set of the specified type to the Entity Data Model with the specified name which can only be queried.
@@ -49,8 +50,8 @@ namespace Net.Http.OData.Model
         /// <param name="entitySetName">Name of the Entity Set.</param>
         /// <param name="entityKeyExpression">The Entity Key expression.</param>
         /// <returns>This entity data model builder.</returns>
-        public EntityDataModelBuilder RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression)
-            => RegisterEntitySet(entitySetName, entityKeyExpression, Capabilities.None);
+        public EntityDataModelBuilder RegisterEntitySet<T>(string entitySetName, Expression<Func<T, object>> entityKeyExpression) =>
+            RegisterEntitySet(entitySetName, entityKeyExpression, Capabilities.None);
 
         /// <summary>
         /// Registers an Entity Set of the specified type to the Entity Data Model with the specified name and <see cref="Capabilities"/>.

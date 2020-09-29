@@ -22,8 +22,8 @@ namespace Net.Http.OData.Model
     public sealed class EdmCollectionType : EdmType
     {
         internal EdmCollectionType(Type clrType, EdmType containedType)
-            : base(clrType, "Collection", $"Collection({containedType?.FullName})")
-            => ContainedType = containedType ?? throw new ArgumentNullException(nameof(containedType));
+            : base(clrType, "Collection", $"Collection({containedType?.FullName})") =>
+            ContainedType = containedType ?? throw new ArgumentNullException(nameof(containedType));
 
         /// <summary>
         /// Gets the <see cref="EdmType"/> contained in the collection.

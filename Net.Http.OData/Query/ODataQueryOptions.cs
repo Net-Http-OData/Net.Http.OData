@@ -184,7 +184,8 @@ namespace Net.Http.OData.Query
         /// Validates this instance using the specified validation settings.
         /// </summary>
         /// <param name="validationSettings">The validation settings to configure the validation.</param>
-        public void Validate(ODataValidationSettings validationSettings) => _validator.Validate(this, validationSettings);
+        public void Validate(ODataValidationSettings validationSettings) =>
+            _validator.Validate(this, validationSettings);
 
         private static int? ParseInt(string rawValue)
         {
