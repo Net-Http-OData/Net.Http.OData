@@ -191,6 +191,17 @@ namespace Net.Http.OData.Tests.Query.Parsers
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
                 Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
+
+            [Fact]
+            public void ParseLambdaInvalidAlias()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterExpressionParser.Parse("OrderDetails/all(d:x/Quantity gt 100)", EntityDataModel.Current.EntitySets["Orders"].EdmType)); ;
+
+                Assert.Equal(ExceptionMessage.UnableToParseFilter("unexpected d:x at position 18"), odataException.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
+            }
         }
     }
 }
