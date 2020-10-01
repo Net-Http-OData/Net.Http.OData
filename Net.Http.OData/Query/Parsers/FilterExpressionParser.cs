@@ -261,6 +261,10 @@ namespace Net.Http.OData.Query.Parsers
 
                         case TokenType.LambdaAlias:
                             lambdaAlias = token.Value;
+                            if (lambdaAlias.SubstringBefore(':') != lambdaAlias.SubstringAfter(':'))
+                            {
+                                throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {token.Value}", token.Position), ODataUriNames.FilterQueryOption);
+                            }
                             break;
 
                         case TokenType.PropertyName:
