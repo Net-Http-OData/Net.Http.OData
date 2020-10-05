@@ -44,3 +44,6 @@ jobs:
       with:
         name: code-coverage-report
         path: ./Net.Http.OData.Tests/TestResults/Coverage
+    - name: dotnet pack (pre)
+      if: matrix.os == 'ubuntu-latest' && github.ref == 'refs/heads/develop'
+      run: dotnet pack --no-build
