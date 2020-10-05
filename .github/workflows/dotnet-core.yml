@@ -10,7 +10,7 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   # Do not extract XML documentation files from nuget packages
   NUGET_XMLDOC_MODE: skip
-  PROJECT_PATH: ./Net.Http.OData/Net.Http.OData.csproj
+  PROJECT_PATH: './Net.Http.OData/Net.Http.OData.csproj'
   PROJET_VERSION: 0.0.0
 jobs:
   build:
