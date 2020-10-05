@@ -45,6 +45,10 @@ jobs:
       with:
         name: code-coverage-report
         path: ./Net.Http.OData.Tests/TestResults/Coverage
+    - run: |
+        $projVersion = ([xml](Get-Content "$(projectPath)")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+        PROJET_VERSION = "$projVersion"
+      shell: powershell
     - name: dotnet pack (pre)
       if: matrix.os == 'ubuntu-latest' && github.ref == 'refs/heads/develop'
       run: dotnet pack --no-build -p:PackageVersion=$PROJET_VERSION
