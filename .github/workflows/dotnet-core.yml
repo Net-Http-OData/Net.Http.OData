@@ -43,4 +43,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: code-coverage-report
-        path: ./Net.Http.OData.Tests/TestResults/Coverage/index.htm
+        path: ./Net.Http.OData.Tests/TestResults/Coverage
