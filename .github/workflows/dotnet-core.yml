@@ -1,0 +1,46 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+env:
+  # Stop wasting time caching packages
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  # Disable sending usage data to Microsoft
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  # Do not extract XML documentation files from nuget packages
+  NUGET_XMLDOC_MODE: skip
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: dotnet tool update
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet tool update --global dotnet-reportgenerator-globaltool
+    - name: dotnet restore
+      run: dotnet restore
+    - name: dotnet build
+      run: dotnet build --configuration Release --no-restore
+    - name: dotnet test
+      if: matrix.os != 'ubuntu-latest'
+      run: dotnet test --no-restore
+    - name: dotnet test (with coverage)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
+        cd Net.Http.OData.Tests
+        reportgenerator "-reports:TestResults/coverage.cobertura.xml" "-targetdir:TestResults/Coverage" -reporttypes:HTML
+    - name: Publish code coverage results
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v2
+      with:
+        name: code-coverage-report
+        path: ./Net.Http.OData.Tests/TestResults/Coverage
