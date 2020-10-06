@@ -116,6 +116,17 @@ namespace Net.Http.OData.Tests.Query.Parsers
             }
 
             [Fact]
+            public void ParseLambdaInvalidAlias()
+            {
+                ODataException odataException = Assert.Throws<ODataException>(
+                    () => FilterExpressionParser.Parse("OrderDetails/all(d:x/Quantity gt 100)", EntityDataModel.Current.EntitySets["Orders"].EdmType)); ;
+
+                Assert.Equal(ExceptionMessage.UnableToParseFilter("unexpected d:x at position 18"), odataException.Message);
+                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
+                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
+            }
+
+            [Fact]
             public void ParseLeftBinaryNodeMissingExpression()
             {
                 ODataException odataException = Assert.Throws<ODataException>(
@@ -188,17 +199,6 @@ namespace Net.Http.OData.Tests.Query.Parsers
                     () => FilterExpressionParser.Parse("(", EntityDataModel.Current.EntitySets["Orders"].EdmType)); ;
 
                 Assert.Equal(ExceptionMessage.UnableToParseFilter("an incomplete filter has been specified"), odataException.Message);
-                Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
-                Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
-            }
-
-            [Fact]
-            public void ParseLambdaInvalidAlias()
-            {
-                ODataException odataException = Assert.Throws<ODataException>(
-                    () => FilterExpressionParser.Parse("OrderDetails/all(d:x/Quantity gt 100)", EntityDataModel.Current.EntitySets["Orders"].EdmType)); ;
-
-                Assert.Equal(ExceptionMessage.UnableToParseFilter("unexpected d:x at position 18"), odataException.Message);
                 Assert.Equal(HttpStatusCode.BadRequest, odataException.StatusCode);
                 Assert.Equal(ODataUriNames.FilterQueryOption, odataException.Target);
             }
