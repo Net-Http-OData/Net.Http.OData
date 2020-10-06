@@ -5,7 +5,6 @@ using Moq;
 using Net.Http.OData.Linq;
 using Net.Http.OData.Model;
 using Net.Http.OData.Query;
-using Sample.Model;
 using Xunit;
 
 namespace Net.Http.OData.Tests.Query
