@@ -47,7 +47,7 @@ jobs:
         name: code-coverage-report
         path: ./Net.Http.OData.Tests/TestResults/Coverage
     - run: |
-        $projVersion = ([xml](Get-Content "$PROJECT_PATH")) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+        $projVersion = ([xml](Get-Content $PROJECT_PATH)) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
         PROJET_VERSION = "$projVersion"
       shell: pwsh
     - name: dotnet pack (pre)
