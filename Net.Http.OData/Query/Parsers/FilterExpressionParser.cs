@@ -265,6 +265,7 @@ namespace Net.Http.OData.Query.Parsers
                             {
                                 throw ODataException.BadRequest(ExceptionMessage.UnableToParseFilter($"unexpected {token.Value}", token.Position), ODataUriNames.FilterQueryOption);
                             }
+
                             break;
 
                         case TokenType.PropertyName:
