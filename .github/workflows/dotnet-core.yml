@@ -40,7 +40,7 @@ jobs:
 
     - name: dotnet test
       if: matrix.os != 'ubuntu-latest'
-      run: dotnet test --no-restore --no-build
+      run: dotnet test --no-restore
 
     - name: dotnet test (with coverage)
       if: matrix.os == 'ubuntu-latest'
