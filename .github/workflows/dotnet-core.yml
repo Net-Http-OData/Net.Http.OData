@@ -57,19 +57,19 @@ jobs:
         path: ./Net.Http.OData.Tests/TestResults/Coverage
 
     - name: dotnet pack (pre)
-      if: matrix.os == 'ubuntu-latest' && github.ref == 'refs/heads/develop'
+      if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && github.ref == 'refs/heads/develop'
       run: |
         $projVersion = ([xml](Get-Content ${{ env.PROJECT_PATH }})) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
         dotnet pack --no-build -p:PackageVersion="$projVersion-preview"
       shell: pwsh
 
     - name: dotnet pack
-      if: matrix.os == 'ubuntu-latest' && github.ref == 'refs/heads/master'
+      if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && github.ref == 'refs/heads/master'
       run: |
         $projVersion = ([xml](Get-Content ${{ env.PROJECT_PATH }})) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
         dotnet pack --no-build -p:PackageVersion="$projVersion"
       shell: pwsh
 
     - name: dotnet nuget push
-      if: matrix.os == 'ubuntu-latest' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')
+      if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')
       run: dotnet nuget push '/home/runner/work/**/*.nupkg' --api-key ${{ secrets.NUGET_API_KEY }} --source 'https://api.nuget.org/v3/index.json'
