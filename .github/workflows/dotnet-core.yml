@@ -72,4 +72,4 @@ jobs:
 
     - name: dotnet nuget push
       if: matrix.os == 'ubuntu-latest' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')
-      run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push '${{ runner.temp }}/**/*.nupkg' --api-key ${{ secrets.NUGET_API_KEY }}
