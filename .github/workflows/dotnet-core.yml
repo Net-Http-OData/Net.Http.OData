@@ -61,7 +61,7 @@ jobs:
       run: |
         $date = Get-Date -Format "yyyyMMdd"
         $projVersion = ([xml](Get-Content ${{ env.PROJECT_PATH }})) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
-        dotnet pack --no-build -p:PackageVersion="$projVersion-preview$date${{ github.run_id }}"
+        dotnet pack --no-build -p:PackageVersion="$projVersion-preview$date.${{ github.run_id }}"
       shell: pwsh
 
     - name: dotnet pack
