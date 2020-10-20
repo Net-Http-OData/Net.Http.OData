@@ -50,3 +50,9 @@ jobs:
         $projVersion = ([xml](Get-Content './Net.Http.OData/Net.Http.OData.csproj')) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
         dotnet pack --no-build -p:PackageVersion="$projVersion-preview"
       shell: pwsh
+    - name: dotnet pack
+      if: matrix.os == 'ubuntu-latest' && github.ref == 'refs/heads/master'
+      run: |
+        $projVersion = ([xml](Get-Content './Net.Http.OData/Net.Http.OData.csproj')) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+        dotnet pack --no-build -p:PackageVersion="$projVersion"
+      shell: pwsh
