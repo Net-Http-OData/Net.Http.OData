@@ -69,3 +69,7 @@ jobs:
         $projVersion = ([xml](Get-Content ${{ env.PROJECT_PATH }})) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
         dotnet pack --no-build -p:PackageVersion="$projVersion"
       shell: pwsh
+
+    - name: dotnet nuget push
+      if: matrix.os == 'ubuntu-latest' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')
+      run: dotnet nuget push --api-key ${{ secrets.NUGET_API_KEY }}
