@@ -12,7 +12,7 @@ env:
   NUGET_XMLDOC_MODE: skip
   NETCORE_VERSION: '3.1.403'
   NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
-  PROJECT_PATH: './Net.Http.OData/Net.Http.OData.csproj'
+  PROJECT_PATH: ./Net.Http.OData/Net.Http.OData.csproj
   TEST_PROJECT_DIRECTORY: Net.Http.OData.Tests
 
 jobs:
@@ -48,7 +48,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
-        cd ${{ TEST_PROJECT_DIRECTORY }}
+        cd ${{ env.TEST_PROJECT_DIRECTORY }}
         reportgenerator "-reports:TestResults/coverage.cobertura.xml" "-targetdir:TestResults/Coverage" -reporttypes:HTML
 
     - name: Publish code coverage results
