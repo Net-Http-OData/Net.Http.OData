@@ -11,7 +11,9 @@ env:
   # Do not extract XML documentation files from nuget packages
   NUGET_XMLDOC_MODE: skip
   NETCORE_VERSION: '3.1.403'
+  NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
   PROJECT_PATH: './Net.Http.OData/Net.Http.OData.csproj'
+  TEST_PROJECT_DIRECTORY: 'Net.Http.OData.Tests'
 
 jobs:
   build:
@@ -46,7 +48,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
-        cd Net.Http.OData.Tests
+        cd ${{ TEST_PROJECT_DIRECTORY }}
         reportgenerator "-reports:TestResults/coverage.cobertura.xml" "-targetdir:TestResults/Coverage" -reporttypes:HTML
 
     - name: Publish code coverage results
@@ -56,7 +58,7 @@ jobs:
         name: code-coverage-report
         path: ./Net.Http.OData.Tests/TestResults/Coverage
 
-    - name: dotnet pack (pre)
+    - name: dotnet pack (pre-release)
       if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && github.ref == 'refs/heads/develop'
       run: |
         $date = Get-Date -Format "yyyyMMdd"
@@ -73,4 +75,4 @@ jobs:
 
     - name: dotnet nuget push
       if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')
-      run: dotnet nuget push '/home/runner/work/**/*.nupkg' --api-key ${{ secrets.NUGET_API_KEY }} --source 'https://api.nuget.org/v3/index.json'
+      run: dotnet nuget push '/home/runner/work/**/*.nupkg' --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ NUGET_SOURCE }}
