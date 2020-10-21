@@ -75,4 +75,4 @@ jobs:
 
     - name: dotnet nuget push
       if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')
-      run: dotnet nuget push '/home/runner/work/**/*.nupkg' --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ NUGET_SOURCE }}
+      run: dotnet nuget push '/home/runner/work/**/*.nupkg' --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ env.NUGET_SOURCE }}
