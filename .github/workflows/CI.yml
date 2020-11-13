@@ -1,0 +1,80 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+env:
+  # Stop wasting time caching packages
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  # Disable sending usage data to Microsoft
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  # Do not extract XML documentation files from nuget packages
+  NUGET_XMLDOC_MODE: skip
+  NETCORE_VERSION: '3.1.403'
+  NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
+  PROJECT_CONFIGURATION: Release
+  PROJECT_PATH: ./Net.Http.OData/Net.Http.OData.csproj
+  TEST_PROJECT_DIRECTORY: Net.Http.OData.Tests
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET Core ${{ env.NETCORE_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.NETCORE_VERSION }}
+
+    - name: dotnet tool update
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet tool update --global dotnet-reportgenerator-globaltool
+
+    - name: dotnet restore
+      run: dotnet restore
+
+    - name: dotnet build ${{ env.PROJECT_CONFIGURATION }}
+      run: dotnet build --configuration ${{ env.PROJECT_CONFIGURATION }} --no-restore
+
+    - name: dotnet test
+      if: matrix.os != 'ubuntu-latest'
+      run: dotnet test --no-restore
+
+    - name: dotnet test (with coverage)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
+        cd ${{ env.TEST_PROJECT_DIRECTORY }}
+        reportgenerator "-reports:TestResults/coverage.cobertura.xml" "-targetdir:TestResults/Coverage" -reporttypes:HTML
+
+    - name: Publish code coverage results
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v2
+      with:
+        name: code-coverage-report
+        path: ./${{ env.TEST_PROJECT_DIRECTORY }}/TestResults/Coverage
+
+    - name: dotnet pack (pre-release)
+      if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      run: |
+        $date = Get-Date -Format "yyyyMMdd"
+        $projVersion = ([xml](Get-Content ${{ env.PROJECT_PATH }})) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+        dotnet pack --no-build -p:PackageVersion="$projVersion-preview$date.${{ github.run_id }}"
+      shell: pwsh
+
+    - name: dotnet pack
+      if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+      run: |
+        $projVersion = ([xml](Get-Content ${{ env.PROJECT_PATH }})) | Select-Xml -XPath "//Project/PropertyGroup[1]/Version"
+        dotnet pack --no-build -p:PackageVersion="$projVersion"
+      shell: pwsh
+
+    - name: dotnet nuget push
+      #if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')
+      if: matrix.os == 'ubuntu-latest' && github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      run: dotnet nuget push '/home/runner/work/**/*.nupkg' --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ env.NUGET_SOURCE }}
