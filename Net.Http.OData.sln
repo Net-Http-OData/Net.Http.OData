@@ -10,12 +10,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B287F71B-A612-4617-BB6D-8FB63F509301}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		azure-pipelines.yml = azure-pipelines.yml
 		build.ps1 = build.ps1
 		build.sh = build.sh
 		nuget.config = nuget.config
 		README.md = README.md
 		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{9E8BA6CA-8C56-4DCE-85D0-79CEA0A6A1F7}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+		.github\workflows\CI.yml = .github\workflows\CI.yml
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 	EndProjectSection
 EndProject
 Global
@@ -58,5 +64,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {203A6867-2C48-462D-912E-E62C3A7B17C9}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E8BA6CA-8C56-4DCE-85D0-79CEA0A6A1F7} = {B287F71B-A612-4617-BB6D-8FB63F509301}
 	EndGlobalSection
 EndGlobal
