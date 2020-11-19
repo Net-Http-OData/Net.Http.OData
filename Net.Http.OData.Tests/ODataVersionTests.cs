@@ -101,6 +101,12 @@ namespace Net.Http.OData.Tests
         public void NotEquals_ReturnsTrue_ForDifferentValue() => Assert.True(ODataVersion.OData40 != ODataVersion.Parse("4.01"));
 
         [Fact]
+        public void OData40_ToString_Returns_40() => Assert.Equal("4.0", ODataVersion.OData40.ToString());
+
+        [Fact]
+        public void OData401_ToString_Returns_401() => Assert.Equal("4.01", ODataVersion.OData401.ToString());
+
+        [Fact]
         public void Parse_Returns_ODataVersion() => Assert.NotNull(ODataVersion.Parse("3.0"));
 
         [Fact]
